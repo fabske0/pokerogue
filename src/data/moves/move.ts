@@ -20,6 +20,7 @@ import {
   CommandedTag,
   EncoreTag,
   GulpMissileTag,
+
   HelpingHandTag,
   SemiInvulnerableTag,
   ShellTrapTag,
@@ -6359,6 +6360,23 @@ export class NeutralDamageAgainstFlyingTypeAttr extends MoveTypeChartOverrideAtt
   }
 }
 
+// TODO: add comment
+export class NeutralDamageAgainstFairyTypeMultiplierAttr extends MoveTypeChartOverrideAttr {
+  public override apply(
+    _user: Pokemon,
+    target: Pokemon,
+    _move: Move,
+    args: [multiplier: NumberHolder, types: readonly PokemonType[], moveType: PokemonType],
+  ): boolean {
+    const multiplier = args[0] as NumberHolder;
+    if (target.isOfType(PokemonType.FAIRY)) {
+      multiplier.value = 1;
+      return true;
+    }
+    return false;
+  }
+}
+
 /**
  * Attribute implementing the effect of {@link https://bulbapedia.bulbagarden.net/wiki/Synchronoise_(move) | Synchronoise},
  * rendering the move ineffective against all targets that do not share at least 1 type with the user.
@@ -9343,6 +9361,7 @@ const MoveAttrs = Object.freeze({
   MatchUserTypeAttr,
   CombinedPledgeTypeAttr,
   NeutralDamageAgainstFlyingTypeAttr,
+  NeutralDamageAgainstFairyTypeMultiplierAttr,
   IceNoEffectTypeAttr,
   FlyingTypeMultiplierAttr,
   MoveTypeChartOverrideAttr,
@@ -11457,9 +11476,11 @@ export function initMoves() {
     new AttackMove(MoveId.WATER_SHURIKEN, PokemonType.WATER, MoveCategory.SPECIAL, 15, 100, 20, -1, 1, 6)
       .attr(MultiHitAttr)
       .attr(WaterShurikenPowerAttr)
-      .attr(WaterShurikenMultiHitTypeAttr),
-    new AttackMove(MoveId.MYSTICAL_FIRE, PokemonType.FIRE, MoveCategory.SPECIAL, 75, 100, 10, 100, 0, 6) //
-      .attr(StatStageChangeAttr, [Stat.SPATK], -1),
+      .attr(WaterShurikenMultiHitTypeAttr)
+      .partial(), // This move gained new functionality in ZA when used by Mega Greninja
+      // It should determine the number of hits it would do out of 2-to-5, adjust the power to that number of hits, and deal all the damage in one hit
+    new AttackMove(MoveId.MYSTICAL_FIRE, PokemonType.FIRE, MoveCategory.SPECIAL, 75, 100, 10, 100, 0, 6)
+      .attr(StatStageChangeAttr, [ Stat.SPATK ], -1),
     new SelfStatusMove(MoveId.SPIKY_SHIELD, PokemonType.GRASS, -1, 10, -1, 4, 6)
       .attr(ProtectAttr, BattlerTagType.SPIKY_SHIELD)
       .condition(failIfLastCondition, 3),
@@ -12725,7 +12746,12 @@ export function initMoves() {
     new AttackMove(MoveId.UPPER_HAND, PokemonType.FIGHTING, MoveCategory.PHYSICAL, 65, 100, 15, 100, 3, 9)
       .attr(FlinchAttr)
       .condition(upperHandCondition, 3),
-    new AttackMove(MoveId.MALIGNANT_CHAIN, PokemonType.POISON, MoveCategory.SPECIAL, 100, 100, 5, 50, 0, 9) //
+    new AttackMove(MoveId.MALIGNANT_CHAIN, PokemonType.POISON, MoveCategory.SPECIAL, 100, 100, 5, 50, 0, 9)
       .attr(StatusEffectAttr, StatusEffect.TOXIC),
+    new AttackMove(MoveId.NIHIL_LIGHT, PokemonType.DRAGON, MoveCategory.SPECIAL, 100, 100, 10, -1, 0, 9)
+      .attr(IgnoreOpponentStatStagesAttr)
+      .attr(NeutralDamageAgainstFairyTypeMultiplierAttr)
+      .target(MoveTarget.ALL_NEAR_ENEMIES)
+      .edgeCase() // Needs to replace the user's Core Enforcer if mega evolved (Zygarde-Complete to Mega Zygarde)
   );
 }
