@@ -6427,6 +6427,28 @@ export class FlyingTypeMultiplierAttr extends MoveTypeChartOverrideAttr {
 }
 
 /**
+ * Attribute that forces Nihil Light to be neutral effectiveness against Fairy types.
+ */
+export class NihilLightAttr extends MoveTypeChartOverrideAttr {
+  public override apply(
+    _user: Pokemon,
+    target: Pokemon,
+    _move: Move,
+    args: [multiplier: NumberHolder, types: readonly PokemonType[], moveType: PokemonType],
+  ): boolean {
+    const multiplier = args[0] as NumberHolder;
+
+    if (target.isOfType(PokemonType.FAIRY)) {
+      multiplier.value = 1;
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+
+/**
  * Attribute used by {@link https://bulbapedia.bulbagarden.net/wiki/Sheer_Cold_(move) | Sheer Cold}
  * to implement its Gen VII+ ice ineffectiveness.
  */
@@ -9366,6 +9388,7 @@ const MoveAttrs = Object.freeze({
   FlyingTypeMultiplierAttr,
   MoveTypeChartOverrideAttr,
   FreezeDryAttr,
+  NihilLightAttr,
   OneHitKOAccuracyAttr,
   HitsSameTypeAttr,
   SheerColdAccuracyAttr,
@@ -12750,7 +12773,7 @@ export function initMoves() {
       .attr(StatusEffectAttr, StatusEffect.TOXIC),
     new AttackMove(MoveId.NIHIL_LIGHT, PokemonType.DRAGON, MoveCategory.SPECIAL, 100, 100, 10, -1, 0, 9)
       .attr(IgnoreOpponentStatStagesAttr)
-      .attr(NeutralDamageAgainstFairyTypeMultiplierAttr)
+      .attr(NihilLightAttr)
       .target(MoveTarget.ALL_NEAR_ENEMIES)
       .edgeCase() // Needs to replace the user's Core Enforcer if mega evolved (Zygarde-Complete to Mega Zygarde)
   );
