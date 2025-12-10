@@ -3372,6 +3372,7 @@ export function initGenerationSix(): SpeciesDataMapConfig {
     starter: SpeciesId.LITLEO,
     evolutions: [],
     formChanges: [
+      // TODO: Will need tested to make sure it reverts to the proper gendered form
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.PYROAR,
       //   preFormKey: "",
@@ -4876,7 +4877,7 @@ export function initGenerationSix(): SpeciesDataMapConfig {
       growthRate: GrowthRate.MEDIUM_FAST,
       malePercent: 50,
       genderDiffs: false,
-      canChangeForm: false,
+      canChangeForm: false, // Is this correct with the mega added?
       forms: [
         new PokemonForm({
           formName: "Male",
@@ -4926,10 +4927,54 @@ export function initGenerationSix(): SpeciesDataMapConfig {
           formSpriteKey: null,
           isStarterSelectable: true,
         }),
+        new PokemonForm({
+          formName: "Mega",
+          formKey: SpeciesFormKey.MEGA,
+          type1: PokemonType.PSYCHIC,
+          type2: null,
+          height: 0.8,
+          weight: 10.1,
+          ability1: AbilityId.KEEN_EYE,
+          ability2: AbilityId.INFILTRATOR,
+          abilityHidden: AbilityId.COMPETITIVE,
+          baseTotal: 566,
+          baseHp: 74,
+          baseAtk: 48,
+          baseDef: 76,
+          baseSpatk: 143,
+          baseSpdef: 101,
+          baseSpd: 124,
+          catchRate: 75,
+          baseFriendship: 50,
+          baseExp: 163,
+          genderDiffs: false,
+          formSpriteKey: "",
+        }),
       ],
     }),
     starter: SpeciesId.ESPURR,
     evolutions: [],
+    formChanges: [
+      // TODO: Will need tested to make sure it reverts to the proper gendered form
+      // new SpeciesFormChange({
+      //   speciesId: SpeciesId.MEOWSTIC,
+      //   preFormKey: "male",
+      //   evoFormKey: SpeciesFormKey.MEGA,
+      //   trigger: new SpeciesFormChangeCompoundTrigger(
+      //     new SpeciesFormChangeItemTrigger(FormChangeItem.MEOWSTICITE, false),
+      //     new SpeciesDefaultFormMatchTrigger("male"),
+      //   ),
+      // }),
+      // new SpeciesFormChange({
+      //   speciesId: SpeciesId.MEOWSTIC,
+      //   preFormKey: "female",
+      //   evoFormKey: SpeciesFormKey.MEGA,
+      //   trigger: new SpeciesFormChangeCompoundTrigger(
+      //     new SpeciesFormChangeItemTrigger(FormChangeItem.MEOWSTICITE, false),
+      //     new SpeciesDefaultFormMatchTrigger("female"),
+      //   ),
+      // }),
+    ],
     passives: {
       0: AbilityId.FUR_COAT,
       1: AbilityId.NEUROFORCE,
@@ -5783,7 +5828,7 @@ export function initGenerationSix(): SpeciesDataMapConfig {
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.MALAMAR,
       //   preFormKey: "",
-      //   evoFormKey: "reversed",
+      //   evoFormKey: SpeciesFormKey.MEGA,
       //   trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MALAMARITE),
       // }),
     ],
