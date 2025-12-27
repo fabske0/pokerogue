@@ -17,4 +17,4 @@ jobs:
       - name: Generate Changelog
         run: pnpm changelog
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_CHANGELOG_CHANGELOG }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_CHANGELOG_TOKEN }}
