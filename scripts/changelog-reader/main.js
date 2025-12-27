@@ -101,6 +101,7 @@ async function getPullRequestPage(page = 1) {
   }
   allPRs.push(...filteredPullRequests);
 
+  console.log(`found ${pagePRs.length} PRs on page ${page}`);
   // fetch next page if we have reached the page limit
   if (pagePRs.length === CONFIG.PER_PAGE) {
     const nextPage = await getPullRequestPage(page + 1);
@@ -178,13 +179,19 @@ async function updateDescription(changelog) {
     + changelog
     + `\n---------------------------\n**This changelog was auto generated at ${dateFormatter.format(new Date())}.**`;
 
-  await octokit.rest.pulls.update({
-    // todo: Update owner and PR number
-    owner: "fabske0",
-    repo: CONFIG.REPO_NAME,
-    pull_number: 2,
-    body: description,
-  });
+  console.log("Updating PR description...");
+  await octokit.rest.pulls
+    .update({
+      // todo: Update owner and PR number
+      owner: "fabske0",
+      repo: CONFIG.REPO_NAME,
+      pull_number: 2,
+      body: description,
+    })
+    .then(() => console.log("PR description updated"))
+    .catch(err => {
+      console.error(`\x1b[31mFailed to update PR description: ${err}\x1b[0m`);
+    });
 }
 
 /**
