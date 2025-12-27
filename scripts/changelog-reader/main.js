@@ -137,7 +137,7 @@ async function getChangelogs() {
       output += `PR: ${pr.title} (${pr.number})\nChangelog missing\n\n`;
     }
   }
-
+  console.log("analyzing done");
   writeFileSafe(CONFIG.OUTPUT_FILE, output, "utf8");
   console.log(`Results written to ${CONFIG.OUTPUT_FILE}`);
   await updateDescription(output);
