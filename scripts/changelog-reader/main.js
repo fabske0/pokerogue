@@ -5,12 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import "dotenv/config";
 import { Octokit } from "octokit";
 import { writeFileSafe } from "../helpers/file.js";
 
 const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
+  auth: process.env.CHANGELOG_TOKEN,
 });
 
 const CONFIG = {
@@ -50,6 +49,7 @@ async function main() {
 
     await getChangelogs();
   } catch (error) {
+    process.exitCode = 1;
     console.error(error);
   }
 }
