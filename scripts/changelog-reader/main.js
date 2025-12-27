@@ -138,8 +138,11 @@ async function getChangelogs() {
     }
   }
   console.log("analyzing done");
-  writeFileSafe(CONFIG.OUTPUT_FILE, output, "utf8");
-  console.log(`Results written to ${CONFIG.OUTPUT_FILE}`);
+  console.log(process.env.GITHUB_ACTIONS);
+  if (!process.env.GITHUB_ACTIONS) {
+    writeFileSafe(CONFIG.OUTPUT_FILE, output, "utf8");
+    console.log(`Results written to ${CONFIG.OUTPUT_FILE}`);
+  }
   await updateDescription(output);
 }
 
