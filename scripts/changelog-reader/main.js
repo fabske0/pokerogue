@@ -127,7 +127,7 @@ async function getChangelogs() {
   for (const pr of pullRequests) {
     if (!pr.body) {
       console.log(`\x1b[31mDescription missing for PR: ${pr.title} (${pr.number})\x1b[0m\n`);
-      return;
+      continue;
     }
     const section = getChangelogSection(pr.body);
     if (section) {
