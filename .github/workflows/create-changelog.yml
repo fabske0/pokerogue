@@ -18,3 +18,4 @@ jobs:
         run: pnpm changelog
         env:
           CHANGELOG_TOKEN: ${{ secrets.CHANGELOG_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}

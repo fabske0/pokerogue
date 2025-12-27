@@ -183,12 +183,17 @@ async function updateDescription(changelog) {
     + `\n---------------------------\n**This changelog was auto generated at ${dateFormatter.format(new Date())}.**`;
 
   console.log("Updating PR description...");
+  if (!process.env.PR_NUMBER) {
+    console.error("\x1b[31mPR_NUMBER not set. Could not update PR description.\x1b[0m");
+    process.exitCode = 1;
+    return;
+  }
   await octokit.rest.pulls
     .update({
       // todo: Update owner and PR number
       owner: "fabske0",
       repo: CONFIG.REPO_NAME,
-      pull_number: 2,
+      pull_number: Number(process.env.PR_NUMBER),
       body: description,
     })
     .then(() => console.log("PR description updated"))
