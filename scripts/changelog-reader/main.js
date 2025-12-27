@@ -8,6 +8,12 @@
 import { Octokit } from "octokit";
 import { writeFileSafe } from "../helpers/file.js";
 
+/**
+ * The version of this script
+ * @type {string}
+ */
+const SCRIPT_VERSION = "1.0.0";
+
 const octokit = new Octokit({
   auth: process.env.CHANGELOG_TOKEN,
 });
@@ -35,16 +41,14 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
 
 async function main() {
   try {
-    // TODO: Remove. Just for testing
-    const login = await octokit.rest.users.getAuthenticated();
-    console.log(`Hello, ${login.data.login}!`);
+    console.group(`📝 Changelog Reader v${SCRIPT_VERSION}`);
+
     const cutoffDate = await getCutoffDate();
     if (!cutoffDate) {
       process.exitCode = 1;
       console.error("\x1b[31mFailed to get cutoff date)\x1b[0m");
       return;
     }
-    console.log(`Cutoff date: ${cutoffDate}`);
     CONFIG.SINCE = cutoffDate;
 
     await getChangelogs();
@@ -101,7 +105,6 @@ async function getPullRequestPage(page = 1) {
   }
   allPRs.push(...filteredPullRequests);
 
-  console.log(`found ${pagePRs.length} PRs on page ${page}`);
   // fetch next page if we have reached the page limit
   if (pagePRs.length === CONFIG.PER_PAGE) {
     const nextPage = await getPullRequestPage(page + 1);
@@ -137,8 +140,7 @@ async function getChangelogs() {
       output += `PR: ${pr.title} (${pr.number})\nChangelog missing\n\n`;
     }
   }
-  console.log("analyzing done");
-  console.log(process.env.GITHUB_ACTIONS);
+
   if (!process.env.GITHUB_ACTIONS) {
     writeFileSafe(CONFIG.OUTPUT_FILE, output, "utf8");
     console.log(`Results written to ${CONFIG.OUTPUT_FILE}`);
@@ -182,7 +184,6 @@ async function updateDescription(changelog) {
     + changelog
     + `\n---------------------------\n**This changelog was auto generated at ${dateFormatter.format(new Date())}.**`;
 
-  console.log("Updating PR description...");
   if (!process.env.PR_NUMBER) {
     console.error("\x1b[31mPR_NUMBER not set. Could not update PR description.\x1b[0m");
     process.exitCode = 1;
@@ -196,7 +197,6 @@ async function updateDescription(changelog) {
       pull_number: Number(process.env.PR_NUMBER),
       body: description,
     })
-    .then(() => console.log("PR description updated"))
     .catch(err => {
       console.error(`\x1b[31mFailed to update PR description: ${err}\x1b[0m`);
     });
