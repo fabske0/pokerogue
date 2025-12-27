@@ -17,4 +17,4 @@ jobs:
       - name: Generate Changelog
         run: pnpm changelog
         env:
-          CHANGELOG_TOKEN: ${{ secrets.CHANGELOG_CHANGELOG }}
+          CHANGELOG_TOKEN: ${{ secrets.CHANGELOG_TOKEN }}
