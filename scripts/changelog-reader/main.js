@@ -17,7 +17,7 @@ import { CONFIG, dateFormatter } from "./utils.js";
 const SCRIPT_VERSION = "1.0.0";
 
 const octokit = new Octokit({
-  auth: process.env.CHANGELOG_TOKEN,
+  auth: process.env.GITHUB_TOKEN,
 });
 
 async function main() {
