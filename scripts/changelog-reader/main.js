@@ -174,7 +174,7 @@ async function updateDescription(changelog) {
   }
   await octokit.rest.pulls
     .update({
-      owner: CONFIG.REPO_OWNER,
+      owner: "fabske0",
       repo: CONFIG.REPO_NAME,
       pull_number: Number(process.env.PR_NUMBER),
       body: description,
@@ -191,7 +191,7 @@ async function updateDescription(changelog) {
  */
 async function getCutoffDate() {
   const commits = await octokit.rest.repos.listCommits({
-    owner: "fabske0",
+    owner: CONFIG.REPO_OWNER,
     repo: CONFIG.REPO_NAME,
     sha: CONFIG.CUTOFF_BRANCH,
     per_page: 1,
