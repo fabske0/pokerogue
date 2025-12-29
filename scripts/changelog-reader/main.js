@@ -210,6 +210,16 @@ async function loadConfig() {
   }
 
   const [owner, branch] = process.env.PR_BRANCH.split(":");
+  if (!owner || !branch) {
+    throw new Error("Failed to parse PR branch.");
+  }
+  if (branch === CONFIG.CUTOFF_BRANCH) {
+    throw new Error("PR branch is the same as the cutoff branch.");
+  }
+  if (branch !== "beta" || !branch.startsWith("hotfix-")) {
+    throw new Error("PR branch must be 'beta' or start with 'hotfix-'.");
+  }
+
   CONFIG.REPO_OWNER = owner;
   CONFIG.REPO_BRANCH = branch;
   CONFIG.CUTOFF_DATE = await getCutoffDate();
