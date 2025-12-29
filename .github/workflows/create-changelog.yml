@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - main
+      - add-changelog-script
 
 jobs:
   Create-changelog:
