@@ -588,7 +588,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
           weight: 150,
           ability1: AbilityId.BLAZE,
           ability2: AbilityId.NONE,
-          abilityHidden: AbilityId.THICK_FAT,
+          abilityHidden: AbilityId.RECKLESS,
           baseTotal: 528,
           baseHp: 110,
           baseAtk: 123,
