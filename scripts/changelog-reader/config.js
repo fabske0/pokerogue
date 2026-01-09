@@ -20,7 +20,7 @@
  */
 
 export const CONFIG = {
-  REPO_OWNER: "pagefaultgames",
+  REPO_OWNER: "fabske0",
   REPO_NAME: "pokerogue",
   REPO_BRANCH: "",
   CUTOFF_BRANCH: "main",
