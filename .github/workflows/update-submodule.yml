@@ -79,7 +79,7 @@ jobs:
           gh pr edit ${{ github.event.pull_request.number }} --remove-label "Awaiting Locales"
 
   block-pull-request:
-    if: github.event.label.name == 'Update Locales'
+    if: github.event.label.name == 'Awaiting Locales'
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
