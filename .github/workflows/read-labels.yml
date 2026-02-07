@@ -5,7 +5,6 @@ on:
         workflows: ["Detect Labels"]
         types: [completed]
 
-
 env:
     GH_TOKEN: ${{ github.token }}
 
@@ -58,16 +57,27 @@ jobs:
                       const label = fs.readFileSync(path.join(temp, 'LABEL')).toString().trim();
                       core.setOutput('label', label);
                       core.setOutput('prNumber', prNumber);
+                      const ref = context.payload.workflow_run.head_repository.ref;
+                      core.setOutput('ref', ref);
 
         outputs:
             label: ${{ steps.read-label-data.outputs.label }}
             prNumber: ${{ steps.read-label-data.outputs.prNumber }}
+            ref: ${{ steps.read-label-data.outputs.ref }}
 
     block-pr:
         needs: read-label-data
         if: needs.read-label-data.outputs.label == 'Awaiting Locales'
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ needs.read-label-data.outputs.ref }}
+                  sparse-checkout: |
+                      .nvmrc
+                  sparse-checkout-cone-mode: false
+
             - name: "Block PR"
               run: |
                   gh pr review ${{ needs.read-label-data.outputs.prNumber }} --request-changes --body "This pull request is blocked until the associated locales PR is merged.
