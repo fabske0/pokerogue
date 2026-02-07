@@ -41,7 +41,8 @@ jobs:
             - name: "Unzip artifact"
               run: unzip "${{ runner.temp }}/artifacts/pr-data.zip" -d "${{ runner.temp }}/artifacts"
 
-            - name: "Comment on PR"
+            - name: "Read label data"
+              id: read-label-data
               uses: actions/github-script@v8
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -49,11 +50,21 @@ jobs:
                       const fs = require('fs');
                       const path = require('path');
                       const temp = '${{ runner.temp }}/artifacts';
-                      const issue_number = Number(fs.readFileSync(path.join(temp, 'NR')));
+                      const prNumber = Number(fs.readFileSync(path.join(temp, 'NR')));
                       const label = fs.readFileSync(path.join(temp, 'LABEL')).toString().trim();
-                      await github.rest.issues.createComment({
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        issue_number: issue_number,
-                        body: 'This comment has been added by adding the ' + label + ' label to PR: ' + issue_number
-                      });
+                      core.setOutput('label', label);
+                      core.setOutput('prNumber', prNumber);
+
+        outputs:
+            label: ${{ steps.read-label-data.outputs.label }}
+            prNumber: ${{ steps.read-label-data.outputs.prNumber }}
+
+    block-pr:
+        needs: read-label-data
+        if: needs.read-label-data.outputs.label == 'Awaiting Locales'
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Block PR"
+              run: |
+                  gh pr review ${{ needs.read-label-data.outputs.prNumber }} --request-changes --body "This pull request is blocked until the associated locales PR is merged.
+                  To unblock and update the locales submodule, add the \`Update Locales\` label."
