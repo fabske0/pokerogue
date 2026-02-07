@@ -93,8 +93,8 @@ jobs:
               with:
                   ref: ${{ needs.read-label-data.outputs.ref }}
                   sparse-checkout: |
-                      .nvmrc
                       locales
+                      .gitmodules
                   sparse-checkout-cone-mode: false
 
             - name: Update locales submodule
@@ -107,7 +107,7 @@ jobs:
               run: |
                   git add locales
                   git commit -m "Update locales submodule" || echo "No changes to commit"
-                  git push origin ${{ needs.read-label-data.outputs.ref }}
+                  git push
 
             - name: Remove label
               run: |
@@ -122,3 +122,33 @@ jobs:
                       gh api --method PUT repos/${{ github.repository }}/pulls/${{ needs.read-label-data.outputs.prNumber }}/reviews/$REVIEW_ID/dismissals \
                       -f message="Locales updated, unblocking PR."
                   fi
+
+    update-assets:
+        needs: read-label-data
+        if: needs.read-label-data.outputs.label == 'Update Assets'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ needs.read-label-data.outputs.ref }}
+                  sparse-checkout: |
+                      assets
+                      .gitmodules
+                  sparse-checkout-cone-mode: false
+
+            - name: Update assets submodule
+              run: |
+                  git config --local user.name "github-actions[bot]"
+                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git submodule update --progress --init --recursive --force --depth 1 --remote assets
+
+            - name: Commit and push changes
+              run: |
+                  git add assets
+                  git commit -m "Update assets submodule" || echo "No changes to commit"
+                  git push
+
+            - name: Remove label
+              run: |
+                  gh pr edit ${{ needs.read-label-data.outputs.prNumber }} --remove-label "Update Assets"
