@@ -15,15 +15,14 @@ concurrency:
 
 jobs:
     upload-label-data:
-        if: github.event.label.name == 'Awaiting Locales' || github.event.label.name == 'Update Locales' || github.event.label.name == 'Update Assets' 
+        if: github.event.label.name == 'Awaiting Locales' || github.event.label.name == 'Update Locales' || github.event.label.name == 'Update Assets'
         runs-on: ubuntu-latest
         steps:
-            - name: Save the Label and PR number
+            - name: Save PR number
               run: |
                   mkdir -p ./pr
                   echo ${{ github.event.number }} > ./pr/NR
-                  echo ${{ github.event.label.name }} > ./pr/LABEL
-            - uses: actions/upload-artifact@v4
+            - uses: actions/upload-artifact@v2
               with:
                   name: pr
                   path: pr/
