@@ -5,6 +5,10 @@ on:
         workflows: ["Detect Labels"]
         types: [completed]
 
+
+env:
+    GH_TOKEN: ${{ github.token }}
+
 jobs:
     read-label-data:
         if: >
