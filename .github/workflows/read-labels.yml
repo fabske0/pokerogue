@@ -107,7 +107,7 @@ jobs:
               run: |
                   git add locales
                   git commit -m "Update locales submodule" || echo "No changes to commit"
-                  git push
+                  git push origin ${{ needs.read-label-data.outputs.ref }}
 
             - name: Remove label
               run: |
