@@ -32,7 +32,7 @@ jobs:
                       });
                       var fs = require('fs');
                       fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
-            - run: unzip pr.zip7
+            - run: unzip pr.zip
             - name: "Comment on PR"
               uses: actions/github-script@v3
               with:
