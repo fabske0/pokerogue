@@ -23,6 +23,7 @@ jobs:
                   mkdir -p ./pr
                   echo ${{ github.event.number }} > ./pr/NR
                   echo ${{ github.event.label.name }} > ./pr/LABEL
+                  echo ${{ github.event.pull_request.head.ref }} > ./pr/REF
             - uses: actions/upload-artifact@v4
               with:
                   name: pr-data

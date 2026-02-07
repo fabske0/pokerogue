@@ -53,9 +53,9 @@ jobs:
                       const temp = '${{ runner.temp }}/artifacts';
                       const prNumber = Number(fs.readFileSync(path.join(temp, 'NR')));
                       const label = fs.readFileSync(path.join(temp, 'LABEL')).toString().trim();
+                      const ref = fs.readFileSync(path.join(temp, 'REF')).toString().trim();
                       core.setOutput('label', label);
                       core.setOutput('prNumber', prNumber);
-                      const ref = context.payload.workflow_run.head_repository.ref;
                       core.setOutput('ref', ref);
 
         outputs:
