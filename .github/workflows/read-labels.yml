@@ -22,7 +22,7 @@ jobs:
                         run_id: context.payload.workflow_run.id,
                       });
                       let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-                        return artifact.name == "pr"
+                        return artifact.name == "pr-data"
                       })[0];
                       let download = await github.rest.actions.downloadArtifact({
                         owner: context.repo.owner,
@@ -36,10 +36,10 @@ jobs:
                       if (!fs.existsSync(temp)){
                         fs.mkdirSync(temp);
                       }
-                      fs.writeFileSync(path.join(temp, 'pr.zip'), Buffer.from(download.data));
+                      fs.writeFileSync(path.join(temp, 'pr-data.zip'), Buffer.from(download.data));
 
             - name: "Unzip artifact"
-              run: unzip "${{ runner.temp }}/artifacts/pr.zip" -d "${{ runner.temp }}/artifacts"
+              run: unzip "${{ runner.temp }}/artifacts/pr-data.zip" -d "${{ runner.temp }}/artifacts"
 
             - name: "Comment on PR"
               uses: actions/github-script@v8
@@ -49,8 +49,8 @@ jobs:
                       const fs = require('fs');
                       const path = require('path');
                       const temp = '${{ runner.temp }}/artifacts';
-                      const issue_number = Number(fs.readFileSync(path.join(temp, 'pr', 'NR')));
-                      const label = fs.readFileSync(path.join(temp, 'pr', 'LABEL')).toString().trim();
+                      const issue_number = Number(fs.readFileSync(path.join(temp, 'NR')));
+                      const label = fs.readFileSync(path.join(temp, 'LABEL')).toString().trim();
                       await github.rest.issues.createComment({
                         owner: context.repo.owner,
                         repo: context.repo.repo,

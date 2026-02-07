@@ -25,5 +25,5 @@ jobs:
                   echo ${{ github.event.label.name }} > ./pr/LABEL
             - uses: actions/upload-artifact@v4
               with:
-                  name: pr
+                  name: pr-data
                   path: pr/
