@@ -82,3 +82,43 @@ jobs:
               run: |
                   gh pr review ${{ needs.read-label-data.outputs.prNumber }} --request-changes --body "This pull request is blocked until the associated locales PR is merged.
                   To unblock and update the locales submodule, add the \`Update Locales\` label."
+
+    update-locales:
+        needs: read-label-data
+        if: needs.read-label-data.outputs.label == 'Update Locales'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ needs.read-label-data.outputs.ref }}
+                  sparse-checkout: |
+                      .nvmrc
+                      locales
+                  sparse-checkout-cone-mode: false
+
+            - name: Update locales submodule
+              run: |
+                  git config --local user.name "github-actions[bot]"
+                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git submodule update --progress --init --recursive --force --depth 1 --remote locales
+
+            - name: Commit and push changes
+              run: |
+                  git add locales
+                  git commit -m "Update locales submodule" || echo "No changes to commit"
+                  git push
+
+            - name: Remove label
+              run: |
+                  gh pr edit ${{ needs.read-label-data.outputs.prNumber }} --remove-label "Update Locales"
+                  gh pr edit ${{ needs.read-label-data.outputs.prNumber }} --remove-label "Awaiting Locales"
+
+            - name: Unblock PR
+              run: |
+                  REVIEW_ID=$(gh api repos/${{ github.repository }}/pulls/${{ needs.read-label-data.outputs.prNumber }}/reviews \
+                      --jq '.[] | select(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED") | .id' | head -n 1)
+                  if [ -n "$REVIEW_ID" ]; then
+                      gh api --method PUT repos/${{ github.repository }}/pulls/${{ needs.read-label-data.outputs.prNumber }}/reviews/$REVIEW_ID/dismissals \
+                      -f message="Locales updated, unblocking PR."
+                  fi
