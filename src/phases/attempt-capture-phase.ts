@@ -314,7 +314,9 @@ export class AttemptCapturePhase extends PokemonPhase {
             end();
             return;
           }
-          if (globalScene.getPlayerParty().length === PLAYER_PARTY_MAX_SIZE) {
+          const isValidPartySize = new BooleanHolder(true);
+          applyChallenges(ChallengeType.PARTY_SIZE_LIMIT, globalScene.getPlayerParty().length, isValidPartySize);
+          if (globalScene.getPlayerParty().length === PLAYER_PARTY_MAX_SIZE || !isValidPartySize.value) {
             const promptRelease = () => {
               globalScene.ui.showText(
                 i18next.t("battle:partyFull", {

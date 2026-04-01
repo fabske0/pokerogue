@@ -7153,6 +7153,12 @@ export class EnemyPokemon extends Pokemon {
     const party = globalScene.getPlayerParty();
     let ret: PlayerPokemon | null = null;
 
+    const isValidPartySize = new BooleanHolder(true);
+    applyChallenges(ChallengeType.PARTY_SIZE_LIMIT, party.length, isValidPartySize);
+    if (!isValidPartySize.value) {
+      return null;
+    }
+
     if (party.length < PLAYER_PARTY_MAX_SIZE) {
       this.pokeball = pokeballType;
       this.metLevel = this.level;

@@ -1641,6 +1641,9 @@ export class StarterSelectUiHandler extends MessageUiHandler {
     let success = false;
     let error = false;
 
+    const partySizeLimit = new BooleanHolder(true);
+    applyChallenges(ChallengeType.PARTY_SIZE_LIMIT, this.starterSpecies.length, partySizeLimit);
+
     if (button === Button.SUBMIT) {
       if (this.tryStart(true)) {
         success = true;
@@ -1808,7 +1811,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
     } else if (this.randomCursorObj.visible) {
       switch (button) {
         case Button.ACTION: {
-          if (this.starterSpecies.length >= 6) {
+          if (this.starterSpecies.length >= 6 || !partySizeLimit.value) {
             error = true;
             break;
           }
@@ -1923,7 +1926,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
       }
 
       if (button === Button.ACTION) {
-        if (!this.speciesStarterDexEntry?.caughtAttr) {
+        if (!this.speciesStarterDexEntry?.caughtAttr || !partySizeLimit.value) {
           error = true;
         } else if (this.starterSpecies.length <= 6) {
           // checks to see if the party has 6 or fewer pokemon
@@ -4507,7 +4510,10 @@ export class StarterSelectUiHandler extends MessageUiHandler {
   }
 
   tryStart(manualTrigger = false): boolean {
-    if (this.starterSpecies.length === 0) {
+    const validPartySize = new BooleanHolder(true);
+    applyChallenges(ChallengeType.PARTY_SIZE_LIMIT, this.starterSpecies.length - 1, validPartySize);
+
+    if (this.starterSpecies.length === 0 || !validPartySize.value) {
       return false;
     }
 

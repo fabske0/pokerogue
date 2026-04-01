@@ -441,6 +441,16 @@ export abstract class Challenge {
     return false;
   }
 
+  /**
+   * Modifies the player's party size limit.
+   * @param size - The current party size
+   * @param isValid - Whether adding a pokemon is valid
+   * @returns Whether this function did anything
+   */
+  applyPartySizeLimit(size: number, isValid: BooleanHolder): boolean {
+    return false;
+  }
+
   // biome-ignore-end lint/correctness/noUnusedFunctionParameters: pseudo-abstract methods
 }
 
@@ -1231,6 +1241,38 @@ export class PassivesChallenge extends Challenge {
   }
 }
 
+export class PartySizeLimitChallenge extends Challenge {
+  public override get ribbonAwarded(): RibbonFlag {
+    return this.value ? RibbonData.PARTY_SIZE_LIMIT : 0n;
+  }
+
+  constructor() {
+    super(Challenges.PARTY_SIZE_LIMIT, 5);
+  }
+
+  getValue(overrideValue: number = this.value): string {
+    if (overrideValue === 0) {
+      return i18next.t("settings:off");
+    }
+    return (6 - overrideValue).toString();
+  }
+
+  override applyPartySizeLimit(size: number, isValid: BooleanHolder): boolean {
+    if (size >= 6 - this.value) {
+      isValid.value = false;
+      return true;
+    }
+    return false;
+  }
+
+  static override loadChallenge(source: PartySizeLimitChallenge | any): PartySizeLimitChallenge {
+    const newChallenge = new PartySizeLimitChallenge();
+    newChallenge.value = source.value;
+    newChallenge.severity = source.severity;
+    return newChallenge;
+  }
+}
+
 /**
  * @param source - A challenge to copy, or an object of a challenge's properties. Missing values are treated as defaults.
  * @returns The challenge in question.
@@ -1259,6 +1301,8 @@ export function copyChallenge(source: Challenge | any): Challenge {
       return HardcoreChallenge.loadChallenge(source);
     case Challenges.PASSIVES:
       return PassivesChallenge.loadChallenge(source);
+    case Challenges.PARTY_SIZE_LIMIT:
+      return PartySizeLimitChallenge.loadChallenge(source);
   }
   throw new Error("Unknown challenge copied");
 }
@@ -1276,5 +1320,6 @@ export function initChallenges() {
     new PassivesChallenge(),
     new InverseBattleChallenge(),
     new FlipStatChallenge(),
+    new PartySizeLimitChallenge(),
   );
 }

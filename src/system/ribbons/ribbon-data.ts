@@ -115,6 +115,8 @@ export class RibbonData {
   public static readonly NO_SUPPORT     = 0x2000000000n as RibbonFlag;
   /** Ribbon for winning the passive ability challenge */
   public static readonly PASSIVE_CHALLENGE = 0x4000000000n as RibbonFlag;
+  /** Ribbon for winning the party size limit challenge */
+  public static readonly PARTY_SIZE_LIMIT = 0x8000000000n as RibbonFlag;
 
   // TODO: is this comment still accurate? ribbons appear to be using `bigint`s already
   // NOTE: max possible ribbon flag is 0x20000000000000 (53 total ribbons)

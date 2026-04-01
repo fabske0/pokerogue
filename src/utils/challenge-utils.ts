@@ -269,6 +269,19 @@ export function applyChallenges(
  */
 export function applyChallenges(challengeType: ChallengeType.PREVENT_REVIVE, status: BooleanHolder): boolean;
 
+/**
+ * Apply all challenges that modify the player's party size limit.
+ * @param challengeType - {@linkcode ChallengeType.PARTY_SIZE_LIMIT}
+ * @param size - The current party size
+ * @param isValid - Whether adding a pokemon is valid
+ * @returns `true` if any challenge was sucessfully applied, `false` otherwise
+ */
+export function applyChallenges(
+  challengeType: ChallengeType.PARTY_SIZE_LIMIT,
+  size: number,
+  isValid: BooleanHolder,
+): boolean;
+
 export function applyChallenges(challengeType: ChallengeType, ...args: any[]): boolean {
   let ret = false;
   globalScene.gameMode.challenges.forEach(c => {
@@ -342,6 +355,9 @@ export function applyChallenges(challengeType: ChallengeType, ...args: any[]): b
           break;
         case ChallengeType.PREVENT_REVIVE:
           ret ||= c.applyPreventRevive(args[0]);
+          break;
+        case ChallengeType.PARTY_SIZE_LIMIT:
+          ret ||= c.applyPartySizeLimit(args[0], args[1]);
           break;
       }
     }

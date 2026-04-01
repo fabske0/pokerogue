@@ -111,4 +111,9 @@ export enum ChallengeType {
    * @see {@linkcode Challenge.applyPermanentFaint}
    */
   PREVENT_REVIVE,
+  /**
+   * Challenges which modify the player's party size limit.
+   * @see {@linkcode Challenge.applyPartySizeLimit}
+   */
+  PARTY_SIZE_LIMIT,
 }
