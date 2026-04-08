@@ -250,7 +250,7 @@ export const CFG_KEYBOARD_QWERTY: KeyboardConfig = {
     KEY_M: SettingKeyboard.ALT_BUTTON_MENU,
     KEY_O: -1,
     KEY_P: -1,
-    KEY_Q: (isDev ? SettingKeyboard.BUTTON_DEV_CUSTOM : -1),
+    KEY_Q: isDev ? SettingKeyboard.BUTTON_DEV_CUSTOM : -1,
     KEY_S: SettingKeyboard.ALT_BUTTON_DOWN,
     KEY_T: SettingKeyboard.ALT_BUTTON_CYCLE_FORM,
     KEY_U: -1,
