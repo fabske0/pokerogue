@@ -313,4 +313,3 @@ export const CFG_KEYBOARD_QWERTY: KeyboardConfig = {
     "KEY_HOME",
   ],
 };
-console.log("Loaded config:", CFG_KEYBOARD_QWERTY);
