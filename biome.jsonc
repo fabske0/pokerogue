@@ -18,6 +18,7 @@
     "includes": [
       "**",
       "!src/data/balance/**",
+      "src/data/balance/species/**",
       "src/data/balance/moves/forbidden-moves.ts",
       "src/data/balance/moves/signature-moves.ts",
       "src/data/balance/moves/superceded-moves.ts",

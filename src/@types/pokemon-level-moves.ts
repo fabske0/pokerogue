@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+// TODO: delete file and update `LevelMoves` imports
+
 import type { MoveId } from "#enums/move-id";
 
 export type LevelMoves = [number, MoveId][];
