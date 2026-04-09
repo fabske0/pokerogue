@@ -79,6 +79,28 @@ export const normalForm: SpeciesId[] = [
 
 export type PokemonSpeciesFilter = (species: PokemonSpecies) => boolean;
 
+interface PokemonSpeciesFormConstructor {
+  type1: PokemonType;
+  type2: PokemonType | null;
+  height: number;
+  weight: number;
+  ability1: AbilityId;
+  ability2: AbilityId;
+  abilityHidden: AbilityId;
+  baseTotal: number;
+  baseHp: number;
+  baseAtk: number;
+  baseDef: number;
+  baseSpatk: number;
+  baseSpdef: number;
+  baseSpd: number;
+  catchRate: number;
+  baseFriendship: number;
+  baseExp: number;
+  genderDiffs: boolean;
+  isStarterSelectable: boolean;
+}
+
 export abstract class PokemonSpeciesForm {
   public speciesId: SpeciesId;
   protected _formIndex: number;
@@ -100,41 +122,21 @@ export abstract class PokemonSpeciesForm {
   readonly genderDiffs: boolean;
   readonly isStarterSelectable: boolean;
 
-  constructor(
-    type1: PokemonType,
-    type2: PokemonType | null,
-    height: number,
-    weight: number,
-    ability1: AbilityId,
-    ability2: AbilityId,
-    abilityHidden: AbilityId,
-    baseTotal: number,
-    baseHp: number,
-    baseAtk: number,
-    baseDef: number,
-    baseSpatk: number,
-    baseSpdef: number,
-    baseSpd: number,
-    catchRate: number,
-    baseFriendship: number,
-    baseExp: number,
-    genderDiffs: boolean,
-    isStarterSelectable: boolean,
-  ) {
-    this.type1 = type1;
-    this.type2 = type2;
-    this.height = height;
-    this.weight = weight;
-    this.ability1 = ability1;
-    this.ability2 = ability2 === AbilityId.NONE ? ability1 : ability2;
-    this.abilityHidden = abilityHidden;
-    this.baseTotal = baseTotal;
-    this.baseStats = [baseHp, baseAtk, baseDef, baseSpatk, baseSpdef, baseSpd];
-    this.catchRate = catchRate;
-    this.baseFriendship = baseFriendship;
-    this.baseExp = baseExp;
-    this.genderDiffs = genderDiffs;
-    this.isStarterSelectable = isStarterSelectable;
+  constructor(data: PokemonSpeciesFormConstructor) {
+    this.type1 = data.type1;
+    this.type2 = data.type2;
+    this.height = data.height;
+    this.weight = data.weight;
+    this.ability1 = data.ability1;
+    this.ability2 = data.ability2 === AbilityId.NONE ? data.ability1 : data.ability2;
+    this.abilityHidden = data.abilityHidden;
+    this.baseTotal = data.baseTotal;
+    this.baseStats = [data.baseHp, data.baseAtk, data.baseDef, data.baseSpatk, data.baseSpdef, data.baseSpd];
+    this.catchRate = data.catchRate;
+    this.baseFriendship = data.baseFriendship;
+    this.baseExp = data.baseExp;
+    this.genderDiffs = data.genderDiffs;
+    this.isStarterSelectable = data.isStarterSelectable;
   }
 
   /**
@@ -773,6 +775,37 @@ export abstract class PokemonSpeciesForm {
   }
 }
 
+interface PokemonSpeciesConstructor {
+  id: SpeciesId;
+  generation: number;
+  subLegendary: boolean;
+  legendary: boolean;
+  mythical: boolean;
+  category: string;
+  type1: PokemonType;
+  type2: PokemonType | null;
+  height: number;
+  weight: number;
+  ability1: AbilityId;
+  ability2: AbilityId;
+  abilityHidden: AbilityId;
+  baseTotal: number;
+  baseHp: number;
+  baseAtk: number;
+  baseDef: number;
+  baseSpatk: number;
+  baseSpdef: number;
+  baseSpd: number;
+  catchRate: number;
+  baseFriendship: number;
+  baseExp: number;
+  growthRate: GrowthRate;
+  malePercent: number | null;
+  genderDiffs: boolean;
+  canChangeForm?: boolean;
+  forms?: PokemonForm[];
+}
+
 export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
   public name: string;
   readonly subLegendary: boolean;
@@ -786,76 +819,47 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
   readonly canChangeForm: boolean;
   readonly forms: PokemonForm[];
 
-  constructor(
-    id: SpeciesId,
-    generation: number,
-    subLegendary: boolean,
-    legendary: boolean,
-    mythical: boolean,
-    category: string,
-    type1: PokemonType,
-    type2: PokemonType | null,
-    height: number,
-    weight: number,
-    ability1: AbilityId,
-    ability2: AbilityId,
-    abilityHidden: AbilityId,
-    baseTotal: number,
-    baseHp: number,
-    baseAtk: number,
-    baseDef: number,
-    baseSpatk: number,
-    baseSpdef: number,
-    baseSpd: number,
-    catchRate: number,
-    baseFriendship: number,
-    baseExp: number,
-    growthRate: GrowthRate,
-    malePercent: number | null,
-    genderDiffs: boolean,
-    canChangeForm?: boolean,
-    ...forms: PokemonForm[]
-  ) {
-    super(
-      type1,
-      type2,
-      height,
-      weight,
-      ability1,
-      ability2,
-      abilityHidden,
-      baseTotal,
-      baseHp,
-      baseAtk,
-      baseDef,
-      baseSpatk,
-      baseSpdef,
-      baseSpd,
-      catchRate,
-      baseFriendship,
-      baseExp,
-      genderDiffs,
-      false,
-    );
-    this.speciesId = id;
+  constructor(data: PokemonSpeciesConstructor) {
+    super({
+      type1: data.type1,
+      type2: data.type2,
+      height: data.height,
+      weight: data.weight,
+      ability1: data.ability1,
+      ability2: data.ability2,
+      abilityHidden: data.abilityHidden,
+      baseTotal: data.baseTotal,
+      baseHp: data.baseHp,
+      baseAtk: data.baseAtk,
+      baseDef: data.baseDef,
+      baseSpatk: data.baseSpatk,
+      baseSpdef: data.baseSpdef,
+      baseSpd: data.baseSpd,
+      catchRate: data.catchRate,
+      baseFriendship: data.baseFriendship,
+      baseExp: data.baseExp,
+      genderDiffs: data.genderDiffs,
+      isStarterSelectable: false,
+    });
+    this.speciesId = data.id;
     this.formIndex = 0;
-    this.generation = generation;
-    this.subLegendary = subLegendary;
-    this.legendary = legendary;
-    this.mythical = mythical;
-    this.category = category;
-    this.growthRate = growthRate;
-    this.malePercent = malePercent;
-    this.genderDiffs = genderDiffs;
-    this.canChangeForm = !!canChangeForm;
-    this.forms = forms;
+    this.generation = data.generation;
+    this.subLegendary = data.subLegendary;
+    this.legendary = data.legendary;
+    this.mythical = data.mythical;
+    this.category = data.category;
+    this.growthRate = data.growthRate;
+    this.malePercent = data.malePercent;
+    this.genderDiffs = data.genderDiffs;
+    this.canChangeForm = !!data.canChangeForm;
+    this.forms = data.forms || [];
 
     this.localize();
 
-    forms.forEach((form, f) => {
-      form.speciesId = id;
+    this.forms.forEach((form, f) => {
+      form.speciesId = data.id;
       form.formIndex = f;
-      form.generation = generation;
+      form.generation = data.generation;
     });
   }
 
@@ -1221,6 +1225,32 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
   }
 }
 
+interface PokemonFormConstructor {
+  formName: string;
+  formKey: string;
+  type1: PokemonType;
+  type2: PokemonType | null;
+  height: number;
+  weight: number;
+  ability1: AbilityId;
+  ability2: AbilityId;
+  abilityHidden: AbilityId;
+  baseTotal: number;
+  baseHp: number;
+  baseAtk: number;
+  baseDef: number;
+  baseSpatk: number;
+  baseSpdef: number;
+  baseSpd: number;
+  catchRate: number;
+  baseFriendship: number;
+  baseExp: number;
+  genderDiffs?: boolean;
+  formSpriteKey?: string | null;
+  isStarterSelectable?: boolean;
+  isUnobtainable?: boolean;
+}
+
 export class PokemonForm extends PokemonSpeciesForm {
   public formName: string;
   public formKey: string;
@@ -1242,56 +1272,32 @@ export class PokemonForm extends PokemonSpeciesForm {
     "violet",
   ];
 
-  constructor(
-    formName: string,
-    formKey: string,
-    type1: PokemonType,
-    type2: PokemonType | null,
-    height: number,
-    weight: number,
-    ability1: AbilityId,
-    ability2: AbilityId,
-    abilityHidden: AbilityId,
-    baseTotal: number,
-    baseHp: number,
-    baseAtk: number,
-    baseDef: number,
-    baseSpatk: number,
-    baseSpdef: number,
-    baseSpd: number,
-    catchRate: number,
-    baseFriendship: number,
-    baseExp: number,
-    genderDiffs = false,
-    formSpriteKey: string | null = null,
-    isStarterSelectable = false,
-    isUnobtainable = false,
-  ) {
-    super(
-      type1,
-      type2,
-      height,
-      weight,
-      ability1,
-      ability2,
-      abilityHidden,
-      baseTotal,
-      baseHp,
-      baseAtk,
-      baseDef,
-      baseSpatk,
-      baseSpdef,
-      baseSpd,
-      catchRate,
-      baseFriendship,
-      baseExp,
-      genderDiffs,
-      isStarterSelectable || !formKey,
-    );
-    this.formName = formName;
-    this.formKey = formKey;
-    this.formSpriteKey = formSpriteKey;
-    this.isUnobtainable = isUnobtainable;
+  constructor(data: PokemonFormConstructor) {
+    super({
+      type1: data.type1,
+      type2: data.type2,
+      height: data.height,
+      weight: data.weight,
+      ability1: data.ability1,
+      ability2: data.ability2,
+      abilityHidden: data.abilityHidden,
+      baseTotal: data.baseTotal,
+      baseHp: data.baseHp,
+      baseAtk: data.baseAtk,
+      baseDef: data.baseDef,
+      baseSpatk: data.baseSpatk,
+      baseSpdef: data.baseSpdef,
+      baseSpd: data.baseSpd,
+      catchRate: data.catchRate,
+      baseFriendship: data.baseFriendship,
+      baseExp: data.baseExp,
+      genderDiffs: data.genderDiffs ?? false,
+      isStarterSelectable: data.isStarterSelectable ?? !data.formKey,
+    });
+    this.formName = data.formName;
+    this.formKey = data.formKey;
+    this.formSpriteKey = data.formSpriteKey ?? null;
+    this.isUnobtainable = data.isUnobtainable ?? false;
   }
 
   getFormSpriteKey(_formIndex?: number) {
