@@ -75,7 +75,7 @@ export enum EvolutionItem {
 const tyrogueMoves = [MoveId.LOW_SWEEP, MoveId.MACH_PUNCH, MoveId.RAPID_SPIN] as const;
 type TyrogueMove = (typeof tyrogueMoves)[number];
 
-const EvoCondKey = {
+export const EvoCondKey = {
   FRIENDSHIP: 1,
   TIME: 2,
   MOVE: 3,
