@@ -3080,7 +3080,6 @@ export const tmSpecies = {
     SpeciesId.DONPHAN,
     SpeciesId.PORYGON2,
     SpeciesId.STANTLER,
-    SpeciesId.TYROGUE,
     SpeciesId.HITMONTOP,
     SpeciesId.SMOOCHUM,
     SpeciesId.ELEKID,
