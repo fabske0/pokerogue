@@ -2751,9 +2751,9 @@ export function initGenerationOne(): SpeciesDataMapConfig {
           type2: null,
           height: 1.2,
           weight: 38,
-          ability1: AbilityId.STATIC,
-          ability2: AbilityId.NONE,
-          abilityHidden: AbilityId.LIGHTNING_ROD,
+          ability1: AbilityId.LEVITATE,
+          ability2: AbilityId.LEVITATE,
+          abilityHidden: AbilityId.LEVITATE,
           baseTotal: 585,
           baseHp: 60,
           baseAtk: 135,
@@ -2766,7 +2766,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
           baseExp: 243,
           genderDiffs: true,
           formSpriteKey: "",
-        }), // TODO: Mega stats not yet known
+        }),
         new PokemonForm({
           formName: "Mega Y",
           formKey: SpeciesFormKey.MEGA_Y,
@@ -2774,8 +2774,8 @@ export function initGenerationOne(): SpeciesDataMapConfig {
           type2: null,
           height: 1,
           weight: 26,
-          ability1: AbilityId.STATIC,
-          ability2: AbilityId.NONE,
+          ability1: AbilityId.LIGHTNING_ROD,
+          ability2: AbilityId.LIGHTNING_ROD,
           abilityHidden: AbilityId.LIGHTNING_ROD,
           baseTotal: 585,
           baseHp: 60,
@@ -2789,7 +2789,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
           baseExp: 243,
           genderDiffs: true,
           formSpriteKey: "",
-        }), // TODO: Mega stats not yet known
+        }),
       ],
     }),
     starter: SpeciesId.PIKACHU, // TODO: Check if this can be changed to Pichu without problems
