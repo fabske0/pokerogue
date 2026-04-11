@@ -53,7 +53,16 @@ export class SpeciesDataRegistry {
    * Initialize the `prevolution` field for all species.
    */
   private initPreEvolutions(): void {
-    const megaFormKeys = [SpeciesFormKey.MEGA, SpeciesFormKey.MEGA_X, SpeciesFormKey.MEGA_Y, SpeciesFormKey.MEGA_Z];
+    const megaFormKeys = [
+      SpeciesFormKey.MEGA,
+      SpeciesFormKey.MEGA_X,
+      SpeciesFormKey.MEGA_Y,
+      SpeciesFormKey.MEGA_Z,
+      SpeciesFormKey.MEGA_ORIGINAL,
+      SpeciesFormKey.MEGA_CURLY,
+      SpeciesFormKey.MEGA_DROOPY,
+      SpeciesFormKey.MEGA_STRETCHY,
+    ];
 
     const setPrevo = (speciesId: SpeciesId): void => {
       const evolutions = this.getEvolutions(speciesId);

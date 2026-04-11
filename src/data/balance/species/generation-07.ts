@@ -9102,9 +9102,8 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
           formSpriteKey: "",
         }),
         new PokemonForm({
-          // May need a unique form key
           formName: "Mega Original",
-          formKey: SpeciesFormKey.MEGA,
+          formKey: SpeciesFormKey.MEGA_ORIGINAL,
           type1: PokemonType.STEEL,
           type2: PokemonType.FAIRY,
           height: 1.3,
@@ -9131,7 +9130,6 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
     starterCost: 7,
     evolutions: [],
     formChanges: [
-      // Will need tested to make sure it reverts to the proper form of Magearna
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.MAGEARNA,
       //   preFormKey: "",
@@ -9141,7 +9139,7 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.MAGEARNA,
       //   preFormKey: "original",
-      //   evoFormKey: SpeciesFormKey.MEGA,
+      //   evoFormKey: SpeciesFormKey.MEGA_ORIGINAL,
       //   trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAGEARNITE),
       // }),
     ],

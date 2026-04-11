@@ -6261,10 +6261,9 @@ export function initGenerationNine(): SpeciesDataMapConfig {
           formSpriteKey: null,
           isStarterSelectable: true,
         }),
-        // Megas may need unique form keys
         new PokemonForm({
           formName: "Mega Curly",
-          formKey: SpeciesFormKey.MEGA,
+          formKey: SpeciesFormKey.MEGA_CURLY,
           type1: PokemonType.DRAGON,
           type2: PokemonType.WATER,
           height: 0.6,
@@ -6287,7 +6286,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
         }),
         new PokemonForm({
           formName: "Mega Droopy",
-          formKey: SpeciesFormKey.MEGA,
+          formKey: SpeciesFormKey.MEGA_DROOPY,
           type1: PokemonType.DRAGON,
           type2: PokemonType.WATER,
           height: 0.6,
@@ -6310,7 +6309,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
         }),
         new PokemonForm({
           formName: "Mega Stretchy",
-          formKey: SpeciesFormKey.MEGA,
+          formKey: SpeciesFormKey.MEGA_STRETCHY,
           type1: PokemonType.DRAGON,
           type2: PokemonType.WATER,
           height: 0.6,
@@ -6341,19 +6340,19 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.TATSUGIRI,
       //   preFormKey: "curly",
-      //   evoFormKey: SpeciesFormKey.MEGA,
+      //   evoFormKey: SpeciesFormKey.MEGA_CURLY,
       //   trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.TATSUGIRINITE),
       // }),
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.TATSUGIRI,
       //   preFormKey: "droopy",
-      //   evoFormKey: SpeciesFormKey.MEGA,
+      //   evoFormKey: SpeciesFormKey.MEGA_DROOPY,
       //   trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.TATSUGIRINITE),
       // }),
       // new SpeciesFormChange({
       //   speciesId: SpeciesId.TATSUGIRI,
       //   preFormKey: "stretchy",
-      //   evoFormKey: SpeciesFormKey.MEGA,
+      //   evoFormKey: SpeciesFormKey.MEGA_STRETCHY,
       //   trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.TATSUGIRINITE),
       // }),
     ],
