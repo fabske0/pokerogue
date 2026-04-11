@@ -11,9 +11,12 @@ interface PokemonSpeciesPassives {
 
 export type LevelMoves = [number, MoveId][];
 
+export interface SpeciesFormLevelMoves {
+  [key: number]: LevelMoves;
+}
+
 export interface SpeciesFormTmMoves {
-  move: MoveId;
-  form: string;
+  [key: number]: MoveId[];
 }
 
 export interface PokemonSpeciesData {
@@ -24,5 +27,7 @@ export interface PokemonSpeciesData {
   eggTier?: EggTier;
   passives: AbilityId | PokemonSpeciesPassives;
   levelMoves: LevelMoves;
-  tms: (MoveId | SpeciesFormTmMoves)[];
+  formLevelMoves?: SpeciesFormLevelMoves;
+  tms: MoveId[];
+  formTms?: SpeciesFormTmMoves;
 }
