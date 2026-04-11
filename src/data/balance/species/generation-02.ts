@@ -20,7 +20,7 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData, SpeciesFormTmMoves } from "#types/pokemon-species";
+import type { PokemonSpeciesData } from "#types/pokemon-species";
 import { genTwoSpecies } from "./test/gen2";
 
 export const generationTwoSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
@@ -11563,8 +11563,6 @@ function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   }
 }
 
-type OldTmMove = MoveId | [string | SpeciesId, MoveId];
-
 function validateTMs(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
@@ -11576,20 +11574,24 @@ function validateTMs(genData: Record<SpeciesId, PokemonSpeciesData>) {
       ]),
     );
 
-    const newSort = (a: MoveId | SpeciesFormTmMoves, b: MoveId | SpeciesFormTmMoves) => {
-      const aVal = typeof a === "number" ? a : a.move;
-      const bVal = typeof b === "number" ? b : b.move;
-      return aVal - bVal;
+    // check if oldval includes any arrays
+    if (oldVal.some(Array.isArray)) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific TMs, please check manually`);
+    }
+    const filteredOldVal = oldVal.filter(s => !Array.isArray(s)) as MoveId[];
+
+    const newSort = (a: MoveId, b: MoveId) => {
+      return a - b;
     };
 
-    const oldSort = (a: OldTmMove, b: OldTmMove) => {
+    const oldSort = (a: MoveId, b: MoveId) => {
       const aVal = typeof a === "number" ? a : a[1];
       const bVal = typeof b === "number" ? b : b[1];
       return aVal - bVal;
     };
 
-    if (JSON.stringify(newVal.sort(newSort)) !== JSON.stringify(oldVal.sort(oldSort))) {
-      console.error(`TMs mismatch for ${species.species.speciesId}: new=`, newVal, ", old=", oldVal);
+    if (JSON.stringify(newVal.sort(newSort)) !== JSON.stringify(filteredOldVal.sort(oldSort))) {
+      console.error(`TMs mismatch for ${species.species.speciesId}: new=`, newVal, ", old=", filteredOldVal);
       fails++;
     }
   }

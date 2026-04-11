@@ -3,6 +3,9 @@ import "#app/extensions"; // Setup Phaser extension methods/etc
 import { initAbilities } from "#abilities/init-abilities";
 import { initPokemonPrevolutions, initPokemonStarters } from "#balance/pokemon-evolutions";
 import { initSpecies } from "#balance/pokemon-species";
+import { initGenerationOne } from "#balance/species/generation-01";
+import { initGenerationTwo } from "#balance/species/generation-02";
+import { initGenerationThree } from "#balance/species/generation-03";
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
@@ -32,6 +35,9 @@ export function initializeGame() {
   initBiomeDepths();
   initPokemonForms();
   initTrainerTypeDialogue();
+  initGenerationOne();
+  initGenerationTwo();
+  initGenerationThree();
   initSpecies();
   initMoves();
   initAbilities();
