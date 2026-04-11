@@ -1,5 +1,15 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
-import { EvoCondKey, EvolutionItem, SpeciesEvolution, SpeciesFormEvolution } from "#balance/pokemon-evolutions";
+import { starterPassiveAbilities } from "#balance/passives";
+import {
+  EvoCondKey,
+  EvolutionItem,
+  pokemonEvolutions,
+  SpeciesEvolution,
+  SpeciesFormEvolution,
+} from "#balance/pokemon-evolutions";
+import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { speciesEggTiers } from "#balance/species-egg-tiers";
+import { speciesTmMoves } from "#balance/tms";
 import { GrowthRate } from "#data/exp";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
@@ -9,7 +19,8 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesFormTmMoves } from "#types/pokemon-species";
+import { genOneSpecies } from "./test/gen1";
 
 export const generationOneSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
   SpeciesId,
@@ -301,7 +312,21 @@ export function initGenerationOne(): void {
       [51, MoveId.POWER_WHIP],
       [58, MoveId.SOLAR_BEAM],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.IVYSAUR].tms],
+    tms: [
+      ...generationOneSpeciesData[SpeciesId.IVYSAUR].tms,
+      MoveId.ROAR,
+      MoveId.HYPER_BEAM,
+      MoveId.EARTHQUAKE,
+      MoveId.FRENZY_PLANT,
+      MoveId.POISON_JAB,
+      MoveId.EARTH_POWER,
+      MoveId.GIGA_IMPACT,
+      MoveId.ROCK_CLIMB,
+      MoveId.BULLDOZE,
+      MoveId.PETAL_BLIZZARD,
+      MoveId.STOMPING_TANTRUM,
+      MoveId.TERRAIN_PULSE,
+    ],
   };
   generationOneSpeciesData[SpeciesId.CHARMANDER] = {
     species: new PokemonSpecies({
@@ -617,7 +642,32 @@ export function initGenerationOne(): void {
       [54, MoveId.INFERNO],
       [62, MoveId.FLARE_BLITZ],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.CHARMELEON].tms],
+    tms: [
+      ...generationOneSpeciesData[SpeciesId.CHARMELEON].tms,
+      MoveId.FLY,
+      MoveId.HYPER_BEAM,
+      MoveId.SOLAR_BEAM,
+      MoveId.EARTHQUAKE,
+      MoveId.SANDSTORM,
+      MoveId.STEEL_WING,
+      MoveId.BLAZE_KICK,
+      MoveId.BLAST_BURN,
+      MoveId.ROOST,
+      MoveId.TAILWIND,
+      MoveId.AIR_SLASH,
+      MoveId.GIGA_IMPACT,
+      MoveId.DEFOG,
+      MoveId.SKY_DROP,
+      MoveId.BULLDOZE,
+      MoveId.HEAT_CRASH,
+      MoveId.HURRICANE,
+      MoveId.MYSTICAL_FIRE,
+      MoveId.BRUTAL_SWING,
+      MoveId.SCALE_SHOT,
+      MoveId.DUAL_WINGBEAT,
+      MoveId.SCORCHING_SANDS,
+      MoveId.DRAGON_CHEER,
+    ],
   };
   generationOneSpeciesData[SpeciesId.SQUIRTLE] = {
     species: new PokemonSpecies({
@@ -908,7 +958,26 @@ export function initGenerationOne(): void {
       [49, MoveId.HYDRO_PUMP],
       [56, MoveId.WAVE_CRASH],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.WARTORTLE].tms],
+    tms: [
+      ...generationOneSpeciesData[SpeciesId.WARTORTLE].tms,
+      MoveId.ROAR,
+      MoveId.HYPER_BEAM,
+      MoveId.EARTHQUAKE,
+      MoveId.CRUNCH,
+      MoveId.HYDRO_CANNON,
+      MoveId.SIGNAL_BEAM,
+      MoveId.DARK_PULSE,
+      MoveId.FOCUS_BLAST,
+      MoveId.GIGA_IMPACT,
+      MoveId.AVALANCHE,
+      MoveId.FLASH_CANNON,
+      MoveId.ROCK_CLIMB,
+      MoveId.SMACK_DOWN,
+      MoveId.BULLDOZE,
+      MoveId.DRAGON_TAIL,
+      MoveId.BODY_PRESS,
+      MoveId.TERRAIN_PULSE,
+    ],
   };
   generationOneSpeciesData[SpeciesId.CATERPIE] = {
     species: new PokemonSpecies({
@@ -987,7 +1056,10 @@ export function initGenerationOne(): void {
       [RELEARN_MOVE, MoveId.BUG_BITE],
       [1, MoveId.HARDEN],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.CATERPIE].tms],
+    tms: [
+      ...generationOneSpeciesData[SpeciesId.CATERPIE].tms, // - snore
+      MoveId.IRON_DEFENSE,
+    ],
   };
   generationOneSpeciesData[SpeciesId.BUTTERFREE] = {
     species: new PokemonSpecies({
@@ -1093,6 +1165,7 @@ export function initGenerationOne(): void {
       [44, MoveId.QUIVER_DANCE],
     ],
     tms: [
+      ...generationOneSpeciesData[SpeciesId.METAPOD].tms,
       MoveId.TAKE_DOWN,
       MoveId.PSYBEAM,
       MoveId.HYPER_BEAM,
@@ -1107,7 +1180,6 @@ export function initGenerationOne(): void {
       MoveId.REST,
       MoveId.SUBSTITUTE,
       MoveId.THIEF,
-      MoveId.SNORE,
       MoveId.CURSE,
       MoveId.PROTECT,
       MoveId.GIGA_DRAIN,
@@ -1129,7 +1201,6 @@ export function initGenerationOne(): void {
       MoveId.AIR_CUTTER,
       MoveId.SIGNAL_BEAM,
       MoveId.AERIAL_ACE,
-      MoveId.IRON_DEFENSE,
       MoveId.ROOST,
       MoveId.TAILWIND,
       MoveId.U_TURN,
@@ -1138,19 +1209,16 @@ export function initGenerationOne(): void {
       MoveId.ENERGY_BALL,
       MoveId.GIGA_IMPACT,
       MoveId.DEFOG,
-      MoveId.BUG_BITE,
       MoveId.VENOSHOCK,
       MoveId.ROUND,
       MoveId.ACROBATICS,
       MoveId.STRUGGLE_BUG,
-      MoveId.ELECTROWEB,
       MoveId.HURRICANE,
       MoveId.DRAINING_KISS,
       MoveId.CONFIDE,
       MoveId.INFESTATION,
       MoveId.POLLEN_PUFF,
       MoveId.DUAL_WINGBEAT,
-      MoveId.TERA_BLAST,
     ],
   };
   generationOneSpeciesData[SpeciesId.WEEDLE] = {
@@ -1642,7 +1710,7 @@ export function initGenerationOne(): void {
       [62, MoveId.AIR_SLASH],
       [68, MoveId.HURRICANE],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.PIDGEOTTO].tms, MoveId.HYPER_BEAM],
+    tms: [...generationOneSpeciesData[SpeciesId.PIDGEOTTO].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.RATTATA] = {
     species: new PokemonSpecies({
@@ -2990,7 +3058,6 @@ export function initGenerationOne(): void {
       MoveId.ICY_WIND,
       MoveId.OUTRAGE,
       MoveId.SANDSTORM,
-      MoveId.MEGAHORN,
       MoveId.SHADOW_BALL,
       MoveId.WHIRLPOOL,
       MoveId.UPROAR,
@@ -3019,6 +3086,7 @@ export function initGenerationOne(): void {
       MoveId.QUASH,
       MoveId.BULLDOZE,
       MoveId.DRAGON_TAIL,
+      MoveId.DRILL_RUN,
       MoveId.POWER_UP_PUNCH,
       MoveId.HIGH_HORSEPOWER,
       MoveId.THROAT_CHOP,
@@ -3230,110 +3298,57 @@ export function initGenerationOne(): void {
       [1, MoveId.EARTH_POWER],
     ],
     tms: [
+      ...generationOneSpeciesData[SpeciesId.NIDORINO].tms,
       MoveId.MEGA_PUNCH,
       MoveId.PAY_DAY,
       MoveId.FIRE_PUNCH,
       MoveId.ICE_PUNCH,
       MoveId.THUNDER_PUNCH,
       MoveId.MEGA_KICK,
-      MoveId.BODY_SLAM,
-      MoveId.TAKE_DOWN,
-      MoveId.DOUBLE_EDGE,
       MoveId.ROAR,
       MoveId.FLAMETHROWER,
       MoveId.SURF,
-      MoveId.ICE_BEAM,
-      MoveId.BLIZZARD,
       MoveId.HYPER_BEAM,
-      MoveId.COUNTER,
-      MoveId.STRENGTH,
-      MoveId.THUNDERBOLT,
-      MoveId.THUNDER,
       MoveId.EARTHQUAKE,
-      MoveId.DIG,
-      MoveId.TOXIC,
-      MoveId.DOUBLE_TEAM,
-      MoveId.REFLECT,
-      MoveId.FOCUS_ENERGY,
       MoveId.FIRE_BLAST,
-      MoveId.AMNESIA,
-      MoveId.REST,
       MoveId.ROCK_SLIDE,
-      MoveId.SUPER_FANG,
-      MoveId.SUBSTITUTE,
-      MoveId.THIEF,
-      MoveId.SNORE,
-      MoveId.CURSE,
-      MoveId.PROTECT,
-      MoveId.SLUDGE_BOMB,
-      MoveId.MUD_SLAP,
       MoveId.ICY_WIND,
       MoveId.OUTRAGE,
       MoveId.SANDSTORM,
-      MoveId.ENDURE,
-      MoveId.SWAGGER,
-      MoveId.ATTRACT,
-      MoveId.SLEEP_TALK,
-      MoveId.RETURN,
       MoveId.MEGAHORN,
-      MoveId.IRON_TAIL,
-      MoveId.HIDDEN_POWER,
-      MoveId.RAIN_DANCE,
-      MoveId.SUNNY_DAY,
       MoveId.SHADOW_BALL,
-      MoveId.ROCK_SMASH,
       MoveId.WHIRLPOOL,
-      MoveId.BEAT_UP,
       MoveId.UPROAR,
       MoveId.TORMENT,
-      MoveId.FACADE,
       MoveId.FOCUS_PUNCH,
       MoveId.TAUNT,
-      MoveId.HELPING_HAND,
       MoveId.SUPERPOWER,
       MoveId.BRICK_BREAK,
-      MoveId.SECRET_POWER,
       MoveId.ROCK_TOMB,
       MoveId.SAND_TOMB,
       MoveId.MUD_SHOT,
       MoveId.ROCK_BLAST,
-      MoveId.SHOCK_WAVE,
-      MoveId.WATER_PULSE,
       MoveId.FLING,
-      MoveId.TOXIC_SPIKES,
-      MoveId.POISON_JAB,
       MoveId.AQUA_TAIL,
       MoveId.DRAGON_PULSE,
       MoveId.FOCUS_BLAST,
-      MoveId.EARTH_POWER,
       MoveId.GIGA_IMPACT,
       MoveId.AVALANCHE,
-      MoveId.SHADOW_CLAW,
       MoveId.ROCK_CLIMB,
       MoveId.STONE_EDGE,
       MoveId.STEALTH_ROCK,
-      MoveId.HONE_CLAWS,
-      MoveId.VENOSHOCK,
       MoveId.SMACK_DOWN,
       MoveId.SLUDGE_WAVE,
-      MoveId.ROUND,
-      MoveId.ECHOED_VOICE,
       MoveId.HEX,
       MoveId.INCINERATE,
       MoveId.QUASH,
       MoveId.BULLDOZE,
       MoveId.DRAGON_TAIL,
-      MoveId.DRILL_RUN,
-      MoveId.CONFIDE,
-      MoveId.VENOM_DRENCH,
       MoveId.POWER_UP_PUNCH,
       MoveId.HIGH_HORSEPOWER,
       MoveId.THROAT_CHOP,
-      MoveId.SMART_STRIKE,
-      MoveId.STOMPING_TANTRUM,
       MoveId.BODY_PRESS,
       MoveId.SCORCHING_SANDS,
-      MoveId.TERA_BLAST,
     ],
   };
   generationOneSpeciesData[SpeciesId.CLEFAIRY] = {
@@ -4670,7 +4685,7 @@ export function initGenerationOne(): void {
       MoveId.AIR_SLASH,
       MoveId.GIGA_IMPACT,
       MoveId.DEFOG,
-      MoveId.SLUDGE_BOMB,
+      MoveId.SLUDGE_WAVE,
       MoveId.ACROBATICS,
     ],
   };
@@ -10071,7 +10086,82 @@ export function initGenerationOne(): void {
       [40, MoveId.COUNTER],
       [44, MoveId.FOCUS_PUNCH],
     ],
-    tms: [],
+    tms: [
+      MoveId.MEGA_PUNCH,
+      MoveId.FIRE_PUNCH,
+      MoveId.ICE_PUNCH,
+      MoveId.THUNDER_PUNCH,
+      MoveId.SWORDS_DANCE,
+      MoveId.MEGA_KICK,
+      MoveId.BODY_SLAM,
+      MoveId.TAKE_DOWN,
+      MoveId.DOUBLE_EDGE,
+      MoveId.LOW_KICK,
+      MoveId.COUNTER,
+      MoveId.STRENGTH,
+      MoveId.EARTHQUAKE,
+      MoveId.TOXIC,
+      MoveId.AGILITY,
+      MoveId.DOUBLE_TEAM,
+      MoveId.FOCUS_ENERGY,
+      MoveId.METRONOME,
+      MoveId.SWIFT,
+      MoveId.REST,
+      MoveId.ROCK_SLIDE,
+      MoveId.SUBSTITUTE,
+      MoveId.THIEF,
+      MoveId.SNORE,
+      MoveId.CURSE,
+      MoveId.REVERSAL,
+      MoveId.PROTECT,
+      MoveId.MUD_SLAP,
+      MoveId.ENDURE,
+      MoveId.SWAGGER,
+      MoveId.ATTRACT,
+      MoveId.SLEEP_TALK,
+      MoveId.RETURN,
+      MoveId.BATON_PASS,
+      MoveId.ENCORE,
+      MoveId.HIDDEN_POWER,
+      MoveId.RAIN_DANCE,
+      MoveId.SUNNY_DAY,
+      MoveId.ROCK_SMASH,
+      MoveId.UPROAR,
+      MoveId.FACADE,
+      MoveId.FOCUS_PUNCH,
+      MoveId.TAUNT,
+      MoveId.HELPING_HAND,
+      MoveId.REVENGE,
+      MoveId.BRICK_BREAK,
+      MoveId.KNOCK_OFF,
+      MoveId.ENDEAVOR,
+      MoveId.SECRET_POWER,
+      MoveId.ROCK_TOMB,
+      MoveId.BULK_UP,
+      MoveId.COVET,
+      MoveId.CLOSE_COMBAT,
+      MoveId.FLING,
+      MoveId.AURA_SPHERE,
+      MoveId.POISON_JAB,
+      MoveId.DRAIN_PUNCH,
+      MoveId.VACUUM_WAVE,
+      MoveId.FOCUS_BLAST,
+      MoveId.GIGA_IMPACT,
+      MoveId.ROCK_CLIMB,
+      MoveId.STONE_EDGE,
+      MoveId.LOW_SWEEP,
+      MoveId.ROUND,
+      MoveId.RETALIATE,
+      MoveId.BULLDOZE,
+      MoveId.WORK_UP,
+      MoveId.CONFIDE,
+      MoveId.POWER_UP_PUNCH,
+      MoveId.THROAT_CHOP,
+      MoveId.COACHING,
+      MoveId.TERA_BLAST,
+      MoveId.TRAILBLAZE,
+      MoveId.UPPER_HAND,
+    ],
   };
   generationOneSpeciesData[SpeciesId.LICKITUNG] = {
     species: new PokemonSpecies({
@@ -10559,7 +10649,35 @@ export function initGenerationOne(): void {
       [61, MoveId.MEGAHORN],
       [68, MoveId.HORN_DRILL],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.RHYHORN].tms],
+    tms: [
+      ...generationOneSpeciesData[SpeciesId.RHYHORN].tms,
+      MoveId.MEGA_PUNCH,
+      MoveId.PAY_DAY,
+      MoveId.FIRE_PUNCH,
+      MoveId.ICE_PUNCH,
+      MoveId.THUNDER_PUNCH,
+      MoveId.MEGA_KICK,
+      MoveId.HYDRO_PUMP,
+      MoveId.SURF,
+      MoveId.HYPER_BEAM,
+      MoveId.OUTRAGE,
+      MoveId.WHIRLPOOL,
+      MoveId.FOCUS_PUNCH,
+      MoveId.HELPING_HAND,
+      MoveId.BRICK_BREAK,
+      MoveId.IRON_DEFENSE,
+      MoveId.FLING,
+      MoveId.FOCUS_BLAST,
+      MoveId.GIGA_IMPACT,
+      MoveId.AVALANCHE,
+      MoveId.SHADOW_CLAW,
+      MoveId.DRAGON_TAIL,
+      MoveId.HEAT_CRASH,
+      MoveId.POWER_UP_PUNCH,
+      MoveId.BRUTAL_SWING,
+      MoveId.BREAKING_SWIPE,
+      MoveId.METEOR_BEAM,
+    ],
   };
   generationOneSpeciesData[SpeciesId.CHANSEY] = {
     species: new PokemonSpecies({
@@ -15542,4 +15660,165 @@ export function initGenerationOne(): void {
       MoveId.UPPER_HAND,
     ],
   };
+  test(generationOneSpeciesData);
 }
+
+// TODO: Remove later
+function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  const gen = Object.values(genData)[0].species.generation;
+  console.log(`-----------⚠️Starting validation of generation ${gen} data⚠️-----------`);
+  validateSpecies(genData);
+  validateEvolutions(genData);
+  validateEggTiers(genData);
+  validatePassives(genData);
+  validateLevelMoves(genData);
+  validateTMs(genData);
+  console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
+}
+
+function validateSpecies(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  const newVal = Object.values(genData).map(s => s.species);
+  const oldVal = genOneSpecies;
+
+  if (JSON.stringify(newVal) !== oldVal) {
+    console.error("Species data mismatch:", JSON.stringify(newVal), JSON.stringify(oldVal));
+  } else {
+    console.info("Species data validation passed!");
+  }
+}
+
+function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  let fails = 0;
+  for (const species of Object.values(genData)) {
+    const newVal = species.evolutions;
+    const oldVal = pokemonEvolutions[species.species.speciesId] ?? [];
+    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+      console.error(
+        `Evolutions mismatch for ${species.species.speciesId}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
+      );
+      fails++;
+    }
+  }
+  if (fails === 0) {
+    console.info("Evolutions validation passed!");
+  } else {
+    console.error(`Evolutions validation failed with ${fails} errors.`);
+  }
+}
+
+function validateEggTiers(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  let fails = 0;
+  for (const species of Object.values(genData)) {
+    const newVal = species.eggTier;
+    const oldVal = speciesEggTiers[species.species.speciesId];
+
+    if (newVal !== oldVal) {
+      console.error(`Egg tier mismatch for ${species.species.speciesId}: new=${newVal} old=${oldVal}`);
+      fails++;
+    }
+  }
+  if (fails === 0) {
+    console.info("Egg tiers validation passed!");
+  } else {
+    console.error(`Egg tiers validation failed with ${fails} errors.`);
+  }
+}
+
+function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  let fails = 0;
+  for (const species of Object.values(genData)) {
+    let newVal = species.passives;
+    const oldVal = starterPassiveAbilities[species.species.speciesId];
+
+    if (typeof newVal === "number") {
+      newVal = { 0: newVal };
+    }
+
+    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+      console.error(
+        `Passive abilities mismatch for ${species.species.speciesId}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
+      );
+      fails++;
+    }
+  }
+  if (fails === 0) {
+    console.info("Passive abilities validation passed!");
+  } else {
+    console.error(`Passive abilities validation failed with ${fails} errors.`);
+  }
+}
+
+function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  let fails = 0;
+  for (const species of Object.values(genData)) {
+    const newVal = species.levelMoves;
+    const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
+
+    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+      console.error(
+        `Level moves mismatch for ${species.species.speciesId}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
+      );
+      fails++;
+    }
+  }
+  if (fails === 0) {
+    console.info("Level moves validation passed!");
+  } else {
+    console.error(`Level moves validation failed with ${fails} errors.`);
+  }
+}
+
+type OldTmMove = MoveId | [string | SpeciesId, MoveId];
+
+function validateTMs(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  let fails = 0;
+  for (const species of Object.values(genData)) {
+    const newVal = species.tms;
+    const oldVal = Array.from(
+      new Set([
+        ...(speciesTmMoves[species.species.speciesId] ?? []),
+        ...(additonalTMs[species.species.speciesId] ?? []),
+      ]),
+    );
+
+    const newSort = (a: MoveId | SpeciesFormTmMoves, b: MoveId | SpeciesFormTmMoves) => {
+      const aVal = typeof a === "number" ? a : a.move;
+      const bVal = typeof b === "number" ? b : b.move;
+      return aVal - bVal;
+    };
+
+    const oldSort = (a: OldTmMove, b: OldTmMove) => {
+      const aVal = typeof a === "number" ? a : a[1];
+      const bVal = typeof b === "number" ? b : b[1];
+      return aVal - bVal;
+    };
+
+    if (JSON.stringify(newVal.sort(newSort)) !== JSON.stringify(oldVal.sort(oldSort))) {
+      console.error(`TMs mismatch for ${species.species.speciesId}: new=`, newVal, ", old=", oldVal);
+      fails++;
+    }
+  }
+  if (fails === 0) {
+    console.info("TMs validation passed!");
+  } else {
+    console.error(`TMs validation failed with ${fails} errors.`);
+  }
+}
+
+// some additional TMs, that are now available since we don't exclude TMs that the pre-evolutions can learn.
+const additonalTMs: Partial<Record<SpeciesId, MoveId[]>> = {
+  [SpeciesId.CHARMELEON]: [MoveId.FOCUS_BLAST],
+  [SpeciesId.METAPOD]: [MoveId.SNORE],
+  [SpeciesId.RATICATE]: [MoveId.SCREECH],
+  [SpeciesId.FEAROW]: [MoveId.SCARY_FACE],
+  [SpeciesId.RAICHU]: [MoveId.FOCUS_ENERGY, MoveId.BEAT_UP, MoveId.FAKE_TEARS, MoveId.MUD_SHOT, MoveId.POISON_TAIL],
+  [SpeciesId.NIDORINA]: [MoveId.POISON_TAIL],
+  [SpeciesId.NIDOQUEEN]: [MoveId.POISON_TAIL],
+  [SpeciesId.NIDORINO]: [MoveId.POISON_TAIL],
+  [SpeciesId.NIDOKING]: [MoveId.POISON_TAIL],
+  [SpeciesId.PARASECT]: [MoveId.PSYBEAM, MoveId.AGILITY, MoveId.METAL_CLAW, MoveId.GRASSY_TERRAIN],
+  [SpeciesId.DUGTRIO]: [MoveId.HELPING_HAND],
+  [SpeciesId.DODRIO]: [MoveId.ASSURANCE],
+  [SpeciesId.HYPNO]: [MoveId.GUARD_SWAP],
+  [SpeciesId.EXEGGUTOR]: [MoveId.PSYBEAM],
+};
