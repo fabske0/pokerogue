@@ -2641,7 +2641,7 @@ export function initGenerationOne(): void {
       malePercent: 50,
       genderDiffs: true,
     }),
-    starter: SpeciesId.PICHU,
+    starter: SpeciesId.PIKACHU, // TODO: Check if this can be changed to Pichu without problems
     evolutions: [],
     passives: AbilityId.ELECTRIC_SURGE,
     levelMoves: [
@@ -15849,7 +15849,10 @@ function validateStarters(genData: Record<SpeciesId, PokemonSpeciesData>) {
     const speciesId = species.species.speciesId;
     const oldStarter = oldVal[speciesId] ?? speciesId;
     if (oldStarter !== species.starter) {
-      console.error(`Starter mismatch for ${speciesId}: new=${species.starter} old=${oldStarter}`);
+      console.error(
+        `Starter mismatch for ${SpeciesId[speciesId]}: new=${SpeciesId[species.starter]} old=${SpeciesId[oldStarter]}`,
+      );
+
       fails++;
     }
   }
