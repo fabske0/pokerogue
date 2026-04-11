@@ -20,6 +20,7 @@ import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import type { PokemonSpeciesData, SpeciesFormTmMoves } from "#types/pokemon-species";
+import { genTwoSpecies } from "./test/gen2";
 
 export const generationTwoSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
   SpeciesId,
@@ -3574,12 +3575,7 @@ export function initGenerationTwo(): void {
       [49, MoveId.BOUNCE],
       [55, MoveId.MEMENTO],
     ],
-    tms: [
-      ...generationTwoSpeciesData[SpeciesId.SKIPLOOM].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.RAIN_DANCE,
-      MoveId.GIGA_IMPACT,
-    ],
+    tms: [...generationTwoSpeciesData[SpeciesId.SKIPLOOM].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationTwoSpeciesData[SpeciesId.AIPOM] = {
     species: new PokemonSpecies({
@@ -11336,23 +11332,36 @@ export function initGenerationTwo(): void {
       MoveId.TERA_BLAST,
     ],
   };
-  test();
+  test(generationTwoSpeciesData);
 }
 
-function test() {
-  // validateSpecies()
-  validateEvolutions();
-  validateEggTiers();
-  validatePassives();
-  validateLevelMoves();
-  validateTMs();
+// TODO: Remove later
+function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  const gen = Object.values(genData)[0].species.generation;
+  console.log(`-----------⚠️Starting validation of generation ${gen} data⚠️-----------`);
+  validateSpecies(genData);
+  validateEvolutions(genData);
+  validateEggTiers(genData);
+  validatePassives(genData);
+  validateLevelMoves(genData);
+  validateTMs(genData);
+  console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
 }
 
-// function validateSpecies() {}
+function validateSpecies(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  const newVal = Object.values(genData).map(s => s.species);
+  const oldVal = genTwoSpecies;
 
-function validateEvolutions() {
+  if (JSON.stringify(newVal) !== oldVal) {
+    console.error("Species data mismatch:", JSON.stringify(newVal), JSON.stringify(oldVal));
+  } else {
+    console.info("Species data validation passed!");
+  }
+}
+
+function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
-  for (const species of Object.values(generationTwoSpeciesData)) {
+  for (const species of Object.values(genData)) {
     const newVal = species.evolutions;
     const oldVal = pokemonEvolutions[species.species.speciesId] ?? [];
     if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
@@ -11369,9 +11378,9 @@ function validateEvolutions() {
   }
 }
 
-function validateEggTiers() {
+function validateEggTiers(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
-  for (const species of Object.values(generationTwoSpeciesData)) {
+  for (const species of Object.values(genData)) {
     const newVal = species.eggTier;
     const oldVal = speciesEggTiers[species.species.speciesId];
 
@@ -11387,9 +11396,9 @@ function validateEggTiers() {
   }
 }
 
-function validatePassives() {
+function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
-  for (const species of Object.values(generationTwoSpeciesData)) {
+  for (const species of Object.values(genData)) {
     let newVal = species.passives;
     const oldVal = starterPassiveAbilities[species.species.speciesId];
 
@@ -11411,9 +11420,9 @@ function validatePassives() {
   }
 }
 
-function validateLevelMoves() {
+function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
-  for (const species of Object.values(generationTwoSpeciesData)) {
+  for (const species of Object.values(genData)) {
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 
@@ -11431,9 +11440,11 @@ function validateLevelMoves() {
   }
 }
 
-function validateTMs() {
+type OldTmMove = MoveId | [string | SpeciesId, MoveId];
+
+function validateTMs(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
-  for (const species of Object.values(generationTwoSpeciesData)) {
+  for (const species of Object.values(genData)) {
     const newVal = species.tms;
     const oldVal = Array.from(
       new Set([
@@ -11442,13 +11453,19 @@ function validateTMs() {
       ]),
     );
 
-    const sort = (a: MoveId | SpeciesFormTmMoves, b: MoveId | SpeciesFormTmMoves) => {
+    const newSort = (a: MoveId | SpeciesFormTmMoves, b: MoveId | SpeciesFormTmMoves) => {
       const aVal = typeof a === "number" ? a : a.move;
       const bVal = typeof b === "number" ? b : b.move;
       return aVal - bVal;
     };
 
-    if (JSON.stringify(newVal.sort(sort)) !== JSON.stringify(oldVal.sort(sort))) {
+    const oldSort = (a: OldTmMove, b: OldTmMove) => {
+      const aVal = typeof a === "number" ? a : a[1];
+      const bVal = typeof b === "number" ? b : b[1];
+      return aVal - bVal;
+    };
+
+    if (JSON.stringify(newVal.sort(newSort)) !== JSON.stringify(oldVal.sort(oldSort))) {
       console.error(`TMs mismatch for ${species.species.speciesId}: new=`, newVal, ", old=", oldVal);
       fails++;
     }
@@ -11472,7 +11489,7 @@ const additonalTMs: Partial<Record<SpeciesId, MoveId[]>> = {
   [SpeciesId.FLAAFFY]: [MoveId.SCREECH],
   [SpeciesId.AMPHAROS]: [MoveId.SCREECH],
   [SpeciesId.SKIPLOOM]: [MoveId.AMNESIA, MoveId.RAIN_DANCE],
-  [SpeciesId.JUMPLUFF]: [MoveId.AMNESIA, MoveId.RAIN_DANCE],
+  [SpeciesId.JUMPLUFF]: [MoveId.AMNESIA],
   [SpeciesId.GRANBULL]: [MoveId.FAKE_TEARS],
   [SpeciesId.URSARING]: [MoveId.FOCUS_ENERGY],
   [SpeciesId.MAGCARGO]: [MoveId.HIGH_HORSEPOWER],
