@@ -22,6 +22,8 @@ export interface SpeciesFormTmMoves {
 export interface PokemonSpeciesData {
   species: PokemonSpecies;
   starter: SpeciesId;
+  /** The starter cost. Should be omitted for non starters */
+  starterCost?: number;
   evolutions: SpeciesFormEvolution[];
   /** The egg tier of the Pokémon. Should be omitted for non starters */
   eggTier?: EggTier;

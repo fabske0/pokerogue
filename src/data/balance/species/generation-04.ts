@@ -9,6 +9,7 @@ import {
 } from "#balance/pokemon-evolutions";
 import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
+import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
 import { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
@@ -58,6 +59,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.TURTWIG,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.GROTLE, 18, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SOLID_ROCK,
@@ -294,6 +296,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CHIMCHAR,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.MONFERNO, 14, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.DEFIANT,
@@ -560,6 +563,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.PIPLUP,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.PRINPLUP, 16, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.CUTE_CHARM,
@@ -813,6 +817,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.STARLY,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.STARAVIA, 14, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.INTIMIDATE,
@@ -1013,6 +1018,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.BIDOOF,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.BIBAREL, 15, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SAP_SIPPER,
@@ -1185,6 +1191,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.KRICKETOT,
+    starterCost: 1,
     evolutions: [new SpeciesEvolution(SpeciesId.KRICKETUNE, 10, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.HONEY_GATHER,
@@ -1339,6 +1346,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.SHINX,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.LUXIO, 15, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SPEED_BOOST,
@@ -1555,6 +1563,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.BUDEW,
+    starterCost: 3,
     evolutions: [
       new SpeciesEvolution(
         SpeciesId.ROSELIA,
@@ -1763,6 +1772,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CRANIDOS,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.RAMPARDOS, 30, null, null)],
     eggTier: EggTier.RARE,
     passives: AbilityId.ROCK_HEAD,
@@ -1951,6 +1961,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.SHIELDON,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.BASTIODON, 30, null, null)],
     eggTier: EggTier.RARE,
     passives: AbilityId.EARTH_EATER,
@@ -2202,6 +2213,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.BURMY,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(SpeciesId.MOTHIM, 20, null, { key: EvoCondKey.GENDER, gender: Gender.MALE }),
       new SpeciesEvolution(SpeciesId.WORMADAM, 20, null, { key: EvoCondKey.GENDER, gender: Gender.FEMALE }),
@@ -2550,6 +2562,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.COMBEE,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(SpeciesId.VESPIQUEN, 21, null, { key: EvoCondKey.GENDER, gender: Gender.FEMALE }),
     ],
@@ -2723,6 +2736,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.PACHIRISU,
+    starterCost: 2,
     evolutions: [],
     eggTier: EggTier.COMMON,
     passives: AbilityId.HONEY_GATHER,
@@ -2840,6 +2854,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.BUIZEL,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.FLOATZEL, 26, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.MOXIE,
@@ -3020,6 +3035,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CHERUBI,
+    starterCost: 1,
     evolutions: [new SpeciesEvolution(SpeciesId.CHERRIM, 25, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.DROUGHT,
@@ -3267,6 +3283,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.SHELLOS,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.GASTRODON, 30, null, null)],
     eggTier: EggTier.COMMON,
     passives: {
@@ -3623,6 +3640,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.DRIFLOON,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.DRIFBLIM, 28, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.MAGIC_GUARD,
@@ -3807,6 +3825,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.BUNEARY,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(SpeciesId.LOPUNNY, 1, null, { key: EvoCondKey.FRIENDSHIP, value: 50 }, [25, 25, 30]),
     ],
@@ -4316,6 +4335,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.GLAMEOW,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.PURUGLY, 38, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.INTIMIDATE,
@@ -4480,6 +4500,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CHINGLING,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(
         SpeciesId.CHIMECHO,
@@ -4598,6 +4619,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.STUNKY,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.SKUNTANK, 34, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.NEUTRALIZING_GAS,
@@ -4783,6 +4805,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.BRONZOR,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.BRONZONG, 33, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.MIRROR_ARMOR,
@@ -4976,6 +4999,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.BONSLY,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(SpeciesId.SUDOWOODO, 1, null, { key: EvoCondKey.MOVE, move: MoveId.MIMIC }, [19, 24, 24]),
     ],
@@ -5085,6 +5109,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.MIME_JR,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(
         SpeciesId.GALAR_MR_MIME,
@@ -5231,6 +5256,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.HAPPINY,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(
         SpeciesId.CHANSEY,
@@ -5340,6 +5366,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CHATOT,
+    starterCost: 2,
     evolutions: [],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PUNK_ROCK,
@@ -5437,6 +5464,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.SPIRITOMB,
+    starterCost: 4,
     evolutions: [],
     eggTier: EggTier.RARE,
     passives: AbilityId.VESSEL_OF_RUIN,
@@ -5557,6 +5585,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.GIBLE,
+    starterCost: 4,
     evolutions: [new SpeciesEvolution(SpeciesId.GABITE, 24, null, null)],
     eggTier: EggTier.RARE,
     passives: AbilityId.ARENA_TRAP,
@@ -5834,6 +5863,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.MUNCHLAX,
+    starterCost: 4,
     evolutions: [
       new SpeciesEvolution(SpeciesId.SNORLAX, 1, null, { key: EvoCondKey.FRIENDSHIP, value: 120 }, [30, 30, 30]),
     ],
@@ -5973,6 +6003,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.RIOLU,
+    starterCost: 3,
     evolutions: [
       new SpeciesEvolution(
         SpeciesId.LUCARIO,
@@ -6243,6 +6274,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.HIPPOPOTAS,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.HIPPOWDON, 34, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.UNAWARE,
@@ -6411,6 +6443,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.SKORUPI,
+    starterCost: 3,
     evolutions: [new SpeciesEvolution(SpeciesId.DRAPION, 40, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SUPER_LUCK,
@@ -6605,6 +6638,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.CROAGUNK,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.TOXICROAK, 37, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.MOXIE,
@@ -6800,6 +6834,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CARNIVINE,
+    starterCost: 2,
     evolutions: [],
     eggTier: EggTier.COMMON,
     passives: AbilityId.ARENA_TRAP,
@@ -6899,6 +6934,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.FINNEON,
+    starterCost: 1,
     evolutions: [new SpeciesEvolution(SpeciesId.LUMINEON, 31, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.WATER_BUBBLE,
@@ -7060,6 +7096,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.MANTYKE,
+    starterCost: 2,
     evolutions: [
       new SpeciesEvolution(
         SpeciesId.MANTINE,
@@ -7167,6 +7204,7 @@ export function initGenerationFour(): void {
       genderDiffs: true,
     }),
     starter: SpeciesId.SNOVER,
+    starterCost: 2,
     evolutions: [new SpeciesEvolution(SpeciesId.ABOMASNOW, 40, null, null)],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SLUSH_RUSH,
@@ -10049,6 +10087,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.ROTOM,
+    starterCost: 4,
     evolutions: [],
     eggTier: EggTier.RARE,
     passives: {
@@ -10171,6 +10210,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.UXIE,
+    starterCost: 5,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.MAGIC_BOUNCE,
@@ -10317,6 +10357,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.MESPRIT,
+    starterCost: 5,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.MOODY,
@@ -10462,6 +10503,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.AZELF,
+    starterCost: 6,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.NEUROFORCE,
@@ -10663,6 +10705,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.DIALGA,
+    starterCost: 8,
     evolutions: [],
     eggTier: EggTier.LEGENDARY,
     passives: {
@@ -10844,6 +10887,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.PALKIA,
+    starterCost: 8,
     evolutions: [],
     eggTier: EggTier.LEGENDARY,
     passives: {
@@ -10983,6 +11027,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.HEATRAN,
+    starterCost: 7,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.FILTER,
@@ -11112,6 +11157,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.REGIGIGAS,
+    starterCost: 7,
     evolutions: [],
     eggTier: EggTier.LEGENDARY,
     passives: AbilityId.SCRAPPY,
@@ -11287,6 +11333,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.GIRATINA,
+    starterCost: 8,
     evolutions: [],
     eggTier: EggTier.LEGENDARY,
     passives: {
@@ -11423,6 +11470,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.CRESSELIA,
+    starterCost: 6,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.SHADOW_SHIELD,
@@ -11541,6 +11589,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.PHIONE,
+    starterCost: 4,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.SIMPLE,
@@ -11640,6 +11689,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.MANAPHY,
+    starterCost: 7,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.PRIMORDIAL_SEA,
@@ -11753,6 +11803,7 @@ export function initGenerationFour(): void {
       genderDiffs: false,
     }),
     starter: SpeciesId.DARKRAI,
+    starterCost: 7,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: AbilityId.UNNERVE,
@@ -11928,6 +11979,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.SHAYMIN,
+    starterCost: 6,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: {
@@ -12441,6 +12493,7 @@ export function initGenerationFour(): void {
       ],
     }),
     starter: SpeciesId.ARCEUS,
+    starterCost: 9,
     evolutions: [],
     eggTier: EggTier.LEGENDARY,
     passives: {
@@ -12639,6 +12692,7 @@ function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   console.log(`-----------⚠️Starting validation of generation ${gen} data⚠️-----------`);
   validateSpecies(genData);
   validateStarters(genData);
+  validateStarterCost(genData);
   validateEvolutions(genData);
   validateEggTiers(genData);
   validatePassives(genData);
@@ -12677,6 +12731,26 @@ function validateStarters(genData: Record<SpeciesId, PokemonSpeciesData>) {
     console.info("Starters validation passed!");
   } else {
     console.error(`Starters validation failed with ${fails} errors.`);
+  }
+}
+
+function validateStarterCost(genData: Record<SpeciesId, PokemonSpeciesData>) {
+  let fails = 0;
+  const newVal = Object.values(genData);
+  const oldVal = speciesStarterCosts;
+  for (const species of newVal) {
+    const speciesId = species.species.speciesId;
+    const oldStarter = oldVal[speciesId] as number;
+    if (oldStarter !== species.starterCost) {
+      console.error(`Starter Cost mismatch for ${SpeciesId[speciesId]}: new=${species.starterCost} old=${oldStarter}`);
+
+      fails++;
+    }
+  }
+  if (fails === 0) {
+    console.info("Starter Cost validation passed!");
+  } else {
+    console.error(`Starter cost validation failed with ${fails} errors.`);
   }
 }
 
