@@ -15870,7 +15870,7 @@ function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
     const oldVal = pokemonEvolutions[species.species.speciesId] ?? [];
     if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
       console.error(
-        `Evolutions mismatch for ${species.species.speciesId}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
+        `Evolutions mismatch for ${SpeciesId[species.species.speciesId]}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
       );
       fails++;
     }
@@ -15889,7 +15889,7 @@ function validateEggTiers(genData: Record<SpeciesId, PokemonSpeciesData>) {
     const oldVal = speciesEggTiers[species.species.speciesId];
 
     if (newVal !== oldVal) {
-      console.error(`Egg tier mismatch for ${species.species.speciesId}: new=${newVal} old=${oldVal}`);
+      console.error(`Egg tier mismatch for ${SpeciesId[species.species.speciesId]}: new=${newVal} old=${oldVal}`);
       fails++;
     }
   }
@@ -15912,7 +15912,7 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 
     if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
       console.error(
-        `Passive abilities mismatch for ${species.species.speciesId}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
+        `Passive abilities mismatch for ${SpeciesId[species.species.speciesId]}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
       );
       fails++;
     }
@@ -15932,7 +15932,7 @@ function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
 
     if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
       console.error(
-        `Level moves mismatch for ${species.species.speciesId}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
+        `Level moves mismatch for ${SpeciesId[species.species.speciesId]}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
       );
       fails++;
     }
@@ -15972,7 +15972,7 @@ function validateTMs(genData: Record<SpeciesId, PokemonSpeciesData>) {
     };
 
     if (JSON.stringify(newVal.sort(newSort)) !== JSON.stringify(filteredOldVal.sort(oldSort))) {
-      console.error(`TMs mismatch for ${species.species.speciesId}: new=`, newVal, ", old=", filteredOldVal);
+      console.error(`TMs mismatch for ${SpeciesId[species.species.speciesId]}: new=`, newVal, ", old=", filteredOldVal);
       fails++;
     }
   }
