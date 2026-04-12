@@ -6,6 +6,7 @@ import { initSpecies } from "#balance/pokemon-species";
 import { initGenerationOne } from "#balance/species/generation-01";
 import { initGenerationTwo } from "#balance/species/generation-02";
 import { initGenerationThree } from "#balance/species/generation-03";
+import { initGenerationFour } from "#balance/species/generation-04";
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
@@ -35,9 +36,11 @@ export function initializeGame() {
   initBiomeDepths();
   initPokemonForms();
   initTrainerTypeDialogue();
+  // TODO: Bundle into one function call here
   initGenerationOne();
   initGenerationTwo();
   initGenerationThree();
+  initGenerationFour();
   initSpecies();
   initMoves();
   initAbilities();
