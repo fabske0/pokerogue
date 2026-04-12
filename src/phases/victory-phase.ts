@@ -59,9 +59,8 @@ export class VictoryPhase extends PokemonPhase {
             case ClassicFixedBossWaves.RIVAL_3:
             case ClassicFixedBossWaves.RIVAL_4:
             case ClassicFixedBossWaves.RIVAL_5:
-            case ClassicFixedBossWaves.RIVAL_6:
+            case ClassicFixedBossWaves.RIVAL_6: {
               // Get event modifiers for this wave
-              // biome-ignore lint/correctness/noSwitchDeclarations: Intended
               const fixedRewards = timedEventManager.getFixedBattleEventRewards(currentWaveIndex);
 
               for (const fixedReward of fixedRewards) {
@@ -78,6 +77,7 @@ export class VictoryPhase extends PokemonPhase {
                 globalScene.phaseManager.pushNew("ModifierRewardPhase", modifierTypes[reward]);
               }
               break;
+            }
             case ClassicFixedBossWaves.EVIL_BOSS_2:
               // Should get Lock Capsule on 165 before shop phase so it can be used in the rewards shop
               globalScene.phaseManager.pushNew("ModifierRewardPhase", modifierTypes.LOCK_CAPSULE);
