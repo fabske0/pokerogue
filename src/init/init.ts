@@ -8,6 +8,7 @@ import { initGenerationTwo } from "#balance/species/generation-02";
 import { initGenerationThree } from "#balance/species/generation-03";
 import { initGenerationFour } from "#balance/species/generation-04";
 import { initGenerationFive } from "#balance/species/generation-05";
+import { initGenerationSix } from "#balance/species/generation-06";
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
@@ -43,6 +44,7 @@ export function initializeGame() {
   initGenerationThree();
   initGenerationFour();
   initGenerationFive();
+  initGenerationSix();
   initSpecies();
   initMoves();
   initAbilities();
