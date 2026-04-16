@@ -4928,8 +4928,8 @@ export function initGenerationFive(): void {
       MoveId.CHILLING_WATER,
     ],
     formTms: {
-      0: [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
-      1: [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
+      "red-striped": [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
+      "bkue-striped": [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
     },
   };
   generationFiveSpeciesData[SpeciesId.SANDILE] = {

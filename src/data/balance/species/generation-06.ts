@@ -4822,8 +4822,8 @@ export function initGenerationSix(): void {
       MoveId.ALLURING_VOICE,
     ],
     formTms: {
-      0: [MoveId.IMPRISON, MoveId.MISTY_TERRAIN],
-      1: [MoveId.FUTURE_SIGHT, MoveId.MAGICAL_LEAF],
+      male: [MoveId.IMPRISON, MoveId.MISTY_TERRAIN],
+      female: [MoveId.FUTURE_SIGHT, MoveId.MAGICAL_LEAF],
     },
   };
   generationSixSpeciesData[SpeciesId.HONEDGE] = {

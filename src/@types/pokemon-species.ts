@@ -16,7 +16,7 @@ export interface SpeciesFormLevelMoves {
 }
 
 export interface SpeciesFormTmMoves {
-  [key: number]: MoveId[];
+  [key: string]: MoveId[];
 }
 
 export interface PokemonSpeciesData {
