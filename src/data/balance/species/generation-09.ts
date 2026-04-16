@@ -11989,14 +11989,8 @@ export function initGenerationNine(): void {
       MoveId.TRAILBLAZE,
     ],
     formTms: {
-      0: [
-        // combat
-        MoveId.SURF,
-        MoveId.SUNNY_DAY,
-        MoveId.ASSURANCE,
-      ],
-      1: [
-        // blaze
+      combat: [MoveId.SURF, MoveId.SUNNY_DAY, MoveId.ASSURANCE],
+      blaze: [
         MoveId.FLAMETHROWER,
         MoveId.FIRE_SPIN,
         MoveId.FIRE_BLAST,
@@ -12007,8 +12001,7 @@ export function initGenerationNine(): void {
         MoveId.FLAME_CHARGE,
         MoveId.TEMPER_FLARE,
       ],
-      2: [
-        // aqua
+      aqua: [
         MoveId.HYDRO_PUMP,
         MoveId.SURF,
         MoveId.WHIRLPOOL,

@@ -2408,8 +2408,8 @@ export function initGenerationFour(): void {
       MoveId.INFESTATION,
     ],
     formTms: {
-      1: [MoveId.SYNTHESIS, MoveId.BULLET_SEED, MoveId.ENERGY_BALL, MoveId.LEAF_STORM, MoveId.GRASS_KNOT],
-      2: [
+      plant: [MoveId.SYNTHESIS, MoveId.BULLET_SEED, MoveId.ENERGY_BALL, MoveId.LEAF_STORM, MoveId.GRASS_KNOT],
+      sandy: [
         MoveId.EARTHQUAKE,
         MoveId.MUD_SLAP,
         MoveId.SANDSTORM,
@@ -2419,7 +2419,7 @@ export function initGenerationFour(): void {
         MoveId.STEALTH_ROCK,
         MoveId.BULLDOZE,
       ],
-      3: [
+      trash: [
         MoveId.METAL_SOUND,
         MoveId.IRON_DEFENSE,
         MoveId.GYRO_BALL,
@@ -10173,11 +10173,11 @@ export function initGenerationFour(): void {
       MoveId.TERA_BLAST,
     ],
     formTms: {
-      1: [MoveId.OVERHEAT],
-      2: [MoveId.HYDRO_PUMP],
-      3: [MoveId.BLIZZARD],
-      4: [MoveId.AIR_SLASH],
-      5: [MoveId.LEAF_STORM],
+      heat: [MoveId.OVERHEAT],
+      wash: [MoveId.HYDRO_PUMP],
+      frost: [MoveId.BLIZZARD],
+      fan: [MoveId.AIR_SLASH],
+      mow: [MoveId.LEAF_STORM],
     },
   };
   generationFourSpeciesData[SpeciesId.UXIE] = {

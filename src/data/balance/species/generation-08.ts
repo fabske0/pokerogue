@@ -3704,7 +3704,7 @@ export function initGenerationEight(): void {
       MoveId.PSYCHIC_NOISE,
     ],
     formTms: {
-      1: [MoveId.VENOM_DRENCH], // Low-key
+      lowkey: [MoveId.VENOM_DRENCH],
     },
   };
   generationEightSpeciesData[SpeciesId.SIZZLIPEDE] = {
@@ -6928,9 +6928,8 @@ export function initGenerationEight(): void {
       MoveId.PSYCHIC_NOISE,
     ],
     formTms: {
-      0: [MoveId.ENCORE], // male
-      1: [
-        // female
+      male: [MoveId.ENCORE],
+      female: [
         MoveId.LIGHT_SCREEN,
         MoveId.REFLECT,
         MoveId.CHARM,
@@ -8895,8 +8894,7 @@ export function initGenerationEight(): void {
       MoveId.TRAILBLAZE,
     ],
     formTms: {
-      0: [
-        // single strike
+      "single-strike": [
         MoveId.ROAR,
         MoveId.CRUNCH,
         MoveId.DARK_PULSE,
@@ -8905,8 +8903,7 @@ export function initGenerationEight(): void {
         MoveId.THROAT_CHOP,
         MoveId.LASH_OUT,
       ],
-      1: [
-        // rapid strike
+      "rapid-strike": [
         MoveId.WATERFALL,
         MoveId.RAIN_DANCE,
         MoveId.WHIRLPOOL,
@@ -9689,9 +9686,8 @@ export function initGenerationEight(): void {
       MoveId.TERA_BLAST,
     ],
     formTms: {
-      0: [MoveId.BODY_PRESS], // normal
-      1: [
-        // ice
+      normal: [MoveId.BODY_PRESS],
+      ice: [
         MoveId.SWORDS_DANCE,
         MoveId.BODY_SLAM,
         MoveId.DOUBLE_EDGE,
@@ -9724,8 +9720,7 @@ export function initGenerationEight(): void {
         MoveId.SNOWSCAPE,
         MoveId.TRAILBLAZE,
       ],
-      2: [
-        // shadow
+      shadow: [
         MoveId.BODY_SLAM,
         MoveId.DOUBLE_EDGE,
         MoveId.NIGHT_SHADE,

@@ -14182,10 +14182,10 @@ export function initGenerationThree(): void {
       MoveId.PSYCHIC_NOISE,
     ],
     formTms: {
-      0: [MoveId.SWIFT, MoveId.ICY_WIND, MoveId.COSMIC_POWER],
-      1: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.SUPERPOWER, MoveId.COSMIC_POWER],
-      2: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.AMNESIA, MoveId.SPIKES, MoveId.IRON_DEFENSE],
-      3: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.AGILITY, MoveId.SWIFT, MoveId.ICY_WIND],
+      "": [MoveId.SWIFT, MoveId.ICY_WIND, MoveId.COSMIC_POWER],
+      attack: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.SUPERPOWER, MoveId.COSMIC_POWER],
+      defense: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.AMNESIA, MoveId.SPIKES, MoveId.IRON_DEFENSE],
+      speed: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.AGILITY, MoveId.SWIFT, MoveId.ICY_WIND],
     },
   };
   test(generationThreeSpeciesData);

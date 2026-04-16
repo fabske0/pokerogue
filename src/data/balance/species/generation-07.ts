@@ -2248,8 +2248,8 @@ export function initGenerationSeven(): void {
       MoveId.GIGA_IMPACT,
     ],
     formTms: {
-      0: [MoveId.MUD_SLAP, MoveId.SUNNY_DAY, MoveId.DRILL_RUN, MoveId.TAIL_SLAP],
-      1: [
+      midday: [MoveId.MUD_SLAP, MoveId.SUNNY_DAY, MoveId.DRILL_RUN, MoveId.TAIL_SLAP],
+      midnight: [
         MoveId.MEGA_PUNCH,
         MoveId.FIRE_PUNCH,
         MoveId.THUNDER_PUNCH,
@@ -2271,7 +2271,7 @@ export function initGenerationSeven(): void {
         MoveId.LASH_OUT,
         MoveId.UPPER_HAND,
       ],
-      2: [
+      dusk: [
         MoveId.FOCUS_ENERGY,
         MoveId.REVERSAL,
         MoveId.OUTRAGE,
