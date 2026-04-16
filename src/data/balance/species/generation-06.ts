@@ -35,9 +35,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.CHESPIN,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Spiny Nut Pokémon",
       type1: PokemonType.GRASS,
       type2: null,
@@ -169,9 +166,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.QUILLADIN,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Spiny Armor Pokémon",
       type1: PokemonType.GRASS,
       type2: null,
@@ -220,9 +214,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.CHESNAUGHT,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Spiny Armor Pokémon",
       type1: PokemonType.GRASS,
       type2: PokemonType.FIGHTING,
@@ -293,9 +284,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FENNEKIN,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Fox Pokémon",
       type1: PokemonType.FIRE,
       type2: null,
@@ -409,9 +397,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.BRAIXEN,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Fox Pokémon",
       type1: PokemonType.FIRE,
       type2: null,
@@ -470,9 +455,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.DELPHOX,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Fox Pokémon",
       type1: PokemonType.FIRE,
       type2: PokemonType.PSYCHIC,
@@ -547,9 +529,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FROAKIE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Bubble Frog Pokémon",
       type1: PokemonType.WATER,
       type2: null,
@@ -714,9 +693,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FROGADIER,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Bubble Frog Pokémon",
       type1: PokemonType.WATER,
       type2: null,
@@ -825,9 +801,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.GRENINJA,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Ninja Pokémon",
       type1: PokemonType.WATER,
       type2: PokemonType.DARK,
@@ -972,9 +945,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.BUNNELBY,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Digging Pokémon",
       type1: PokemonType.NORMAL,
       type2: null,
@@ -1079,9 +1049,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.DIGGERSBY,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Digging Pokémon",
       type1: PokemonType.NORMAL,
       type2: PokemonType.GROUND,
@@ -1156,9 +1123,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FLETCHLING,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Tiny Robin Pokémon",
       type1: PokemonType.NORMAL,
       type2: PokemonType.FLYING,
@@ -1253,9 +1217,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FLETCHINDER,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Ember Pokémon",
       type1: PokemonType.FIRE,
       type2: PokemonType.FLYING,
@@ -1310,9 +1271,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.TALONFLAME,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Scorching Pokémon",
       type1: PokemonType.FIRE,
       type2: PokemonType.FLYING,
@@ -1370,9 +1328,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SCATTERBUG,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Scatterdust Pokémon",
       type1: PokemonType.BUG,
       type2: null,
@@ -1917,9 +1872,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SPEWPA,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Scatterdust Pokémon",
       type1: PokemonType.BUG,
       type2: null,
@@ -2468,9 +2420,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.VIVILLON,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Scale Pokémon",
       type1: PokemonType.BUG,
       type2: PokemonType.FLYING,
@@ -3082,9 +3031,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.LITLEO,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Lion Cub Pokémon",
       type1: PokemonType.FIRE,
       type2: PokemonType.NORMAL,
@@ -3194,9 +3140,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.PYROAR,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Royal Pokémon",
       type1: PokemonType.FIRE,
       type2: PokemonType.NORMAL,
@@ -3253,9 +3196,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FLABEBE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Single Bloom Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -3488,9 +3428,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FLOETTE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Single Bloom Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -3667,9 +3604,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FLORGES,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Garden Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -3856,9 +3790,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SKIDDO,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Mount Pokémon",
       type1: PokemonType.GRASS,
       type2: null,
@@ -3968,9 +3899,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.GOGOAT,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Mount Pokémon",
       type1: PokemonType.GRASS,
       type2: null,
@@ -4032,9 +3960,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.PANCHAM,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Playful Pokémon",
       type1: PokemonType.FIGHTING,
       type2: null,
@@ -4163,9 +4088,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.PANGORO,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Daunting Pokémon",
       type1: PokemonType.FIGHTING,
       type2: PokemonType.DARK,
@@ -4239,9 +4161,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.FURFROU,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Poodle Pokémon",
       type1: PokemonType.NORMAL,
       type2: null,
@@ -4587,9 +4506,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.ESPURR,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Restraint Pokémon",
       type1: PokemonType.PSYCHIC,
       type2: null,
@@ -4703,9 +4619,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.MEOWSTIC,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Constraint Pokémon",
       type1: PokemonType.PSYCHIC,
       type2: null,
@@ -4842,9 +4755,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.HONEDGE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Sword Pokémon",
       type1: PokemonType.STEEL,
       type2: PokemonType.GHOST,
@@ -4936,9 +4846,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.DOUBLADE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Sword Pokémon",
       type1: PokemonType.STEEL,
       type2: PokemonType.GHOST,
@@ -4986,9 +4893,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.AEGISLASH,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Royal Sword Pokémon",
       type1: PokemonType.STEEL,
       type2: PokemonType.GHOST,
@@ -5097,9 +5001,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SPRITZEE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Perfume Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -5199,9 +5100,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.AROMATISSE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Fragrance Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -5261,9 +5159,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SWIRLIX,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Cotton Candy Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -5358,9 +5253,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SLURPUFF,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Meringue Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -5417,9 +5309,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.INKAY,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Revolving Pokémon",
       type1: PokemonType.DARK,
       type2: PokemonType.PSYCHIC,
@@ -5533,9 +5422,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.MALAMAR,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Overturning Pokémon",
       type1: PokemonType.DARK,
       type2: PokemonType.PSYCHIC,
@@ -5598,9 +5484,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.BINACLE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Two-Handed Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.WATER,
@@ -5719,9 +5602,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.BARBARACLE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Collective Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.WATER,
@@ -5785,9 +5665,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SKRELP,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Mock Kelp Pokémon",
       type1: PokemonType.POISON,
       type2: PokemonType.WATER,
@@ -5895,9 +5772,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.DRAGALGE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Mock Kelp Pokémon",
       type1: PokemonType.POISON,
       type2: PokemonType.DRAGON,
@@ -5953,9 +5827,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.CLAUNCHER,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Water Gun Pokémon",
       type1: PokemonType.WATER,
       type2: null,
@@ -6058,9 +5929,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.CLAWITZER,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Howitzer Pokémon",
       type1: PokemonType.WATER,
       type2: null,
@@ -6117,9 +5985,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.HELIOPTILE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Generator Pokémon",
       type1: PokemonType.ELECTRIC,
       type2: PokemonType.NORMAL,
@@ -6220,9 +6085,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.HELIOLISK,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Generator Pokémon",
       type1: PokemonType.ELECTRIC,
       type2: PokemonType.NORMAL,
@@ -6290,9 +6152,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.TYRUNT,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Royal Heir Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.DRAGON,
@@ -6412,9 +6271,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.TYRANTRUM,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Despot Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.DRAGON,
@@ -6471,9 +6327,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.AMAURA,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Tundra Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.ICE,
@@ -6599,9 +6452,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.AURORUS,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Tundra Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.ICE,
@@ -6658,9 +6508,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SYLVEON,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Intertwining Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -6784,9 +6631,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.HAWLUCHA,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Wrestling Pokémon",
       type1: PokemonType.FIGHTING,
       type2: PokemonType.FLYING,
@@ -6927,9 +6771,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.DEDENNE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Antenna Pokémon",
       type1: PokemonType.ELECTRIC,
       type2: PokemonType.FAIRY,
@@ -7043,9 +6884,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.CARBINK,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Jewel Pokémon",
       type1: PokemonType.ROCK,
       type2: PokemonType.FAIRY,
@@ -7162,9 +7000,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.GOOMY,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Soft Tissue Pokémon",
       type1: PokemonType.DRAGON,
       type2: null,
@@ -7262,9 +7097,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.SLIGGOO,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Soft Tissue Pokémon",
       type1: PokemonType.DRAGON,
       type2: null,
@@ -7326,9 +7158,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.GOODRA,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Dragon Pokémon",
       type1: PokemonType.DRAGON,
       type2: null,
@@ -7415,9 +7244,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.KLEFKI,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Key Ring Pokémon",
       type1: PokemonType.STEEL,
       type2: PokemonType.FAIRY,
@@ -7520,9 +7346,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.PHANTUMP,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Stump Pokémon",
       type1: PokemonType.GHOST,
       type2: PokemonType.GRASS,
@@ -7638,9 +7461,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.TREVENANT,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Elder Tree Pokémon",
       type1: PokemonType.GHOST,
       type2: PokemonType.GRASS,
@@ -7708,9 +7528,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.PUMPKABOO,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Pumpkin Pokémon",
       type1: PokemonType.GHOST,
       type2: PokemonType.GRASS,
@@ -7927,9 +7744,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.GOURGEIST,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Pumpkin Pokémon",
       type1: PokemonType.GHOST,
       type2: PokemonType.GRASS,
@@ -8094,9 +7908,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.BERGMITE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Ice Chunk Pokémon",
       type1: PokemonType.ICE,
       type2: null,
@@ -8207,9 +8018,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.AVALUGG,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Iceberg Pokémon",
       type1: PokemonType.ICE,
       type2: null,
@@ -8276,9 +8084,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.NOIBAT,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Sound Wave Pokémon",
       type1: PokemonType.FLYING,
       type2: PokemonType.DRAGON,
@@ -8388,9 +8193,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.NOIVERN,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
-      mythical: false,
       category: "Sound Wave Pokémon",
       type1: PokemonType.FLYING,
       type2: PokemonType.DRAGON,
@@ -8457,9 +8259,7 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.XERNEAS,
       generation: 6,
-      subLegendary: false,
       legendary: true,
-      mythical: false,
       category: "Life Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,
@@ -8623,9 +8423,7 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.YVELTAL,
       generation: 6,
-      subLegendary: false,
       legendary: true,
-      mythical: false,
       category: "Destruction Pokémon",
       type1: PokemonType.DARK,
       type2: PokemonType.FLYING,
@@ -8738,9 +8536,7 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.ZYGARDE,
       generation: 6,
-      subLegendary: false,
       legendary: true,
-      mythical: false,
       category: "Order Pokémon",
       type1: PokemonType.DRAGON,
       type2: PokemonType.GROUND,
@@ -9003,8 +8799,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.DIANCIE,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
       mythical: true,
       category: "Jewel Pokémon",
       type1: PokemonType.ROCK,
@@ -9184,8 +8978,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.HOOPA,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
       mythical: true,
       category: "Mischief Pokémon",
       type1: PokemonType.PSYCHIC,
@@ -9382,8 +9174,6 @@ export function initGenerationSix(): void {
     species: new PokemonSpecies({
       id: SpeciesId.VOLCANION,
       generation: 6,
-      subLegendary: false,
-      legendary: false,
       mythical: true,
       category: "Steam Pokémon",
       type1: PokemonType.FIRE,
@@ -9515,8 +9305,6 @@ export function initGenerationSix(): void {
       id: SpeciesId.ETERNAL_FLOETTE,
       generation: 6,
       subLegendary: true,
-      legendary: false,
-      mythical: false,
       category: "Single Bloom Pokémon",
       type1: PokemonType.FAIRY,
       type2: null,

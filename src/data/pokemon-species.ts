@@ -775,9 +775,9 @@ export abstract class PokemonSpeciesForm {
 interface PokemonSpeciesConstructor {
   id: SpeciesId;
   generation: number;
-  subLegendary: boolean;
-  legendary: boolean;
-  mythical: boolean;
+  subLegendary?: boolean;
+  legendary?: boolean;
+  mythical?: boolean;
   category: string;
   type1: PokemonType;
   type2: PokemonType | null;
@@ -841,9 +841,9 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     this.speciesId = data.id;
     this.formIndex = 0;
     this.generation = data.generation;
-    this.subLegendary = data.subLegendary;
-    this.legendary = data.legendary;
-    this.mythical = data.mythical;
+    this.subLegendary = data.subLegendary ?? false;
+    this.legendary = data.legendary ?? false;
+    this.mythical = data.mythical ?? false;
     this.category = data.category;
     this.growthRate = data.growthRate;
     this.malePercent = data.malePercent;
