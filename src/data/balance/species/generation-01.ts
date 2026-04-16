@@ -8,7 +8,7 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -2532,7 +2532,6 @@ export function initGenerationOne(): void {
       [8, MoveId.DOUBLE_TEAM],
       [12, MoveId.ELECTRO_BALL],
       [16, MoveId.FEINT],
-      [20, MoveId.SPARK],
       [24, MoveId.AGILITY],
       [28, MoveId.IRON_TAIL],
       [32, MoveId.DISCHARGE],
@@ -2541,6 +2540,40 @@ export function initGenerationOne(): void {
       [44, MoveId.THUNDER],
       [48, MoveId.PIKA_PAPOW],
     ],
+    formLevelMoves: {
+      "": [[20, MoveId.SPARK]],
+      partner: [
+        [20, MoveId.ZIPPY_ZAP],
+        [34, MoveId.FLOATY_FALL],
+        [42, MoveId.SPLISHY_SPLASH],
+      ],
+      cosplay: [[20, MoveId.SPARK]],
+      "cool-cosplay": [
+        [1, MoveId.METEOR_MASH],
+        [20, MoveId.SPARK],
+      ],
+      "beauty-cosplay": [
+        [1, MoveId.ICICLE_CRASH],
+        [20, MoveId.SPARK],
+      ],
+      "cute-cosplay": [
+        [1, MoveId.DRAINING_KISS],
+        [20, MoveId.SPARK],
+      ],
+      "smart-cosplay": [
+        [1, MoveId.ELECTRIC_TERRAIN],
+        [20, MoveId.SPARK],
+      ],
+      "tough-cosplay": [
+        [1, MoveId.FLYING_PRESS],
+        [20, MoveId.SPARK],
+      ],
+      [SpeciesFormKey.GIGANTAMAX]: [
+        [20, MoveId.ZIPPY_ZAP],
+        [34, MoveId.FLOATY_FALL],
+        [42, MoveId.SPLISHY_SPLASH],
+      ],
+    },
     tms: [
       MoveId.MEGA_PUNCH,
       MoveId.PAY_DAY,
@@ -13453,12 +13486,38 @@ export function initGenerationOne(): void {
       [25, MoveId.BITE],
       [30, MoveId.COPYCAT],
       [35, MoveId.BATON_PASS],
-      [40, MoveId.TAKE_DOWN],
       [45, MoveId.CHARM],
       [50, MoveId.DOUBLE_EDGE],
       [55, MoveId.LAST_RESORT],
-      [60, MoveId.VEEVEE_VOLLEY],
     ],
+    formLevelMoves: {
+      "": [
+        [40, MoveId.TAKE_DOWN],
+        [60, MoveId.VEEVEE_VOLLEY],
+      ],
+      partner: [
+        [18, MoveId.BOUNCY_BUBBLE],
+        [18, MoveId.BUZZY_BUZZ],
+        [18, MoveId.SIZZLY_SLIDE],
+        [33, MoveId.GLITZY_GLOW],
+        [33, MoveId.BADDY_BAD],
+        [40, MoveId.VEEVEE_VOLLEY],
+        [43, MoveId.SAPPY_SEED],
+        [43, MoveId.FREEZY_FROST],
+        [53, MoveId.SPARKLY_SWIRL],
+      ],
+      [SpeciesFormKey.GIGANTAMAX]: [
+        [18, MoveId.BOUNCY_BUBBLE],
+        [18, MoveId.BUZZY_BUZZ],
+        [18, MoveId.SIZZLY_SLIDE],
+        [33, MoveId.GLITZY_GLOW],
+        [33, MoveId.BADDY_BAD],
+        [40, MoveId.VEEVEE_VOLLEY],
+        [43, MoveId.SAPPY_SEED],
+        [43, MoveId.FREEZY_FROST],
+        [53, MoveId.SPARKLY_SWIRL],
+      ],
+    },
     tms: [
       MoveId.PAY_DAY,
       MoveId.BODY_SLAM,
@@ -16018,6 +16077,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 

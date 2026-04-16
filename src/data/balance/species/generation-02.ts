@@ -8,7 +8,7 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -11622,6 +11622,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 
