@@ -8,7 +8,7 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -2216,14 +2216,10 @@ export function initGenerationSeven(): void {
       2: AbilityId.STAKEOUT,
     },
     levelMoves: [
-      [EVOLVE_MOVE, MoveId.SUCKER_PUNCH],
       [1, MoveId.SAND_ATTACK],
       [1, MoveId.TACKLE],
       [1, MoveId.LEER],
-      [1, MoveId.QUICK_ATTACK],
       [1, MoveId.DOUBLE_TEAM],
-      [1, MoveId.QUICK_GUARD],
-      [1, MoveId.ACCELEROCK],
       [12, MoveId.ROCK_THROW],
       [16, MoveId.HOWL],
       [20, MoveId.BITE],
@@ -2235,6 +2231,31 @@ export function initGenerationSeven(): void {
       [54, MoveId.STEALTH_ROCK],
       [60, MoveId.STONE_EDGE],
     ],
+    formLevelMoves: {
+      midday: [
+        [EVOLVE_MOVE, MoveId.SUCKER_PUNCH],
+        [1, MoveId.QUICK_ATTACK],
+        [1, MoveId.QUICK_GUARD],
+        [1, MoveId.ACCELEROCK],
+      ],
+      midnight: [
+        [EVOLVE_MOVE, MoveId.COUNTER],
+        [1, MoveId.REVERSAL],
+        [1, MoveId.ENDURE],
+        [1, MoveId.TAUNT],
+      ],
+      dusk: [
+        [EVOLVE_MOVE, MoveId.CRUSH_CLAW],
+        [1, MoveId.COUNTER],
+        [1, MoveId.QUICK_ATTACK],
+        [1, MoveId.REVERSAL],
+        [1, MoveId.ENDURE],
+        [1, MoveId.TAUNT],
+        [1, MoveId.SUCKER_PUNCH],
+        [1, MoveId.QUICK_GUARD],
+        [1, MoveId.ACCELEROCK],
+      ],
+    },
     tms: [
       ...generationSevenSpeciesData[SpeciesId.ROCKRUFF].tms.filter(tm => ![MoveId.MUD_SLAP].includes(tm)),
       MoveId.COUNTER,
@@ -8538,7 +8559,6 @@ export function initGenerationSeven(): void {
       [1, MoveId.MOONLIGHT],
       [1, MoveId.GRAVITY],
       [1, MoveId.CHARGE_BEAM],
-      [1, MoveId.MIRROR_SHOT],
       [8, MoveId.STEALTH_ROCK],
       [16, MoveId.SLASH],
       [24, MoveId.NIGHT_SLASH],
@@ -8551,6 +8571,15 @@ export function initGenerationSeven(): void {
       [80, MoveId.AUTOTOMIZE],
       [88, MoveId.PRISMATIC_LASER],
     ],
+    formLevelMoves: {
+      "": [[1, MoveId.MIRROR_SHOT]],
+      "dusk-mane": [[EVOLVE_MOVE, MoveId.SUNSTEEL_STRIKE]],
+      "dusk-wings": [[EVOLVE_MOVE, MoveId.MOONGEIST_BEAM]],
+      ultra: [
+        [EVOLVE_MOVE, MoveId.SUNSTEEL_STRIKE],
+        [EVOLVE_MOVE, MoveId.MOONGEIST_BEAM],
+      ],
+    },
     tms: [
       MoveId.SWORDS_DANCE,
       MoveId.BODY_SLAM,
@@ -11668,6 +11697,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 

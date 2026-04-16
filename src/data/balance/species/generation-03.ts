@@ -7,7 +7,7 @@ import {
   pokemonStarters,
   SpeciesEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -14073,22 +14073,58 @@ export function initGenerationThree(): void {
       3: AbilityId.SHADOW_SHIELD,
     },
     levelMoves: [
-      [1, MoveId.CONFUSION],
-      [1, MoveId.LEER],
       [1, MoveId.WRAP],
+      [1, MoveId.LEER],
+      [1, MoveId.CONFUSION],
       [7, MoveId.NIGHT_SHADE],
-      [13, MoveId.TELEPORT],
-      [19, MoveId.KNOCK_OFF],
-      [25, MoveId.PSYSHOCK],
       [31, MoveId.PSYCHIC],
-      [37, MoveId.GRAVITY],
-      [43, MoveId.SKILL_SWAP],
       [49, MoveId.ZEN_HEADBUTT],
-      [55, MoveId.COSMIC_POWER],
-      [61, MoveId.RECOVER],
       [67, MoveId.PSYCHO_BOOST],
-      [73, MoveId.HYPER_BEAM],
     ],
+    formLevelMoves: {
+      normal: [
+        [13, MoveId.TELEPORT],
+        [19, MoveId.KNOCK_OFF],
+        [25, MoveId.PSYSHOCK],
+        [37, MoveId.GRAVITY],
+        [43, MoveId.SKILL_SWAP],
+        [55, MoveId.COSMIC_POWER],
+        [61, MoveId.RECOVER],
+        [73, MoveId.HYPER_BEAM],
+      ],
+      attack: [
+        [13, MoveId.TELEPORT],
+        [19, MoveId.TAUNT],
+        [25, MoveId.PURSUIT],
+        [37, MoveId.SUPERPOWER],
+        [43, MoveId.PSYCHO_SHIFT],
+        [55, MoveId.COSMIC_POWER],
+        [61, MoveId.ZAP_CANNON],
+        [73, MoveId.HYPER_BEAM],
+      ],
+      defense: [
+        [13, MoveId.TELEPORT],
+        [19, MoveId.KNOCK_OFF],
+        [25, MoveId.SPIKES],
+        [37, MoveId.SNATCH],
+        [43, MoveId.PSYCHO_SHIFT],
+        [55, MoveId.AMNESIA],
+        [55, MoveId.IRON_DEFENSE],
+        [61, MoveId.RECOVER],
+        [73, MoveId.COUNTER],
+        [73, MoveId.MIRROR_COAT],
+      ],
+      speed: [
+        [13, MoveId.DOUBLE_TEAM],
+        [19, MoveId.KNOCK_OFF],
+        [25, MoveId.PURSUIT],
+        [37, MoveId.SWIFT],
+        [43, MoveId.PSYCHO_SHIFT],
+        [55, MoveId.AGILITY],
+        [61, MoveId.RECOVER],
+        [73, MoveId.EXTREME_SPEED],
+      ],
+    },
     tms: [
       MoveId.FIRE_PUNCH,
       MoveId.ICE_PUNCH,
@@ -14182,7 +14218,7 @@ export function initGenerationThree(): void {
       MoveId.PSYCHIC_NOISE,
     ],
     formTms: {
-      "": [MoveId.SWIFT, MoveId.ICY_WIND, MoveId.COSMIC_POWER],
+      normal: [MoveId.SWIFT, MoveId.ICY_WIND, MoveId.COSMIC_POWER],
       attack: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.SUPERPOWER, MoveId.COSMIC_POWER],
       defense: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.AMNESIA, MoveId.SPIKES, MoveId.IRON_DEFENSE],
       speed: [MoveId.MEGA_PUNCH, MoveId.MEGA_KICK, MoveId.AGILITY, MoveId.SWIFT, MoveId.ICY_WIND],
@@ -14323,6 +14359,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 

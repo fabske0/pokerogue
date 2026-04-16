@@ -8,7 +8,7 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -888,20 +888,39 @@ export function initGenerationNine(): void {
     levelMoves: [
       [1, MoveId.TACKLE],
       [1, MoveId.TAIL_WHIP],
-      [5, MoveId.DISARMING_VOICE],
-      [8, MoveId.ECHOED_VOICE],
-      [12, MoveId.MUD_SHOT],
-      [15, MoveId.COVET],
-      [17, MoveId.DIG],
-      [23, MoveId.HEADBUTT],
-      [26, MoveId.TAKE_DOWN],
-      [27, MoveId.YAWN],
-      [34, MoveId.WORK_UP],
-      [38, MoveId.UPROAR],
-      [42, MoveId.DOUBLE_EDGE],
-      [48, MoveId.EARTH_POWER],
-      [54, MoveId.BELCH],
     ],
+    formLevelMoves: {
+      male: [
+        [5, MoveId.DISARMING_VOICE],
+        [8, MoveId.ECHOED_VOICE],
+        [12, MoveId.MUD_SHOT],
+        [15, MoveId.COVET],
+        [17, MoveId.DIG],
+        [23, MoveId.HEADBUTT],
+        [26, MoveId.TAKE_DOWN],
+        [27, MoveId.YAWN],
+        [34, MoveId.WORK_UP],
+        [38, MoveId.UPROAR],
+        [42, MoveId.DOUBLE_EDGE],
+        [48, MoveId.EARTH_POWER],
+        [54, MoveId.BELCH],
+      ],
+      female: [
+        [3, MoveId.DISARMING_VOICE],
+        [6, MoveId.ECHOED_VOICE],
+        [9, MoveId.MUD_SHOT],
+        [12, MoveId.COVET],
+        [15, MoveId.DIG],
+        [17, MoveId.HEADBUTT],
+        [23, MoveId.YAWN],
+        [28, MoveId.TAKE_DOWN],
+        [30, MoveId.WORK_UP],
+        [34, MoveId.UPROAR],
+        [39, MoveId.DOUBLE_EDGE],
+        [45, MoveId.EARTH_POWER],
+        [51, MoveId.BELCH],
+      ],
+    },
     tms: [
       ...generationNineSpeciesData[SpeciesId.LECHONK].tms,
       MoveId.HYPER_BEAM,
@@ -5187,6 +5206,13 @@ export function initGenerationNine(): void {
       [52, MoveId.SPIN_OUT],
       [58, MoveId.GUNK_SHOT],
     ],
+    formLevelMoves: {
+      "segin-starmobile": [[EVOLVE_MOVE, MoveId.WICKED_TORQUE]],
+      "schedar-starmobile": [[EVOLVE_MOVE, MoveId.BLAZING_TORQUE]],
+      "navi-starmobile": [[EVOLVE_MOVE, MoveId.NOXIOUS_TORQUE]],
+      "ruchbah-starmobile": [[EVOLVE_MOVE, MoveId.MAGICAL_TORQUE]],
+      "caph-starmobile": [[EVOLVE_MOVE, MoveId.COMBAT_TORQUE]],
+    },
     tms: [
       ...generationNineSpeciesData[SpeciesId.VAROOM].tms, // - self destruct, torment
       MoveId.HYPER_BEAM,
@@ -11925,7 +11951,6 @@ export function initGenerationNine(): void {
       [1, MoveId.TAIL_WHIP],
       [5, MoveId.WORK_UP],
       [10, MoveId.DOUBLE_KICK],
-      [15, MoveId.ASSURANCE],
       [20, MoveId.HEADBUTT],
       [25, MoveId.SCARY_FACE],
       [30, MoveId.ZEN_HEADBUTT],
@@ -11933,9 +11958,22 @@ export function initGenerationNine(): void {
       [40, MoveId.REST],
       [45, MoveId.SWAGGER],
       [50, MoveId.THRASH],
-      [55, MoveId.DOUBLE_EDGE],
       [60, MoveId.CLOSE_COMBAT],
     ],
+    formLevelMoves: {
+      combat: [
+        [15, MoveId.ASSURANCE],
+        [55, MoveId.DOUBLE_EDGE],
+      ],
+      blaze: [
+        [15, MoveId.FLAME_CHARGE],
+        [55, MoveId.FLARE_BLITZ],
+      ],
+      aqua: [
+        [15, MoveId.AQUA_JET],
+        [55, MoveId.WAVE_CRASH],
+      ],
+    },
     tms: [
       MoveId.BODY_SLAM,
       MoveId.TAKE_DOWN,
@@ -12369,6 +12407,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 

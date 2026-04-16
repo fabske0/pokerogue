@@ -12,7 +12,7 @@ interface PokemonSpeciesPassives {
 export type LevelMoves = [number, MoveId][];
 
 export interface SpeciesFormLevelMoves {
-  [key: number]: LevelMoves;
+  [key: string]: LevelMoves;
 }
 
 export interface SpeciesFormTmMoves {

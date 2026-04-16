@@ -8,7 +8,7 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -4866,12 +4866,16 @@ export function initGenerationFive(): void {
       [28, MoveId.SOAK],
       [32, MoveId.CRUNCH],
       [36, MoveId.TAKE_DOWN],
-      [40, MoveId.FINAL_GAMBIT],
       [44, MoveId.WAVE_CRASH],
       [48, MoveId.THRASH],
       [52, MoveId.DOUBLE_EDGE],
       [56, MoveId.HEAD_SMASH],
     ],
+    formLevelMoves: {
+      "red-striped": [[40, MoveId.FINAL_GAMBIT]],
+      "blue-striped": [[40, MoveId.FINAL_GAMBIT]],
+      "white-striped": [[40, MoveId.UPROAR]],
+    },
     tms: [
       MoveId.TAKE_DOWN,
       MoveId.DOUBLE_EDGE,
@@ -14195,13 +14199,25 @@ export function initGenerationFive(): void {
       [24, MoveId.DRAGON_PULSE],
       [32, MoveId.ICE_BEAM],
       [40, MoveId.HYPER_VOICE],
-      [48, MoveId.SCARY_FACE],
       [56, MoveId.BLIZZARD],
       [64, MoveId.IMPRISON],
       [72, MoveId.OUTRAGE],
-      [80, MoveId.GLACIATE],
       [88, MoveId.SHEER_COLD],
     ],
+    formLevelMoves: {
+      "": [
+        [48, MoveId.SCARY_FACE],
+        [80, MoveId.GLACIATE],
+      ],
+      black: [
+        [48, MoveId.FUSION_BOLT],
+        [80, MoveId.FREEZE_SHOCK],
+      ],
+      white: [
+        [48, MoveId.FUSION_FLARE],
+        [80, MoveId.ICE_BURN],
+      ],
+    },
     tms: [
       MoveId.FLY,
       MoveId.BODY_SLAM,
@@ -15026,6 +15042,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 

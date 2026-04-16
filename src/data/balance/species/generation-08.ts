@@ -8,7 +8,7 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -3647,8 +3647,12 @@ export function initGenerationEight(): void {
       [40, MoveId.POISON_JAB],
       [44, MoveId.OVERDRIVE],
       [48, MoveId.BOOMBURST],
-      [52, MoveId.SHIFT_GEAR],
     ],
+    formLevelMoves: {
+      amped: [[52, MoveId.SHIFT_GEAR]],
+      lowkey: [[52, MoveId.MAGNETIC_FLUX]],
+      [SpeciesFormKey.GIGANTAMAX]: [[52, MoveId.SHIFT_GEAR]],
+    },
     tms: [
       ...generationEightSpeciesData[SpeciesId.TOXEL].tms,
       MoveId.MEGA_PUNCH,
@@ -6861,18 +6865,27 @@ export function initGenerationEight(): void {
     levelMoves: [
       [1, MoveId.STORED_POWER],
       [1, MoveId.PLAY_NICE],
-      [5, MoveId.ENCORE],
       [10, MoveId.DISARMING_VOICE],
       [15, MoveId.PSYBEAM],
       [20, MoveId.HELPING_HAND],
-      [25, MoveId.AFTER_YOU],
       [30, MoveId.HEALING_WISH],
       [35, MoveId.PSYCHIC],
       [40, MoveId.CALM_MIND],
-      [45, MoveId.POWER_SPLIT],
       [50, MoveId.PSYCHIC_TERRAIN],
-      [55, MoveId.LAST_RESORT],
     ],
+    formLevelMoves: {
+      male: [
+        [5, MoveId.ENCORE],
+        [25, MoveId.AFTER_YOU],
+        [45, MoveId.POWER_SPLIT],
+        [55, MoveId.LAST_RESORT],
+      ],
+      female: [
+        [5, MoveId.BATON_PASS],
+        [25, MoveId.FOLLOW_ME],
+        [45, MoveId.GUARD_SPLIT],
+      ],
+    },
     tms: [
       MoveId.PAY_DAY,
       MoveId.BODY_SLAM,
@@ -8215,6 +8228,9 @@ export function initGenerationEight(): void {
       [77, MoveId.CLOSE_COMBAT],
       [88, MoveId.GIGA_IMPACT],
     ],
+    formLevelMoves: {
+      crowned: [[EVOLVE_MOVE, MoveId.BEHEMOTH_BLADE]],
+    },
     tms: [
       MoveId.SWORDS_DANCE,
       MoveId.BODY_SLAM,
@@ -8376,6 +8392,9 @@ export function initGenerationEight(): void {
       [77, MoveId.CLOSE_COMBAT],
       [88, MoveId.GIGA_IMPACT],
     ],
+    formLevelMoves: {
+      crowned: [[EVOLVE_MOVE, MoveId.BEHEMOTH_BASH]],
+    },
     tms: [
       MoveId.BODY_SLAM,
       MoveId.TAKE_DOWN,
@@ -8499,7 +8518,7 @@ export function initGenerationEight(): void {
         }),
         new PokemonForm({
           formName: "E-Max",
-          formKey: "eternamax",
+          formKey: SpeciesFormKey.ETERNAMAX,
           type1: PokemonType.POISON,
           type2: PokemonType.DRAGON,
           height: 100,
@@ -8543,8 +8562,11 @@ export function initGenerationEight(): void {
       [64, MoveId.COSMIC_POWER],
       [72, MoveId.RECOVER],
       [80, MoveId.HYPER_BEAM],
-      [88, MoveId.OUTRAGE],
     ],
+    formLevelMoves: {
+      "": [[88, MoveId.OUTRAGE]],
+      [SpeciesFormKey.ETERNAMAX]: [[88, MoveId.ETERNABEAM]],
+    },
     tms: [
       MoveId.FLY,
       MoveId.BODY_SLAM,
@@ -8854,12 +8876,10 @@ export function initGenerationEight(): void {
       3: AbilityId.IRON_FIST,
     },
     levelMoves: [
-      [EVOLVE_MOVE, MoveId.WICKED_BLOW],
       [1, MoveId.LEER],
       [1, MoveId.FOCUS_ENERGY],
       [1, MoveId.ENDURE],
       [1, MoveId.ROCK_SMASH],
-      [1, MoveId.SUCKER_PUNCH],
       [12, MoveId.AERIAL_ACE],
       [16, MoveId.SCARY_FACE],
       [20, MoveId.HEADBUTT],
@@ -8872,6 +8892,24 @@ export function initGenerationEight(): void {
       [48, MoveId.CLOSE_COMBAT],
       [52, MoveId.FOCUS_PUNCH],
     ],
+    formLevelMoves: {
+      "single-strike": [
+        [EVOLVE_MOVE, MoveId.WICKED_BLOW],
+        [1, MoveId.SUCKER_PUNCH],
+      ],
+      "rapid-strike": [
+        [EVOLVE_MOVE, MoveId.SURGING_STRIKES],
+        [1, MoveId.AQUA_JET],
+      ],
+      [SpeciesFormKey.GIGANTAMAX_SINGLE]: [
+        [EVOLVE_MOVE, MoveId.WICKED_BLOW],
+        [1, MoveId.SUCKER_PUNCH],
+      ],
+      [SpeciesFormKey.GIGANTAMAX_RAPID]: [
+        [EVOLVE_MOVE, MoveId.SURGING_STRIKES],
+        [1, MoveId.AQUA_JET],
+      ],
+    },
     tms: [
       ...generationEightSpeciesData[SpeciesId.KUBFU].tms,
       MoveId.SWIFT,
@@ -9611,7 +9649,6 @@ export function initGenerationEight(): void {
       [24, MoveId.PSYSHOCK],
       [32, MoveId.HELPING_HAND],
       [40, MoveId.GRASSY_TERRAIN],
-      [40, MoveId.PSYCHIC_TERRAIN],
       [48, MoveId.ENERGY_BALL],
       [56, MoveId.PSYCHIC],
       [64, MoveId.LEECH_SEED],
@@ -9619,6 +9656,45 @@ export function initGenerationEight(): void {
       [80, MoveId.SOLAR_BEAM],
       [88, MoveId.FUTURE_SIGHT],
     ],
+    formLevelMoves: {
+      "": [[40, MoveId.PSYCHIC_TERRAIN]],
+      ice: [
+        [1, MoveId.SWORDS_DANCE],
+        [1, MoveId.STOMP],
+        [1, MoveId.DOUBLE_KICK],
+        [1, MoveId.TACKLE],
+        [1, MoveId.TAKE_DOWN],
+        [1, MoveId.THRASH],
+        [1, MoveId.DOUBLE_EDGE],
+        [1, MoveId.TAIL_WHIP],
+        [1, MoveId.MIST],
+        [1, MoveId.TORMENT],
+        [1, MoveId.TAUNT],
+        [1, MoveId.IRON_DEFENSE],
+        [1, MoveId.AVALANCHE],
+        [1, MoveId.ICICLE_CRASH],
+        [1, MoveId.GLACIAL_LANCE],
+        [40, MoveId.AROMATHERAPY],
+      ],
+      shadow: [
+        [1, MoveId.STOMP],
+        [1, MoveId.DOUBLE_KICK],
+        [1, MoveId.TACKLE],
+        [1, MoveId.TAKE_DOWN],
+        [1, MoveId.THRASH],
+        [1, MoveId.DOUBLE_EDGE],
+        [1, MoveId.TAIL_WHIP],
+        [1, MoveId.DISABLE],
+        [1, MoveId.AGILITY],
+        [1, MoveId.CONFUSE_RAY],
+        [1, MoveId.HAZE],
+        [1, MoveId.SHADOW_BALL],
+        [1, MoveId.NASTY_PLOT],
+        [1, MoveId.HEX],
+        [1, MoveId.ASTRAL_BARRAGE],
+        [40, MoveId.PSYCHIC_TERRAIN],
+      ],
+    },
     tms: [
       MoveId.PAY_DAY,
       MoveId.TAKE_DOWN,
@@ -14465,6 +14541,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 

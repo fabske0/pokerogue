@@ -7,7 +7,7 @@ import {
   pokemonStarters,
   SpeciesEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
+import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { speciesTmMoves } from "#balance/tms";
@@ -2346,25 +2346,39 @@ export function initGenerationFour(): void {
     },
     levelMoves: [
       [EVOLVE_MOVE, MoveId.QUIVER_DANCE],
-      [1, MoveId.STRUGGLE_BUG],
       [1, MoveId.TACKLE],
       [1, MoveId.PROTECT],
       [1, MoveId.SUCKER_PUNCH],
       [1, MoveId.BUG_BITE],
-      [1, MoveId.PROTECT],
+      [1, MoveId.STRUGGLE_BUG],
       [10, MoveId.TACKLE],
       [20, MoveId.STRING_SHOT],
       [23, MoveId.CONFUSION],
-      [26, MoveId.RAZOR_LEAF],
-      [29, MoveId.GROWTH],
       [32, MoveId.PSYBEAM],
       [35, MoveId.INFESTATION],
       [38, MoveId.FLAIL],
       [41, MoveId.ATTRACT],
       [44, MoveId.PSYCHIC],
-      [47, MoveId.LEAF_STORM],
       [50, MoveId.BUG_BUZZ],
     ],
+    formLevelMoves: {
+      plant: [
+        [26, MoveId.RAZOR_LEAF],
+        [29, MoveId.GROWTH],
+        [47, MoveId.LEAF_STORM],
+      ],
+      sandy: [
+        [26, MoveId.ROCK_BLAST],
+        [29, MoveId.HARDEN],
+        [47, MoveId.FISSURE],
+      ],
+      trash: [
+        [1, MoveId.METAL_BURST],
+        [26, MoveId.METAL_BURST],
+        [29, MoveId.METAL_SOUND],
+        [47, MoveId.IRON_HEAD],
+      ],
+    },
     tms: [
       ...generationFourSpeciesData[SpeciesId.BURMY].tms,
       MoveId.PSYBEAM,
@@ -10113,6 +10127,13 @@ export function initGenerationFour(): void {
       [50, MoveId.DISCHARGE],
       [55, MoveId.UPROAR],
     ],
+    formLevelMoves: {
+      heat: [[1, MoveId.OVERHEAT]],
+      wash: [[1, MoveId.HYDRO_PUMP]],
+      frost: [[1, MoveId.BLIZZARD]],
+      fan: [[1, MoveId.AIR_SLASH]],
+      mow: [[1, MoveId.LEAF_STORM]],
+    },
     tms: [
       MoveId.THUNDERBOLT,
       MoveId.THUNDER_WAVE,
@@ -11987,20 +12008,29 @@ export function initGenerationFour(): void {
       1: AbilityId.DELTA_STREAM,
     },
     levelMoves: [
-      [1, MoveId.LEAFAGE],
       [1, MoveId.GROWTH],
+      [1, MoveId.LEAFAGE],
       [10, MoveId.MAGICAL_LEAF],
       [19, MoveId.LEECH_SEED],
-      [28, MoveId.SYNTHESIS],
       [37, MoveId.SWEET_SCENT],
       [46, MoveId.NATURAL_GIFT],
       [55, MoveId.WORRY_SEED],
-      [64, MoveId.AROMATHERAPY],
       [73, MoveId.ENERGY_BALL],
       [82, MoveId.SWEET_KISS],
-      [91, MoveId.HEALING_WISH],
       [100, MoveId.SEED_FLARE],
     ],
+    formLevelMoves: {
+      land: [
+        [28, MoveId.SYNTHESIS],
+        [64, MoveId.AROMATHERAPY],
+        [91, MoveId.HEALING_WISH],
+      ],
+      sky: [
+        [28, MoveId.QUICK_ATTACK],
+        [64, MoveId.AIR_SLASH],
+        [91, MoveId.LEAF_STORM],
+      ],
+    },
     tms: [
       MoveId.SWORDS_DANCE,
       MoveId.DOUBLE_EDGE,
@@ -12818,6 +12848,10 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
 function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
   let fails = 0;
   for (const species of Object.values(genData)) {
+    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
+      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
+      continue;
+    }
     const newVal = species.levelMoves;
     const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
 
