@@ -2,16 +2,7 @@ import "#app/extensions"; // Setup Phaser extension methods/etc
 
 import { initAbilities } from "#abilities/init-abilities";
 import { initPokemonPrevolutions, initPokemonStarters } from "#balance/pokemon-evolutions";
-import { initSpecies } from "#balance/pokemon-species";
-import { initGenerationOne } from "#balance/species/generation-01";
-import { initGenerationTwo } from "#balance/species/generation-02";
-import { initGenerationThree } from "#balance/species/generation-03";
-import { initGenerationFour } from "#balance/species/generation-04";
-import { initGenerationFive } from "#balance/species/generation-05";
-import { initGenerationSix } from "#balance/species/generation-06";
-import { initGenerationSeven } from "#balance/species/generation-07";
-import { initGenerationEight } from "#balance/species/generation-08";
-import { initGenerationNine } from "#balance/species/generation-09";
+import { initSpeciesData } from "#balance/species/species-data";
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
@@ -41,17 +32,7 @@ export function initializeGame() {
   initBiomeDepths();
   initPokemonForms();
   initTrainerTypeDialogue();
-  // TODO: Bundle into one function call here
-  initGenerationOne();
-  initGenerationTwo();
-  initGenerationThree();
-  initGenerationFour();
-  initGenerationFive();
-  initGenerationSix();
-  initGenerationSeven();
-  initGenerationEight();
-  initGenerationNine();
-  initSpecies();
+  initSpeciesData();
   initMoves();
   initAbilities();
   initChallenges();

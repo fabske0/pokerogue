@@ -21,14 +21,11 @@ import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genNineSpecies } from "./test/gen9";
 
-export const generationNineSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationNine(): void {
+export function initGenerationNine(): SpeciesDataMap {
+  const generationNineSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationNineSpeciesData[SpeciesId.SPRIGATITO] = {
     species: new PokemonSpecies({
       id: SpeciesId.SPRIGATITO,
@@ -11917,6 +11914,7 @@ export function initGenerationNine(): void {
   };
   //#endregion Regional Variants
   test(generationNineSpeciesData);
+  return generationNineSpeciesData;
 }
 
 // TODO: Remove later

@@ -23,14 +23,11 @@ import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genSixSpecies } from "./test/gen6";
 
-export const generationSixSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationSix(): void {
+export function initGenerationSix(): SpeciesDataMap {
+  const generationSixSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationSixSpeciesData[SpeciesId.CHESPIN] = {
     species: new PokemonSpecies({
       id: SpeciesId.CHESPIN,
@@ -9408,6 +9405,7 @@ export function initGenerationSix(): void {
     ],
   };
   test(generationSixSpeciesData);
+  return generationSixSpeciesData;
 }
 // TODO: Remove later
 function test(genData: Record<SpeciesId, PokemonSpeciesData>) {

@@ -21,14 +21,11 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genTwoSpecies } from "./test/gen2";
 
-export const generationTwoSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationTwo(): void {
+export function initGenerationTwo(): SpeciesDataMap {
+  const generationTwoSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationTwoSpeciesData[SpeciesId.CHIKORITA] = {
     species: new PokemonSpecies({
       id: SpeciesId.CHIKORITA,
@@ -11195,6 +11192,7 @@ export function initGenerationTwo(): void {
     ],
   };
   test(generationTwoSpeciesData);
+  return generationTwoSpeciesData;
 }
 
 // TODO: Remove later

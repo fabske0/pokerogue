@@ -24,14 +24,11 @@ import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genEightSpecies } from "./test/gen8";
 
-export const generationEightSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationEight(): void {
+export function initGenerationEight(): SpeciesDataMap {
+  const generationEightSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationEightSpeciesData[SpeciesId.GROOKEY] = {
     species: new PokemonSpecies({
       id: SpeciesId.GROOKEY,
@@ -14029,6 +14026,7 @@ export function initGenerationEight(): void {
     ],
   };
   test(generationEightSpeciesData);
+  return generationEightSpeciesData;
 }
 
 // TODO: Remove later

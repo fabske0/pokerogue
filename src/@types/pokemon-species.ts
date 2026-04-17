@@ -33,3 +33,5 @@ export interface PokemonSpeciesData {
   tms: MoveId[];
   formTms?: SpeciesFormTmMoves;
 }
+
+export type SpeciesDataMap = Record<SpeciesId, PokemonSpeciesData>;

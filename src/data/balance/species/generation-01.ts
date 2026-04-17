@@ -21,14 +21,11 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genOneSpecies } from "./test/gen1";
 
-export const generationOneSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationOne(): void {
+export function initGenerationOne(): SpeciesDataMap {
+  const generationOneSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationOneSpeciesData[SpeciesId.BULBASAUR] = {
     species: new PokemonSpecies({
       id: SpeciesId.BULBASAUR,
@@ -15495,6 +15492,7 @@ export function initGenerationOne(): void {
     ],
   };
   test(generationOneSpeciesData);
+  return generationOneSpeciesData;
 }
 
 // TODO: Remove later
