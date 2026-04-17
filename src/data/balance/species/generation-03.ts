@@ -21,14 +21,11 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genThreeSpecies } from "./test/gen3";
 
-export const generationThreeSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationThree(): void {
+export function initGenerationThree(): SpeciesDataMap {
+  const generationThreeSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationThreeSpeciesData[SpeciesId.TREECKO] = {
     species: new PokemonSpecies({
       id: SpeciesId.TREECKO,
@@ -13830,6 +13827,7 @@ export function initGenerationThree(): void {
     },
   };
   test(generationThreeSpeciesData);
+  return generationThreeSpeciesData;
 }
 
 // TODO: Remove later

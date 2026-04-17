@@ -21,14 +21,11 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genFourSpecies } from "./test/gen4";
 
-export const generationFourSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationFour(): void {
+export function initGenerationFour(): SpeciesDataMap {
+  const generationFourSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationFourSpeciesData[SpeciesId.TURTWIG] = {
     species: new PokemonSpecies({
       id: SpeciesId.TURTWIG,
@@ -12407,6 +12404,7 @@ export function initGenerationFour(): void {
     ],
   };
   test(generationFourSpeciesData);
+  return generationFourSpeciesData;
 }
 
 // TODO: Remove later

@@ -22,14 +22,11 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData } from "#types/pokemon-species";
+import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import { genFiveSpecies } from "./test/gen5";
 
-export const generationFiveSpeciesData: Record<SpeciesId, PokemonSpeciesData> = {} as Record<
-  SpeciesId,
-  PokemonSpeciesData
->;
-export function initGenerationFive(): void {
+export function initGenerationFive(): SpeciesDataMap {
+  const generationFiveSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
   generationFiveSpeciesData[SpeciesId.VICTINI] = {
     species: new PokemonSpecies({
       id: SpeciesId.VICTINI,
@@ -14453,6 +14450,7 @@ export function initGenerationFive(): void {
     ],
   };
   test(generationFiveSpeciesData);
+  return generationFiveSpeciesData;
 }
 
 // TODO: Remove later
