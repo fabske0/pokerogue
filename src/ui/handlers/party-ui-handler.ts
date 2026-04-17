@@ -2144,12 +2144,12 @@ class PartySlot extends Phaser.GameObjects.Container {
       this.slotHpText.setVisible(false);
       let slotTmText: string;
 
-      if (this.pokemon.getMoveset().filter(m => m.moveId === tmMoveId).length > 0) {
+      if (this.pokemon.getMoveset().some(m => m.moveId === tmMoveId)) {
         slotTmText = i18next.t("partyUiHandler:learned");
-      } else if (this.pokemon.compatibleTms.indexOf(tmMoveId) === -1) {
-        slotTmText = i18next.t("partyUiHandler:notAble");
-      } else {
+      } else if (this.pokemon.isTmCompatible(tmMoveId)) {
         slotTmText = i18next.t("partyUiHandler:able");
+      } else {
+        slotTmText = i18next.t("partyUiHandler:notAble");
       }
 
       this.slotDescriptionLabel.setText(slotTmText);

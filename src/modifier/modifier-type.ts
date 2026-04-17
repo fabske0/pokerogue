@@ -4,7 +4,6 @@ import { globalScene } from "#app/global-scene";
 import { getPokemonNameWithAffix } from "#app/messages";
 import Overrides from "#app/overrides";
 import { EvolutionItem, pokemonEvolutions } from "#balance/pokemon-evolutions";
-import { tmSpecies } from "#balance/tm-species-map";
 import { tmPoolTiers } from "#balance/tms";
 import { getBerryEffectDescription, getBerryName } from "#data/berry";
 import { getDailyEventSeedLuck } from "#data/daily-seed/daily-run";
@@ -1133,10 +1132,7 @@ export class TmModifierType extends PokemonModifierType {
       `tm_${PokemonType[allMoves[moveId].type].toLowerCase()}`,
       (_type, args) => new TmModifier(this, (args[0] as PlayerPokemon).id),
       (pokemon: PlayerPokemon) => {
-        if (
-          pokemon.compatibleTms.indexOf(moveId) === -1
-          || pokemon.getMoveset().filter(m => m.moveId === moveId).length > 0
-        ) {
+        if (!pokemon.isTmCompatible(moveId, true)) {
           return PartyUiHandler.NoEffectMessage;
         }
         return null;
@@ -1149,7 +1145,7 @@ export class TmModifierType extends PokemonModifierType {
 
   get name(): string {
     return i18next.t("modifierType:ModifierType.TmModifierType.name", {
-      moveId: padInt(Object.keys(tmSpecies).indexOf(this.moveId.toString()) + 1, 3),
+      moveId: padInt(Object.keys(tmPoolTiers).indexOf(this.moveId.toString()) + 1, 3),
       moveName: allMoves[this.moveId].name,
     });
   }
@@ -1503,12 +1499,7 @@ class TmModifierTypeGenerator extends ModifierTypeGenerator {
       if (pregenArgs && pregenArgs.length === 1 && pregenArgs[0] in MoveId) {
         return new TmModifierType(pregenArgs[0] as MoveId);
       }
-      const partyMemberCompatibleTms = party.map(p => {
-        const previousLevelMoves = p.getLearnableLevelMoves();
-        return (p as PlayerPokemon).compatibleTms.filter(
-          tm => !p.moveset.find(m => m.moveId === tm) && !previousLevelMoves.find(lm => lm === tm),
-        );
-      });
+      const partyMemberCompatibleTms = party.map(p => (p as PlayerPokemon).getCompatibleTms(true, true));
       const tierUniqueCompatibleTms = partyMemberCompatibleTms
         .flat()
         .filter(tm => tmPoolTiers[tm] === tier)

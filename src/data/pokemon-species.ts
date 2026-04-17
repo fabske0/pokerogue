@@ -11,12 +11,14 @@ import {
   pokemonFormLevelMoves as pokemonSpeciesFormLevelMoves,
   pokemonSpeciesLevelMoves,
 } from "#balance/pokemon-level-moves";
+import { speciesData } from "#balance/species/species-data";
 import { speciesStarterCosts } from "#balance/starters";
 import type { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
 import { AbilityId } from "#enums/ability-id";
 import { DexAttr } from "#enums/dex-attr";
 import { EvoLevelThresholdKind } from "#enums/evo-level-threshold-kind";
+import type { MoveId } from "#enums/move-id";
 import { PartyMemberStrength } from "#enums/party-member-strength";
 import type { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
@@ -234,6 +236,27 @@ export abstract class PokemonSpeciesForm {
     return pokemonSpeciesLevelMoves[this.speciesId].slice(0);
   }
 
+  /**
+   * Get al list of all TMs that can be learned by this species.
+   * @param formKey - the formkey to check for, if the form has specific TMs (defaults to the current form)
+   * @returns A list of all TM {@linkcode MoveId}s that can be learned by this species
+   */
+  getTms(formKey?: string): MoveId[] {
+    const speciesTms = speciesData[this.speciesId].tms;
+    const formTms = speciesData[this.speciesId].formTms?.[formKey ?? this.getFormKey()] || [];
+    return [...speciesTms, ...formTms];
+  }
+
+  /**
+   * Checks whether this species can learn a specific TM.
+   * @param moveId - The TM to check for.
+   * @param formKey - The formkey to check for, if the form has specific TMs (defaults to the current form)
+   * @returns whether this species can learn the TM
+   */
+  canLearnTm(moveId: MoveId, formKey?: string): boolean {
+    return this.getTms(formKey).includes(moveId);
+  }
+
   getRegion(): Region {
     return Math.floor(this.speciesId / 2000) as Region;
   }
@@ -325,6 +348,8 @@ export abstract class PokemonSpeciesForm {
     }
     return ret;
   }
+
+  abstract getFormKey(formIndex?: number): string;
 
   getSpriteAtlasPath(female: boolean, formIndex?: number, shiny?: boolean, variant?: number, back?: boolean): string {
     const spriteId = this.getSpriteId(female, formIndex, shiny, variant, back).replace(/_{2}/g, "/");
@@ -914,6 +939,10 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     });
   }
 
+  getFormKey(formIndex?: number): string {
+    return this.forms[formIndex ?? this.formIndex].formKey ?? "";
+  }
+
   /**
    * Find the form name for species with just one form (regional variants, Floette, Ursaluna)
    * @param formIndex The form index to check (defaults to 0)
@@ -1300,5 +1329,9 @@ export class PokemonForm extends PokemonSpeciesForm {
 
   getFormSpriteKey(_formIndex?: number) {
     return this.formSpriteKey === null ? this.formKey : this.formSpriteKey;
+  }
+
+  getFormKey(): string {
+    return this.formKey;
   }
 }
