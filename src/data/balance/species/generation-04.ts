@@ -10,7 +10,6 @@ import {
 import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
-import { speciesTmMoves } from "#balance/tms";
 import { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
@@ -12418,7 +12417,6 @@ function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   validateEggTiers(genData);
   validatePassives(genData);
   validateLevelMoves(genData);
-  validateTMs(genData);
   console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
 }
 
@@ -12559,51 +12557,3 @@ function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
     console.error(`Level moves validation failed with ${fails} errors.`);
   }
 }
-
-function validateTMs(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  for (const species of Object.values(genData)) {
-    const newVal = species.tms;
-    const oldVal = Array.from(
-      new Set([
-        ...(speciesTmMoves[species.species.speciesId] ?? []),
-        ...(additonalTMs[species.species.speciesId] ?? []),
-      ]),
-    );
-
-    // check if oldval includes any arrays
-    if (oldVal.some(Array.isArray)) {
-      console.warn(`${SpeciesId[species.species.speciesId]} has form specific TMs, please check manually`);
-    }
-    const filteredOldVal = oldVal.filter(s => !Array.isArray(s)) as MoveId[];
-
-    const newSort = (a: MoveId, b: MoveId) => {
-      return a - b;
-    };
-
-    const oldSort = (a: MoveId, b: MoveId) => {
-      const aVal = typeof a === "number" ? a : a[1];
-      const bVal = typeof b === "number" ? b : b[1];
-      return aVal - bVal;
-    };
-
-    if (JSON.stringify(newVal.sort(newSort)) !== JSON.stringify(filteredOldVal.sort(oldSort))) {
-      console.error(`TMs mismatch for ${SpeciesId[species.species.speciesId]}: new=`, newVal, ", old=", filteredOldVal);
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("TMs validation passed!");
-  } else {
-    console.error(`TMs validation failed with ${fails} errors.`);
-  }
-}
-
-// some additional TMs, that are now available since we don't exclude TMs that the pre-evolutions can learn.
-const additonalTMs: Partial<Record<SpeciesId, MoveId[]>> = {
-  [SpeciesId.RAMPARDOS]: [MoveId.CRUNCH],
-  [SpeciesId.BASTIODON]: [MoveId.SCREECH, MoveId.FOCUS_ENERGY, MoveId.SCARY_FACE],
-  [SpeciesId.PURUGLY]: [MoveId.FAKE_TEARS, MoveId.ASSURANCE],
-  [SpeciesId.DRAPION]: [MoveId.POISON_TAIL],
-  [SpeciesId.LUMINEON]: [MoveId.NATURE_POWER],
-};

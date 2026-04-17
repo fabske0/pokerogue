@@ -25,8 +25,6 @@ import {
   TRAINER_MAX_FRIENDSHIP_WAVE,
   TRAINER_MIN_FRIENDSHIP,
 } from "#balance/starters";
-import { tmSpecies } from "#balance/tm-species-map";
-import { reverseCompatibleTms } from "#balance/tms";
 import type { SuppressAbilitiesTag } from "#data/arena-tag";
 import { NoCritTag, WeakenMoveScreenTag } from "#data/arena-tag";
 import {
@@ -5912,7 +5910,6 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
 
 export class PlayerPokemon extends Pokemon {
   protected declare battleInfo: PlayerBattleInfo;
-  public compatibleTms: MoveId[];
 
   constructor(
     species: PokemonSpecies,
@@ -5953,7 +5950,6 @@ export class PlayerPokemon extends Pokemon {
         this.moveset = [];
       }
     }
-    this.generateCompatibleTms();
   }
 
   initBattleInfo(): void {
@@ -5985,35 +5981,33 @@ export class PlayerPokemon extends Pokemon {
     return this.getFieldIndex();
   }
 
-  generateCompatibleTms(): void {
-    this.compatibleTms = [];
-
-    const tms = Object.keys(tmSpecies);
-    for (const tm of tms) {
-      const moveId = Number.parseInt(tm) as MoveId;
-      let compatible = false;
-      for (const p of tmSpecies[tm]) {
-        if (Array.isArray(p)) {
-          const [pkm, form] = p;
-          if (
-            (pkm === this.species.speciesId || (this.fusionSpecies && pkm === this.fusionSpecies.speciesId))
-            && form === this.getFormKey()
-          ) {
-            compatible = true;
-            break;
-          }
-        } else if (p === this.species.speciesId || (this.fusionSpecies && p === this.fusionSpecies.speciesId)) {
-          compatible = true;
-          break;
-        }
-      }
-      if (reverseCompatibleTms.indexOf(moveId) > -1) {
-        compatible = !compatible;
-      }
-      if (compatible) {
-        this.compatibleTms.push(moveId);
-      }
+  /**
+   * Get all TMs compatible with this Pokémon. Includes TMs from its fused species.
+   * @returns An array of all compatible TMs
+   */
+  getCompatibleTms(excludeKnown = false, excludeLevelUp = false): MoveId[] {
+    const tms = new Set(this.species.getTms(this.getFormKey()));
+    if (this.fusionSpecies) {
+      this.fusionSpecies.getTms(this?.getFusionFormKey() ?? undefined).forEach(tm => tms.add(tm));
     }
+    if (excludeKnown) {
+      this.moveset.forEach(move => tms.delete(move.moveId));
+    }
+    if (excludeLevelUp) {
+      this.getLevelMoves(undefined, true, false, true).forEach(lm => tms.delete(lm[1]));
+    }
+
+    return Array.from(tms);
+  }
+
+  /**
+   * Check if a TM is compatible with this Pokémon.
+   * @param tm - the {@linkcode MoveId} of the TM to check
+   * @param excludeKnown - Whether to exclude TMs or moves this Pokémon already knows (default: `false`)
+   * @returns Whether this TM is compatible with this Pokémon
+   */
+  isTmCompatible(tm: MoveId, excludeKnown = false): boolean {
+    return this.getCompatibleTms(excludeKnown).includes(tm);
   }
 
   /**
@@ -6228,8 +6222,6 @@ export class PlayerPokemon extends Pokemon {
           this.abilityIndex = 0;
         }
       }
-      this.compatibleTms.splice(0, this.compatibleTms.length);
-      this.generateCompatibleTms();
       const updateAndResolve = () => {
         this.loadAssets().then(() => {
           this.calculateStats();
@@ -6341,8 +6333,6 @@ export class PlayerPokemon extends Pokemon {
         this.abilityIndex = abilityCount - 1;
       }
 
-      this.compatibleTms.splice(0, this.compatibleTms.length);
-      this.generateCompatibleTms();
       const updateAndResolve = () => {
         this.loadAssets().then(() => {
           this.calculateStats();
@@ -6361,7 +6351,6 @@ export class PlayerPokemon extends Pokemon {
 
   clearFusionSpecies(): void {
     super.clearFusionSpecies();
-    this.generateCompatibleTms();
   }
 
   /**
@@ -6403,7 +6392,6 @@ export class PlayerPokemon extends Pokemon {
       this.status = pokemon.status; // Inherit the other Pokemon's status
     }
 
-    this.generateCompatibleTms();
     this.updateInfo(true);
     const fusedPartyMemberIndex = globalScene.getPlayerParty().indexOf(pokemon);
     let partyMemberIndex = globalScene.getPlayerParty().indexOf(this);

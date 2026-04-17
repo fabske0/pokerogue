@@ -2,7 +2,6 @@ import "#app/extensions"; // Setup Phaser extension methods/etc
 
 import { initAbilities } from "#abilities/init-abilities";
 import { initPokemonPrevolutions, initPokemonStarters } from "#balance/pokemon-evolutions";
-import { initSpeciesData } from "#balance/species/species-data";
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
@@ -17,6 +16,7 @@ import { initMysteryEncounters } from "#mystery-encounters/mystery-encounters";
 import { initAchievements } from "#system/achv";
 import { initVouchers } from "#system/voucher";
 import { initStatsKeys } from "#ui/game-stats-ui-handler";
+import { initSpeciesData } from "./init-species-data";
 
 export function initializeGame() {
   initBiomeBgmLoopPoints();
