@@ -7,7 +7,6 @@ import {
   pokemonStarters,
   SpeciesEvolution,
 } from "#balance/pokemon-evolutions";
-import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
@@ -13836,7 +13835,6 @@ function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   validateStarters(genData);
   validateStarterCost(genData);
   validateEvolutions(genData);
-  validateEggTiers(genData);
   validatePassives(genData);
   console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
 }
@@ -13910,24 +13908,6 @@ function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
     console.info("Evolutions validation passed!");
   } else {
     console.error(`Evolutions validation failed with ${fails} errors.`);
-  }
-}
-
-function validateEggTiers(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  for (const species of Object.values(genData)) {
-    const newVal = species.eggTier;
-    const oldVal = speciesEggTiers[species.species.speciesId];
-
-    if (newVal !== oldVal) {
-      console.error(`Egg tier mismatch for ${SpeciesId[species.species.speciesId]}: new=${newVal} old=${oldVal}`);
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("Egg tiers validation passed!");
-  } else {
-    console.error(`Egg tiers validation failed with ${fails} errors.`);
   }
 }
 
