@@ -6,11 +6,6 @@ import { globalScene } from "#app/global-scene";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { starterPassiveAbilities } from "#balance/passives";
 import { pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
-import {
-  pokemonFormLevelMoves,
-  pokemonFormLevelMoves as pokemonSpeciesFormLevelMoves,
-  pokemonSpeciesLevelMoves,
-} from "#balance/pokemon-level-moves";
 import { speciesData } from "#balance/species/species-data";
 import { speciesStarterCosts } from "#balance/starters";
 import type { GrowthRate } from "#data/exp";
@@ -226,14 +221,18 @@ export abstract class PokemonSpeciesForm {
     return starterPassiveAbilities[starterSpeciesId][formIndex];
   }
 
-  getLevelMoves(): LevelMoves {
-    if (
-      Object.hasOwn(pokemonSpeciesFormLevelMoves, this.speciesId)
-      && Object.hasOwn(pokemonSpeciesFormLevelMoves[this.speciesId], this.formIndex)
-    ) {
-      return pokemonSpeciesFormLevelMoves[this.speciesId][this.formIndex].slice(0);
+  /**
+   * Get a list of all level moves for this species, including form specific moves.
+   * @param formKey - The form key to check for
+   * @returns A list of all level moves that can be learned by this species
+   */
+  getLevelMoves(formKey?: string): LevelMoves {
+    const levelMoves = new Set(speciesData[this.speciesId].levelMoves);
+    if (speciesData[this.speciesId].formLevelMoves?.[formKey ?? this.getFormKey()] !== undefined) {
+      speciesData[this.speciesId].formLevelMoves?.[formKey ?? this.getFormKey()].forEach(lm => levelMoves.add(lm));
     }
-    return pokemonSpeciesLevelMoves[this.speciesId].slice(0);
+
+    return Array.from(levelMoves).sort((a, b) => a[0] - b[0]);
   }
 
   /**
@@ -612,14 +611,8 @@ export abstract class PokemonSpeciesForm {
           continue;
         }
       }
-      if (
-        Object.hasOwn(pokemonFormLevelMoves, this.speciesId)
-        && Object.hasOwn(pokemonFormLevelMoves[this.speciesId], this.formIndex)
-      ) {
-        if (!pokemonFormLevelMoves[this.speciesId][this.formIndex].find(lm => lm[0] <= 5 && lm[1] === moveId)) {
-          return false;
-        }
-      } else if (!pokemonSpeciesLevelMoves[this.speciesId].find(lm => lm[0] <= 5 && lm[1] === moveId)) {
+      const levelMoves = this.getLevelMoves();
+      if (!levelMoves.some(([l, m]) => m === moveId && l <= 5)) {
         return false;
       }
     }

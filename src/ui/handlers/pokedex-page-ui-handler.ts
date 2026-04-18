@@ -11,7 +11,6 @@ import {
   pokemonPrevolutions,
   pokemonStarters,
 } from "#balance/pokemon-evolutions";
-import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,
@@ -860,12 +859,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
       const form = species.forms[formIndex];
 
       // If this form has a specific set of moves, we get them.
-      this.levelMoves =
-        formIndex > 0
-        && Object.hasOwn(pokemonFormLevelMoves, species.speciesId)
-        && Object.hasOwn(pokemonFormLevelMoves[species.speciesId], formIndex)
-          ? pokemonFormLevelMoves[species.speciesId][formIndex]
-          : pokemonSpeciesLevelMoves[species.speciesId];
+      this.levelMoves = species.getLevelMoves(formKey);
       this.ability1 = form.ability1;
       this.ability2 = form.ability2 === form.ability1 ? undefined : form.ability2;
       this.abilityHidden = form.abilityHidden === form.ability1 ? undefined : form.abilityHidden;
@@ -874,7 +868,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
       this.baseStats = form.baseStats;
       this.baseTotal = form.baseTotal;
     } else {
-      this.levelMoves = pokemonSpeciesLevelMoves[species.speciesId];
+      this.levelMoves = species.getLevelMoves(formKey);
       this.ability1 = species.ability1;
       this.ability2 = species.ability2 === species.ability1 ? undefined : species.ability2;
       this.abilityHidden = species.abilityHidden === species.ability1 ? undefined : species.abilityHidden;

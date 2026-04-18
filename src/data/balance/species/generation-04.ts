@@ -7,7 +7,6 @@ import {
   pokemonStarters,
   SpeciesEvolution,
 } from "#balance/pokemon-evolutions";
-import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import { speciesEggTiers } from "#balance/species-egg-tiers";
 import { speciesStarterCosts } from "#balance/starters";
 import { GrowthRate } from "#data/exp";
@@ -12416,7 +12415,6 @@ function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   validateEvolutions(genData);
   validateEggTiers(genData);
   validatePassives(genData);
-  validateLevelMoves(genData);
   console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
 }
 
@@ -12531,29 +12529,5 @@ function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
     console.info("Passive abilities validation passed!");
   } else {
     console.error(`Passive abilities validation failed with ${fails} errors.`);
-  }
-}
-
-function validateLevelMoves(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  for (const species of Object.values(genData)) {
-    if (Array.from(Object.keys(pokemonFormLevelMoves)).includes(species.species.speciesId.toString())) {
-      console.warn(`${SpeciesId[species.species.speciesId]} has form specific level moves, please check manually`);
-      continue;
-    }
-    const newVal = species.levelMoves;
-    const oldVal = pokemonSpeciesLevelMoves[species.species.speciesId];
-
-    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-      console.error(
-        `Level moves mismatch for ${SpeciesId[species.species.speciesId]}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
-      );
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("Level moves validation passed!");
-  } else {
-    console.error(`Level moves validation failed with ${fails} errors.`);
   }
 }

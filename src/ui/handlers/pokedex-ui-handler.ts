@@ -2,7 +2,6 @@ import { globalScene } from "#app/global-scene";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { getEvolutions, getPreEvolutions, pokemonStarters } from "#balance/pokemon-evolutions";
-import { pokemonFormLevelMoves, pokemonSpeciesLevelMoves } from "#balance/pokemon-level-moves";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,
@@ -1420,14 +1419,7 @@ export class PokedexUiHandler extends MessageUiHandler {
 
   // Returns true if one of the forms has the requested move
   hasFormLevelMove(form: PokemonForm, selectedMove: string): boolean {
-    if (
-      !Object.hasOwn(pokemonFormLevelMoves, form.speciesId)
-      || !Object.hasOwn(pokemonFormLevelMoves[form.speciesId], form.formIndex)
-    ) {
-      return false;
-    }
-    const levelMoves = pokemonFormLevelMoves[form.speciesId][form.formIndex].map(m => allMoves[m[1]].name);
-    return levelMoves.includes(selectedMove);
+    return form.getLevelMoves().some(m => allMoves[m[1]].name === selectedMove);
   }
 
   // TODO: why does this need to be `() => {}` in order to not crash?
@@ -1470,7 +1462,7 @@ export class PokedexUiHandler extends MessageUiHandler {
       // Move filter
       // TODO: There can be fringe cases where the two moves belong to mutually exclusive forms, these must be handled separately (Pikachu);
       // On the other hand, in some cases it is possible to switch between different forms and combine (Deoxys)
-      const levelMoves = pokemonSpeciesLevelMoves[species.speciesId].map(m => allMoves[m[1]].name);
+      const levelMoves = species.getLevelMoves().map(m => allMoves[m[1]].name);
       // This always gets egg moves from the starter
       const eggMoves = speciesEggMoves[starterId]?.map(m => allMoves[m].name) ?? [];
       const tmMoves = species.getTms().map(m => allMoves[m].name) ?? [];
