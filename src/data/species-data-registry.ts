@@ -111,7 +111,7 @@ export class SpeciesDataRegistry {
       // mainly species with "male" and "female" forms
       form = 0;
     }
-    return speciesData.species.forms[form].formKey;
+    return speciesData.species.forms[form]?.formKey ?? "";
   }
 }
 
