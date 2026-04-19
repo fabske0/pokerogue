@@ -5,6 +5,7 @@ import { initPokemonPrevolutions, initPokemonStarters } from "#balance/pokemon-e
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
+import { initSpeciesDataRegistry } from "#data/species-data-registry";
 import { initBiomeBgmLoopPoints } from "#init/init-biome-bgm-loop-points";
 import { initBiomeDepths } from "#init/init-biome-depths";
 import { initBiomes } from "#init/init-biomes";
@@ -16,7 +17,6 @@ import { initMysteryEncounters } from "#mystery-encounters/mystery-encounters";
 import { initAchievements } from "#system/achv";
 import { initVouchers } from "#system/voucher";
 import { initStatsKeys } from "#ui/game-stats-ui-handler";
-import { initSpeciesData } from "./init-species-data";
 
 export function initializeGame() {
   initBiomeBgmLoopPoints();
@@ -32,7 +32,7 @@ export function initializeGame() {
   initBiomeDepths();
   initPokemonForms();
   initTrainerTypeDialogue();
-  initSpeciesData();
+  initSpeciesDataRegistry();
   initMoves();
   initAbilities();
   initChallenges();

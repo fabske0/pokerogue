@@ -25,7 +25,7 @@ import {
   SHINY_EPIC_CHANCE,
   SHINY_VARIANT_CHANCE,
 } from "#balance/rates";
-import { speciesData } from "#balance/species/species-data";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { speciesStarterCosts } from "#balance/starters";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { EggSourceType } from "#enums/egg-source-types";
@@ -452,16 +452,16 @@ export class Egg {
 
     const ignoredSpecies = [SpeciesId.PHIONE, SpeciesId.MANAPHY, SpeciesId.ETERNATUS];
 
-    let speciesPool = Object.values(speciesData).filter(
-      s => s.eggTier === this.tier && ignoredSpecies.indexOf(s.species.speciesId) === -1,
-    );
+    let speciesPool = speciesDataRegistry
+      .getAllEggTierSpecies(this.tier)
+      .filter(s => ignoredSpecies.indexOf(s.speciesId) === -1);
 
     // If this is the 10th egg without unlocking something new, attempt to force it.
     if (globalScene.gameData.unlockPity[this.tier] >= 9) {
       const lockedPool = speciesPool.filter(
         s =>
-          !globalScene.gameData.dexData[s.species.speciesId].caughtAttr
-          && !globalScene.gameData.eggs.some(e => e.species === s.species.speciesId),
+          !globalScene.gameData.dexData[s.speciesId].caughtAttr
+          && !globalScene.gameData.eggs.some(e => e.species === s.speciesId),
       );
       if (lockedPool.length > 0) {
         // Skip this if everything is unlocked
@@ -471,7 +471,7 @@ export class Egg {
 
     // If egg variant is set to RARE or EPIC, filter species pool to only include ones with variants.
     if (this.variantTier && (this.variantTier === VariantTier.RARE || this.variantTier === VariantTier.EPIC)) {
-      speciesPool = speciesPool.filter(s => s.species.hasVariants());
+      speciesPool = speciesPool.filter(s => s.hasVariants());
     }
 
     /**
@@ -490,7 +490,7 @@ export class Egg {
     for (const [idx, data] of speciesPool.entries()) {
       // Accounts for species that have starter costs outside of the normal range for their EggTier
       const speciesCostClamped = Phaser.Math.Clamp(
-        speciesStarterCosts[data.species.speciesId],
+        speciesStarterCosts[data.speciesId],
         minStarterValue,
         maxStarterValue,
       );
@@ -506,7 +506,7 @@ export class Egg {
     const rand = randSeedInt(totalWeight);
     for (let s = 0; s < speciesWeights.length; s++) {
       if (rand < speciesWeights[s]) {
-        species = speciesPool[s].species.speciesId;
+        species = speciesPool[s].speciesId;
         break;
       }
     }
@@ -603,7 +603,7 @@ export class Egg {
   }
 
   private getEggTier(): EggTier {
-    return speciesData[this.species].eggTier ?? EggTier.COMMON;
+    return speciesDataRegistry.getSpeciesData(this.species).eggTier ?? EggTier.COMMON;
   }
 
   ////
@@ -612,9 +612,10 @@ export class Egg {
 }
 
 export function getValidLegendaryGachaSpecies(): SpeciesId[] {
-  return Object.values(speciesData)
-    .filter(s => s.eggTier === EggTier.LEGENDARY && s.species.speciesId !== SpeciesId.ETERNATUS)
-    .map(s => s.species.speciesId);
+  return speciesDataRegistry
+    .getAllEggTierSpecies(EggTier.LEGENDARY)
+    .filter(s => s.speciesId !== SpeciesId.ETERNATUS)
+    .map(s => s.speciesId);
 }
 
 export function getLegendaryGachaSpeciesForTimestamp(timestamp: number): SpeciesId {
@@ -645,6 +646,7 @@ export function getLegendaryGachaSpeciesForTimestamp(timestamp: number): Species
  * @param pokemonSpecies - Species for wich we will check the egg tier it belongs to
  * @returns The egg tier of a given pokemon species
  */
+// TODO: replace all calls with direct calls to the registry and remove this function
 export function getEggTierForSpecies(pokemonSpecies: PokemonSpecies): EggTier {
-  return speciesData[pokemonSpecies.getRootSpeciesId()].eggTier ?? EggTier.COMMON;
+  return speciesDataRegistry.getSpeciesData(pokemonSpecies.getRootSpeciesId()).eggTier ?? EggTier.COMMON;
 }
