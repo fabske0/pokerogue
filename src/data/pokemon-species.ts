@@ -6,7 +6,7 @@ import { globalScene } from "#app/global-scene";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { starterPassiveAbilities } from "#balance/passives";
 import { pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
-import { speciesData } from "#balance/species/species-data";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { speciesStarterCosts } from "#balance/starters";
 import type { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
@@ -224,27 +224,21 @@ export abstract class PokemonSpeciesForm {
 
   /**
    * Get a list of all level moves for this species, including form specific moves.
-   * @param formKey - The form key to check for
+   * @param form - the formIndex or formKey of the form to get level moves for. (default: base form)
    * @returns A list of all level moves that can be learned by this species
    */
   getLevelMoves(formKey?: string): LevelMoves {
-    const levelMoves = new Set(speciesData[this.speciesId].levelMoves);
-    if (speciesData[this.speciesId].formLevelMoves?.[formKey ?? this.getFormKey()] !== undefined) {
-      speciesData[this.speciesId].formLevelMoves?.[formKey ?? this.getFormKey()].forEach(lm => levelMoves.add(lm));
-    }
-
-    return Array.from(levelMoves).sort((a, b) => a[0] - b[0]);
+    const levelMoves = speciesDataRegistry.getLevelMoves(this.speciesId, formKey);
+    return levelMoves.sort((a, b) => a[0] - b[0]);
   }
 
   /**
    * Get al list of all TMs that can be learned by this species.
-   * @param formKey - the formkey to check for, if the form has specific TMs (defaults to the current form)
+   * @param form - the formIndex or formKey of the form to get TMs for. (default: base form)
    * @returns A list of all TM {@linkcode MoveId}s that can be learned by this species
    */
-  getTms(formKey?: string): MoveId[] {
-    const speciesTms = speciesData[this.speciesId].tms;
-    const formTms = speciesData[this.speciesId].formTms?.[formKey ?? this.getFormKey()] || [];
-    return [...speciesTms, ...formTms];
+  getTms(form?: string | number): MoveId[] {
+    return speciesDataRegistry.getTms(this.speciesId, form);
   }
 
   /**

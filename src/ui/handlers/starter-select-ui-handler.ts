@@ -6,7 +6,7 @@ import { activeOverrides } from "#app/overrides";
 import { handleTutorial, Tutorial } from "#app/tutorial";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
-import { speciesData } from "#balance/species/species-data";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,
@@ -2874,9 +2874,8 @@ export class StarterSelectUiHandler extends MessageUiHandler {
     const updatedMoveset = starterMoveset.slice() as StarterMoveset;
     const formIndex = globalScene.gameData.getSpeciesDexAttrProps(this.lastSpecies, this.dexAttrCursor).formIndex;
     const starterDataEntry = globalScene.gameData.starterData[speciesId];
-    const formKey = this.lastSpecies.forms[formIndex].formKey;
     // species has different forms
-    if (speciesData[speciesId].formLevelMoves?.[formKey]) {
+    if (speciesDataRegistry.hasFormLevelMoves(speciesId)) {
       // Species has forms with different movesets
       if (!starterDataEntry.moveset || Array.isArray(starterDataEntry.moveset)) {
         starterDataEntry.moveset = {};
