@@ -9,6 +9,7 @@ import { initGenerationEight } from "#balance/species/generation-08";
 import { initGenerationNine } from "#balance/species/generation-09";
 import { setSpeciesDataRegistry } from "#balance/species/species-data-registry";
 import { allSpecies } from "#data/data-lists";
+import type { AbilityId } from "#enums/ability-id";
 import type { EggTier } from "#enums/egg-type";
 import type { MoveId } from "#enums/move-id";
 import type { SpeciesId } from "#enums/species-id";
@@ -81,12 +82,36 @@ export class SpeciesDataRegistry {
     return !!speciesData.formLevelMoves && Object.keys(speciesData.formLevelMoves).length > 0;
   }
 
+  /**
+   * Get all starter species that belong to a given egg tier.
+   * @param tier - the {@link EggTier} to get starter species for
+   * @returns an array of all starter species that belong to the given egg tier
+   */
   public getAllEggTierSpecies(tier: EggTier): PokemonSpecies[] {
     const species = Object.values(this.data)
       .filter(s => s.eggTier === tier)
       .map(s => s.species);
     return species;
   }
+
+  /**
+   * Get the passive ability for a given species and form.
+   * @param speciesId - The {@link SpeciesId} of the species to get the passive for
+   * @param form - the `formIndex` or `formKey` of the form to get the passive for. (default: base form)
+   * @returns the passive ability of the species and form
+   */
+  public getPassive(speciesId: SpeciesId, form: string | number): AbilityId {
+    const speciesData = this.getSpeciesData(speciesId);
+    // TODO: Should probably also use formkeys for passives to keep it consistent
+    let formIndex = this.getFormIndex(speciesId, form);
+    const passives = speciesData.passives;
+    if (typeof passives === "object" && !(formIndex in passives)) {
+      formIndex = 0;
+    }
+    return typeof passives === "object" ? passives[formIndex] : passives;
+  }
+
+  //#region Helpers
 
   /**
    * Helper to get the form key for a given species and formIndex or formKey.
@@ -113,6 +138,31 @@ export class SpeciesDataRegistry {
     }
     return speciesData.species.forms[form]?.formKey ?? "";
   }
+
+  /**
+   * Helper to get the form index for a given species and formIndex or formKey.
+   * @param speciesId - The {@link SpeciesId} of the species to get the form index for
+   * @param form - the `formIndex` or `formKey` of the form to get the form index for. (default: base form)
+   * @returns The form index
+   */
+  private getFormIndex(speciesId: SpeciesId, form?: string | number): number {
+    const speciesData = this.getSpeciesData(speciesId);
+    if (typeof form === "number") {
+      if (form >= 0 && form < speciesData.species.forms.length) {
+        return form;
+      }
+      form = undefined;
+    }
+    if (typeof form === "string") {
+      const formIndex = speciesData.species.forms.findIndex(f => f.formKey === form);
+      if (formIndex !== -1) {
+        return formIndex;
+      }
+    }
+    return 0;
+  }
+
+  //#endregion Helpers
 }
 
 export function initSpeciesDataRegistry(): void {
