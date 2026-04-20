@@ -2,7 +2,6 @@ import { globalScene } from "#app/global-scene";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { activeOverrides } from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { starterPassiveAbilities } from "#balance/passives";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import {
   getEvolutions,
@@ -11,6 +10,7 @@ import {
   pokemonPrevolutions,
   pokemonStarters,
 } from "#balance/pokemon-evolutions";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,
@@ -886,13 +886,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
     this.tmMoves = species.getTms(formKey).sort((a, b) => (allMoves[a].name > allMoves[b].name ? 1 : -1)) ?? [];
 
-    const passiveId = Object.hasOwn(starterPassiveAbilities, species.speciesId)
-      ? species.speciesId
-      : Object.hasOwn(starterPassiveAbilities, this.starterId)
-        ? this.starterId
-        : pokemonPrevolutions[this.starterId];
-    const passives = starterPassiveAbilities[passiveId];
-    this.passive = this.formIndex in passives ? passives[formIndex] : passives[0];
+    this.passive = speciesDataRegistry.getPassive(species.speciesId, this.formIndex);
 
     const starterData = globalScene.gameData.starterData[this.starterId];
     const abilityAttr = starterData.abilityAttr;
@@ -1154,17 +1148,14 @@ export class PokedexPageUiHandler extends MessageUiHandler {
    * @param speciesId the id of the species to check
    * @returns the id of the corresponding starter
    */
-  private getStarterSpeciesId(speciesId: SpeciesId): number {
+  private getStarterSpeciesId(speciesId: SpeciesId): SpeciesId {
     if (speciesId === SpeciesId.PIKACHU) {
       if ([0, 1, 8].includes(this.formIndex)) {
         return SpeciesId.PICHU;
       }
       return SpeciesId.PIKACHU;
     }
-    if (Object.hasOwn(speciesStarterCosts, speciesId)) {
-      return speciesId;
-    }
-    return pokemonStarters[speciesId];
+    return speciesDataRegistry.getSpeciesData(speciesId).starter;
   }
 
   private getStarterSpecies(species): PokemonSpecies {

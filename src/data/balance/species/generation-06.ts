@@ -1,5 +1,4 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
-import { starterPassiveAbilities } from "#balance/passives";
 import {
   EvoCondKey,
   EvolutionItem,
@@ -9412,7 +9411,6 @@ function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   validateStarters(genData);
   validateStarterCost(genData);
   validateEvolutions(genData);
-  validatePassives(genData);
   console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
 }
 
@@ -9485,29 +9483,5 @@ function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
     console.info("Evolutions validation passed!");
   } else {
     console.error(`Evolutions validation failed with ${fails} errors.`);
-  }
-}
-
-function validatePassives(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  for (const species of Object.values(genData)) {
-    let newVal = species.passives;
-    const oldVal = starterPassiveAbilities[species.species.speciesId];
-
-    if (typeof newVal === "number") {
-      newVal = { 0: newVal };
-    }
-
-    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-      console.error(
-        `Passive abilities mismatch for ${SpeciesId[species.species.speciesId]}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
-      );
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("Passive abilities validation passed!");
-  } else {
-    console.error(`Passive abilities validation failed with ${fails} errors.`);
   }
 }

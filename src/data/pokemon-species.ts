@@ -4,7 +4,6 @@ import type { GameMode } from "#app/game-mode";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { starterPassiveAbilities } from "#balance/passives";
 import { pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { speciesStarterCosts } from "#balance/starters";
@@ -202,24 +201,7 @@ export abstract class PokemonSpeciesForm {
    * @returns The id of the ability
    */
   getPassiveAbility(formIndex = this.formIndex): AbilityId {
-    // TODO: This logic is quite convoluted; besides, forms should not need to have their own `getPassiveAbility` functions
-    let starterSpeciesId = this.speciesId;
-    while (
-      !(starterSpeciesId in starterPassiveAbilities)
-      || !(formIndex in starterPassiveAbilities[starterSpeciesId])
-    ) {
-      if (Object.hasOwn(pokemonPrevolutions, starterSpeciesId)) {
-        starterSpeciesId = pokemonPrevolutions[starterSpeciesId];
-      } else {
-        // If we've reached the base species and still haven't found a matching ability, use form 0 if possible
-        if (0 in starterPassiveAbilities[starterSpeciesId]) {
-          return starterPassiveAbilities[starterSpeciesId][0];
-        }
-        console.log("No passive ability found for %s, using run away", this.speciesId);
-        return AbilityId.RUN_AWAY;
-      }
-    }
-    return starterPassiveAbilities[starterSpeciesId][formIndex];
+    return speciesDataRegistry.getPassive(this.speciesId, formIndex);
   }
 
   /**
