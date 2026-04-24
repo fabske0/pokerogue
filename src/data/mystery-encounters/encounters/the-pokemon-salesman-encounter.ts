@@ -2,7 +2,7 @@ import { CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { NON_LEGEND_PARADOX_POKEMON, NON_LEGEND_ULTRA_BEASTS } from "#balance/special-species-groups";
-import { speciesStarterCosts } from "#balance/starters";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
 import { MysteryEncounterOptionMode } from "#enums/mystery-encounter-option-mode";
@@ -97,9 +97,9 @@ export const ThePokemonSalesmanEncounter: MysteryEncounter = MysteryEncounterBui
       s =>
         !NON_LEGEND_PARADOX_POKEMON.includes(s.speciesId)
         && !NON_LEGEND_ULTRA_BEASTS.includes(s.speciesId)
-        && Object.keys(speciesStarterCosts) // The event expects the chosen pokemon to be a valid starter,
-          .map(sId => Number.parseInt(sId)) // and will break if a non-starter is chosen
-          .includes(s.speciesId),
+        && speciesDataRegistry.isStarter(s.speciesId),
+      // The event expects the chosen pokemon to be a valid starter,
+      // and will break if a non-starter is chosen
     );
 
     let pokemon: PlayerPokemon;
@@ -177,7 +177,7 @@ export const ThePokemonSalesmanEncounter: MysteryEncounter = MysteryEncounterBui
       variant: pokemon.variant,
     });
 
-    const starterTier = speciesStarterCosts[species.speciesId];
+    const starterTier = speciesDataRegistry.getStarterCost(species.speciesId);
     // Prices decrease by starter tier less than 5, but only reduces cost by half at max
     let priceMultiplier = MAX_POKEMON_PRICE_MULTIPLIER * (Math.max(starterTier, 2.5) / 5);
     if (pokemon.shiny) {

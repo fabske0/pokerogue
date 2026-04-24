@@ -3,20 +3,13 @@ import { starterColors } from "#app/global-vars/starter-colors";
 import Overrides from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import {
-  getEvolutions,
-  getPreEvolutions,
-  pokemonEvolutions,
-  pokemonPrevolutions,
-  pokemonStarters,
-} from "#balance/pokemon-evolutions";
+import { getEvolutions, getPreEvolutions, pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,
   getStarterValueFriendshipCap,
   getValueReductionCandyCounts,
-  speciesStarterCosts,
 } from "#balance/starters";
 import { allAbilities, allMoves, allSpecies, catchableSpecies } from "#data/data-lists";
 import { Egg, getEggTierForSpecies } from "#data/egg";
@@ -421,12 +414,9 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
     const starterBoxContainer = globalScene.add.container(speciesContainerX + 6, 9); // 115
 
-    for (const species of allSpecies) {
-      if (!Object.hasOwn(speciesStarterCosts, species.speciesId)) {
-        continue;
-      }
-
-      this.speciesLoaded.set(species.speciesId, false);
+    for (const speciesId of speciesDataRegistry.getAllStarters()) {
+      this.speciesLoaded.set(speciesId, false);
+      const species = speciesDataRegistry.getSpecies(speciesId);
       this.allSpecies.push(species);
     }
 
@@ -805,7 +795,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
   private getMenuText(): string {
     const isSeen = this.isSeen();
-    const isStarterCaught = !!this.isCaught(this.getStarterSpecies(this.species));
+    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarterSpecies(this.species));
 
     return this.menuOptions
       .map(o => {
@@ -1046,7 +1036,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     if (this.speciesStarterDexEntry?.seenAttr) {
       return true;
     }
-    const starterCaughtAttr = this.isCaught(this.getStarterSpecies(this.species));
+    const starterCaughtAttr = this.isCaught(speciesDataRegistry.getStarterSpecies(this.species));
     return !!starterCaughtAttr;
   }
 
@@ -1158,13 +1148,6 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     return speciesDataRegistry.getSpeciesData(speciesId).starter;
   }
 
-  private getStarterSpecies(species): PokemonSpecies {
-    if (Object.hasOwn(speciesStarterCosts, species.speciesId)) {
-      return species;
-    }
-    return allSpecies.find(sp => sp.speciesId === pokemonStarters[species.speciesId]) ?? species;
-  }
-
   public override processInput(button: Button): boolean {
     if (this.blockInput) {
       return false;
@@ -1178,7 +1161,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     const isCaught = this.isCaught();
     const isFormCaught = this.isFormCaught();
     const isSeen = this.isSeen();
-    const isStarterCaught = !!this.isCaught(this.getStarterSpecies(this.species));
+    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarterSpecies(this.species));
 
     if (this.isRibbonTrayOpen) {
       if (button === Button.CANCEL) {
@@ -1974,7 +1957,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
             const candyCount = starterData.candyCount;
 
             if (!(passiveAttr & PassiveAttr.UNLOCKED)) {
-              const passiveCost = getPassiveCandyCount(speciesStarterCosts[this.starterId]);
+              const passiveCost = getPassiveCandyCount(speciesDataRegistry.getStarterCost(this.starterId));
               options.push({
                 label: `×${passiveCost} ${i18next.t("pokedexUiHandler:unlockPassive")}`,
                 handler: () => {
@@ -2008,7 +1991,9 @@ export class PokedexPageUiHandler extends MessageUiHandler {
             // Reduce cost option
             const valueReduction = starterData.valueReduction;
             if (valueReduction < valueReductionMax) {
-              const reductionCost = getValueReductionCandyCounts(speciesStarterCosts[this.starterId])[valueReduction];
+              const reductionCost = getValueReductionCandyCounts(speciesDataRegistry.getStarterCost(this.starterId))[
+                valueReduction
+              ];
               options.push({
                 label: `×${reductionCost} ${i18next.t("starterSelectUiHandler:reduceCost", { newCost: globalScene.gameData.getSpeciesStarterValue(this.starterId, starterData.valueReduction + 1) })}`,
                 handler: () => {
@@ -2040,7 +2025,10 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
             // Same species egg menu option.
             const hatchCount = globalScene.gameData.dexData[this.starterId].hatchedCount;
-            const sameSpeciesEggCost = getSameSpeciesEggCandyCounts(speciesStarterCosts[this.starterId], hatchCount);
+            const sameSpeciesEggCost = getSameSpeciesEggCandyCounts(
+              speciesDataRegistry.getStarterCost(this.starterId),
+              hatchCount,
+            );
             options.push({
               label: `×${sameSpeciesEggCost} ${i18next.t("pokedexUiHandler:sameSpeciesEgg")}`,
               handler: () => {
@@ -2341,7 +2329,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
       currentFriendship = 0;
     }
 
-    const friendshipCap = getStarterValueFriendshipCap(speciesStarterCosts[this.starterId]);
+    const friendshipCap = getStarterValueFriendshipCap(speciesDataRegistry.getStarterCost(this.starterId));
 
     return { currentFriendship, friendshipCap };
   }
@@ -2354,7 +2342,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     const starterData = globalScene.gameData.starterData[this.starterId];
 
     return (
-      starterData.candyCount >= getPassiveCandyCount(speciesStarterCosts[this.starterId])
+      starterData.candyCount >= getPassiveCandyCount(speciesDataRegistry.getStarterCost(this.starterId))
       && !(starterData.passiveAttr & PassiveAttr.UNLOCKED)
     );
   }
@@ -2368,7 +2356,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
     return (
       starterData.candyCount
-        >= getValueReductionCandyCounts(speciesStarterCosts[this.starterId])[starterData.valueReduction]
+        >= getValueReductionCandyCounts(speciesDataRegistry.getStarterCost(this.starterId))[starterData.valueReduction]
       && starterData.valueReduction < valueReductionMax
     );
   }
@@ -2381,7 +2369,10 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     const starterData = globalScene.gameData.starterData[this.starterId];
     const hatchCount = globalScene.gameData.dexData[this.starterId].hatchedCount;
 
-    return starterData.candyCount >= getSameSpeciesEggCandyCounts(speciesStarterCosts[this.starterId], hatchCount);
+    return (
+      starterData.candyCount
+      >= getSameSpeciesEggCandyCounts(speciesDataRegistry.getStarterCost(this.starterId), hatchCount)
+    );
   }
 
   private setSpecies(): void {

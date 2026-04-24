@@ -38,17 +38,26 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get the {@linkcode PokemonSpeciesData} for a given species.
-   * @param speciesId-  The {@link SpeciesId} of the species to get data for
-   * @returns The {@linkcode PokemonSpeciesData}
+   * Get the {@linkcodecode PokemonSpeciesData} for a given species.
+   * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
+   * @returns The {@linkcodecode PokemonSpeciesData}
    */
   public getSpeciesData(speciesId: SpeciesId): PokemonSpeciesData {
     return this.data[speciesId];
   }
 
   /**
+   * Get the {@linkcodecode PokemonSpecies} for a given species.
+   * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
+   * @returns The {@linkcodecode PokemonSpecies}
+   */
+  public getSpecies(speciesId: SpeciesId): PokemonSpecies {
+    return this.getSpeciesData(speciesId).species;
+  }
+
+  /**
    * Get all available TMs for a given species and form.
-   * @param speciesId - The {@link SpeciesId} of the species to get TMs for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get TMs for
    * @param form - the `formIndex` or `formKey` of the form to get TMs for. (default: base form)
    * @return An array of all TMs available
    */
@@ -61,7 +70,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Get all available level moves for a given species and form.
-   * @param speciesId - The {@link SpeciesId} of the species to get level moves for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get level moves for
    * @param form - the `formIndex` or `formKey` of the form to get level moves for. (default: base form)
    * @return An array of all level moves available
    */
@@ -74,7 +83,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Checks if a given species has any form specific level moves.
-   * @param speciesId - The {@link SpeciesId} of the species to check
+   * @param speciesId - The {@linkcode SpeciesId} of the species to check
    * @returns whether the species and form has any form specific level moves
    */
   public hasFormLevelMoves(speciesId: SpeciesId): boolean {
@@ -84,7 +93,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Get all starter species that belong to a given egg tier.
-   * @param tier - the {@link EggTier} to get starter species for
+   * @param tier - the {@linkcode EggTier} to get starter species for
    * @returns an array of all starter species that belong to the given egg tier
    */
   public getAllEggTierSpecies(tier: EggTier): PokemonSpecies[] {
@@ -96,7 +105,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Get the passive ability for a given species and form.
-   * @param speciesId - The {@link SpeciesId} of the species to get the passive for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the passive for
    * @param form - the `formIndex` or `formKey` of the form to get the passive for. (default: base form)
    * @returns the passive ability of the species and form
    */
@@ -111,12 +120,68 @@ export class SpeciesDataRegistry {
     return typeof passives === "object" ? passives[formIndex] : passives;
   }
 
+  /**
+   * Checks if a given species is a starter.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to check
+   * @returns whether the species is a starter
+   */
+  public isStarter(speciesId: SpeciesId): boolean {
+    const speciesData = this.getSpeciesData(speciesId);
+    return !!speciesData.starterCost;
+  }
+
+  /**
+   * Get the starter species of a given species.
+   * @param species - The {@linkcode SpeciesId} of the species to get the starter for
+   * @returns The starter {@linkcodecode SpeciesId}
+   */
+  public getStarterSpecies(species: SpeciesId | PokemonSpecies): PokemonSpecies {
+    const speciesId = typeof species === "number" ? species : species.speciesId;
+    const speciesData = this.getSpeciesData(speciesId);
+    // only need to check if the species is a starter because of pikachu :/
+    return this.isStarter(speciesId) ? speciesData.species : this.getSpecies(speciesData.starter);
+  }
+
+  /**
+   * Get the starter cost for a given species.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the starter cost for
+   * @returns The starter cost of the species
+   */
+  public getStarterCost(speciesId: SpeciesId): number {
+    const speciesData = this.getSpeciesData(speciesId);
+    // We assume that the starter cost is set if it's a starter
+    return speciesData.starterCost as number;
+  }
+
+  /**
+   * Get all starters.
+   * @returns An array of all starter {@linkcodecode SpeciesId}s
+   */
+  public getAllStarters(): SpeciesId[] {
+    const species = Object.values(this.data)
+      .filter(s => this.isStarter(s.species.speciesId))
+      .map(s => s.species.speciesId);
+    return species;
+  }
+
+  /**
+   * Get all starters for a given starter cost.
+   * @param starterCost - The starter cost
+   * @returns An array of all starter species that have the given starter cost
+   */
+  getAllStartersWithCost(starterCost: number): SpeciesId[] {
+    const species = Object.values(this.data)
+      .filter(s => s.starterCost === starterCost)
+      .map(s => s.species.speciesId);
+    return species;
+  }
+
   //#region Helpers
 
   /**
    * Helper to get the form key for a given species and formIndex or formKey.
    * Also validates that the form exists and falls back to the base form if it doesn't.
-   * @param speciesId - The {@link SpeciesId} of the species to get the form key for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the form key for
    * @param form - the `formIndex` or `formKey` of the form to get the form key for. (default: base form)
    * @returns The formKey
    */
@@ -141,7 +206,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Helper to get the form index for a given species and formIndex or formKey.
-   * @param speciesId - The {@link SpeciesId} of the species to get the form index for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the form index for
    * @param form - the `formIndex` or `formKey` of the form to get the form index for. (default: base form)
    * @returns The form index
    */

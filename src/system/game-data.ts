@@ -7,7 +7,7 @@ import Overrides from "#app/overrides";
 import { Tutorial } from "#app/tutorial";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
-import { speciesStarterCosts } from "#balance/starters";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { bypassLogin, isBeta, isDev } from "#constants/app-constants";
 import { MAX_STARTER_CANDY_COUNT } from "#constants/game-constants";
 import { EntryHazardTag } from "#data/arena-tag";
@@ -1520,8 +1520,7 @@ export class GameData {
   private initStarterData(): void {
     const starterData: StarterData = {};
 
-    const starterSpeciesIds = Object.keys(speciesStarterCosts).map(k => Number.parseInt(k) as SpeciesId);
-
+    const starterSpeciesIds = speciesDataRegistry.getAllStarters();
     for (const speciesId of starterSpeciesIds) {
       starterData[speciesId] = {
         moveset: null,
@@ -1650,11 +1649,13 @@ export class GameData {
       }
     }
 
-    // Unlock ability
-    if (Object.hasOwn(speciesStarterCosts, species.speciesId)) {
-      this.starterData[species.speciesId].abilityAttr |=
-        pokemon.abilityIndex !== 1 || pokemon.species.ability2 ? 1 << pokemon.abilityIndex : AbilityAttr.ABILITY_HIDDEN;
-    }
+      // Unlock ability
+      if (speciesDataRegistry.isStarter(species.speciesId)) {
+        this.starterData[species.speciesId].abilityAttr |=
+          pokemon.abilityIndex !== 1 || pokemon.species.ability2
+            ? 1 << pokemon.abilityIndex
+            : AbilityAttr.ABILITY_HIDDEN;
+      }
 
     // Unlock nature
     dexEntry.natureAttr |= 1 << (pokemon.nature + 1);
@@ -1714,7 +1715,7 @@ export class GameData {
       );
     };
 
-    if (!newCatch || !Object.hasOwn(speciesStarterCosts, species.speciesId)) {
+    if (!newCatch || !speciesDataRegistry.isStarter(species.speciesId)) {
       return await checkPrevolution(false);
     }
     // TODO: This will skip unlocking a pre-evolution if the player catches an evolved form that is itself a starter.
@@ -1883,7 +1884,7 @@ export class GameData {
   }
 
   getStarterCount(dexEntryPredicate: (entry: DexEntry) => boolean): number {
-    const starterKeys = Object.keys(speciesStarterCosts);
+    const starterKeys = speciesDataRegistry.getAllStarters();
     let starterCount = 0;
     for (const s of starterKeys) {
       const starterDexEntry = this.dexData[s];
@@ -1995,8 +1996,7 @@ export class GameData {
    * `valueReduction` only needs to be provided when testing a value reduction other than the one currently unlocked
    */
   getSpeciesStarterValue(speciesId: SpeciesId, valueReduction?: number): number {
-    // TODO: is this bang correct?
-    const baseValue = speciesStarterCosts[speciesId]!;
+    const baseValue = speciesDataRegistry.getStarterCost(speciesId);
     const reduction = valueReduction ?? this.starterData[speciesId].valueReduction;
     let value = baseValue;
 

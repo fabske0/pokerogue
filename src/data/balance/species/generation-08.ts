@@ -7,7 +7,6 @@ import {
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
-import { speciesStarterCosts } from "#balance/starters";
 import { GrowthRate } from "#data/exp";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
@@ -14031,7 +14030,6 @@ function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   console.log(`-----------⚠️Starting validation of generation ${gen} data⚠️-----------`);
   validateSpecies(genData);
   validateStarters(genData);
-  validateStarterCost(genData);
   validateEvolutions(genData);
   console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
 }
@@ -14066,26 +14064,6 @@ function validateStarters(genData: Record<SpeciesId, PokemonSpeciesData>) {
     console.info("Starters validation passed!");
   } else {
     console.error(`Starters validation failed with ${fails} errors.`);
-  }
-}
-
-function validateStarterCost(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  const newVal = Object.values(genData);
-  const oldVal = speciesStarterCosts;
-  for (const species of newVal) {
-    const speciesId = species.species.speciesId;
-    const oldStarter = oldVal[speciesId] as number;
-    if (oldStarter !== species.starterCost) {
-      console.error(`Starter Cost mismatch for ${SpeciesId[speciesId]}: new=${species.starterCost} old=${oldStarter}`);
-
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("Starter Cost validation passed!");
-  } else {
-    console.error(`Starter cost validation failed with ${fails} errors.`);
   }
 }
 

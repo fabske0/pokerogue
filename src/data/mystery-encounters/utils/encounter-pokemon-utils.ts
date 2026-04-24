@@ -1,7 +1,7 @@
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { getPokemonNameWithAffix } from "#app/messages";
-import { speciesStarterCosts } from "#balance/starters";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { modifierTypes } from "#data/data-lists";
 import { Gender } from "#data/gender";
 import {
@@ -260,8 +260,9 @@ export function getRandomSpeciesByStarterCost(
   let min = Array.isArray(starterTiers) ? starterTiers[0] : starterTiers;
   let max = Array.isArray(starterTiers) ? starterTiers[1] : starterTiers;
 
-  let filteredSpecies: [PokemonSpecies, number][] = Object.keys(speciesStarterCosts)
-    .map(s => [Number.parseInt(s) as SpeciesId, speciesStarterCosts[s] as number])
+  let filteredSpecies: [PokemonSpecies, number][] = speciesDataRegistry
+    .getAllStarters()
+    .map(s => [s, speciesDataRegistry.getStarterCost(s)])
     .filter(s => {
       const pokemonSpecies = getPokemonSpecies(s[0]);
       return (

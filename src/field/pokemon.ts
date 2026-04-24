@@ -19,9 +19,9 @@ import {
   validateShedinjaEvo,
 } from "#balance/pokemon-evolutions";
 import { BASE_HIDDEN_ABILITY_RATE, BASE_SHINY_CHANCE, SHINY_EPIC_CHANCE, SHINY_VARIANT_CHANCE } from "#balance/rates";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getStarterValueFriendshipCap,
-  speciesStarterCosts,
   TRAINER_MAX_FRIENDSHIP_WAVE,
   TRAINER_MIN_FRIENDSHIP,
 } from "#balance/starters";
@@ -6083,7 +6083,7 @@ export class PlayerPokemon extends Pokemon {
     // Add to candy progress for this mon's starter species and its fused species (if it has one)
     starterData.forEach(([sd, id]: [StarterDataEntry, SpeciesId]) => {
       sd.friendship = (sd.friendship || 0) + candyFriendshipAmount;
-      const friendshipCap = getStarterValueFriendshipCap(speciesStarterCosts[id]);
+      const friendshipCap = getStarterValueFriendshipCap(speciesDataRegistry.getStarterCost(id));
       if (sd.friendship >= friendshipCap) {
         const wasCandyIncremeted = gameData.addStarterCandy(id, Math.floor(sd.friendship / friendshipCap));
         if (wasCandyIncremeted) {
