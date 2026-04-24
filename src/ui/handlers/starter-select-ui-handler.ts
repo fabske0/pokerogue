@@ -13,9 +13,8 @@ import {
   getStarterValueFriendshipCap,
   getValueReductionCandyCounts,
   POKERUS_STARTER_COUNT,
-  speciesStarterCosts,
 } from "#balance/starters";
-import { allAbilities, allMoves, allSpecies } from "#data/data-lists";
+import { allAbilities, allMoves } from "#data/data-lists";
 import { Egg, getEggTierForSpecies } from "#data/egg";
 import { GrowthRate, getGrowthRateColor } from "#data/exp";
 import { Gender, getGenderColor, getGenderSymbol } from "#data/gender";
@@ -801,13 +800,10 @@ export class StarterSelectUiHandler extends MessageUiHandler {
     starterBoxContainer.add(this.cursorObj);
 
     // TODO: Apply the same logic done in the pokedex to only have 81 containers whose sprites are cycled
-    for (const species of allSpecies) {
-      if (!Object.hasOwn(speciesStarterCosts, species.speciesId)) {
-        continue;
-      }
-
-      starterSpecies.push(species.speciesId);
-      this.speciesLoaded.set(species.speciesId, false);
+    for (const speciesId of speciesDataRegistry.getAllStarters()) {
+      starterSpecies.push(speciesId);
+      this.speciesLoaded.set(speciesId, false);
+      const species = speciesDataRegistry.getSpecies(speciesId);
       this.allSpecies.push(species);
 
       const starterContainer = new StarterContainer(species).setVisible(false);
@@ -1445,7 +1441,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
   isPassiveAvailable(speciesId: SpeciesId): boolean {
     // Get this species ID's starter data
     const starterData = globalScene.gameData.starterData[speciesId];
-    const starterCost = speciesStarterCosts[speciesId];
+    const starterCost = speciesDataRegistry.getStarterCost(speciesId);
 
     return (
       starterCost != null
@@ -1462,7 +1458,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
   isValueReductionAvailable(speciesId: SpeciesId): boolean {
     // Get this species ID's starter data
     const starterData = globalScene.gameData.starterData[speciesId];
-    const starterCost = speciesStarterCosts[speciesId];
+    const starterCost = speciesDataRegistry.getStarterCost(speciesId);
 
     return (
       starterCost != null
@@ -1478,7 +1474,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
    */
   isSameSpeciesEggAvailable(speciesId: SpeciesId): boolean {
     const starterData = globalScene.gameData.starterData[speciesId];
-    const starterCost = speciesStarterCosts[speciesId];
+    const starterCost = speciesDataRegistry.getStarterCost(speciesId);
     const hatchedCount = globalScene.gameData.dexData[speciesId].hatchedCount;
 
     return starterCost != null && starterData.candyCount >= getSameSpeciesEggCandyCounts(starterCost, hatchedCount);
@@ -2252,7 +2248,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
 
             // Unlock passive option
             if (!(passiveAttr & PassiveAttr.UNLOCKED) && !globalScene.gameMode.hasChallenge(Challenges.FRESH_START)) {
-              const passiveCost = getPassiveCandyCount(speciesStarterCosts[this.lastSpecies.speciesId]);
+              const passiveCost = getPassiveCandyCount(speciesDataRegistry.getStarterCost(this.lastSpecies.speciesId));
               options.push({
                 label: `×${passiveCost} ${i18next.t("starterSelectUiHandler:unlockPassive")}`,
                 handler: () => {
@@ -2291,9 +2287,9 @@ export class StarterSelectUiHandler extends MessageUiHandler {
             // Reduce cost option
             const valueReduction = starterData.valueReduction;
             if (valueReduction < valueReductionMax && !globalScene.gameMode.hasChallenge(Challenges.FRESH_START)) {
-              const reductionCost = getValueReductionCandyCounts(speciesStarterCosts[this.lastSpecies.speciesId])[
-                valueReduction
-              ];
+              const reductionCost = getValueReductionCandyCounts(
+                speciesDataRegistry.getStarterCost(this.lastSpecies.speciesId),
+              )[valueReduction];
               options.push({
                 label: `×${reductionCost} ${i18next.t("starterSelectUiHandler:reduceCost", { newCost: globalScene.gameData.getSpeciesStarterValue(this.lastSpecies.speciesId, starterData.valueReduction + 1) })}`,
                 handler: () => {
@@ -2332,7 +2328,10 @@ export class StarterSelectUiHandler extends MessageUiHandler {
             // Same species egg menu option.
             const lastSpeciesId = this.lastSpecies.speciesId;
             const hatchedCount = globalScene.gameData.dexData[lastSpeciesId].hatchedCount;
-            const sameSpeciesEggCost = getSameSpeciesEggCandyCounts(speciesStarterCosts[lastSpeciesId], hatchedCount);
+            const sameSpeciesEggCost = getSameSpeciesEggCandyCounts(
+              speciesDataRegistry.getStarterCost(lastSpeciesId),
+              hatchedCount,
+            );
             options.push({
               label: `×${sameSpeciesEggCost} ${i18next.t("starterSelectUiHandler:sameSpeciesEgg")}`,
               handler: () => {
@@ -3543,7 +3542,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
       currentFriendship = 0;
     }
 
-    const friendshipCap = getStarterValueFriendshipCap(speciesStarterCosts[speciesId]);
+    const friendshipCap = getStarterValueFriendshipCap(speciesDataRegistry.getStarterCost(speciesId));
 
     return { currentFriendship, friendshipCap };
   }
@@ -4342,7 +4341,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
   // TODO: Dedupe from pokedex
   updateStarterValueLabel(starter: StarterContainer): void {
     const speciesId = starter.species.speciesId;
-    const baseStarterValue = speciesStarterCosts[speciesId];
+    const baseStarterValue = speciesDataRegistry.getStarterCost(speciesId);
     if (baseStarterValue == null) {
       return;
     }

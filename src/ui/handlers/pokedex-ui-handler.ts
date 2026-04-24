@@ -1,14 +1,14 @@
 import { globalScene } from "#app/global-scene";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { getEvolutions, getPreEvolutions, pokemonStarters } from "#balance/pokemon-evolutions";
+import { getEvolutions, getPreEvolutions } from "#balance/pokemon-evolutions";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,
   getStarterValueFriendshipCap,
   getValueReductionCandyCounts,
   POKERUS_STARTER_COUNT,
-  speciesStarterCosts,
 } from "#balance/starters";
 import { allAbilities, allMoves, allSpecies, catchableSpecies } from "#data/data-lists";
 import type { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
@@ -899,10 +899,7 @@ export class PokedexUiHandler extends MessageUiHandler {
   }
 
   getStarterSpeciesId(speciesId: SpeciesId): SpeciesId {
-    if (Object.hasOwn(speciesStarterCosts, speciesId)) {
-      return speciesId;
-    }
-    return pokemonStarters[speciesId];
+    return speciesDataRegistry.getStarterSpecies(speciesId).speciesId;
   }
 
   /**
@@ -915,7 +912,8 @@ export class PokedexUiHandler extends MessageUiHandler {
     const starterData = this.gameData.starterData[this.getStarterSpeciesId(speciesId)];
 
     return (
-      starterData.candyCount >= getPassiveCandyCount(speciesStarterCosts[this.getStarterSpeciesId(speciesId)])
+      starterData.candyCount
+        >= getPassiveCandyCount(speciesDataRegistry.getStarterCost(this.getStarterSpeciesId(speciesId)))
       && !(starterData.passiveAttr & PassiveAttr.UNLOCKED)
     );
   }
@@ -931,7 +929,7 @@ export class PokedexUiHandler extends MessageUiHandler {
 
     return (
       starterData.candyCount
-        >= getValueReductionCandyCounts(speciesStarterCosts[this.getStarterSpeciesId(speciesId)])[
+        >= getValueReductionCandyCounts(speciesDataRegistry.getStarterCost(this.getStarterSpeciesId(speciesId)))[
           starterData.valueReduction
         ] && starterData.valueReduction < valueReductionMax
     );
@@ -949,7 +947,7 @@ export class PokedexUiHandler extends MessageUiHandler {
     const candyCount = gameData.starterData[starterId].candyCount;
     const hatchCount = gameData.dexData[starterId].hatchedCount;
 
-    return candyCount >= getSameSpeciesEggCandyCounts(speciesStarterCosts[starterId], hatchCount);
+    return candyCount >= getSameSpeciesEggCandyCounts(speciesDataRegistry.getStarterCost(starterId), hatchCount);
   }
 
   /**
@@ -2146,7 +2144,7 @@ export class PokedexUiHandler extends MessageUiHandler {
       currentFriendship = 0;
     }
 
-    const friendshipCap = getStarterValueFriendshipCap(speciesStarterCosts[speciesId]);
+    const friendshipCap = getStarterValueFriendshipCap(speciesDataRegistry.getStarterCost(speciesId));
 
     return { currentFriendship, friendshipCap };
   }
@@ -2368,7 +2366,7 @@ export class PokedexUiHandler extends MessageUiHandler {
   // TODO: Dedupe from SSUI
   updateStarterValueLabel(starter: PokedexMonContainer): void {
     const speciesId = starter.species.speciesId;
-    const baseStarterValue = speciesStarterCosts[speciesId];
+    const baseStarterValue = speciesDataRegistry.getStarterCost(speciesId);
     const starterValue = this.gameData.getSpeciesStarterValue(this.getStarterSpeciesId(speciesId));
     starter.cost = starterValue;
     let valueStr: string = starterValue.toString();

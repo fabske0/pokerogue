@@ -26,7 +26,6 @@ import {
   SHINY_VARIANT_CHANCE,
 } from "#balance/rates";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
-import { speciesStarterCosts } from "#balance/starters";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { EggSourceType } from "#enums/egg-source-types";
 import { EggTier } from "#enums/egg-type";
@@ -477,7 +476,7 @@ export class Egg {
     for (const [idx, data] of speciesPool.entries()) {
       // Accounts for species that have starter costs outside of the normal range for their EggTier
       const speciesCostClamped = Phaser.Math.Clamp(
-        speciesStarterCosts[data.speciesId],
+        speciesDataRegistry.getStarterCost(data.speciesId),
         minStarterValue,
         maxStarterValue,
       );

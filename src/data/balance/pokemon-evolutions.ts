@@ -1,7 +1,6 @@
 import type { determineEnemySpecies } from "#app/ai/ai-species-gen";
 import { defaultStarterSpecies } from "#app/constants";
 import { globalScene } from "#app/global-scene";
-import { speciesStarterCosts } from "#balance/starters";
 import { allMoves } from "#data/data-lists";
 import { Gender, getGenderSymbol } from "#data/gender";
 import { BiomeId } from "#enums/biome-id";
@@ -21,6 +20,7 @@ import { randSeedInt } from "#utils/common";
 import { getPokemonSpecies } from "#utils/pokemon-utils";
 import { toCamelCase } from "#utils/strings";
 import i18next from "i18next";
+import { speciesDataRegistry } from "./species/species-data-registry";
 
 export enum EvolutionItem {
   NONE,
@@ -1890,7 +1890,7 @@ export function initPokemonPrevolutions(): void {
 
 // TODO: This may cause funny business for double starters such as Pichu/Pikachu
 export const pokemonStarters: PokemonPrevolutions = {};
-
+console.log(pokemonStarters)
 /** The default starters and their evolution lines */
 export const defaultStarterSpeciesAndEvolutions: SpeciesId[] = defaultStarterSpecies.flatMap(sId => [sId, ...getEvolutions(sId).values()]);
 
@@ -1898,7 +1898,7 @@ export function initPokemonStarters(): void {
   const starterKeys = Object.keys(pokemonPrevolutions);
   starterKeys.forEach(pk => {
     const prevolution = pokemonPrevolutions[pk];
-    if (Object.hasOwn(speciesStarterCosts, prevolution)) {
+    if (speciesDataRegistry.isStarter(prevolution)) {
       pokemonStarters[pk] = prevolution;
     } else {
       pokemonStarters[pk] = pokemonPrevolutions[prevolution];

@@ -25,6 +25,7 @@ export function initializeGame() {
   initAchievements();
   initVouchers();
   initStatsKeys();
+  initSpeciesDataRegistry();
   initPokemonPrevolutions();
   initPokemonStarters();
   initBiomes();
@@ -32,7 +33,6 @@ export function initializeGame() {
   initBiomeDepths();
   initPokemonForms();
   initTrainerTypeDialogue();
-  initSpeciesDataRegistry();
   initMoves();
   initAbilities();
   initChallenges();

@@ -1,5 +1,5 @@
 import { globalScene } from "#app/global-scene";
-import { speciesStarterCosts } from "#balance/starters";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { modifierTypes } from "#data/data-lists";
 import type { IEggOptions } from "#data/egg";
 import { getPokeballTintColor } from "#data/pokeball";
@@ -604,8 +604,9 @@ function calculateEggRewardsForPokemon(pokemon: PlayerPokemon): [number, number]
   const rootSpecies = pokemon.species.getRootSpeciesId();
   let pointsFromStarterTier = 0;
   // 2 points for every 1 below 7 that the pokemon's starter tier is (max 12, min 0)
-  if (Object.hasOwn(speciesStarterCosts, rootSpecies)) {
-    const starterTier = speciesStarterCosts[rootSpecies];
+  const starterCost = speciesDataRegistry.getStarterCost(rootSpecies);
+  if (starterCost !== undefined) {
+    const starterTier = starterCost;
     pointsFromStarterTier = Math.min(Math.max(Math.floor(7 - starterTier) * 2, 0), 12);
   }
 

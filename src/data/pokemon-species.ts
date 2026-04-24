@@ -6,7 +6,6 @@ import { globalScene } from "#app/global-scene";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
-import { speciesStarterCosts } from "#balance/starters";
 import type { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
 import { AbilityId } from "#enums/ability-id";
@@ -144,7 +143,7 @@ export abstract class PokemonSpeciesForm {
    */
   getRootSpeciesId(forStarter = false): SpeciesId {
     let ret = this.speciesId;
-    while (Object.hasOwn(pokemonPrevolutions, ret) && (!forStarter || !Object.hasOwn(speciesStarterCosts, ret))) {
+    while (pokemonPrevolutions.hasOwnProperty(ret) && (!forStarter || !speciesDataRegistry.isStarter(ret))) {
       ret = pokemonPrevolutions[ret];
     }
     return ret;

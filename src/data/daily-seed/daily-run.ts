@@ -1,7 +1,7 @@
 import { globalScene } from "#app/global-scene";
 import { dailyBiomeWeights } from "#balance/daily-biome-weights";
 import { pokemonStarters } from "#balance/pokemon-evolutions";
-import { speciesStarterCosts } from "#balance/starters";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allChallenges } from "#data/challenge";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { BiomeId } from "#enums/biome-id";
@@ -50,13 +50,11 @@ export function getDailyRunStarters(): StarterTuple {
       starterCosts.push(10 - (starterCosts[0] + starterCosts[1]));
 
       for (const cost of starterCosts) {
-        const costSpecies = Object.keys(speciesStarterCosts)
-          .map(s => Number.parseInt(s))
-          .filter(
-            s =>
-              speciesStarterCosts[s] === cost
-              && !starters.some(st => s === st.speciesId || pokemonStarters[st.speciesId] === s),
-          );
+        const costSpecies = speciesDataRegistry.getAllStartersWithCost(cost).filter(
+          s =>
+            // make sure there are no duplicate starters from the same line
+            !starters.some(st => s === st.speciesId || pokemonStarters[st.speciesId] === s),
+        );
         const randPkmSpecies = getPokemonSpecies(randSeedItem(costSpecies));
         const starterSpecies = getPokemonSpecies(
           randPkmSpecies.getTrainerSpeciesForLevel(
