@@ -10,10 +10,10 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { SpeciesDataMap } from "#types/pokemon-species";
+import type { SpeciesDataMapConfig } from "#types/pokemon-species";
 
-export function initGenerationFive(): SpeciesDataMap {
-  const generationFiveSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
+export function initGenerationFive(): SpeciesDataMapConfig {
+  const generationFiveSpeciesData: SpeciesDataMapConfig = {} as SpeciesDataMapConfig;
   generationFiveSpeciesData[SpeciesId.VICTINI] = {
     species: new PokemonSpecies({
       id: SpeciesId.VICTINI,

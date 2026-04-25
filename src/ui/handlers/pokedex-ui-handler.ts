@@ -1,7 +1,6 @@
 import { globalScene } from "#app/global-scene";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { getEvolutions, getPreEvolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
@@ -899,7 +898,7 @@ export class PokedexUiHandler extends MessageUiHandler {
   }
 
   getStarterSpeciesId(speciesId: SpeciesId): SpeciesId {
-    return speciesDataRegistry.getStarterSpecies(speciesId).speciesId;
+    return speciesDataRegistry.getStarter(speciesId);
   }
 
   /**
@@ -1559,8 +1558,8 @@ export class PokedexUiHandler extends MessageUiHandler {
       // due to pokemon being automatically [de-]evolved when encountered
       const evoLine: Set<SpeciesId> = new Set([
         species.speciesId,
-        ...getPreEvolutions(species.speciesId),
-        ...getEvolutions(species.speciesId).values(),
+        ...speciesDataRegistry.getPrevolutionChain(species.speciesId),
+        ...speciesDataRegistry.getEvolutionChain(species.speciesId),
       ]);
 
       const biomes: Set<string> = new Set(catchableSpecies[starterId].map(b => enumValueToKey(BiomeId, b.biome)));

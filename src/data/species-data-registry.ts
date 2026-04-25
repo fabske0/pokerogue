@@ -13,6 +13,7 @@ import { allSpecies } from "#data/data-lists";
 import type { AbilityId } from "#enums/ability-id";
 import type { EggTier } from "#enums/egg-type";
 import type { MoveId } from "#enums/move-id";
+import { SpeciesFormKey } from "#enums/species-form-key";
 import type { SpeciesId } from "#enums/species-id";
 import type { LevelMoves, PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
 import type { PokemonSpecies } from "./pokemon-species";
@@ -33,6 +34,8 @@ export class SpeciesDataRegistry {
       initGenerationEight(),
       initGenerationNine(),
     );
+
+    this.initPreEvolutions();
 
     // TODO: Replace all calls with direct calls to the registry
     (allSpecies as PokemonSpecies[]).push(...Object.values(this.data).map(s => s.species));
@@ -132,15 +135,22 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get the starter species of a given species.
-   * @param species - The {@linkcode SpeciesId} of the species to get the starter for
-   * @returns The starter {@linkcode SpeciesId}
+   * Get the starter of a given species.
+   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the starter for
+   * @param getSpecies - Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}. (default: `false`)
+   * @returns The starter {@linkcode SpeciesId} or {@linkcode PokemonSpecies}
    */
-  public getStarterSpecies(species: SpeciesId | PokemonSpecies): PokemonSpecies {
+  public getStarter(species: SpeciesId | PokemonSpecies): SpeciesId;
+  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies: false): SpeciesId;
+  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies: true): PokemonSpecies;
+  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies = false): SpeciesId | PokemonSpecies {
     const speciesId = typeof species === "number" ? species : species.speciesId;
     const speciesData = this.getSpeciesData(speciesId);
     // only need to check if the species is a starter because of pikachu :/
-    return this.isStarter(speciesId) ? speciesData.species : this.getSpecies(speciesData.starter);
+    if (getSpecies) {
+      return this.isStarter(speciesId) ? speciesData.species : this.getSpecies(speciesData.starter);
+    }
+    return this.isStarter(speciesId) ? speciesId : speciesData.starter;
   }
 
   /**
@@ -188,6 +198,22 @@ export class SpeciesDataRegistry {
   }
 
   /**
+   * Get all species in the evolution chain for a given species.
+   * Does NOT include the given species itself.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the evolution chain for
+   * @returns An array of {@linkcode SpeciesId}s representing the evolution chain
+   */
+  public getEvolutionChain(speciesId: SpeciesId): SpeciesId[] {
+    const evoLine: SpeciesId[] = [];
+    const evolutions = this.getEvolutions(speciesId);
+    for (const evolution of evolutions) {
+      evoLine.push(evolution.speciesId);
+      evoLine.push(...this.getEvolutionChain(evolution.speciesId));
+    }
+    return evoLine;
+  }
+
+  /**
    * Checks if a given species has any evolutions.
    * @param speciesId - The {@linkcode SpeciesId} of the species to check
    * @returns whether the species has any evolutions
@@ -206,6 +232,81 @@ export class SpeciesDataRegistry {
       .filter(s => this.hasEvolutions(s.species.speciesId))
       .map(s => s.species.speciesId);
   }
+
+  /**
+   * Get the prevolution of a given species.
+   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the prevolution for
+   * @param getSpecies - Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}. (default: `false`)
+   * @returns The prevolution {@linkcode SpeciesId} or {@linkcode PokemonSpecies}
+   */
+  public getPrevolution(species: SpeciesId | PokemonSpecies): SpeciesId | null;
+  public getPrevolution(species: SpeciesId | PokemonSpecies, getSpecies: false): SpeciesId | null;
+  public getPrevolution(species: SpeciesId | PokemonSpecies, getSpecies: true): PokemonSpecies | null;
+  public getPrevolution(species: SpeciesId | PokemonSpecies, getSpecies = false): SpeciesId | PokemonSpecies | null {
+    const speciesId = typeof species === "number" ? species : species.speciesId;
+    const speciesData = this.getSpeciesData(speciesId);
+    if (getSpecies) {
+      return speciesData.prevolution !== null ? this.getSpecies(speciesData.prevolution) : null;
+    }
+    return speciesData.prevolution;
+  }
+
+  /**
+   * Get all species in the prevolution chain for a given species.
+   * Does NOT include the given species itself.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the prevolution chain for
+   * @returns An array of {@linkcode SpeciesId}s representing the prevolution chain
+   */
+  public getPrevolutionChain(speciesId: SpeciesId): SpeciesId[] {
+    const preEvoSpecies: SpeciesId[] = [];
+    let preEvoSpeciesId = this.getPrevolution(speciesId);
+    while (preEvoSpeciesId) {
+      preEvoSpecies.push(preEvoSpeciesId);
+      preEvoSpeciesId = this.getPrevolution(preEvoSpeciesId);
+    }
+    return preEvoSpecies;
+  }
+
+  /**
+   * Check if a given species has a prevolution.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to check
+   * @returns Whether the species has a prevolution
+   */
+  // TODO: once pikachu isn't a starter anymore, we can just check if it's a starter, although we might want to keep this method for consistency and readability
+  public hasPrevolution(speciesId: SpeciesId): boolean {
+    return this.getPrevolution(speciesId) !== null;
+  }
+
+  //#region Initializations
+
+  /**
+   * Set the `prevolution` field for all species.
+   */
+  private initPreEvolutions(): void {
+    const megaFormKeys = [SpeciesFormKey.MEGA, SpeciesFormKey.MEGA_X, SpeciesFormKey.MEGA_Y];
+
+    const setPrevo = (speciesId: SpeciesId): void => {
+      const evolutions = this.getEvolutions(speciesId);
+      for (const evolution of evolutions) {
+        if (evolution.evoFormKey && megaFormKeys.includes(evolution.evoFormKey as SpeciesFormKey)) {
+          continue;
+        }
+
+        this.data[evolution.speciesId].prevolution = speciesId;
+
+        if (this.hasEvolutions(evolution.speciesId)) {
+          setPrevo(evolution.speciesId);
+        }
+      }
+    };
+
+    for (const starterId of this.getAllStarters()) {
+      this.data[starterId].prevolution = null;
+      setPrevo(starterId);
+    }
+  }
+
+  //#endregion Initializations
 
   //#region Helpers
 

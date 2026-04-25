@@ -9,10 +9,10 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { SpeciesDataMap } from "#types/pokemon-species";
+import type { SpeciesDataMapConfig } from "#types/pokemon-species";
 
-export function initGenerationOne(): SpeciesDataMap {
-  const generationOneSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
+export function initGenerationOne(): SpeciesDataMapConfig {
+  const generationOneSpeciesData: SpeciesDataMapConfig = {} as SpeciesDataMapConfig;
   generationOneSpeciesData[SpeciesId.BULBASAUR] = {
     species: new PokemonSpecies({
       id: SpeciesId.BULBASAUR,

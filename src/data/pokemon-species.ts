@@ -4,7 +4,6 @@ import type { GameMode } from "#app/game-mode";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
@@ -135,15 +134,16 @@ export abstract class PokemonSpeciesForm {
 
   /**
    * Method to get the root species id of a Pokemon.
-   * Magmortar.getRootSpeciesId(true) => Magmar
-   * Magmortar.getRootSpeciesId(false) => Magby
+   * Pikachu.getRootSpeciesId(true) => Pichu
+   * Pikachu.getRootSpeciesId(false) => Pikachu
    * @param forStarter boolean to get the nonbaby form of a starter
    * @returns The species
    */
+  // TODO: once we don't have later stage starters anymore (pikachu) we can simplify this or even remove and replace with a direct call to speciesDataRegistry.getStarter
   getRootSpeciesId(forStarter = false): SpeciesId {
     let ret = this.speciesId;
-    while (pokemonPrevolutions.hasOwnProperty(ret) && (!forStarter || !speciesDataRegistry.isStarter(ret))) {
-      ret = pokemonPrevolutions[ret];
+    while (speciesDataRegistry.hasPrevolution(ret) && (!forStarter || !speciesDataRegistry.isStarter(ret))) {
+      ret = speciesDataRegistry.getPrevolution(ret)!;
     }
     return ret;
   }
@@ -1088,7 +1088,7 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     player = false,
   ): EvolutionLevel[] {
     const ret: EvolutionLevel[] = [];
-    if (Object.hasOwn(pokemonPrevolutions, this.speciesId)) {
+    if (speciesDataRegistry.hasPrevolution(this.speciesId)) {
       const prevolutionLevels = this.getPrevolutionLevels().reverse();
       const levelDiff = player ? 0 : forTrainer || isBoss ? (forTrainer && isBoss ? 2.5 : 5) : 10;
       ret.push([prevolutionLevels[0][0], 1]);
@@ -1143,7 +1143,7 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
 
   getCompatibleFusionSpeciesFilter(): PokemonSpeciesFilter {
     const hasEvolution = speciesDataRegistry.hasEvolutions(this.speciesId);
-    const hasPrevolution = pokemonPrevolutions.hasOwnProperty(this.speciesId);
+    const hasPrevolution = speciesDataRegistry.hasPrevolution(this.speciesId);
     const subLegendary = this.subLegendary;
     const legendary = this.legendary;
     const mythical = this.mythical;
@@ -1153,7 +1153,7 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
           || legendary
           || mythical
           || (speciesDataRegistry.hasEvolutions(species.speciesId) === hasEvolution
-            && pokemonPrevolutions.hasOwnProperty(species.speciesId) === hasPrevolution))
+            && speciesDataRegistry.hasPrevolution(species.speciesId) === hasPrevolution))
         && species.subLegendary === subLegendary
         && species.legendary === legendary
         && species.mythical === mythical

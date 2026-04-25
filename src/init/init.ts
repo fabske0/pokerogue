@@ -1,7 +1,6 @@
 import "#app/extensions"; // Setup Phaser extension methods/etc
 
 import { initAbilities } from "#abilities/init-abilities";
-import { initPokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { initChallenges } from "#data/challenge";
 import { initTrainerTypeDialogue } from "#data/dialogue";
 import { initPokemonForms } from "#data/pokemon-forms";
@@ -26,7 +25,6 @@ export function initializeGame() {
   initVouchers();
   initStatsKeys();
   initSpeciesDataRegistry();
-  initPokemonPrevolutions();
   initBiomes();
   initCatchableSpecies();
   initBiomeDepths();

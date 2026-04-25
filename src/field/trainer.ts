@@ -1,6 +1,6 @@
 import { globalScene } from "#app/global-scene";
-import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { signatureSpecies } from "#balance/signature-species";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { EntryHazardTag } from "#data/arena-tag";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { ArenaTagSide } from "#enums/arena-tag-side";
@@ -485,7 +485,7 @@ export class Trainer extends Phaser.GameObjects.Container {
 
     console.log(ret.getName());
 
-    if (Object.hasOwn(pokemonPrevolutions, baseSpecies.speciesId) && ret.speciesId !== baseSpecies.speciesId) {
+    if (speciesDataRegistry.hasPrevolution(baseSpecies.speciesId) && ret.speciesId !== baseSpecies.speciesId) {
       retry = true;
     } else if (template.isBalanced(battle.enemyParty.length)) {
       const partyMemberTypes = battle.enemyParty.flatMap(p => p.getTypes(true));
@@ -536,8 +536,8 @@ export class Trainer extends Phaser.GameObjects.Container {
   checkDuplicateSpecies(baseSpecies: SpeciesId): boolean {
     const staticSpecies = (signatureSpecies[TrainerType[this.config.trainerType]] ?? []).flat(1).map(s => {
       let root = s;
-      while (Object.hasOwn(pokemonPrevolutions, root)) {
-        root = pokemonPrevolutions[root];
+      while (speciesDataRegistry.hasPrevolution(root)) {
+        root = speciesDataRegistry.getPrevolution(root)!;
       }
       return root;
     });
