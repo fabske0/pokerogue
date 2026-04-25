@@ -3,7 +3,7 @@ import { starterColors } from "#app/global-vars/starter-colors";
 import Overrides from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import { getEvolutions, getPreEvolutions, pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
+import { getEvolutions, getPreEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
@@ -841,9 +841,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
     this.starterId = this.getStarterSpeciesId(this.species.speciesId);
 
-    const allEvolutions = Object.hasOwn(pokemonEvolutions, species.speciesId)
-      ? pokemonEvolutions[species.speciesId]
-      : [];
+    const allEvolutions = speciesDataRegistry.getEvolutions(this.species.speciesId);
 
     if (species.forms.length > 0) {
       const form = species.forms[formIndex];
@@ -910,9 +908,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
       ? allSpecies.find(sp => sp.speciesId === pokemonPrevolutions[this.species.speciesId])
       : null;
     if (preSpecies) {
-      const preEvolutions = Object.hasOwn(pokemonEvolutions, preSpecies.speciesId)
-        ? pokemonEvolutions[preSpecies.speciesId]
-        : [];
+      const preEvolutions = speciesDataRegistry.getEvolutions(preSpecies.speciesId);
       this.preEvolutions = preEvolutions.filter(
         e =>
           e.speciesId === species.speciesId

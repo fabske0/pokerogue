@@ -1,3 +1,4 @@
+import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { initGenerationOne } from "#balance/species/generation-01";
 import { initGenerationTwo } from "#balance/species/generation-02";
 import { initGenerationThree } from "#balance/species/generation-03";
@@ -33,23 +34,23 @@ export class SpeciesDataRegistry {
       initGenerationNine(),
     );
 
-    // TODO: Replace all callswith direct calls to the registry
+    // TODO: Replace all calls with direct calls to the registry
     (allSpecies as PokemonSpecies[]).push(...Object.values(this.data).map(s => s.species));
   }
 
   /**
-   * Get the {@linkcodecode PokemonSpeciesData} for a given species.
+   * Get the {@linkcode PokemonSpeciesData} for a given species.
    * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
-   * @returns The {@linkcodecode PokemonSpeciesData}
+   * @returns The {@linkcode PokemonSpeciesData}
    */
   public getSpeciesData(speciesId: SpeciesId): PokemonSpeciesData {
     return this.data[speciesId];
   }
 
   /**
-   * Get the {@linkcodecode PokemonSpecies} for a given species.
+   * Get the {@linkcode PokemonSpecies} for a given species.
    * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
-   * @returns The {@linkcodecode PokemonSpecies}
+   * @returns The {@linkcode PokemonSpecies}
    */
   public getSpecies(speciesId: SpeciesId): PokemonSpecies {
     return this.getSpeciesData(speciesId).species;
@@ -133,7 +134,7 @@ export class SpeciesDataRegistry {
   /**
    * Get the starter species of a given species.
    * @param species - The {@linkcode SpeciesId} of the species to get the starter for
-   * @returns The starter {@linkcodecode SpeciesId}
+   * @returns The starter {@linkcode SpeciesId}
    */
   public getStarterSpecies(species: SpeciesId | PokemonSpecies): PokemonSpecies {
     const speciesId = typeof species === "number" ? species : species.speciesId;
@@ -155,7 +156,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Get all starters.
-   * @returns An array of all starter {@linkcodecode SpeciesId}s
+   * @returns An array of all starter {@linkcode SpeciesId}s
    */
   public getAllStarters(): SpeciesId[] {
     const species = Object.values(this.data)
@@ -169,11 +170,41 @@ export class SpeciesDataRegistry {
    * @param starterCost - The starter cost
    * @returns An array of all starter species that have the given starter cost
    */
-  getAllStartersWithCost(starterCost: number): SpeciesId[] {
+  public getAllStartersWithCost(starterCost: number): SpeciesId[] {
     const species = Object.values(this.data)
       .filter(s => s.starterCost === starterCost)
       .map(s => s.species.speciesId);
     return species;
+  }
+
+  /**
+   * Get the evolutions for a given species.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get evolutions for
+   * @returns An array of {@linkcode SpeciesFormEvolution}s
+   */
+  public getEvolutions(speciesId: SpeciesId): SpeciesFormEvolution[] {
+    const speciesData = this.getSpeciesData(speciesId);
+    return speciesData.evolutions;
+  }
+
+  /**
+   * Checks if a given species has any evolutions.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to check
+   * @returns whether the species has any evolutions
+   */
+  public hasEvolutions(speciesId: SpeciesId): boolean {
+    const speciesData = this.getSpeciesData(speciesId);
+    return speciesData.evolutions.length > 0;
+  }
+
+  /**
+   * Get all {@linkcode SpeciesId}s that have evolutions.
+   * @returns An array of all {@linkcode SpeciesId}s that have evolutions
+   */
+  public getSpeciesWithEvolutions(): SpeciesId[] {
+    return Object.values(this.data)
+      .filter(s => this.hasEvolutions(s.species.speciesId))
+      .map(s => s.species.speciesId);
   }
 
   //#region Helpers

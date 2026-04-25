@@ -1,11 +1,5 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
-import {
-  EvoCondKey,
-  EvolutionItem,
-  pokemonEvolutions,
-  SpeciesEvolution,
-  SpeciesFormEvolution,
-} from "#balance/pokemon-evolutions";
+import { EvoCondKey, EvolutionItem, SpeciesEvolution, SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
@@ -15,7 +9,7 @@ import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
+import type { SpeciesDataMap } from "#types/pokemon-species";
 
 export function initGenerationNine(): SpeciesDataMap {
   const generationNineSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
@@ -11906,33 +11900,5 @@ export function initGenerationNine(): SpeciesDataMap {
     ],
   };
   //#endregion Regional Variants
-  test(generationNineSpeciesData);
   return generationNineSpeciesData;
-}
-
-// TODO: Remove later
-function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  const gen = Object.values(genData)[0].species.generation;
-  console.log(`-----------⚠️Starting validation of generation ${gen} data⚠️-----------`);
-  validateEvolutions(genData);
-  console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
-}
-
-function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  for (const species of Object.values(genData)) {
-    const newVal = species.evolutions;
-    const oldVal = pokemonEvolutions[species.species.speciesId] ?? [];
-    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-      console.error(
-        `Evolutions mismatch for ${SpeciesId[species.species.speciesId]}: new=${JSON.stringify(newVal)} old=${JSON.stringify(oldVal)}`,
-      );
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("Evolutions validation passed!");
-  } else {
-    console.error(`Evolutions validation failed with ${fails} errors.`);
-  }
 }

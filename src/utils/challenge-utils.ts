@@ -1,6 +1,6 @@
 import type { FixedBattleConfig } from "#app/battle";
 import { globalScene } from "#app/global-scene";
-import { pokemonEvolutions } from "#balance/pokemon-evolutions";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { ChallengeType } from "#enums/challenge-type";
@@ -376,8 +376,8 @@ export function checkStarterValidForChallenge(species: PokemonSpecies, props: De
     if (checkSpeciesValidForChallenge(checkingSpecies, props, true)) {
       return true;
     }
-    if (checking && Object.hasOwn(pokemonEvolutions, checking)) {
-      pokemonEvolutions[checking].forEach(e => {
+    if (checking && speciesDataRegistry.hasEvolutions(checking)) {
+      speciesDataRegistry.getEvolutions(checking).forEach(e => {
         // Form check to deal with cases such as Basculin -> Basculegion
         // TODO: does this miss anything if checking forms of a stage 2 Pokémon?
         if (!e?.preFormKey || e.preFormKey === species.forms[props.formIndex].formKey) {

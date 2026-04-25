@@ -4,7 +4,7 @@ import type { GameMode } from "#app/game-mode";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { pokemonEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
+import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { GrowthRate } from "#data/exp";
 import { Gender } from "#data/gender";
@@ -1022,10 +1022,8 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
   getEvolutionLevels(): EvolutionLevel[] {
     const evolutionLevels: EvolutionLevel[] = [];
 
-    //console.log(Species[this.speciesId], pokemonEvolutions[this.speciesId])
-
-    if (Object.hasOwn(pokemonEvolutions, this.speciesId)) {
-      for (const e of pokemonEvolutions[this.speciesId]) {
+    if (speciesDataRegistry.hasEvolutions(this.speciesId)) {
+      for (const e of speciesDataRegistry.getEvolutions(this.speciesId)!) {
         const speciesId = e.speciesId;
         const level = e.level;
         evolutionLevels.push([speciesId, level]);
@@ -1057,10 +1055,9 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
   getPrevolutionLevels(withThresholds = false): EvolutionLevelWithThreshold[] | EvolutionLevel[] {
     const prevolutionLevels: (EvolutionLevel | EvolutionLevelWithThreshold)[] = [];
 
-    const allEvolvingPokemon = Object.keys(pokemonEvolutions);
-    for (const p of allEvolvingPokemon) {
-      const speciesId = Number.parseInt(p) as SpeciesId;
-      for (const e of pokemonEvolutions[p]) {
+    const allEvolvingPokemon = speciesDataRegistry.getSpeciesWithEvolutions();
+    for (const speciesId of allEvolvingPokemon) {
+      for (const e of speciesDataRegistry.getEvolutions(speciesId)) {
         if (
           e.speciesId === this.speciesId
           && (this.forms.length === 0 || !e.evoFormKey || e.evoFormKey === this.forms[this.formIndex].formKey)
@@ -1096,9 +1093,9 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
       const levelDiff = player ? 0 : forTrainer || isBoss ? (forTrainer && isBoss ? 2.5 : 5) : 10;
       ret.push([prevolutionLevels[0][0], 1]);
       for (let l = 1; l < prevolutionLevels.length; l++) {
-        const evolution = pokemonEvolutions[prevolutionLevels[l - 1][0]].find(
-          e => e.speciesId === prevolutionLevels[l][0],
-        );
+        const evolution = speciesDataRegistry
+          .getEvolutions(prevolutionLevels[l - 1][0])
+          .find(e => e.speciesId === prevolutionLevels[l][0]);
         ret.push([
           prevolutionLevels[l][0],
           Math.min(
@@ -1118,7 +1115,9 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
         ]); // TODO: are those bangs correct?
       }
       const lastPrevolutionLevel = ret[prevolutionLevels.length - 1][1];
-      const evolution = pokemonEvolutions[prevolutionLevels.at(-1)![0]].find(e => e.speciesId === this.speciesId);
+      const evolution = speciesDataRegistry
+        .getEvolutions(prevolutionLevels.at(-1)![0])
+        .find(e => e.speciesId === this.speciesId);
       ret.push([
         this.speciesId,
         Math.min(
@@ -1143,8 +1142,8 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
   }
 
   getCompatibleFusionSpeciesFilter(): PokemonSpeciesFilter {
-    const hasEvolution = Object.hasOwn(pokemonEvolutions, this.speciesId);
-    const hasPrevolution = Object.hasOwn(pokemonPrevolutions, this.speciesId);
+    const hasEvolution = speciesDataRegistry.hasEvolutions(this.speciesId);
+    const hasPrevolution = pokemonPrevolutions.hasOwnProperty(this.speciesId);
     const subLegendary = this.subLegendary;
     const legendary = this.legendary;
     const mythical = this.mythical;
@@ -1153,8 +1152,8 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
         (subLegendary
           || legendary
           || mythical
-          || (Object.hasOwn(pokemonEvolutions, species.speciesId) === hasEvolution
-            && Object.hasOwn(pokemonPrevolutions, species.speciesId) === hasPrevolution))
+          || (speciesDataRegistry.hasEvolutions(species.speciesId) === hasEvolution
+            && pokemonPrevolutions.hasOwnProperty(species.speciesId) === hasPrevolution))
         && species.subLegendary === subLegendary
         && species.legendary === legendary
         && species.mythical === mythical
