@@ -3,7 +3,6 @@ import {
   EvoCondKey,
   EvolutionItem,
   pokemonEvolutions,
-  pokemonStarters,
   SpeciesEvolution,
   SpeciesFormEvolution,
 } from "#balance/pokemon-evolutions";
@@ -17,7 +16,6 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import type { PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
-import { genNineSpecies } from "./test/gen9";
 
 export function initGenerationNine(): SpeciesDataMap {
   const generationNineSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
@@ -11916,43 +11914,8 @@ export function initGenerationNine(): SpeciesDataMap {
 function test(genData: Record<SpeciesId, PokemonSpeciesData>) {
   const gen = Object.values(genData)[0].species.generation;
   console.log(`-----------⚠️Starting validation of generation ${gen} data⚠️-----------`);
-  validateSpecies(genData);
-  validateStarters(genData);
   validateEvolutions(genData);
   console.log(`-----------⚠️Finished validation of generation ${gen} data⚠️-----------`);
-}
-
-function validateSpecies(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  const newVal = Object.values(genData).map(s => s.species);
-  const oldVal = genNineSpecies;
-
-  if (JSON.stringify(newVal) !== oldVal) {
-    console.error("Species data mismatch:", JSON.stringify(newVal), JSON.stringify(oldVal));
-  } else {
-    console.info("Species data validation passed!");
-  }
-}
-
-function validateStarters(genData: Record<SpeciesId, PokemonSpeciesData>) {
-  let fails = 0;
-  const newVal = Object.values(genData);
-  const oldVal = pokemonStarters;
-  for (const species of newVal) {
-    const speciesId = species.species.speciesId;
-    const oldStarter = oldVal[speciesId] ?? speciesId;
-    if (oldStarter !== species.starter) {
-      console.error(
-        `Starter mismatch for ${SpeciesId[speciesId]}: new=${SpeciesId[species.starter]} old=${SpeciesId[oldStarter]}`,
-      );
-
-      fails++;
-    }
-  }
-  if (fails === 0) {
-    console.info("Starters validation passed!");
-  } else {
-    console.error(`Starters validation failed with ${fails} errors.`);
-  }
 }
 
 function validateEvolutions(genData: Record<SpeciesId, PokemonSpeciesData>) {
