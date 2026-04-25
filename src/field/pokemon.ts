@@ -14,7 +14,6 @@ import type { FORCED_RIVAL_SIGNATURE_MOVES } from "#balance/moves/signature-move
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import {
   FusionSpeciesFormEvolution,
-  pokemonPrevolutions,
   validateShedinjaEvo,
 } from "#balance/pokemon-evolutions";
 import { BASE_HIDDEN_ABILITY_RATE, BASE_SHINY_CHANCE, SHINY_EPIC_CHANCE, SHINY_VARIANT_CHANCE } from "#balance/rates";
@@ -3133,7 +3132,7 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
       ? (species: PokemonSpecies) => {
           return (
             speciesDataRegistry.hasEvolutions(species.speciesId)
-            && !pokemonPrevolutions.hasOwnProperty(species.speciesId)
+            && !speciesDataRegistry.hasPrevolution(species.speciesId)
             && !species.subLegendary
             && !species.legendary
             && !species.mythical

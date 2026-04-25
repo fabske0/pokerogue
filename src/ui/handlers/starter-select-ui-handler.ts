@@ -5,7 +5,6 @@ import { starterColors } from "#app/global-vars/starter-colors";
 import { activeOverrides } from "#app/overrides";
 import { handleTutorial, Tutorial } from "#app/tutorial";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
@@ -2420,7 +2419,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
               return true;
             },
           });
-          if (!Object.hasOwn(pokemonPrevolutions, this.lastSpecies.speciesId)) {
+          if (!speciesDataRegistry.hasPrevolution(this.lastSpecies.speciesId)) {
             options.push({
               label: i18next.t("starterSelectUiHandler:useCandies"),
               handler: () => {
@@ -3663,7 +3662,7 @@ export class StarterSelectUiHandler extends MessageUiHandler {
         this.pokemonCaughtHatchedContainer.setVisible(true);
         this.pokemonFormText.setVisible(true);
 
-        if (Object.hasOwn(pokemonPrevolutions, species.speciesId)) {
+        if (speciesDataRegistry.hasPrevolution(species.speciesId)) {
           this.pokemonCaughtHatchedContainer.setY(16);
           this.pokemonShinyIcon.setY(135).setFrame(getVariantIcon(variant));
           [this.pokemonCandyContainer, this.pokemonHatchedIcon, this.pokemonHatchedCountText].map(c =>

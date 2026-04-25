@@ -12,10 +12,10 @@ import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
-import type { SpeciesDataMap } from "#types/pokemon-species";
+import type { SpeciesDataMapConfig } from "#types/pokemon-species";
 
-export function initGenerationEight(): SpeciesDataMap {
-  const generationEightSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
+export function initGenerationEight(): SpeciesDataMapConfig {
+  const generationEightSpeciesData: SpeciesDataMapConfig = {} as SpeciesDataMapConfig;
   generationEightSpeciesData[SpeciesId.GROOKEY] = {
     species: new PokemonSpecies({
       id: SpeciesId.GROOKEY,

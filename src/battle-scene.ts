@@ -25,7 +25,7 @@ import { SceneBase } from "#app/scene-base";
 import { TurnCommandManager } from "#app/turn-command-manager";
 import { UiInputs } from "#app/ui-inputs";
 import { STARTING_WAVE } from "#balance/misc";
-import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { FRIENDSHIP_GAIN_FROM_BATTLE } from "#balance/starters";
 import { initCommonAnims, initMoveAnim, loadCommonAnimAssets, loadMoveAnimAssets } from "#data/battle-anims";
 import { getDailyMysteryEncounter } from "#data/daily-seed/daily-run";
@@ -2273,8 +2273,8 @@ export class BattleScene extends SceneBase {
               .filter(s => s.isCatchable() && speciesFilter(s))
               .map(s => {
                 if (!filterAllEvolutions) {
-                  while (Object.hasOwn(pokemonPrevolutions, s.speciesId)) {
-                    s = getPokemonSpecies(pokemonPrevolutions[s.speciesId]);
+                  while (speciesDataRegistry.hasPrevolution(s.speciesId)) {
+                    s = getPokemonSpecies(speciesDataRegistry.getPrevolution(s.speciesId)!);
                   }
                 }
                 return s;

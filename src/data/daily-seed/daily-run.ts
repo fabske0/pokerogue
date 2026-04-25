@@ -52,9 +52,7 @@ export function getDailyRunStarters(): StarterTuple {
         const costSpecies = speciesDataRegistry.getAllStartersWithCost(cost).filter(
           s =>
             // make sure there are no duplicate starters from the same line
-            !starters.some(
-              st => s === st.speciesId || speciesDataRegistry.getStarterSpecies(s).speciesId === st.speciesId,
-            ),
+            !starters.some(st => s === st.speciesId || speciesDataRegistry.getStarter(s) === st.speciesId),
         );
         const randPkmSpecies = getPokemonSpecies(randSeedItem(costSpecies));
         const starterSpecies = getPokemonSpecies(

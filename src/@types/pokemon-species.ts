@@ -25,6 +25,7 @@ export interface PokemonSpeciesData {
   /** The starter cost. Should be omitted for non starters */
   starterCost?: number;
   evolutions: SpeciesFormEvolution[];
+  prevolution: SpeciesId | null;
   /** The egg tier of the Pokémon. Should be omitted for non starters */
   eggTier?: EggTier;
   passives: AbilityId | PokemonSpeciesPassives;
@@ -35,3 +36,4 @@ export interface PokemonSpeciesData {
 }
 
 export type SpeciesDataMap = Record<SpeciesId, PokemonSpeciesData>;
+export type SpeciesDataMapConfig = Omit<PokemonSpeciesData, "prevolution">;

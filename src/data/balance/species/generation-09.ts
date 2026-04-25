@@ -9,10 +9,10 @@ import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
-import type { SpeciesDataMap } from "#types/pokemon-species";
+import type { SpeciesDataMapConfig } from "#types/pokemon-species";
 
-export function initGenerationNine(): SpeciesDataMap {
-  const generationNineSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
+export function initGenerationNine(): SpeciesDataMapConfig {
+  const generationNineSpeciesData: SpeciesDataMapConfig = {} as SpeciesDataMapConfig;
   generationNineSpeciesData[SpeciesId.SPRIGATITO] = {
     species: new PokemonSpecies({
       id: SpeciesId.SPRIGATITO,

@@ -7,7 +7,6 @@ import { activeOverrides } from "#app/overrides";
 import { isIos } from "#app/touch-controls";
 import { Tutorial } from "#app/tutorial";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { bypassLogin, isBeta, isDev } from "#constants/app-constants";
 import { MAX_STARTER_CANDY_COUNT } from "#constants/game-constants";
@@ -1733,7 +1732,7 @@ export class GameData {
     // Unlock nature
     dexEntry.natureAttr |= 1 << (pokemon.nature + 1);
 
-    const prevolution = pokemonPrevolutions[species.speciesId];
+    const prevolution = speciesDataRegistry.getPrevolution(species.speciesId);
     const hasPrevolution = prevolution != null;
     const newCatch = !caughtAttr;
     const hasNewAttr = (caughtAttr & dexAttr) !== dexAttr;
@@ -1928,7 +1927,7 @@ export class GameData {
     let { speciesId } = species;
     do {
       this.dexData[speciesId].natureAttr |= 1 << (nature + 1);
-      speciesId = pokemonPrevolutions[speciesId];
+      speciesId = speciesDataRegistry.getPrevolution(speciesId)!;
     } while (speciesId != null);
   }
 
@@ -1943,7 +1942,7 @@ export class GameData {
       if (dexIvs.every(iv => iv === 31)) {
         globalScene.validateAchv(achvs.PERFECT_IVS);
       }
-      speciesId = pokemonPrevolutions[speciesId];
+      speciesId = speciesDataRegistry.getPrevolution(speciesId)!;
     } while (speciesId != null);
   }
 

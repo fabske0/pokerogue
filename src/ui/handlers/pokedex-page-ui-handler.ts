@@ -3,7 +3,6 @@ import { starterColors } from "#app/global-vars/starter-colors";
 import { activeOverrides } from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import { getEvolutions, getPreEvolutions, pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
@@ -795,7 +794,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
   private getMenuText(): string {
     const isSeen = this.isSeen();
-    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarterSpecies(this.species));
+    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarter(this.species, true));
 
     return this.menuOptions
       .map(o => {
@@ -888,8 +887,8 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
     const evoLine: Set<SpeciesId> = new Set([
       species.speciesId,
-      ...getPreEvolutions(species.speciesId),
-      ...getEvolutions(species.speciesId).values(),
+      ...speciesDataRegistry.getPrevolutionChain(species.speciesId),
+      ...speciesDataRegistry.getEvolutionChain(species.speciesId),
     ]);
     const speciesBiomes: Set<BiomeTierTimeOfDay> = new Set();
     for (const sId of evoLine) {
@@ -904,10 +903,9 @@ export class PokedexPageUiHandler extends MessageUiHandler {
       : [];
     this.battleForms = allFormChanges.filter(f => f.preFormKey === this.species.forms[this.formIndex].formKey);
 
-    const preSpecies = Object.hasOwn(pokemonPrevolutions, this.species.speciesId)
-      ? allSpecies.find(sp => sp.speciesId === pokemonPrevolutions[this.species.speciesId])
-      : null;
-    if (preSpecies) {
+    const preSpeciesId = speciesDataRegistry.getPrevolution(species.speciesId);
+    if (preSpeciesId) {
+      const preSpecies = speciesDataRegistry.getSpecies(preSpeciesId);
       const preEvolutions = speciesDataRegistry.getEvolutions(preSpecies.speciesId);
       this.preEvolutions = preEvolutions.filter(
         e =>
@@ -1032,7 +1030,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     if (this.speciesStarterDexEntry?.seenAttr) {
       return true;
     }
-    const starterCaughtAttr = this.isCaught(speciesDataRegistry.getStarterSpecies(this.species));
+    const starterCaughtAttr = this.isCaught(speciesDataRegistry.getStarter(this.species, true));
     return !!starterCaughtAttr;
   }
 
@@ -1157,7 +1155,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     const isCaught = this.isCaught();
     const isFormCaught = this.isFormCaught();
     const isSeen = this.isSeen();
-    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarterSpecies(this.species));
+    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarter(this.species, true));
 
     if (this.isRibbonTrayOpen) {
       if (button === Button.CANCEL) {
@@ -1605,9 +1603,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
                   });
 
                   for (const pre of this.preEvolutions) {
-                    const preSpecies = allSpecies.find(
-                      species => species.speciesId === pokemonPrevolutions[this.species.speciesId],
-                    );
+                    const preSpecies = speciesDataRegistry.getPrevolution(pre.speciesId, true);
                     const preFormIndex: number =
                       preSpecies?.forms.find(f => f.formKey === pre.preFormKey)?.formIndex ?? 0;
 
@@ -1620,9 +1616,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
                       handler: () => {
                         this.previousSpecies.push(this.species);
                         this.previousStarterAttributes.push({ ...this.savedStarterAttributes });
-                        const newSpecies = allSpecies.find(
-                          species => species.speciesId === pokemonPrevolutions[pre.speciesId],
-                        );
+                        const newSpecies = speciesDataRegistry.getPrevolution(pre.speciesId, true);
                         // Attempts to find the formIndex of the prevolved species
                         const newFormKey = pre.preFormKey
                           ? pre.preFormKey
@@ -2703,7 +2697,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
         );
         this.pokemonCandyContainer.setVisible(true);
 
-        if (Object.hasOwn(pokemonPrevolutions, species.speciesId)) {
+        if (speciesDataRegistry.hasPrevolution(species.speciesId)) {
           this.pokemonHatchedIcon.setVisible(false);
           this.pokemonHatchedCountText.setVisible(false);
           this.pokemonFormText.setY(36);

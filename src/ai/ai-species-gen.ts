@@ -1,6 +1,5 @@
 import { globalScene } from "#app/global-scene";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import { pokemonPrevolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { EvoLevelThresholdKind } from "#enums/evo-level-threshold-kind";
@@ -116,7 +115,7 @@ export function determineEnemySpecies(
 ): SpeciesId {
   const requiredPrevo =
     tryForcePrevo
-    && Object.hasOwn(pokemonPrevolutions, species.speciesId)
+    && speciesDataRegistry.hasPrevolution(species.speciesId)
     && getRequiredPrevo(species, level, encounterKind);
   if (requiredPrevo) {
     return requiredPrevo;

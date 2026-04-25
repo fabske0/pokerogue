@@ -11,10 +11,10 @@ import { SpeciesFormKey } from "#enums/species-form-key";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
-import type { SpeciesDataMap } from "#types/pokemon-species";
+import type { SpeciesDataMapConfig } from "#types/pokemon-species";
 
-export function initGenerationSix(): SpeciesDataMap {
-  const generationSixSpeciesData: SpeciesDataMap = {} as SpeciesDataMap;
+export function initGenerationSix(): SpeciesDataMapConfig {
+  const generationSixSpeciesData: SpeciesDataMapConfig = {} as SpeciesDataMapConfig;
   generationSixSpeciesData[SpeciesId.CHESPIN] = {
     species: new PokemonSpecies({
       id: SpeciesId.CHESPIN,
