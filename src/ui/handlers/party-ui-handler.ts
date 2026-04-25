@@ -1,6 +1,6 @@
 import { globalScene } from "#app/global-scene";
 import { getPokemonNameWithAffix } from "#app/messages";
-import { pokemonEvolutions } from "#balance/pokemon-evolutions";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allMoves } from "#data/data-lists";
 import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
 import { Gender, getGenderColor, getGenderSymbol } from "#data/gender";
@@ -1421,10 +1421,10 @@ export class PartyUiHandler extends MessageUiHandler {
     this.options.push(PartyOption.RENAME);
 
     if (
-      Object.hasOwn(pokemonEvolutions, pokemon.species.speciesId)
+      speciesDataRegistry.hasEvolutions(pokemon.species.speciesId)
       || (pokemon.isFusion()
         && pokemon.fusionSpecies
-        && Object.hasOwn(pokemonEvolutions, pokemon.fusionSpecies.speciesId))
+        && speciesDataRegistry.hasEvolutions(pokemon.fusionSpecies.speciesId))
     ) {
       this.options.push(PartyOption.UNPAUSE_EVOLUTION);
     }

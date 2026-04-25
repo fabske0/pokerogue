@@ -3,7 +3,8 @@ import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
 import { getPokemonNameWithAffix } from "#app/messages";
 import { activeOverrides } from "#app/overrides";
-import { EvolutionItem, pokemonEvolutions } from "#balance/pokemon-evolutions";
+import { EvolutionItem } from "#balance/pokemon-evolutions";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { tmPoolTiers } from "#balance/tms";
 import { getBerryEffectDescription, getBerryName } from "#data/berry";
 import { getDailyEventSeedLuck } from "#data/daily-seed/daily-run";
@@ -1171,9 +1172,10 @@ export class EvolutionItemModifierType extends PokemonModifierType implements Ge
       (_type, args) => new EvolutionItemModifier(this, (args[0] as PlayerPokemon).id),
       (pokemon: PlayerPokemon) => {
         if (
-          Object.hasOwn(pokemonEvolutions, pokemon.species.speciesId)
-          && pokemonEvolutions[pokemon.species.speciesId].filter(e => e.validate(pokemon, false, this.evolutionItem))
-            .length > 0
+          speciesDataRegistry.hasEvolutions(pokemon.species.speciesId)
+          && speciesDataRegistry
+            .getEvolutions(pokemon.species.speciesId)
+            .filter(e => e.validate(pokemon, false, this.evolutionItem)).length > 0
           && pokemon.getFormKey() !== SpeciesFormKey.GIGANTAMAX
         ) {
           return null;
@@ -1181,10 +1183,10 @@ export class EvolutionItemModifierType extends PokemonModifierType implements Ge
         if (
           pokemon.isFusion()
           && pokemon.fusionSpecies
-          && Object.hasOwn(pokemonEvolutions, pokemon.fusionSpecies.speciesId)
-          && pokemonEvolutions[pokemon.fusionSpecies.speciesId].filter(e =>
-            e.validate(pokemon, true, this.evolutionItem),
-          ).length > 0
+          && speciesDataRegistry.hasEvolutions(pokemon.fusionSpecies.speciesId)
+          && speciesDataRegistry
+            .getEvolutions(pokemon.fusionSpecies.speciesId)
+            .filter(e => e.validate(pokemon, true, this.evolutionItem)).length > 0
           && pokemon.getFusionFormKey() !== SpeciesFormKey.GIGANTAMAX
         ) {
           return null;
@@ -1527,7 +1529,7 @@ class EvolutionItemModifierTypeGenerator extends ModifierTypeGenerator {
         party
           .filter(
             p =>
-              Object.hasOwn(pokemonEvolutions, p.species.speciesId)
+              speciesDataRegistry.hasEvolutions(p.species.speciesId)
               && (!p.pauseEvolutions
                 || p.species.speciesId === SpeciesId.SLOWPOKE
                 || p.species.speciesId === SpeciesId.EEVEE
@@ -1535,7 +1537,7 @@ class EvolutionItemModifierTypeGenerator extends ModifierTypeGenerator {
                 || p.species.speciesId === SpeciesId.SNORUNT),
           )
           .flatMap(p => {
-            const evolutions = pokemonEvolutions[p.species.speciesId];
+            const evolutions = speciesDataRegistry.getEvolutions(p.species.speciesId);
             return evolutions.filter(e => e.isValidItemEvolution(p));
           }),
         party
@@ -1543,7 +1545,7 @@ class EvolutionItemModifierTypeGenerator extends ModifierTypeGenerator {
             p =>
               p.isFusion()
               && p.fusionSpecies
-              && Object.hasOwn(pokemonEvolutions, p.fusionSpecies.speciesId)
+              && speciesDataRegistry.hasEvolutions(p.fusionSpecies.speciesId)
               && (!p.pauseEvolutions
                 || p.fusionSpecies.speciesId === SpeciesId.SLOWPOKE
                 || p.fusionSpecies.speciesId === SpeciesId.EEVEE
@@ -1551,7 +1553,7 @@ class EvolutionItemModifierTypeGenerator extends ModifierTypeGenerator {
                 || p.fusionSpecies.speciesId === SpeciesId.SNORUNT),
           )
           .flatMap(p => {
-            const evolutions = pokemonEvolutions[p.fusionSpecies!.speciesId];
+            const evolutions = speciesDataRegistry.getEvolutions(p.fusionSpecies!.speciesId);
             return evolutions.filter(e => e.isValidItemEvolution(p, true));
           }),
       ]
