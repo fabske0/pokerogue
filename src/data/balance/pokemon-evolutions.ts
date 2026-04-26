@@ -1,5 +1,4 @@
 import type { determineEnemySpecies } from "#app/ai/ai-species-gen";
-import { defaultStarterSpecies } from "#app/constants";
 import { globalScene } from "#app/global-scene";
 import { allMoves, } from "#data/data-lists";
 import { type Gender, getGenderSymbol } from "#data/gender";
@@ -19,7 +18,6 @@ import { randSeedInt } from "#utils/common";
 import { getPokemonSpecies } from "#utils/pokemon-utils";
 import { toCamelCase } from "#utils/strings";
 import i18next from "i18next";
-import { speciesDataRegistry } from "./species/species-data-registry";
 
 export enum EvolutionItem {
   NONE,
@@ -335,6 +333,3 @@ export class FusionSpeciesFormEvolution extends SpeciesFormEvolution {
     this.primarySpeciesId = primarySpeciesId;
   }
 }
-
-/** The default starters and their evolution lines */
-export const defaultStarterSpeciesAndEvolutions: SpeciesId[] = defaultStarterSpecies.flatMap(sId => [sId, ...speciesDataRegistry.getEvolutionChain(sId)]);

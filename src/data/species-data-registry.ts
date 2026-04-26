@@ -1,3 +1,4 @@
+import { defaultStarterSpecies } from "#app/constants";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { initGenerationOne } from "#balance/species/generation-01";
 import { initGenerationTwo } from "#balance/species/generation-02";
@@ -186,6 +187,14 @@ export class SpeciesDataRegistry {
       .filter(s => s.starterCost === starterCost)
       .map(s => s.species.speciesId);
     return species;
+  }
+
+  /**
+   * Get the default starters and their evolution lines
+   * @returns An array of {@linkcode SpeciesId}s
+   */
+  public getDefaultStartersAndEvolutions(): SpeciesId[] {
+    return defaultStarterSpecies.flatMap(sId => [sId, ...this.getEvolutionChain(sId)]);
   }
 
   /**

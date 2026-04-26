@@ -19,12 +19,12 @@ import { initStatsKeys } from "#ui/game-stats-ui-handler";
 
 export function initializeGame() {
   initBiomeBgmLoopPoints();
+  initSpeciesDataRegistry();
   initModifierTypes();
   initModifierPools();
   initAchievements();
   initVouchers();
   initStatsKeys();
-  initSpeciesDataRegistry();
   initBiomes();
   initCatchableSpecies();
   initBiomeDepths();

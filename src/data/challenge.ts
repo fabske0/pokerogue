@@ -2,7 +2,6 @@ import type { FixedBattleConfig } from "#app/battle";
 import { getRandomTrainerFunc } from "#app/battle";
 import type { GameMode } from "#app/game-mode";
 import { globalScene } from "#app/global-scene";
-import { defaultStarterSpeciesAndEvolutions } from "#balance/pokemon-evolutions";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { AbilityAttr } from "#enums/ability-attr";
@@ -855,7 +854,7 @@ export class FreshStartChallenge extends Challenge {
   }
 
   applyStarterChoice(species: PokemonSpecies, isValid: BooleanHolder): boolean {
-    if (this.value === 1 && !defaultStarterSpeciesAndEvolutions.includes(species.speciesId)) {
+    if (this.value === 1 && !speciesDataRegistry.getDefaultStartersAndEvolutions().includes(species.speciesId)) {
       isValid.value = false;
       return true;
     }
