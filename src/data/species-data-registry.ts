@@ -247,7 +247,7 @@ export class SpeciesDataRegistry {
     const speciesId = typeof species === "number" ? species : species.speciesId;
     const speciesData = this.getSpeciesData(speciesId);
     if (getSpecies) {
-      return speciesData.prevolution !== null ? this.getSpecies(speciesData.prevolution) : null;
+      return speciesData.prevolution === null ? null : this.getSpecies(speciesData.prevolution);
     }
     return speciesData.prevolution;
   }

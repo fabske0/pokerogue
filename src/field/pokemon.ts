@@ -12,17 +12,10 @@ import { activeOverrides } from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import type { FORCED_RIVAL_SIGNATURE_MOVES } from "#balance/moves/signature-moves";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import {
-  FusionSpeciesFormEvolution,
-  validateShedinjaEvo,
-} from "#balance/pokemon-evolutions";
+import { FusionSpeciesFormEvolution, validateShedinjaEvo } from "#balance/pokemon-evolutions";
 import { BASE_HIDDEN_ABILITY_RATE, BASE_SHINY_CHANCE, SHINY_EPIC_CHANCE, SHINY_VARIANT_CHANCE } from "#balance/rates";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
-import {
-  getStarterValueFriendshipCap,
-  TRAINER_MAX_FRIENDSHIP_WAVE,
-  TRAINER_MIN_FRIENDSHIP,
-} from "#balance/starters";
+import { getStarterValueFriendshipCap, TRAINER_MAX_FRIENDSHIP_WAVE, TRAINER_MIN_FRIENDSHIP } from "#balance/starters";
 import type { SuppressAbilitiesTag } from "#data/arena-tag";
 import { NoCritTag, WeakenMoveScreenTag } from "#data/arena-tag";
 import {

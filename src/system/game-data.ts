@@ -1721,13 +1721,11 @@ export class GameData {
       }
     }
 
-      // Unlock ability
-      if (speciesDataRegistry.isStarter(species.speciesId)) {
-        this.starterData[species.speciesId].abilityAttr |=
-          pokemon.abilityIndex !== 1 || pokemon.species.ability2
-            ? 1 << pokemon.abilityIndex
-            : AbilityAttr.ABILITY_HIDDEN;
-      }
+    // Unlock ability
+    if (speciesDataRegistry.isStarter(species.speciesId)) {
+      this.starterData[species.speciesId].abilityAttr |=
+        pokemon.abilityIndex !== 1 || pokemon.species.ability2 ? 1 << pokemon.abilityIndex : AbilityAttr.ABILITY_HIDDEN;
+    }
 
     // Unlock nature
     dexEntry.natureAttr |= 1 << (pokemon.nature + 1);
