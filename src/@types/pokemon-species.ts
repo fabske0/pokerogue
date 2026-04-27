@@ -39,4 +39,4 @@ export type SpeciesDataMap = Record<SpeciesId, PokemonSpeciesData>;
 /**
  * The `prevolution` field is set on load based on the evolutions of the starter and doesn't need to be configured
  */
-export type SpeciesDataMapConfig = Omit<PokemonSpeciesData, "prevolution">;
+export type SpeciesDataMapConfig = Record<SpeciesId, Omit<PokemonSpeciesData, "prevolution">>;
