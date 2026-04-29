@@ -3692,10 +3692,9 @@ export class ForewarnAbAttr extends PostSummonAbAttr {
     }
 
     let maxPowerSeen = 0;
-    const movesAtMaxPower: PokemonMove[] = [];
+    const movesAtMaxPower: [pokemon: Pokemon, move: PokemonMove][] = [];
 
     // Record all moves in all opponents' movesets seen at our max power threshold, clearing it if a new "highest power" is found
-    // TODO: Change to `pokemon.getOpponents().flatMap(p => p.getMoveset())` if or when we upgrade to ES2025
     for (const opp of pokemon.getOpponents()) {
       for (const oppMove of opp.getMoveset()) {
         const move = oppMove.getMove();
@@ -3706,31 +3705,31 @@ export class ForewarnAbAttr extends PostSummonAbAttr {
 
         // Another move at current max found; add to tiebreaker array
         if (movePower === maxPowerSeen) {
-          movesAtMaxPower.push(oppMove);
+          movesAtMaxPower.push([opp, oppMove]);
           continue;
         }
 
         // New max reached; clear prior results and update tracker
         maxPowerSeen = movePower;
-        movesAtMaxPower.splice(0, movesAtMaxPower.length, oppMove);
+        movesAtMaxPower.splice(0, movesAtMaxPower.length, [opp, oppMove]);
       }
     }
 
-    // Pick a random move in our list.
     if (movesAtMaxPower.length === 0) {
       return;
     }
-    const chosenMove = movesAtMaxPower[pokemon.randBattleSeedInt(movesAtMaxPower.length)];
+
+    // Pick a random move in our list
+    const [opponent, chosenMove] = movesAtMaxPower[pokemon.randBattleSeedInt(movesAtMaxPower.length)];
     globalScene.phaseManager.queueMessage(
       i18next.t("abilityTriggers:forewarn", {
         pokemonNameWithAffix: getPokemonNameWithAffix(pokemon),
         moveName: chosenMove.getMove().name,
       }),
     );
-    const enemyId = pokemon
-      .getOpponents()
-      .find(opp => opp.getMoveset().some(m => m.getMove() === chosenMove.getMove()))?.id;
-    globalScene.eventTarget.dispatchEvent(new MoveUsedEvent(enemyId!, chosenMove.getMove(), chosenMove.ppUsed));
+
+    // TODO: Update callsite in #6143
+    globalScene.eventTarget.dispatchEvent(new MoveUsedEvent(opponent.id!, chosenMove.getMove(), chosenMove.ppUsed));
   }
 }
 
@@ -3749,7 +3748,8 @@ function getForewarnPower(move: Move): number {
     return 150;
   }
 
-  // NB: Mainline doesn't count Comeuppance in its "counter move exceptions" list, which is dumb
+  // NB: Mainline doesn't count Comeuppance in its "counter move exceptions" list, which is dumb and inconsistent.
+  // We diverge from mainline here by giving it a simulated BP of 120 instead of 80.
   if (move.hasAttr("CounterDamageAttr")) {
     return 120;
   }
