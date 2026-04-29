@@ -21,10 +21,15 @@ import type { LevelMoves, PokemonSpeciesData, SpeciesDataMap } from "#types/poke
 import type { PokemonSpecies } from "./pokemon-species";
 
 export class SpeciesDataRegistry {
-  private readonly data: SpeciesDataMap;
+  private readonly _data: SpeciesDataMap;
+
+  // should this use `ReadonlyDeep` from type-fest?
+  get data(): SpeciesDataMap {
+    return this._data;
+  }
 
   constructor() {
-    this.data = Object.assign(
+    this._data = Object.assign(
       {} as SpeciesDataMap,
       initGenerationOne(),
       initGenerationTwo(),
@@ -46,7 +51,7 @@ export class SpeciesDataRegistry {
    * @returns The {@linkcode PokemonSpeciesData}
    */
   public getSpeciesData(speciesId: SpeciesId): PokemonSpeciesData {
-    return this.data[speciesId];
+    return this._data[speciesId];
   }
 
   /**
@@ -63,7 +68,7 @@ export class SpeciesDataRegistry {
    * @returns An array of all {@linkcode PokemonSpecies}
    */
   public getAllSpecies(): PokemonSpecies[] {
-    return Object.values(this.data).map(s => s.species);
+    return Object.values(this._data).map(s => s.species);
   }
 
   /**
@@ -108,7 +113,7 @@ export class SpeciesDataRegistry {
    * @returns an array of all starter species that belong to the given egg tier
    */
   public getAllEggTierSpecies(tier: EggTier): PokemonSpecies[] {
-    const species = Object.values(this.data)
+    const species = Object.values(this._data)
       .filter(s => s.eggTier === tier)
       .map(s => s.species);
     return species;
@@ -190,7 +195,7 @@ export class SpeciesDataRegistry {
    * @returns An array of all starter species that have the given starter cost
    */
   public getAllStartersWithCost(starterCost: number): SpeciesId[] {
-    const species = Object.values(this.data)
+    const species = Object.values(this._data)
       .filter(s => s.starterCost === starterCost)
       .map(s => s.species.speciesId);
     return species;
@@ -245,7 +250,7 @@ export class SpeciesDataRegistry {
    * @returns An array of all {@linkcode SpeciesId}s that have evolutions
    */
   public getSpeciesWithEvolutions(): SpeciesId[] {
-    return Object.values(this.data)
+    return Object.values(this._data)
       .filter(s => this.hasEvolutions(s.species.speciesId))
       .map(s => s.species.speciesId);
   }
@@ -309,7 +314,7 @@ export class SpeciesDataRegistry {
           continue;
         }
 
-        this.data[evolution.speciesId].prevolution = speciesId;
+        this._data[evolution.speciesId].prevolution = speciesId;
 
         if (this.hasEvolutions(evolution.speciesId)) {
           setPrevo(evolution.speciesId);
@@ -318,7 +323,7 @@ export class SpeciesDataRegistry {
     };
 
     for (const starterId of this.getAllStarters()) {
-      this.data[starterId].prevolution = null;
+      this._data[starterId].prevolution = null;
       setPrevo(starterId);
     }
   }
