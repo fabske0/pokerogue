@@ -21,7 +21,7 @@ export class PokedexScanUiHandler extends FormModalUiHandler {
   setup() {
     super.setup();
 
-    this.nameKeys = [...new Set(speciesDataRegistry.search(true, s => s.species.name))];
+    this.nameKeys = [...new Set(speciesDataRegistry.getAllSpecies().map(s => s.name))];
     this.moveKeys = allMoves.map(a => a.name);
     this.abilityKeys = allAbilities.map(a => a.name);
   }

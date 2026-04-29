@@ -2269,25 +2269,21 @@ export class BattleScene extends SceneBase {
     const filteredSpecies = speciesFilter
       ? [
           ...new Set(
-            speciesDataRegistry.search(
-              s => s.species.isCatchable() && speciesFilter(s.species),
-              s => {
-                let species = s.species;
+            speciesDataRegistry
+              .getAllSpecies()
+              .filter(s => s.isCatchable() && speciesFilter(s))
+              .map(s => {
                 if (!filterAllEvolutions) {
-                  while (speciesDataRegistry.hasPrevolution(species.speciesId)) {
-                    species = getPokemonSpecies(speciesDataRegistry.getPrevolution(species.speciesId)!);
+                  while (speciesDataRegistry.hasPrevolution(s.speciesId)) {
+                    s = getPokemonSpecies(speciesDataRegistry.getPrevolution(s.speciesId)!);
                   }
                 }
-                return species;
-              },
-            ),
+                return s;
+              }),
           ),
         ]
       : // Why is `filterAllEvolutions` only checked if there is a speciesFilter?
-        speciesDataRegistry.search(
-          s => s.species.isCatchable(),
-          s => s.species,
-        );
+        speciesDataRegistry.getAllSpecies().filter(s => s.isCatchable());
     return randSeedItem(filteredSpecies);
   }
 

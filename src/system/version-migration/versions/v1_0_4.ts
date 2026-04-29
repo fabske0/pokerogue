@@ -40,10 +40,8 @@ const fixLegendaryStats: SystemSaveMigrator = {
       data.gameStats.subLegendaryPokemonCaught = 0;
       data.gameStats.subLegendaryPokemonHatched = 0;
       speciesDataRegistry
-        .search(
-          s => s.species.subLegendary,
-          s => s.species,
-        )
+        .getAllSpecies()
+        .filter(s => s.subLegendary)
         .forEach(s => {
           const dexEntry = data.dexData[s.speciesId];
           data.gameStats.subLegendaryPokemonSeen += dexEntry.seenCount;

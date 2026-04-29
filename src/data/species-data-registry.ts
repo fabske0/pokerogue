@@ -67,30 +67,6 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get all species fulfilling a given search function.
-   * @param searchFn - A function used to search for species data or `true` to return all species. Takes in a {@linkcode PokemonSpeciesData}
-   * @param mappingFn - An optional function used to map the resulting species data to a different type. Takes in a {@linkcode PokemonSpeciesData}
-   * @returns An array of all species mathing the search function.
-   * The return type depends on the mapping function provided or defaults to {@linkcode PokemonSpeciesData}.
-   */
-  public search(searchFn: ((speciesData: PokemonSpeciesData) => boolean) | true): PokemonSpeciesData[];
-  public search<T>(
-    searchFn: ((speciesData: PokemonSpeciesData) => boolean) | true,
-    mappingFn: (speciesData: PokemonSpeciesData) => T,
-  ): T[];
-  public search<T>(
-    searchFn: ((speciesData: PokemonSpeciesData) => boolean) | true,
-    mappingFn?: (speciesData: PokemonSpeciesData) => T,
-  ): PokemonSpeciesData[] | T[] {
-    const allSpeciesData = Object.values(this.data);
-    const result = searchFn === true ? allSpeciesData : allSpeciesData.filter(searchFn);
-    if (!mappingFn) {
-      return result;
-    }
-    return result.map(speciesData => mappingFn(speciesData));
-  }
-
-  /**
    * Get all available TMs for a given species and form.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get TMs for
    * @param form - the `formIndex` or `formKey` of the form to get TMs for. (default: base form)
@@ -204,11 +180,8 @@ export class SpeciesDataRegistry {
   public getAllStarters(getSpecies: false): SpeciesId[];
   public getAllStarters(getSpecies: true): PokemonSpecies[];
   public getAllStarters(getSpecies = false): SpeciesId[] | PokemonSpecies[] {
-    const species = this.search(
-      s => this.isStarter(s.species.speciesId),
-      s => (getSpecies ? s.species : s.species.speciesId),
-    );
-    return species as SpeciesId[] | PokemonSpecies[];
+    const species = this.getAllSpecies().filter(s => this.isStarter(s.speciesId));
+    return getSpecies ? species : species.map(s => s.speciesId);
   }
 
   /**

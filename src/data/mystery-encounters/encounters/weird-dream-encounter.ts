@@ -638,20 +638,17 @@ function getTransformedSpecies(
     const bstMin = Math.max(originalBst + bstSearchRange[0], 0);
 
     // Get any/all species that fall within the Bst range requirements
-    let validSpecies = speciesDataRegistry.search(
-      s => {
-        const speciesBst = s.species.getBaseStatTotal();
-        const bstInRange = speciesBst >= bstMin && speciesBst <= bstCap;
-        // Checks that a Pokemon has not already been added in the +600 or 570-600 slots;
-        const validBst =
-          (!hasPokemonBstBetween570And600
-            || speciesBst < NON_LEGENDARY_BST_THRESHOLD
-            || speciesBst > SUPER_LEGENDARY_BST_THRESHOLD)
-          && (!hasPokemonBstHigherThan600 || speciesBst <= SUPER_LEGENDARY_BST_THRESHOLD);
-        return bstInRange && validBst && !EXCLUDED_TRANSFORMATION_SPECIES.includes(s.species.speciesId);
-      },
-      s => s.species,
-    );
+    let validSpecies = speciesDataRegistry.getAllSpecies().filter(s => {
+      const speciesBst = s.getBaseStatTotal();
+      const bstInRange = speciesBst >= bstMin && speciesBst <= bstCap;
+      // Checks that a Pokemon has not already been added in the +600 or 570-600 slots;
+      const validBst =
+        (!hasPokemonBstBetween570And600
+          || speciesBst < NON_LEGENDARY_BST_THRESHOLD
+          || speciesBst > SUPER_LEGENDARY_BST_THRESHOLD)
+        && (!hasPokemonBstHigherThan600 || speciesBst <= SUPER_LEGENDARY_BST_THRESHOLD);
+      return bstInRange && validBst && !EXCLUDED_TRANSFORMATION_SPECIES.includes(s.speciesId);
+    });
 
     // There must be at least 20 species available before it will choose one
     if (validSpecies?.length > 20) {

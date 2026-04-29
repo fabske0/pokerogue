@@ -274,17 +274,14 @@ export class GameMode implements GameModeConfig {
         return getPokemonSpecies(eventBoss.speciesId);
       }
 
-      const allFinalBossSpecies = speciesDataRegistry.search(
-        s => {
-          return (
-            (s.species.subLegendary || s.species.legendary || s.species.mythical)
-            && s.species.baseTotal >= 600
-            && s.species.speciesId !== SpeciesId.ETERNATUS
-            && s.species.speciesId !== SpeciesId.ARCEUS
-          );
-        },
-        s => s.species,
-      );
+      const allFinalBossSpecies = speciesDataRegistry.getAllSpecies().filter(s => {
+        return (
+          (s.subLegendary || s.legendary || s.mythical)
+          && s.baseTotal >= 600
+          && s.speciesId !== SpeciesId.ETERNATUS
+          && s.speciesId !== SpeciesId.ARCEUS
+        );
+      });
       return randSeedItem(allFinalBossSpecies);
     }
 
