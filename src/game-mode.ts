@@ -2,6 +2,7 @@ import { FixedBattleConfig } from "#app/battle";
 import { CHALLENGE_MODE_MYSTERY_ENCOUNTER_WAVES, CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { globalScene } from "#app/global-scene";
 import { activeOverrides } from "#app/overrides";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allChallenges, type Challenge, copyChallenge } from "#data/challenge";
 import {
   getDailyEventSeedBoss,
@@ -11,7 +12,6 @@ import {
   getDailyTrainerManipulation,
 } from "#data/daily-seed/daily-run";
 import { parseDailySeed } from "#data/daily-seed/daily-seed-utils";
-import { allSpecies } from "#data/data-lists";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { BiomeId } from "#enums/biome-id";
 import { ChallengeType } from "#enums/challenge-type";
@@ -274,12 +274,16 @@ export class GameMode implements GameModeConfig {
         return getPokemonSpecies(eventBoss.speciesId);
       }
 
-      const allFinalBossSpecies = allSpecies.filter(
-        s =>
-          (s.subLegendary || s.legendary || s.mythical)
-          && s.baseTotal >= 600
-          && s.speciesId !== SpeciesId.ETERNATUS
-          && s.speciesId !== SpeciesId.ARCEUS,
+      const allFinalBossSpecies = speciesDataRegistry.search(
+        s => {
+          return (
+            (s.species.subLegendary || s.species.legendary || s.species.mythical)
+            && s.species.baseTotal >= 600
+            && s.species.speciesId !== SpeciesId.ETERNATUS
+            && s.species.speciesId !== SpeciesId.ARCEUS
+          );
+        },
+        s => s.species,
       );
       return randSeedItem(allFinalBossSpecies);
     }

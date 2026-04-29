@@ -1,6 +1,6 @@
 import { CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { globalScene } from "#app/global-scene";
-import { allSpecies } from "#data/data-lists";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { Gender, getGenderSymbol } from "#data/gender";
 import { getNatureName } from "#data/nature";
 import { getPokeballAtlasKey, getPokeballTintColor } from "#data/pokeball";
@@ -518,12 +518,15 @@ function generateTradeOption(alreadyUsedSpecies: PokemonSpecies[], originalBst?:
   }
   while (newSpecies == null) {
     // Get all non-legendary species that fall within the Bst range requirements
-    let validSpecies = allSpecies.filter(s => {
-      const isLegendaryOrMythical = s.legendary || s.subLegendary || s.mythical;
-      const speciesBst = s.getBaseStatTotal();
-      const bstInRange = speciesBst >= bstMin && speciesBst <= bstCap;
-      return !isLegendaryOrMythical && bstInRange && !EXCLUDED_TRADE_SPECIES.includes(s.speciesId);
-    });
+    let validSpecies = speciesDataRegistry.search(
+      s => {
+        const isLegendaryOrMythical = s.species.legendary || s.species.subLegendary || s.species.mythical;
+        const speciesBst = s.species.getBaseStatTotal();
+        const bstInRange = speciesBst >= bstMin && speciesBst <= bstCap;
+        return !isLegendaryOrMythical && bstInRange && !EXCLUDED_TRADE_SPECIES.includes(s.species.speciesId);
+      },
+      s => s.species,
+    );
 
     // There must be at least 20 species available before it will choose one
     if (validSpecies?.length > 20) {

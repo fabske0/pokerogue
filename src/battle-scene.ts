@@ -29,7 +29,7 @@ import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { FRIENDSHIP_GAIN_FROM_BATTLE } from "#balance/starters";
 import { initCommonAnims, initMoveAnim, loadCommonAnimAssets, loadMoveAnimAssets } from "#data/battle-anims";
 import { getDailyMysteryEncounter } from "#data/daily-seed/daily-run";
-import { allMoves, allSpecies, biomeDepths, modifierTypes } from "#data/data-lists";
+import { allMoves, biomeDepths, modifierTypes } from "#data/data-lists";
 import { classicFinalBossDialogue } from "#data/dialogue";
 import type { SpeciesFormChangeTrigger } from "#data/form-change-triggers";
 import { SpeciesFormChangeManualTrigger, SpeciesFormChangeTimeOfDayTrigger } from "#data/form-change-triggers";
@@ -1223,7 +1223,7 @@ export class BattleScene extends SceneBase {
 
     if (reloadI18n) {
       const localizable: Localizable[] = [
-        ...allSpecies,
+        ...speciesDataRegistry.getAllSpecies(),
         ...allMoves,
         ...getEnumValues(ModifierPoolType)
           .map(mpt => getModifierPoolForType(mpt))
@@ -2269,19 +2269,25 @@ export class BattleScene extends SceneBase {
     const filteredSpecies = speciesFilter
       ? [
           ...new Set(
-            allSpecies
-              .filter(s => s.isCatchable() && speciesFilter(s))
-              .map(s => {
+            speciesDataRegistry.search(
+              s => s.species.isCatchable() && speciesFilter(s.species),
+              s => {
+                let species = s.species;
                 if (!filterAllEvolutions) {
-                  while (speciesDataRegistry.hasPrevolution(s.speciesId)) {
-                    s = getPokemonSpecies(speciesDataRegistry.getPrevolution(s.speciesId)!);
+                  while (speciesDataRegistry.hasPrevolution(species.speciesId)) {
+                    species = getPokemonSpecies(speciesDataRegistry.getPrevolution(species.speciesId)!);
                   }
                 }
-                return s;
-              }),
+                return species;
+              },
+            ),
           ),
         ]
-      : allSpecies.filter(s => s.isCatchable());
+      : // Why is `filterAllEvolutions` only checked if there is a speciesFilter?
+        speciesDataRegistry.search(
+          s => s.species.isCatchable(),
+          s => s.species,
+        );
     return randSeedItem(filteredSpecies);
   }
 

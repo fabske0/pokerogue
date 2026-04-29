@@ -10,7 +10,7 @@ import {
   getStarterValueFriendshipCap,
   getValueReductionCandyCounts,
 } from "#balance/starters";
-import { allAbilities, allMoves, allSpecies, catchableSpecies } from "#data/data-lists";
+import { allAbilities, allMoves, catchableSpecies } from "#data/data-lists";
 import { Egg, getEggTierForSpecies } from "#data/egg";
 import { GrowthRate, getGrowthRateColor } from "#data/exp";
 import { Gender, getGenderColor, getGenderSymbol } from "#data/gender";
@@ -1646,7 +1646,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
                   });
 
                   for (const evo of this.evolutions) {
-                    const evoSpecies = allSpecies.find(species => species.speciesId === evo.speciesId);
+                    const evoSpecies = speciesDataRegistry.getSpecies(evo.speciesId);
                     const isCaughtEvo = !!this.isCaught(evoSpecies);
                     // Attempts to find the formIndex of the evolved species
                     const newFormKey = evo.evoFormKey
@@ -2115,6 +2115,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
                 const newIndex = index <= 0 ? this.filteredIndices.length - 1 : index - 1;
                 newSpecies = getPokemonSpecies(this.filteredIndices[newIndex]);
               } else {
+                const allSpecies = speciesDataRegistry.getAllSpecies();
                 const index = allSpecies.findIndex(species => species.speciesId === this.species.speciesId);
                 const newIndex = index <= 0 ? allSpecies.length - 1 : index - 1;
                 newSpecies = allSpecies[newIndex];
@@ -2154,6 +2155,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
                 const newIndex = index >= this.filteredIndices.length - 1 ? 0 : index + 1;
                 newSpecies = getPokemonSpecies(this.filteredIndices[newIndex]);
               } else {
+                const allSpecies = speciesDataRegistry.getAllSpecies();
                 const index = allSpecies.findIndex(species => species.speciesId === this.species.speciesId);
                 const newIndex = index >= allSpecies.length - 1 ? 0 : index + 1;
                 newSpecies = allSpecies[newIndex];
@@ -2783,7 +2785,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
    */
   private getCurrentDexProps(speciesId: SpeciesId): bigint {
     let props = 0n;
-    const species = allSpecies.find(sp => sp.speciesId === speciesId);
+    const species = speciesDataRegistry.getSpecies(speciesId);
     const caughtAttr =
       globalScene.gameData.dexData[speciesId].caughtAttr
       & globalScene.gameData.dexData[this.getStarterSpeciesId(speciesId)].caughtAttr

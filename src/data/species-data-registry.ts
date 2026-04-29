@@ -38,9 +38,6 @@ export class SpeciesDataRegistry {
     );
 
     this.initPreEvolutions();
-
-    // TODO: Replace all calls with direct calls to the registry
-    (allSpecies as PokemonSpecies[]).push(...Object.values(this.data).map(s => s.species));
   }
 
   /**
@@ -53,12 +50,44 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get the {@linkcode PokemonSpecies} for a given species.
+   * Get the {@linkcode PokemonSpecies} for a given speciesId.
    * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
    * @returns The {@linkcode PokemonSpecies}
    */
   public getSpecies(speciesId: SpeciesId): PokemonSpecies {
     return this.getSpeciesData(speciesId).species;
+  }
+
+  /**
+   * Get all {@linkcode PokemonSpecies} in the registry.
+   * @returns An array of all {@linkcode PokemonSpecies}
+   */
+  public getAllSpecies(): PokemonSpecies[] {
+    return Object.values(this.data).map(s => s.species);
+  }
+
+  /**
+   * Get all species fulfilling a given search function.
+   * @param searchFn - A function used to search for species data or `true` to return all species. Takes in a {@linkcode PokemonSpeciesData}
+   * @param mappingFn - An optional function used to map the resulting species data to a different type. Takes in a {@linkcode PokemonSpeciesData}
+   * @returns An array of all species mathing the search function.
+   * The return type depends on the mapping function provided or defaults to {@linkcode PokemonSpeciesData}.
+   */
+  public search(searchFn: ((speciesData: PokemonSpeciesData) => boolean) | true): PokemonSpeciesData[];
+  public search<T>(
+    searchFn: ((speciesData: PokemonSpeciesData) => boolean) | true,
+    mappingFn: (speciesData: PokemonSpeciesData) => T,
+  ): T[];
+  public search<T>(
+    searchFn: ((speciesData: PokemonSpeciesData) => boolean) | true,
+    mappingFn?: (speciesData: PokemonSpeciesData) => T,
+  ): PokemonSpeciesData[] | T[] {
+    const allSpeciesData = Object.values(this.data);
+    const result = searchFn === true ? allSpeciesData : allSpeciesData.filter(searchFn);
+    if (!mappingFn) {
+      return result;
+    }
+    return result.map(speciesData => mappingFn(speciesData));
   }
 
   /**
@@ -168,13 +197,18 @@ export class SpeciesDataRegistry {
 
   /**
    * Get all starters.
-   * @returns An array of all starter {@linkcode SpeciesId}s
+   * @param getSpecies - Whether to return {@linkcode PokemonSpecies} instead of {@linkcode SpeciesId}. (default: `false`)
+   * @returns An array of all starter {@linkcode SpeciesId}s or {@linkcode PokemonSpecies}s
    */
-  public getAllStarters(): SpeciesId[] {
-    const species = Object.values(this.data)
-      .filter(s => this.isStarter(s.species.speciesId))
-      .map(s => s.species.speciesId);
-    return species;
+  public getAllStarters(): SpeciesId[];
+  public getAllStarters(getSpecies: false): SpeciesId[];
+  public getAllStarters(getSpecies: true): PokemonSpecies[];
+  public getAllStarters(getSpecies = false): SpeciesId[] | PokemonSpecies[] {
+    const species = this.search(
+      s => this.isStarter(s.species.speciesId),
+      s => (getSpecies ? s.species : s.species.speciesId),
+    );
+    return species as SpeciesId[] | PokemonSpecies[];
   }
 
   /**

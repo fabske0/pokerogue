@@ -9,7 +9,7 @@ import {
   getValueReductionCandyCounts,
   POKERUS_STARTER_COUNT,
 } from "#balance/starters";
-import { allAbilities, allMoves, allSpecies, catchableSpecies } from "#data/data-lists";
+import { allAbilities, allMoves, catchableSpecies } from "#data/data-lists";
 import type { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { normalForm } from "#data/pokemon-species";
 import { AbilityAttr } from "#enums/ability-attr";
@@ -565,13 +565,13 @@ export class PokedexUiHandler extends MessageUiHandler {
     this.cursorObj.setOrigin(0, 0);
     starterBoxContainer.add(this.cursorObj);
 
-    for (const species of allSpecies) {
+    for (const species of speciesDataRegistry.getAllSpecies()) {
       this.speciesLoaded.set(species.speciesId, false);
     }
 
     // Here code to declare 81 containers
     for (let i = 0; i < 81; i++) {
-      const pokemonContainer = new PokedexMonContainer(allSpecies[i]).setVisible(false);
+      const pokemonContainer = new PokedexMonContainer(speciesDataRegistry.getSpecies(i + 1)).setVisible(false);
       const pos = calcStarterPosition(i);
       pokemonContainer.setPosition(pos.x, pos.y);
       this.iconAnimHandler.addOrUpdate(pokemonContainer.icon, PokemonIconAnimMode.NONE);
@@ -1431,7 +1431,7 @@ export class PokedexUiHandler extends MessageUiHandler {
 
     this.filteredPokemonData = [];
 
-    for (const species of allSpecies) {
+    for (const species of speciesDataRegistry.getAllSpecies()) {
       const starterId = this.getStarterSpeciesId(species.speciesId);
 
       const currentDexAttr = this.getCurrentDexProps(species.speciesId);
@@ -2423,17 +2423,16 @@ export class PokedexUiHandler extends MessageUiHandler {
   /**
    * Creates a temporary dex attr props that will be used to
    * display the correct shiny, variant, and form based on the StarterPreferences
-   *
    * @param speciesId the id of the species to get props for
    * @returns the dex props
    */
   getCurrentDexProps(speciesId: number): bigint {
     let props = 0n;
-    const species = allSpecies.find(sp => sp.speciesId === speciesId);
+    const species = speciesDataRegistry.getSpecies(speciesId);
     const caughtAttr =
       this.gameData.dexData[speciesId].caughtAttr
       & this.gameData.dexData[this.getStarterSpeciesId(speciesId)].caughtAttr
-      & (species?.getFullUnlocksData() ?? 0n);
+      & (species.getFullUnlocksData() ?? 0n);
 
     /*  this checks the gender of the pokemon; this works by checking a) that the starter preferences for the species exist, and if so, is it female. If so, it'll add DexAttr.FEMALE to our temp props
      *  It then checks b) if the caughtAttr for the pokemon is female and NOT male - this means that the ONLY gender we've gotten is female, and we need to add DexAttr.FEMALE to our temp props

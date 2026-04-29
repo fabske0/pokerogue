@@ -2,7 +2,6 @@ import { MAX_TERAS_PER_ARENA } from "#app/constants";
 import { globalScene } from "#app/global-scene";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { POKERUS_STARTER_COUNT } from "#balance/starters";
-import { allSpecies } from "#data/data-lists";
 import type { PokemonSpecies, PokemonSpeciesForm } from "#data/pokemon-species";
 import { BattlerIndex } from "#enums/battler-index";
 import { SpeciesId } from "#enums/species-id";
@@ -21,11 +20,7 @@ export function getPokemonSpecies(species: SpeciesId | SpeciesId[]): PokemonSpec
     // TODO: this RNG roll should not be handled by this function
     species = species[Math.floor(Math.random() * species.length)];
   }
-  if (species >= 2000) {
-    // the `!` is safe, `allSpecies` is static and contains all `SpeciesId`s
-    return allSpecies.find(s => s.speciesId === species)!;
-  }
-  return allSpecies[species - 1];
+  return speciesDataRegistry.getSpecies(species);
 }
 
 /**
