@@ -11,7 +11,7 @@ import {
   getValueReductionCandyCounts,
 } from "#balance/starters";
 import { allAbilities, allMoves, catchableSpecies } from "#data/data-lists";
-import { Egg, getEggTierForSpecies } from "#data/egg";
+import { Egg } from "#data/egg";
 import { GrowthRate, getGrowthRateColor } from "#data/exp";
 import { Gender, getGenderColor, getGenderSymbol } from "#data/gender";
 import { getNatureName } from "#data/nature";
@@ -2662,7 +2662,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
         if (species.speciesId === SpeciesId.MANAPHY || species.speciesId === SpeciesId.PHIONE) {
           this.pokemonHatchedIcon.setFrame("manaphy");
         } else {
-          this.pokemonHatchedIcon.setFrame(getEggTierForSpecies(species));
+          this.pokemonHatchedIcon.setFrame(speciesDataRegistry.getEggTier(species));
         }
         this.pokemonHatchedCountText.setText(`${this.speciesStarterDexEntry?.hatchedCount}`);
 

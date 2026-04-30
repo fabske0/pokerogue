@@ -13,7 +13,7 @@ import { setSpeciesDataRegistry } from "#balance/species/species-data-registry";
 import type { StarterCost } from "#balance/starters";
 import { allSpecies } from "#data/data-lists";
 import type { AbilityId } from "#enums/ability-id";
-import type { EggTier } from "#enums/egg-type";
+import { EggTier } from "#enums/egg-type";
 import type { MoveId } from "#enums/move-id";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import type { SpeciesId } from "#enums/species-id";
@@ -105,6 +105,17 @@ export class SpeciesDataRegistry {
   public hasFormLevelMoves(speciesId: SpeciesId): boolean {
     const speciesData = this.getSpeciesData(speciesId);
     return !!speciesData.formLevelMoves && Object.keys(speciesData.formLevelMoves).length > 0;
+  }
+
+  /**
+   * Get the egg tier for a given species.
+   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the egg tier for
+   * @returns The {@linkcode EggTier} of the species. (Defaults to `COMMON` if not set)
+   */
+  public getEggTier(species: PokemonSpecies | SpeciesId): EggTier {
+    const speciesId = typeof species === "number" ? species : species.speciesId;
+    const speciesData = this.getSpeciesData(speciesId);
+    return speciesData.eggTier ?? EggTier.COMMON;
   }
 
   /**

@@ -26,7 +26,6 @@ import {
   SHINY_VARIANT_CHANCE,
 } from "#balance/rates";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
-import type { PokemonSpecies } from "#data/pokemon-species";
 import { EggSourceType } from "#enums/egg-source-types";
 import { EggTier } from "#enums/egg-type";
 import { SpeciesId } from "#enums/species-id";
@@ -623,14 +622,4 @@ export function getLegendaryGachaSpeciesForTimestamp(timestamp: number): Species
   ret = ret!; // tell TS compiler it's
 
   return ret;
-}
-
-/**
- * Check for a given species EggTier Value
- * @param pokemonSpecies - Species for wich we will check the egg tier it belongs to
- * @returns The egg tier of a given pokemon species
- */
-// TODO: replace all calls with direct calls to the registry and remove this function
-export function getEggTierForSpecies(pokemonSpecies: PokemonSpecies): EggTier {
-  return speciesDataRegistry.getSpeciesData(pokemonSpecies.getRootSpeciesId()).eggTier ?? EggTier.COMMON;
 }

@@ -1,5 +1,5 @@
 import { globalScene } from "#app/global-scene";
-import { getEggTierForSpecies } from "#data/egg";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { EggHatchData } from "#data/egg-hatch-data";
 import { Button } from "#enums/buttons";
 import { UiMode } from "#enums/ui-mode";
@@ -149,10 +149,10 @@ export class EggSummaryUiHandler extends MessageUiHandler {
       this.eggHatchData = args[0].sort(function sortHatchData(a: EggHatchData, b: EggHatchData) {
         const speciesA = a.pokemon.species;
         const speciesB = b.pokemon.species;
-        if (getEggTierForSpecies(speciesA) < getEggTierForSpecies(speciesB)) {
+        if (speciesDataRegistry.getEggTier(speciesA) < speciesDataRegistry.getEggTier(speciesB)) {
           return -1;
         }
-        if (getEggTierForSpecies(speciesA) > getEggTierForSpecies(speciesB)) {
+        if (speciesDataRegistry.getEggTier(speciesA) > speciesDataRegistry.getEggTier(speciesB)) {
           return 1;
         }
         if (speciesA.speciesId < speciesB.speciesId) {
