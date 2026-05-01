@@ -23,7 +23,7 @@ import type { PokemonSpecies } from "./pokemon-species";
 export class SpeciesDataRegistry {
   private readonly _data: SpeciesDataMap;
 
-  // should this use `ReadonlyDeep` from type-fest?
+  // should this (and the other methods) use `ReadonlyDeep` from type-fest?
   get data(): SpeciesDataMap {
     return this._data;
   }
