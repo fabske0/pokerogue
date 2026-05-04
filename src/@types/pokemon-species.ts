@@ -1,4 +1,5 @@
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
+import type { SpeciesFormChange } from "#data/pokemon-forms";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import type { AbilityId } from "#enums/ability-id";
 import type { EggTier } from "#enums/egg-type";
@@ -26,6 +27,7 @@ export interface PokemonSpeciesData {
   starterCost?: number;
   evolutions: SpeciesFormEvolution[];
   prevolution: SpeciesId | null;
+  formChanges?: SpeciesFormChange[];
   /** The egg tier of the Pokémon. Should be omitted for non starters */
   eggTier?: EggTier;
   passives: AbilityId | PokemonSpeciesPassives;

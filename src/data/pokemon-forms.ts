@@ -30,6 +30,15 @@ import type { Mutable } from "#types/type-helpers";
 export type SpeciesFormChangeConditionPredicate = (p: Pokemon) => boolean;
 export type SpeciesFormChangeConditionEnforceFunc = (p: Pokemon) => void;
 
+interface SpeciesFormChangeConstructor {
+  speciesId: SpeciesId;
+  preFormKey: string;
+  evoFormKey: string;
+  trigger: SpeciesFormChangeTrigger;
+  quiet?: boolean;
+  conditions: SpeciesFormChangeCondition[];
+}
+
 export class SpeciesFormChange {
   public speciesId: SpeciesId;
   public preFormKey: string;
@@ -38,20 +47,13 @@ export class SpeciesFormChange {
   public quiet: boolean;
   public readonly conditions: readonly SpeciesFormChangeCondition[];
 
-  constructor(
-    speciesId: SpeciesId,
-    preFormKey: string,
-    evoFormKey: string,
-    trigger: SpeciesFormChangeTrigger,
-    quiet = false,
-    ...conditions: SpeciesFormChangeCondition[]
-  ) {
-    this.speciesId = speciesId;
-    this.preFormKey = preFormKey;
-    this.formKey = evoFormKey;
-    this.trigger = trigger;
-    this.quiet = quiet;
-    this.conditions = conditions;
+  constructor(data: SpeciesFormChangeConstructor) {
+    this.speciesId = data.speciesId;
+    this.preFormKey = data.preFormKey;
+    this.formKey = data.evoFormKey;
+    this.trigger = data.trigger;
+    this.quiet = data.quiet ?? false;
+    this.conditions = data.conditions;
   }
 
   canChange(pokemon: Pokemon): boolean {

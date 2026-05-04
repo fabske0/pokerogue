@@ -1,9 +1,12 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
 import { EvoCondKey, EvolutionItem, SpeciesEvolution, SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { GrowthRate } from "#data/exp";
+import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
+import { SpeciesFormChange } from "#data/pokemon-forms";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
+import { FormChangeItem } from "#enums/form-change-item";
 import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
@@ -269,6 +272,22 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.BULBASAUR,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.VENUSAUR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.VENUSAURITE),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.VENUSAUR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.GRASSY_SURGE,
       1: AbilityId.SEED_SOWER,
@@ -595,6 +614,29 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.CHARMANDER,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.CHARIZARD,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA_X,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.CHARIZARDITE_X),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.CHARIZARD,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA_Y,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.CHARIZARDITE_Y),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.CHARIZARD,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.BATTLE_BOND,
       1: AbilityId.LEVITATE,
@@ -907,6 +949,22 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SQUIRTLE,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.BLASTOISE,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.BLASTOISINITE),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.BLASTOISE,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.BULLETPROOF,
       1: AbilityId.BULLETPROOF,
@@ -1106,6 +1164,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.CATERPIE,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.BUTTERFREE,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.MAGICIAN,
       1: AbilityId.MAGICIAN,
@@ -1339,6 +1406,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.WEEDLE,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.BEEDRILL,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.BEEDRILLITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.ADAPTABILITY,
       1: AbilityId.TINTED_LENS,
@@ -1642,8 +1718,16 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       ],
     }),
     starter: SpeciesId.PIDGEY,
-
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.PIDGEOT,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.PIDGEOTITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.SHEER_FORCE,
       1: AbilityId.SHEER_FORCE,
@@ -2415,6 +2499,22 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       new SpeciesFormEvolution(SpeciesId.ALOLA_RAICHU, "partner", "", 1, EvolutionItem.SHINY_STONE, null, [30, 35, 40]),
       new SpeciesFormEvolution(SpeciesId.RAICHU, "", "", 1, EvolutionItem.THUNDER_STONE, null, [30, 35, 40]),
       new SpeciesFormEvolution(SpeciesId.RAICHU, "partner", "", 1, EvolutionItem.THUNDER_STONE, null, [30, 35, 40]),
+    ],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.PIKACHU,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.PIKACHU,
+        preFormKey: "partner",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
     ],
     passives: {
       0: AbilityId.ELECTRIC_SURGE,
@@ -4871,6 +4971,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starter: SpeciesId.MEOWTH,
     starterCost: 3,
     evolutions: [new SpeciesFormEvolution(SpeciesId.PERSIAN, "", "", 28, null, null)],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.MEOWTH,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.COMMON,
     passives: {
       0: AbilityId.TOUGH_CLAWS,
@@ -6083,6 +6192,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.ABRA,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.ALAKAZAM,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.ALAKAZITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.MAGICIAN,
       1: AbilityId.MAGICIAN,
@@ -6358,6 +6476,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MACHOP,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.MACHAMP,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.QUICK_FEET,
       1: AbilityId.QUICK_FEET,
@@ -7362,6 +7489,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SLOWPOKE,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.SLOWBRO,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.SLOWBRONITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.UNAWARE,
       1: AbilityId.REGENERATOR,
@@ -8638,6 +8774,22 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.GASTLY,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GENGAR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.GENGARITE),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GENGAR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.LEVITATE,
       1: AbilityId.UNNERVE,
@@ -10868,6 +11020,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starter: SpeciesId.KANGASKHAN,
     starterCost: 4,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.KANGASKHAN,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.KANGASKHANITE),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.RARE,
     passives: {
       0: AbilityId.TECHNICIAN,
@@ -12221,6 +12382,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starter: SpeciesId.PINSIR,
     starterCost: 4,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.PINSIR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.PINSIRITE),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.RARE,
     passives: {
       0: AbilityId.TINTED_LENS,
@@ -12545,6 +12715,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MAGIKARP,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GYARADOS,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.GYARADOSITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.MULTISCALE,
       1: AbilityId.MULTISCALE,
@@ -12730,6 +12909,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starter: SpeciesId.LAPRAS,
     starterCost: 4,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.LAPRAS,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.RARE,
     passives: {
       0: AbilityId.FILTER,
@@ -12969,6 +13157,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starterCost: 3,
     starter: SpeciesId.EEVEE,
     evolutions: [
+      // TODO: use consistent formatting/make SpeciesFormEvolution take an object in the constructor
       new SpeciesFormEvolution(
         SpeciesId.SYLVEON,
         "",
@@ -13051,6 +13240,22 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       new SpeciesFormEvolution(SpeciesId.LEAFEON, "partner", "", 1, EvolutionItem.LEAF_STONE, null, [24, 28, 28]),
       new SpeciesFormEvolution(SpeciesId.GLACEON, "", "", 1, EvolutionItem.ICE_STONE, null, [24, 28, 28]),
       new SpeciesFormEvolution(SpeciesId.GLACEON, "partner", "", 1, EvolutionItem.ICE_STONE, null, [24, 28, 28]),
+    ],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.EEVEE,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.EEVEE,
+        preFormKey: "partner",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: {
@@ -13932,6 +14137,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starter: SpeciesId.AERODACTYL,
     starterCost: 5,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.AERODACTYL,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.AERODACTYLITE),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.RARE,
     passives: {
       0: AbilityId.INTIMIDATE,
@@ -14107,6 +14321,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MUNCHLAX,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.SNORLAX,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.CHEEK_POUCH,
       1: AbilityId.RIPEN,
@@ -14952,6 +15175,22 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     starter: SpeciesId.MEWTWO,
     starterCost: 8,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.MEWTWO,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA_X,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MEWTWONITE_X),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.MEWTWO,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA_Y,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MEWTWONITE_Y),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.LEGENDARY,
     passives: {
       0: AbilityId.NEUROFORCE,
