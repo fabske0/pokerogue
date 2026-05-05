@@ -1,10 +1,23 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
+import { globalScene } from "#app/global-scene";
 import { EvoCondKey, EvolutionItem, SpeciesEvolution, SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { GrowthRate } from "#data/exp";
+import {
+  MeloettaFormChangePostMoveTrigger,
+  SpeciesFormChangeAbilityTrigger,
+  SpeciesFormChangeItemTrigger,
+  SpeciesFormChangeMoveLearnedTrigger,
+} from "#data/form-change-triggers";
 import { Gender } from "#data/gender";
+import {
+  getSpeciesDependentFormChangeCondition,
+  SpeciesFormChange,
+  SpeciesFormChangeCondition,
+} from "#data/pokemon-forms";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
+import { FormChangeItem } from "#enums/form-change-item";
 import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
@@ -3011,6 +3024,15 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.AUDINO,
     starterCost: 3,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.AUDINO,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.AUDINITE),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.RARE,
     passives: {
       0: AbilityId.FRIEND_GUARD,
@@ -5181,6 +5203,24 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.DARUMAKA,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.DARMANITAN,
+        preFormKey: "",
+        evoFormKey: "zen",
+        trigger: new SpeciesFormChangeAbilityTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.DARMANITAN,
+        preFormKey: "zen",
+        evoFormKey: "",
+        trigger: new SpeciesFormChangeAbilityTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.GORILLA_TACTICS,
       1: AbilityId.PSYCHIC_SURGE,
@@ -6489,6 +6529,15 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.TRUBBISH,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GARBODOR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.NEUTRALIZING_GAS,
       1: AbilityId.NEUTRALIZING_GAS,
@@ -12896,6 +12945,15 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.TORNADUS,
     starterCost: 6,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.TORNADUS,
+        preFormKey: SpeciesFormKey.INCARNATE,
+        evoFormKey: SpeciesFormKey.THERIAN,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.REVEAL_GLASS),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.DRIZZLE,
@@ -13073,6 +13131,15 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.THUNDURUS,
     starterCost: 7,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.THUNDURUS,
+        preFormKey: SpeciesFormKey.INCARNATE,
+        evoFormKey: SpeciesFormKey.THERIAN,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.REVEAL_GLASS),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.DRIZZLE,
@@ -13523,6 +13590,15 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.LANDORUS,
     starterCost: 7,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.LANDORUS,
+        preFormKey: SpeciesFormKey.INCARNATE,
+        evoFormKey: SpeciesFormKey.THERIAN,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.REVEAL_GLASS),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.STORM_DRAIN,
@@ -13718,6 +13794,22 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.KYUREM,
     starterCost: 8,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.KYUREM,
+        preFormKey: "",
+        evoFormKey: "black",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.DARK_STONE),
+        conditions: [getSpeciesDependentFormChangeCondition(SpeciesId.ZEKROM)],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.KYUREM,
+        preFormKey: "",
+        evoFormKey: "white",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.LIGHT_STONE),
+        conditions: [getSpeciesDependentFormChangeCondition(SpeciesId.RESHIRAM)],
+      }),
+    ],
     eggTier: EggTier.LEGENDARY,
     passives: {
       0: AbilityId.SNOW_WARNING,
@@ -13908,6 +14000,22 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.KELDEO,
     starterCost: 6,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.KELDEO,
+        preFormKey: "ordinary",
+        evoFormKey: "resolute",
+        trigger: new SpeciesFormChangeMoveLearnedTrigger(MoveId.SECRET_SWORD),
+        conditions: [new SpeciesFormChangeCondition(() => globalScene.gameMode.isDaily !== true)],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.KELDEO,
+        preFormKey: "resolute",
+        evoFormKey: "ordinary",
+        trigger: new SpeciesFormChangeMoveLearnedTrigger(MoveId.SECRET_SWORD, false),
+        conditions: [new SpeciesFormChangeCondition(() => globalScene.gameMode.isDaily !== true)],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.GRIM_NEIGH,
@@ -14085,6 +14193,24 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.MELOETTA,
     starterCost: 7,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.MELOETTA,
+        preFormKey: "aria",
+        evoFormKey: "pirouette",
+        trigger: new MeloettaFormChangePostMoveTrigger(MoveId.RELIC_SONG),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.MELOETTA,
+        preFormKey: "pirouette",
+        evoFormKey: "aria",
+        trigger: new MeloettaFormChangePostMoveTrigger(MoveId.RELIC_SONG),
+        quiet: true,
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.PUNK_ROCK,
@@ -14341,6 +14467,36 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     starter: SpeciesId.GENESECT,
     starterCost: 6,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GENESECT,
+        preFormKey: "",
+        evoFormKey: "shock",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.SHOCK_DRIVE),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GENESECT,
+        preFormKey: "",
+        evoFormKey: "burn",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.BURN_DRIVE),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GENESECT,
+        preFormKey: "",
+        evoFormKey: "chill",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.CHILL_DRIVE),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.GENESECT,
+        preFormKey: "",
+        evoFormKey: "douse",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.DOUSE_DRIVE),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.PROTEAN,

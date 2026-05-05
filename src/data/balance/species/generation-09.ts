@@ -1,10 +1,18 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
 import { EvoCondKey, EvolutionItem, SpeciesEvolution, SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { GrowthRate } from "#data/exp";
+import {
+  SpeciesFormChangeAbilityTrigger,
+  SpeciesFormChangeItemTrigger,
+  SpeciesFormChangeLapseTeraTrigger,
+  SpeciesFormChangeTeraTrigger,
+} from "#data/form-change-triggers";
 import { Gender } from "#data/gender";
+import { SpeciesFormChange } from "#data/pokemon-forms";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
+import { FormChangeItem } from "#enums/form-change-item";
 import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
@@ -10529,6 +10537,93 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     starter: SpeciesId.OGERPON,
     starterCost: 7,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "teal-mask",
+        evoFormKey: "wellspring-mask",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.WELLSPRING_MASK),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "teal-mask",
+        evoFormKey: "hearthflame-mask",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.HEARTHFLAME_MASK),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "teal-mask",
+        evoFormKey: "cornerstone-mask",
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.CORNERSTONE_MASK),
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "teal-mask",
+        evoFormKey: "teal-mask-tera",
+        trigger: new SpeciesFormChangeTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "teal-mask-tera",
+        evoFormKey: "teal-mask",
+        trigger: new SpeciesFormChangeLapseTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "wellspring-mask",
+        evoFormKey: "wellspring-mask-tera",
+        trigger: new SpeciesFormChangeTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "wellspring-mask-tera",
+        evoFormKey: "wellspring-mask",
+        trigger: new SpeciesFormChangeLapseTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "hearthflame-mask",
+        evoFormKey: "hearthflame-mask-tera",
+        trigger: new SpeciesFormChangeTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "hearthflame-mask-tera",
+        evoFormKey: "hearthflame-mask",
+        trigger: new SpeciesFormChangeLapseTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "cornerstone-mask",
+        evoFormKey: "cornerstone-mask-tera",
+        trigger: new SpeciesFormChangeTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.OGERPON,
+        preFormKey: "cornerstone-mask-tera",
+        evoFormKey: "cornerstone-mask",
+        trigger: new SpeciesFormChangeLapseTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.EPIC,
     passives: {
       0: AbilityId.OPPORTUNIST,
@@ -11305,6 +11400,32 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     starter: SpeciesId.TERAPAGOS,
     starterCost: 9,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.TERAPAGOS,
+        preFormKey: "",
+        evoFormKey: "terastal",
+        trigger: new SpeciesFormChangeAbilityTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.TERAPAGOS,
+        preFormKey: "terastal",
+        evoFormKey: "stellar",
+        trigger: new SpeciesFormChangeTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.TERAPAGOS,
+        preFormKey: "stellar",
+        evoFormKey: "terastal",
+        trigger: new SpeciesFormChangeLapseTeraTrigger(),
+        quiet: true,
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.LEGENDARY,
     passives: {
       0: AbilityId.SHIELD_DUST,

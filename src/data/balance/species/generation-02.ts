@@ -1,9 +1,12 @@
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
 import { EvoCondKey, EvolutionItem, SpeciesEvolution, SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { GrowthRate } from "#data/exp";
+import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
+import { SpeciesFormChange } from "#data/pokemon-forms";
 import { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
+import { FormChangeItem } from "#enums/form-change-item";
 import { MoveId } from "#enums/move-id";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesFormKey } from "#enums/species-form-key";
@@ -2697,6 +2700,15 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MAREEP,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.AMPHAROS,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.AMPHAROSITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.ELECTROMORPHOSIS,
       1: AbilityId.FLUFFY,
@@ -6279,6 +6291,15 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.ONIX,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.STEELIX,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.STEELIXITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.ROCKY_PAYLOAD,
       1: AbilityId.SAND_SPIT,
@@ -6797,6 +6818,15 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SCYTHER,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.SCIZOR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.SCIZORITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.TOUGH_CLAWS,
       1: AbilityId.TOUGH_CLAWS,
@@ -7088,6 +7118,15 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.HERACROSS,
     starterCost: 5,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.HERACROSS,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.HERACRONITE),
+        conditions: [],
+      }),
+    ],
     eggTier: EggTier.RARE,
     passives: {
       0: AbilityId.TECHNICIAN,
@@ -8699,6 +8738,15 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.HOUNDOUR,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.HOUNDOOM,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.HOUNDOOMINITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.LIGHTNING_ROD,
       1: AbilityId.LIGHTNING_ROD,
@@ -10689,6 +10737,15 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.LARVITAR,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.TYRANITAR,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.MEGA,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.TYRANITARITE),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.SOLID_ROCK,
       1: AbilityId.SOLID_ROCK,

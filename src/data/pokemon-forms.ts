@@ -114,7 +114,7 @@ export class SpeciesFormChangeCondition {
  * @param species {@linkcode SpeciesId}
  * @returns A {@linkcode SpeciesFormChangeCondition} checking if that species is registered as caught
  */
-function getSpeciesDependentFormChangeCondition(species: SpeciesId): SpeciesFormChangeCondition {
+export function getSpeciesDependentFormChangeCondition(species: SpeciesId): SpeciesFormChangeCondition {
   return new SpeciesFormChangeCondition(_p => !!globalScene.gameData.dexData[species].caughtAttr);
 }
 

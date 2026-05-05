@@ -9338,6 +9338,15 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.KRABBY,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.KINGLER,
+        preFormKey: "",
+        evoFormKey: SpeciesFormKey.GIGANTAMAX,
+        trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.MAX_MUSHROOMS),
+        conditions: [],
+      }),
+    ],
     passives: {
       0: AbilityId.UNBURDEN,
       1: AbilityId.UNBURDEN,
