@@ -1,7 +1,6 @@
 import type { FixedBattleConfig } from "#app/battle";
 import { globalScene } from "#app/global-scene";
 import { speciesDataRegistry } from "#balance/species/species-data-registry";
-import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { ChallengeType } from "#enums/challenge-type";
 import { Challenges } from "#enums/challenges";
@@ -400,7 +399,7 @@ export function checkStarterValidForChallenge(species: PokemonSpecies, props: De
 export function checkSpeciesValidForChallenge(species: PokemonSpecies, props: DexAttrProps, soft: boolean) {
   const isValidForChallenge = new BooleanHolder(true);
   applyChallenges(ChallengeType.STARTER_CHOICE, species, isValidForChallenge, props);
-  if (!soft || !Object.hasOwn(pokemonFormChanges, species.speciesId)) {
+  if (!soft || !speciesDataRegistry.hasFormChanges(species.speciesId)) {
     return isValidForChallenge.value;
   }
   // If the form in props is valid, return true before checking other form changes
@@ -408,7 +407,7 @@ export function checkSpeciesValidForChallenge(species: PokemonSpecies, props: De
     return true;
   }
 
-  const result = pokemonFormChanges[species.speciesId].some(f1 => {
+  const result = speciesDataRegistry.getFormChanges(species.speciesId).some(f1 => {
     // Exclude form changes that require the mon to be on the field to begin with
     if (!("item" in f1.trigger)) {
       return false;

@@ -11,13 +11,14 @@ import { initGenerationEight } from "#balance/species/generation-08";
 import { initGenerationNine } from "#balance/species/generation-09";
 import { setSpeciesDataRegistry } from "#balance/species/species-data-registry";
 import type { StarterCost } from "#balance/starters";
-import { allSpecies } from "#data/data-lists";
+import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
 import type { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
 import type { MoveId } from "#enums/move-id";
 import { SpeciesFormKey } from "#enums/species-form-key";
 import type { SpeciesId } from "#enums/species-id";
 import type { LevelMoves, PokemonSpeciesData, SpeciesDataMap } from "#types/pokemon-species";
+import { SpeciesFormChange } from "./pokemon-forms";
 import type { PokemonSpecies } from "./pokemon-species";
 
 export class SpeciesDataRegistry {
@@ -43,6 +44,7 @@ export class SpeciesDataRegistry {
     );
 
     this.initPreEvolutions();
+    this.initReverseFormChanges();
   }
 
   /**
@@ -310,36 +312,25 @@ export class SpeciesDataRegistry {
     return this.getPrevolution(speciesId) !== null;
   }
 
-  //#region Initializations
-
   /**
-   * Set the `prevolution` field for all species.
+   * Get the form changes for a given species.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get form changes for
+   * @returns An array of {@linkcode SpeciesFormChange}s
    */
-  private initPreEvolutions(): void {
-    const megaFormKeys = [SpeciesFormKey.MEGA, SpeciesFormKey.MEGA_X, SpeciesFormKey.MEGA_Y];
-
-    const setPrevo = (speciesId: SpeciesId): void => {
-      const evolutions = this.getEvolutions(speciesId);
-      for (const evolution of evolutions) {
-        if (evolution.evoFormKey && megaFormKeys.includes(evolution.evoFormKey as SpeciesFormKey)) {
-          continue;
-        }
-
-        this._data[evolution.speciesId].prevolution = speciesId;
-
-        if (this.hasEvolutions(evolution.speciesId)) {
-          setPrevo(evolution.speciesId);
-        }
-      }
-    };
-
-    for (const starterId of this.getAllStarters()) {
-      this._data[starterId].prevolution = null;
-      setPrevo(starterId);
-    }
+  public getFormChanges(speciesId: SpeciesId): SpeciesFormChange[] {
+    const speciesData = this.getSpeciesData(speciesId);
+    return speciesData.formChanges ?? [];
   }
 
-  //#endregion Initializations
+  /**
+   * Checks if a given species has any form changes.
+   * @param speciesId - The {@linkcode SpeciesId} of the species to check
+   * @returns whether the species has any form changes
+   */
+  public hasFormChanges(speciesId: SpeciesId): boolean {
+    const speciesData = this.getSpeciesData(speciesId);
+    return !!speciesData.formChanges && speciesData.formChanges.length > 0;
+  }
 
   //#region Helpers
 
@@ -393,6 +384,62 @@ export class SpeciesDataRegistry {
   }
 
   //#endregion Helpers
+  //#region Initializations
+
+  /**
+   * Set the `prevolution` field for all species.
+   */
+  private initPreEvolutions(): void {
+    const megaFormKeys = [SpeciesFormKey.MEGA, SpeciesFormKey.MEGA_X, SpeciesFormKey.MEGA_Y];
+
+    const setPrevo = (speciesId: SpeciesId): void => {
+      const evolutions = this.getEvolutions(speciesId);
+      for (const evolution of evolutions) {
+        if (evolution.evoFormKey && megaFormKeys.includes(evolution.evoFormKey as SpeciesFormKey)) {
+          continue;
+        }
+
+        this._data[evolution.speciesId].prevolution = speciesId;
+
+        if (this.hasEvolutions(evolution.speciesId)) {
+          setPrevo(evolution.speciesId);
+        }
+      }
+    };
+
+    for (const starterId of this.getAllStarters()) {
+      this._data[starterId].prevolution = null;
+      setPrevo(starterId);
+    }
+  }
+
+  /**
+   */
+  private initReverseFormChanges(): void {
+    const allFormChanges = Object.values(this._data)
+      .map(s => s.formChanges)
+      .filter(fc => fc !== undefined);
+    for (const speciesFormChanges of allFormChanges) {
+      for (const formChange of speciesFormChanges) {
+        const itemTrigger = formChange.findTrigger(SpeciesFormChangeItemTrigger) as SpeciesFormChangeItemTrigger;
+        if (
+          itemTrigger
+          && !speciesFormChanges.find(c => formChange.formKey === c.preFormKey && formChange.preFormKey === c.formKey)
+        ) {
+          this._data[formChange.speciesId].formChanges?.push(
+            new SpeciesFormChange({
+              speciesId: formChange.speciesId,
+              preFormKey: formChange.formKey,
+              evoFormKey: formChange.preFormKey,
+              trigger: new SpeciesFormChangeItemTrigger(itemTrigger.item, false),
+            }),
+          );
+        }
+      }
+    }
+  }
+
+  //#endregion Initializations
 }
 
 export function initSpeciesDataRegistry(): void {

@@ -14,7 +14,6 @@ import { EntryHazardTag } from "#data/arena-tag";
 import { getSerializedDailyRunConfig, parseDailySeed } from "#data/daily-seed/daily-seed-utils";
 import { allMoves } from "#data/data-lists";
 import type { Egg } from "#data/egg";
-import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { loadPositionalTag } from "#data/positional-tags/load-positional-tag";
 import { TerrainType } from "#data/terrain";
@@ -1710,9 +1709,7 @@ export class GameData {
           dexEntry.caughtAttr |= globalScene.gameData.getFormAttr(3);
         }
       } else {
-        const allFormChanges = Object.hasOwn(pokemonFormChanges, species.speciesId)
-          ? pokemonFormChanges[species.speciesId]
-          : [];
+        const allFormChanges = speciesDataRegistry.getFormChanges(species.speciesId);
         const toCurrentFormChanges = allFormChanges.filter(f => f.formKey === formKey);
         if (toCurrentFormChanges.length > 0) {
           // Needs to do this or Castform can unlock the wrong form, etc.

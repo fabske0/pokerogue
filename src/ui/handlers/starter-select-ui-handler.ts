@@ -18,7 +18,6 @@ import { Egg } from "#data/egg";
 import { GrowthRate, getGrowthRateColor } from "#data/exp";
 import { Gender, getGenderColor, getGenderSymbol } from "#data/gender";
 import { getNatureName } from "#data/nature";
-import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { AbilityAttr } from "#enums/ability-attr";
 import { AbilityId } from "#enums/ability-id";
@@ -4059,7 +4058,10 @@ export class StarterSelectUiHandler extends MessageUiHandler {
 
         this.canCycleForm =
           species.forms
-            .filter(f => f.isStarterSelectable || !pokemonFormChanges[species.speciesId]?.find(fc => fc.formKey))
+            .filter(
+              f =>
+                f.isStarterSelectable || !speciesDataRegistry.getFormChanges(species.speciesId)?.find(fc => fc.formKey),
+            )
             .map((_, f) => dexEntry.caughtAttr & globalScene.gameData.getFormAttr(f))
             .filter(f => f).length > 1;
         this.canCycleNature = globalScene.gameData.getNaturesForAttr(dexEntry.natureAttr).length > 1;

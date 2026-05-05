@@ -1,7 +1,7 @@
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allAbilities } from "#data/data-lists";
 import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
-import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { AbilityId } from "#enums/ability-id";
 import { FormChangeItem } from "#enums/form-change-item";
 import { MoveId } from "#enums/move-id";
@@ -767,8 +767,9 @@ export class CanFormChangeWithItemRequirement extends EncounterPokemonRequiremen
 
   filterByForm(pokemon, formChangeItem) {
     return (
-      Object.hasOwn(pokemonFormChanges, pokemon.species.speciesId) // Get all form changes for this species with an item trigger, including any compound triggers
-      && pokemonFormChanges[pokemon.species.speciesId]
+      speciesDataRegistry.hasFormChanges(pokemon.species.speciesId) // Get all form changes for this species with an item trigger, including any compound triggers
+      && speciesDataRegistry
+        .getFormChanges(pokemon.species.speciesId)
         .filter(fc => fc.trigger.hasTriggerType(SpeciesFormChangeItemTrigger))
         // Returns true if any form changes match this item
         .flatMap(fc => fc.findTrigger(SpeciesFormChangeItemTrigger) as SpeciesFormChangeItemTrigger)

@@ -12,7 +12,7 @@ import { allMoves, modifierTypes } from "#data/data-lists";
 import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
 import { getNatureName, getNatureStatMultiplier } from "#data/nature";
 import { getPokeballCatchMultiplier, getPokeballName } from "#data/pokeball";
-import { pokemonFormChanges, SpeciesFormChangeCondition } from "#data/pokemon-forms";
+import { SpeciesFormChangeCondition } from "#data/pokemon-forms";
 import { getStatusEffectDescriptor } from "#data/status-effect";
 import { BattlerTagType } from "#enums/battler-tag-type";
 import { BerryType } from "#enums/berry-type";
@@ -1226,8 +1226,9 @@ export class FormChangeItemModifierType extends PokemonModifierType implements G
       (pokemon: PlayerPokemon) => {
         // Make sure the Pokemon has alternate forms
         if (
-          Object.hasOwn(pokemonFormChanges, pokemon.species.speciesId) // Get all form changes for this species with an item trigger, including any compound triggers
-          && pokemonFormChanges[pokemon.species.speciesId]
+          speciesDataRegistry.hasFormChanges(pokemon.species.speciesId) // Get all form changes for this species with an item trigger, including any compound triggers
+          && speciesDataRegistry
+            .getFormChanges(pokemon.species.speciesId)
             .filter(
               fc => fc.trigger.hasTriggerType(SpeciesFormChangeItemTrigger) && fc.preFormKey === pokemon.getFormKey(),
             )
@@ -1581,9 +1582,9 @@ export class FormChangeItemModifierTypeGenerator extends ModifierTypeGenerator {
       const formChangeItemPool = [
         ...new Set(
           party
-            .filter(p => Object.hasOwn(pokemonFormChanges, p.species.speciesId))
+            .filter(p => speciesDataRegistry.hasFormChanges(p.species.speciesId))
             .flatMap(p => {
-              const formChanges = pokemonFormChanges[p.species.speciesId];
+              const formChanges = speciesDataRegistry.getFormChanges(p.species.speciesId);
               let formChangeItemTriggers = formChanges
                 .filter(
                   fc =>

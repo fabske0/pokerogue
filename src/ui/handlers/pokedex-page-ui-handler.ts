@@ -16,7 +16,6 @@ import { GrowthRate, getGrowthRateColor } from "#data/exp";
 import { Gender, getGenderColor, getGenderSymbol } from "#data/gender";
 import { getNatureName } from "#data/nature";
 import type { SpeciesFormChange } from "#data/pokemon-forms";
-import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { normalForm } from "#data/pokemon-species";
 import { AbilityAttr } from "#enums/ability-attr";
@@ -898,9 +897,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     }
     this.biomes = this.filterBiomeFormIndexes(speciesBiomes, species.speciesId);
 
-    const allFormChanges = Object.hasOwn(pokemonFormChanges, species.speciesId)
-      ? pokemonFormChanges[species.speciesId]
-      : [];
+    const allFormChanges = speciesDataRegistry.getFormChanges(species.speciesId) || [];
     this.battleForms = allFormChanges.filter(f => f.preFormKey === this.species.forms[this.formIndex].formKey);
 
     const preSpeciesId = speciesDataRegistry.getPrevolution(species.speciesId);

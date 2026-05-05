@@ -35,7 +35,6 @@ import type { SpeciesFormChangeTrigger } from "#data/form-change-triggers";
 import { SpeciesFormChangeManualTrigger, SpeciesFormChangeTimeOfDayTrigger } from "#data/form-change-triggers";
 import { Gender } from "#data/gender";
 import type { SpeciesFormChange } from "#data/pokemon-forms";
-import { pokemonFormChanges } from "#data/pokemon-forms";
 import type { PokemonSpecies, PokemonSpeciesFilter } from "#data/pokemon-species";
 import { getTypeRgb } from "#data/type";
 import { BattleStyle } from "#enums/battle-style";
@@ -3357,11 +3356,11 @@ export class BattleScene extends SceneBase {
     delayed = false,
     modal = false,
   ): boolean {
-    if (Object.hasOwn(pokemonFormChanges, pokemon.species.speciesId)) {
+    if (speciesDataRegistry.hasFormChanges(pokemon.species.speciesId)) {
       // in case this is NECROZMA, determine which forms this
-      const matchingFormChangeOpts = pokemonFormChanges[pokemon.species.speciesId].filter(
-        fc => fc.findTrigger(formChangeTriggerType) && fc.canChange(pokemon),
-      );
+      const matchingFormChangeOpts = speciesDataRegistry
+        .getFormChanges(pokemon.species.speciesId)
+        .filter(fc => fc.findTrigger(formChangeTriggerType) && fc.canChange(pokemon));
       let matchingFormChange: SpeciesFormChange | null;
       if (pokemon.species.speciesId === SpeciesId.NECROZMA && matchingFormChangeOpts.length > 1) {
         // Ultra Necrozma is changing its form back, so we need to figure out into which form it devolves.
