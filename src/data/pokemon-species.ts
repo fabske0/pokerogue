@@ -1024,7 +1024,7 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
 
   getEvolutionLevels(): EvolutionLevel[] {
     const evolutionLevels: EvolutionLevel[] = [];
-    const {speciesId} = this;
+    const { speciesId } = this;
 
     if (speciesDataRegistry.hasEvolutions(speciesId)) {
       for (const e of speciesDataRegistry.getEvolutions(speciesId)!) {
@@ -1091,7 +1091,7 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     isBoss = false,
     player = false,
   ): EvolutionLevel[] {
-    if (!Object.hasOwn(pokemonPrevolutions, this.speciesId)) {
+    if (!speciesDataRegistry.hasPrevolution(this.speciesId)) {
       return [[this.speciesId, 1]];
     }
 

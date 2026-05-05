@@ -2067,7 +2067,7 @@ export class GameData {
   getSpeciesStarterValue(speciesId: SpeciesId, valueReduction?: number): number {
     const baseValue = speciesDataRegistry.getStarterCost(speciesId);
     const reduction = valueReduction ?? this.starterData[speciesId].valueReduction;
-    let value = baseValue;
+    let value = baseValue as number;
 
     const decrementValue = (v: number) => {
       if (v > 1) {
