@@ -4666,6 +4666,22 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.FINIZEN,
     evolutions: [],
+    formChanges: [
+      new SpeciesFormChange({
+        speciesId: SpeciesId.PALAFIN,
+        preFormKey: "zero",
+        evoFormKey: "hero",
+        trigger: new SpeciesFormChangeAbilityTrigger(),
+        quiet: true,
+      }),
+      new SpeciesFormChange({
+        speciesId: SpeciesId.PALAFIN,
+        preFormKey: "hero",
+        evoFormKey: "zero",
+        trigger: new SpeciesFormChangeAbilityTrigger(),
+        quiet: true,
+      }),
+    ],
     passives: {
       0: AbilityId.EMERGENCY_EXIT,
       1: AbilityId.IRON_FIST,
