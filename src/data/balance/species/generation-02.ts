@@ -9385,6 +9385,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.TYROGUE,
     starterCost: 3,
     evolutions: [
+      /*
+       * Custom: Evolves into Hitmonlee, Hitmonchan or Hitmontop at level 20
+       * if it knows Low Sweep, Mach Punch, or Rapid Spin, respectively.
+       * If Tyrogue knows multiple of these moves, its evolution is based on
+       * the first qualifying move in its moveset.
+       */
       new SpeciesEvolution(SpeciesId.HITMONLEE, 20, null, { key: EvoCondKey.TYROGUE, move: MoveId.LOW_SWEEP }),
       new SpeciesEvolution(SpeciesId.HITMONCHAN, 20, null, { key: EvoCondKey.TYROGUE, move: MoveId.MACH_PUNCH }),
       new SpeciesEvolution(SpeciesId.HITMONTOP, 20, null, { key: EvoCondKey.TYROGUE, move: MoveId.RAPID_SPIN }),

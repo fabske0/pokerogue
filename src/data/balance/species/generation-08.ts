@@ -3999,10 +3999,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
         SpeciesId.GRAPPLOCT,
         35,
         null,
-        {
-          key: EvoCondKey.MOVE,
-          move: MoveId.TAUNT,
-        }, // todo: Once Taunt is implemented, change evo level to 1 and delay to LONG
+        { key: EvoCondKey.MOVE, move: MoveId.TAUNT }, // todo: Once Taunt is implemented, change evo level to 1 and delay to LONG
       ),
     ],
     eggTier: EggTier.COMMON,
@@ -11363,6 +11360,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.GALAR_FARFETCHD,
     starterCost: 3,
+    // TODO: Uncomment evo delay when different evo condition is implemented
     evolutions: [new SpeciesEvolution(SpeciesId.SIRFETCHD, 30, null, null /* [30, 35, 40] */)],
     eggTier: EggTier.RARE,
     passives: AbilityId.STAKEOUT,
