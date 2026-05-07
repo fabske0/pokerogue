@@ -210,6 +210,16 @@ export function validateShedinjaEvo(): boolean {
   return globalScene.getPlayerParty().length < 6 && globalScene.pokeballCounts[PokeballType.POKEBALL] > 0;
 }
 
+interface SpeciesFormEvolutionConstructor {
+  speciesId: SpeciesId,
+  preFormKey: string | null,
+  evoFormKey: string | null,
+  level: number,
+  item?: EvolutionItem | undefined,
+  condition?: EvolutionConditionData | EvolutionConditionData[] | undefined,
+  evoDelay?: EvoLevelThreshold | undefined
+}
+
 export class SpeciesFormEvolution {
   public speciesId: SpeciesId;
   public preFormKey: string | null;
@@ -225,17 +235,19 @@ export class SpeciesFormEvolution {
   public evoLevelThreshold?: EvoLevelThreshold;
   public desc = "";
 
-  constructor(speciesId: SpeciesId, preFormKey: string | null, evoFormKey: string | null, level: number, item: EvolutionItem | null, condition: EvolutionConditionData | EvolutionConditionData[] | null, evoDelay?: EvoLevelThreshold) {
-    this.speciesId = speciesId;
-    this.preFormKey = preFormKey;
-    this.evoFormKey = evoFormKey;
-    this.level = level;
-    this.item = item || EvolutionItem.NONE;
-    if (condition != null) {
-      this.condition = new SpeciesEvolutionCondition(...coerceArray(condition));
+  constructor(
+    data: SpeciesFormEvolutionConstructor
+  ) {
+    this.speciesId = data.speciesId;
+    this.preFormKey = data.preFormKey;
+    this.evoFormKey = data.evoFormKey;
+    this.level = data.level;
+    this.item = data.item || EvolutionItem.NONE;
+    if (data.condition != null) {
+      this.condition = new SpeciesEvolutionCondition(...coerceArray(data.condition));
     }
-    if (evoDelay != null) {
-      this.evoLevelThreshold = evoDelay;
+    if (data.evoDelay != null) {
+      this.evoLevelThreshold = data.evoDelay;
     }
   }
 
@@ -318,9 +330,24 @@ export class SpeciesFormEvolution {
   }
 }
 
+interface SpeciesEvolutionConstructor {
+  speciesId: SpeciesId,
+  level: number,
+  item?: EvolutionItem
+  condition?: EvolutionConditionData | EvolutionConditionData[],
+  evoDelay?: EvoLevelThreshold
+}
 export class SpeciesEvolution extends SpeciesFormEvolution {
-  constructor(speciesId: SpeciesId, level: number, item: EvolutionItem | null, condition: EvolutionConditionData | EvolutionConditionData[] | null, evoDelay?: EvoLevelThreshold) {
-    super(speciesId, null, null, level, item, condition, evoDelay);
+  constructor(data: SpeciesEvolutionConstructor) {
+    super({
+      speciesId: data.speciesId,
+      preFormKey: null,
+      evoFormKey: null,
+      level: data.level,
+      item: data.item,
+      condition: data.condition,
+      evoDelay: data.evoDelay
+    });
   }
 }
 
@@ -328,7 +355,15 @@ export class FusionSpeciesFormEvolution extends SpeciesFormEvolution {
   public primarySpeciesId: SpeciesId;
 
   constructor(primarySpeciesId: SpeciesId, evolution: SpeciesFormEvolution) {
-    super(evolution.speciesId, evolution.preFormKey, evolution.evoFormKey, evolution.level, evolution.item, evolution.condition?.data ?? null, evolution.evoLevelThreshold);
+    super({
+      speciesId: evolution.speciesId,
+      preFormKey: evolution.preFormKey,
+      evoFormKey: evolution.evoFormKey,
+      level: evolution.level,
+      item: evolution.item ?? undefined,
+      condition: evolution.condition?.data,
+      evoDelay: evolution.evoLevelThreshold
+    });
 
     this.primarySpeciesId = primarySpeciesId;
   }

@@ -44,7 +44,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.CHIKORITA,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.BAYLEEF, 16, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.BAYLEEF, level: 16 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.CUTE_CHARM,
     levelMoves: [
@@ -142,7 +142,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.CHIKORITA,
-    evolutions: [new SpeciesEvolution(SpeciesId.MEGANIUM, 32, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.MEGANIUM, level: 32 })],
     passives: AbilityId.THICK_FAT,
     levelMoves: [
       [1, MoveId.TACKLE],
@@ -260,7 +260,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.CYNDAQUIL,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.QUILAVA, 14, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.QUILAVA, level: 14 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.WHITE_SMOKE,
     levelMoves: [
@@ -361,13 +361,21 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.CYNDAQUIL,
     evolutions: [
-      new SpeciesEvolution(SpeciesId.HISUI_TYPHLOSION, 36, null, {
-        key: EvoCondKey.TIME,
-        time: [TimeOfDay.DUSK, TimeOfDay.NIGHT],
+      new SpeciesEvolution({
+        speciesId: SpeciesId.HISUI_TYPHLOSION,
+        level: 36,
+        condition: {
+          key: EvoCondKey.TIME,
+          time: [TimeOfDay.DUSK, TimeOfDay.NIGHT],
+        },
       }),
-      new SpeciesEvolution(SpeciesId.TYPHLOSION, 36, null, {
-        key: EvoCondKey.TIME,
-        time: [TimeOfDay.DAWN, TimeOfDay.DAY],
+      new SpeciesEvolution({
+        speciesId: SpeciesId.TYPHLOSION,
+        level: 36,
+        condition: {
+          key: EvoCondKey.TIME,
+          time: [TimeOfDay.DAWN, TimeOfDay.DAY],
+        },
       }),
     ],
     passives: AbilityId.DROUGHT,
@@ -503,7 +511,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.TOTODILE,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.CROCONAW, 18, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.CROCONAW, level: 18 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.STRONG_JAW,
     levelMoves: [
@@ -624,7 +632,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.TOTODILE,
-    evolutions: [new SpeciesEvolution(SpeciesId.FERALIGATR, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.FERALIGATR, level: 30 })],
     passives: AbilityId.STRONG_JAW,
     levelMoves: [
       [1, MoveId.SCRATCH],
@@ -745,7 +753,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SENTRET,
     starterCost: 1,
-    evolutions: [new SpeciesEvolution(SpeciesId.FURRET, 15, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.FURRET, level: 15 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PICKUP,
     levelMoves: [
@@ -924,7 +932,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.HOOTHOOT,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.NOCTOWL, 20, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.NOCTOWL, level: 20 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.AERILATE,
     levelMoves: [
@@ -1097,7 +1105,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.LEDYBA,
     starterCost: 1,
-    evolutions: [new SpeciesEvolution(SpeciesId.LEDIAN, 18, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.LEDIAN, level: 18 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PRANKSTER,
     levelMoves: [
@@ -1260,7 +1268,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SPINARAK,
     starterCost: 1,
-    evolutions: [new SpeciesEvolution(SpeciesId.ARIADOS, 22, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.ARIADOS, level: 22 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PRANKSTER,
     levelMoves: [
@@ -1550,7 +1558,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.CHINCHOU,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.LANTURN, 27, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.LANTURN, level: 27 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.REGENERATOR,
     levelMoves: [
@@ -1765,24 +1773,22 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.PICHU,
     starterCost: 4,
     evolutions: [
-      new SpeciesFormEvolution(
-        SpeciesId.PIKACHU,
-        "spiky",
-        "partner",
-        1,
-        null,
-        { key: EvoCondKey.FRIENDSHIP, value: 90 },
-        [12, 12, 16],
-      ),
-      new SpeciesFormEvolution(
-        SpeciesId.PIKACHU,
-        "",
-        "",
-        1,
-        null,
-        { key: EvoCondKey.FRIENDSHIP, value: 90 },
-        [12, 12, 16],
-      ),
+      new SpeciesFormEvolution({
+        speciesId: SpeciesId.PIKACHU,
+        preFormKey: "spiky",
+        evoFormKey: "partner",
+        level: 1,
+        condition: { key: EvoCondKey.FRIENDSHIP, value: 90 },
+        evoDelay: [12, 12, 16],
+      }),
+      new SpeciesFormEvolution({
+        speciesId: SpeciesId.PIKACHU,
+        preFormKey: "",
+        evoFormKey: "",
+        level: 1,
+        condition: { key: EvoCondKey.FRIENDSHIP, value: 90 },
+        evoDelay: [12, 12, 16],
+      }),
     ],
     eggTier: EggTier.RARE,
     passives: {
@@ -1887,7 +1893,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.CLEFFA,
     starterCost: 2,
     evolutions: [
-      new SpeciesEvolution(SpeciesId.CLEFAIRY, 1, null, { key: EvoCondKey.FRIENDSHIP, value: 160 }, [12, 12, 16]),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.CLEFAIRY,
+        level: 1,
+        condition: { key: EvoCondKey.FRIENDSHIP, value: 160 },
+        evoDelay: [12, 12, 16],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PRANKSTER,
@@ -2009,7 +2020,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.IGGLYBUFF,
     starterCost: 1,
     evolutions: [
-      new SpeciesEvolution(SpeciesId.JIGGLYPUFF, 1, null, { key: EvoCondKey.FRIENDSHIP, value: 70 }, [12, 12, 16]),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.JIGGLYPUFF,
+        level: 1,
+        condition: { key: EvoCondKey.FRIENDSHIP, value: 70 },
+        evoDelay: [12, 12, 16],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.HUGE_POWER,
@@ -2125,7 +2141,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.TOGEPI,
     starterCost: 3,
     evolutions: [
-      new SpeciesEvolution(SpeciesId.TOGETIC, 1, null, { key: EvoCondKey.FRIENDSHIP, value: 70 }, [20, 25, 25]),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.TOGETIC,
+        level: 1,
+        condition: { key: EvoCondKey.FRIENDSHIP, value: 70 },
+        evoDelay: [20, 25, 25],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PIXILATE,
@@ -2246,7 +2267,14 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.TOGEPI,
-    evolutions: [new SpeciesEvolution(SpeciesId.TOGEKISS, 1, EvolutionItem.SHINY_STONE, null, [40, 45, 50])],
+    evolutions: [
+      new SpeciesEvolution({
+        speciesId: SpeciesId.TOGEKISS,
+        level: 1,
+        item: EvolutionItem.SHINY_STONE,
+        evoDelay: [40, 45, 50],
+      }),
+    ],
     passives: AbilityId.PIXILATE,
     levelMoves: [
       [EVOLVE_MOVE, MoveId.FAIRY_WIND],
@@ -2315,7 +2343,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.NATU,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.XATU, 25, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.XATU, level: 25 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.TINTED_LENS,
     levelMoves: [
@@ -2484,7 +2512,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MAREEP,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.FLAAFFY, 15, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.FLAAFFY, level: 15 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.ELECTROMORPHOSIS,
     levelMoves: [
@@ -2588,7 +2616,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.MAREEP,
-    evolutions: [new SpeciesEvolution(SpeciesId.AMPHAROS, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.AMPHAROS, level: 30 })],
     passives: AbilityId.ELECTROMORPHOSIS,
     levelMoves: [
       [1, MoveId.TACKLE],
@@ -2891,7 +2919,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.AZURILL,
-    evolutions: [new SpeciesEvolution(SpeciesId.AZUMARILL, 18, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.AZUMARILL, level: 18 })],
     passives: AbilityId.MISTY_SURGE,
     levelMoves: [
       [1, MoveId.SPLASH],
@@ -3327,7 +3355,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.HOPPIP,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.SKIPLOOM, 18, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.SKIPLOOM, level: 18 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.WIND_RIDER,
     levelMoves: [
@@ -3436,7 +3464,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.HOPPIP,
-    evolutions: [new SpeciesEvolution(SpeciesId.JUMPLUFF, 27, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.JUMPLUFF, level: 27 })],
     passives: AbilityId.WIND_RIDER,
     levelMoves: [
       [1, MoveId.TAIL_WHIP],
@@ -3543,13 +3571,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.AIPOM,
     starterCost: 2,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.AMBIPOM,
-        32,
-        null,
-        { key: EvoCondKey.MOVE, move: MoveId.DOUBLE_HIT },
-        [33, 38, 38],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.AMBIPOM,
+        level: 32,
+        condition: { key: EvoCondKey.MOVE, move: MoveId.DOUBLE_HIT },
+        evoDelay: [33, 38, 38],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SCRAPPY,
@@ -3682,7 +3709,14 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SUNKERN,
     starterCost: 1,
-    evolutions: [new SpeciesEvolution(SpeciesId.SUNFLORA, 1, EvolutionItem.SUN_STONE, null, [16, 18, 20])],
+    evolutions: [
+      new SpeciesEvolution({
+        speciesId: SpeciesId.SUNFLORA,
+        level: 1,
+        item: EvolutionItem.SUN_STONE,
+        evoDelay: [16, 18, 20],
+      }),
+    ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.DROUGHT,
     levelMoves: [
@@ -3838,13 +3872,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.YANMA,
     starterCost: 3,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.YANMEGA,
-        33,
-        null,
-        { key: EvoCondKey.MOVE, move: MoveId.ANCIENT_POWER },
-        [34, 42, 50],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.YANMEGA,
+        level: 33,
+        condition: { key: EvoCondKey.MOVE, move: MoveId.ANCIENT_POWER },
+        evoDelay: [34, 42, 50],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.TECHNICIAN,
@@ -3946,7 +3979,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.WOOPER,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.QUAGSIRE, 20, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.QUAGSIRE, level: 20 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.WATER_VEIL,
     levelMoves: [
@@ -4400,7 +4433,14 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MURKROW,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.HONCHKROW, 1, EvolutionItem.DUSK_STONE, null, [26, 32, 38])],
+    evolutions: [
+      new SpeciesEvolution({
+        speciesId: SpeciesId.HONCHKROW,
+        level: 1,
+        item: EvolutionItem.DUSK_STONE,
+        evoDelay: [26, 32, 38],
+      }),
+    ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.UNNERVE,
     levelMoves: [
@@ -4684,7 +4724,14 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MISDREAVUS,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.MISMAGIUS, 1, EvolutionItem.DUSK_STONE, null, [22, 26, 30])],
+    evolutions: [
+      new SpeciesEvolution({
+        speciesId: SpeciesId.MISMAGIUS,
+        level: 1,
+        item: EvolutionItem.DUSK_STONE,
+        evoDelay: [22, 26, 30],
+      }),
+    ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.BEADS_OF_RUIN,
     levelMoves: [
@@ -5599,13 +5646,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.GIRAFARIG,
     starterCost: 3,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.FARIGIRAF,
-        32,
-        null,
-        { key: EvoCondKey.MOVE, move: MoveId.TWIN_BEAM },
-        [33, 38, 48],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.FARIGIRAF,
+        level: 32,
+        condition: { key: EvoCondKey.MOVE, move: MoveId.TWIN_BEAM },
+        evoDelay: [33, 38, 48],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PARENTAL_BOND,
@@ -5746,7 +5792,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.PINECO,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.FORRETRESS, 31, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.FORRETRESS, level: 31 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.ROUGH_SKIN,
     levelMoves: [
@@ -5931,27 +5977,25 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.DUNSPARCE,
     starterCost: 3,
     evolutions: [
-      new SpeciesFormEvolution(
-        SpeciesId.DUDUNSPARCE,
-        "",
-        "three-segment",
-        32,
-        null,
-        [
+      new SpeciesFormEvolution({
+        speciesId: SpeciesId.DUDUNSPARCE,
+        preFormKey: "",
+        evoFormKey: "three-segment",
+        level: 32,
+        condition: [
           { key: EvoCondKey.RANDOM_FORM, value: 4 },
           { key: EvoCondKey.MOVE, move: MoveId.HYPER_DRILL },
         ],
-        [33, 38, 48],
-      ),
-      new SpeciesFormEvolution(
-        SpeciesId.DUDUNSPARCE,
-        "",
-        "two-segment",
-        32,
-        null,
-        { key: EvoCondKey.MOVE, move: MoveId.HYPER_DRILL },
-        [33, 38, 48],
-      ),
+        evoDelay: [33, 38, 48],
+      }),
+      new SpeciesFormEvolution({
+        speciesId: SpeciesId.DUDUNSPARCE,
+        preFormKey: "",
+        evoFormKey: "two-segment",
+        level: 32,
+        condition: { key: EvoCondKey.MOVE, move: MoveId.HYPER_DRILL },
+        evoDelay: [33, 38, 48],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.UNAWARE,
@@ -6096,13 +6140,13 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.GLIGAR,
     starterCost: 3,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.GLISCOR,
-        1,
-        EvolutionItem.RAZOR_FANG,
-        { key: EvoCondKey.TIME, time: [TimeOfDay.DUSK, TimeOfDay.NIGHT] },
-        [48, 56, 64],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.GLISCOR,
+        level: 1,
+        item: EvolutionItem.RAZOR_FANG,
+        condition: { key: EvoCondKey.TIME, time: [TimeOfDay.DUSK, TimeOfDay.NIGHT] },
+        evoDelay: [48, 56, 64],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.POISON_TOUCH,
@@ -6439,7 +6483,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SNUBBULL,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.GRANBULL, 23, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.GRANBULL, level: 23 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PIXILATE,
     levelMoves: [
@@ -7257,13 +7301,13 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.SNEASEL,
     starterCost: 4,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.WEAVILE,
-        1,
-        EvolutionItem.RAZOR_CLAW,
-        { key: EvoCondKey.TIME, time: [TimeOfDay.DUSK, TimeOfDay.NIGHT] },
-        [48, 56, 64],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.WEAVILE,
+        level: 1,
+        item: EvolutionItem.RAZOR_CLAW,
+        condition: { key: EvoCondKey.TIME, time: [TimeOfDay.DUSK, TimeOfDay.NIGHT] },
+        evoDelay: [48, 56, 64],
+      }),
     ],
     eggTier: EggTier.RARE,
     passives: AbilityId.TOUGH_CLAWS,
@@ -7399,7 +7443,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.TEDDIURSA,
     starterCost: 4,
-    evolutions: [new SpeciesEvolution(SpeciesId.URSARING, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.URSARING, level: 30 })],
     eggTier: EggTier.RARE,
     passives: AbilityId.RUN_AWAY,
     levelMoves: [
@@ -7522,7 +7566,14 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: true,
     }),
     starter: SpeciesId.TEDDIURSA,
-    evolutions: [new SpeciesEvolution(SpeciesId.URSALUNA, 1, EvolutionItem.PEAT_BLOCK, null, [70, 85, 100])],
+    evolutions: [
+      new SpeciesEvolution({
+        speciesId: SpeciesId.URSALUNA,
+        level: 1,
+        item: EvolutionItem.PEAT_BLOCK,
+        evoDelay: [70, 85, 100],
+      }),
+    ],
     passives: AbilityId.THICK_FAT,
     levelMoves: [
       [1, MoveId.SCRATCH],
@@ -7587,7 +7638,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SLUGMA,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.MAGCARGO, 38, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.MAGCARGO, level: 38 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.DROUGHT,
     levelMoves: [
@@ -7757,7 +7808,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SWINUB,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.PILOSWINE, 33, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.PILOSWINE, level: 33 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.UNAWARE,
     levelMoves: [
@@ -7864,13 +7915,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SWINUB,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.MAMOSWINE,
-        1,
-        null,
-        { key: EvoCondKey.MOVE, move: MoveId.ANCIENT_POWER },
-        [48, 56, 64],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.MAMOSWINE,
+        level: 1,
+        condition: { key: EvoCondKey.MOVE, move: MoveId.ANCIENT_POWER },
+        evoDelay: [48, 56, 64],
+      }),
     ],
     passives: AbilityId.UNAWARE,
     levelMoves: [
@@ -8036,7 +8086,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.REMORAID,
     starterCost: 2,
-    evolutions: [new SpeciesEvolution(SpeciesId.OCTILLERY, 25, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.OCTILLERY, level: 25 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SIMPLE,
     levelMoves: [
@@ -8567,7 +8617,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.HOUNDOUR,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.HOUNDOOM, 24, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.HOUNDOOM, level: 24 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.BALL_FETCH,
     levelMoves: [
@@ -8913,7 +8963,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.PHANPY,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.DONPHAN, 25, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.DONPHAN, level: 25 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.STURDY,
     levelMoves: [
@@ -9096,7 +9146,14 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.PORYGON,
-    evolutions: [new SpeciesEvolution(SpeciesId.PORYGON_Z, 1, EvolutionItem.DUBIOUS_DISC, null, [64, 72, 80])],
+    evolutions: [
+      new SpeciesEvolution({
+        speciesId: SpeciesId.PORYGON_Z,
+        level: 1,
+        item: EvolutionItem.DUBIOUS_DISC,
+        evoDelay: [64, 72, 80],
+      }),
+    ],
     passives: AbilityId.TRANSISTOR,
     levelMoves: [
       [1, MoveId.TACKLE],
@@ -9207,13 +9264,12 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     starter: SpeciesId.STANTLER,
     starterCost: 3,
     evolutions: [
-      new SpeciesEvolution(
-        SpeciesId.WYRDEER,
-        25,
-        null,
-        { key: EvoCondKey.MOVE, move: MoveId.PSYSHIELD_BASH },
-        [35, 45, 55],
-      ),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.WYRDEER,
+        level: 25,
+        condition: { key: EvoCondKey.MOVE, move: MoveId.PSYSHIELD_BASH },
+        evoDelay: [35, 45, 55],
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SPEED_BOOST,
@@ -9391,9 +9447,21 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
        * If Tyrogue knows multiple of these moves, its evolution is based on
        * the first qualifying move in its moveset.
        */
-      new SpeciesEvolution(SpeciesId.HITMONLEE, 20, null, { key: EvoCondKey.TYROGUE, move: MoveId.LOW_SWEEP }),
-      new SpeciesEvolution(SpeciesId.HITMONCHAN, 20, null, { key: EvoCondKey.TYROGUE, move: MoveId.MACH_PUNCH }),
-      new SpeciesEvolution(SpeciesId.HITMONTOP, 20, null, { key: EvoCondKey.TYROGUE, move: MoveId.RAPID_SPIN }),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.HITMONLEE,
+        level: 20,
+        condition: { key: EvoCondKey.TYROGUE, move: MoveId.LOW_SWEEP },
+      }),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.HITMONCHAN,
+        level: 20,
+        condition: { key: EvoCondKey.TYROGUE, move: MoveId.MACH_PUNCH },
+      }),
+      new SpeciesEvolution({
+        speciesId: SpeciesId.HITMONTOP,
+        level: 20,
+        condition: { key: EvoCondKey.TYROGUE, move: MoveId.RAPID_SPIN },
+      }),
     ],
     eggTier: EggTier.COMMON,
     passives: AbilityId.DEFIANT,
@@ -9558,7 +9626,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.SMOOCHUM,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.JYNX, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.JYNX, level: 30 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.PSYCHIC_SURGE,
     levelMoves: [
@@ -9674,7 +9742,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.ELEKID,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.ELECTABUZZ, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.ELECTABUZZ, level: 30 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SHEER_FORCE,
     levelMoves: [
@@ -9781,7 +9849,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.MAGBY,
     starterCost: 3,
-    evolutions: [new SpeciesEvolution(SpeciesId.MAGMAR, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.MAGMAR, level: 30 })],
     eggTier: EggTier.COMMON,
     passives: AbilityId.SHEER_FORCE,
     levelMoves: [
@@ -10523,7 +10591,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.LARVITAR,
     starterCost: 4,
-    evolutions: [new SpeciesEvolution(SpeciesId.PUPITAR, 30, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.PUPITAR, level: 30 })],
     eggTier: EggTier.RARE,
     passives: AbilityId.SOLID_ROCK,
     levelMoves: [
@@ -10639,7 +10707,7 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       genderDiffs: false,
     }),
     starter: SpeciesId.LARVITAR,
-    evolutions: [new SpeciesEvolution(SpeciesId.TYRANITAR, 55, null, null)],
+    evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.TYRANITAR, level: 55 })],
     passives: AbilityId.SOLID_ROCK,
     levelMoves: [
       [EVOLVE_MOVE, MoveId.IRON_DEFENSE],
