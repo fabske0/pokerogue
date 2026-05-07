@@ -13458,6 +13458,14 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       }),
       new SpeciesFormEvolution({
         speciesId: SpeciesId.VAPOREON,
+        preFormKey: "",
+        evoFormKey: "",
+        level: 1,
+        item: EvolutionItem.WATER_STONE,
+        evoDelay: [24, 28, 28],
+      }),
+      new SpeciesFormEvolution({
+        speciesId: SpeciesId.VAPOREON,
         preFormKey: "partner",
         evoFormKey: "",
         level: 1,
