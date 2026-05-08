@@ -47,9 +47,67 @@ export class SpeciesDataRegistry {
     this.initReverseFormChanges();
   }
 
+  // #region Initializations
+
+  /**
+   * Initialize the `prevolution` field for all species.
+   */
+  private initPreEvolutions(): void {
+    const megaFormKeys = [SpeciesFormKey.MEGA, SpeciesFormKey.MEGA_X, SpeciesFormKey.MEGA_Y];
+
+    const setPrevo = (speciesId: SpeciesId): void => {
+      const evolutions = this.getEvolutions(speciesId);
+      for (const evolution of evolutions) {
+        if (evolution.evoFormKey && megaFormKeys.includes(evolution.evoFormKey as SpeciesFormKey)) {
+          continue;
+        }
+
+        this._data[evolution.speciesId].prevolution = speciesId;
+
+        if (this.hasEvolutions(evolution.speciesId)) {
+          setPrevo(evolution.speciesId);
+        }
+      }
+    };
+
+    for (const starterId of this.getAllStarters()) {
+      this._data[starterId].prevolution = null;
+      setPrevo(starterId);
+    }
+  }
+
+  /**
+   * Initialize reverse form changes for all species.
+   */
+  private initReverseFormChanges(): void {
+    const allFormChanges = Object.values(this._data)
+      .map(s => s.formChanges)
+      .filter(fc => fc != null);
+    for (const speciesFormChanges of allFormChanges) {
+      for (const formChange of speciesFormChanges) {
+        const itemTrigger = formChange.findTrigger(SpeciesFormChangeItemTrigger) as SpeciesFormChangeItemTrigger;
+        if (
+          itemTrigger
+          && !speciesFormChanges.find(c => formChange.formKey === c.preFormKey && formChange.preFormKey === c.formKey)
+        ) {
+          this._data[formChange.speciesId].formChanges?.push(
+            new SpeciesFormChange({
+              speciesId: formChange.speciesId,
+              preFormKey: formChange.formKey,
+              evoFormKey: formChange.preFormKey,
+              trigger: new SpeciesFormChangeItemTrigger(itemTrigger.item, false),
+            }),
+          );
+        }
+      }
+    }
+  }
+
+  // #endregion Initializations
+
   /**
    * Get the {@linkcode PokemonSpeciesData} for a given species.
-   * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get data for
    * @returns The {@linkcode PokemonSpeciesData}
    */
   public getSpeciesData(speciesId: SpeciesId): PokemonSpeciesData {
@@ -58,7 +116,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Get the {@linkcode PokemonSpecies} for a given speciesId.
-   * @param speciesId-  The {@linkcode SpeciesId} of the species to get data for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get data for
    * @returns The {@linkcode PokemonSpecies}
    */
   public getSpecies(speciesId: SpeciesId): PokemonSpecies {
@@ -102,7 +160,7 @@ export class SpeciesDataRegistry {
   /**
    * Checks if a given species has any form specific level moves.
    * @param speciesId - The {@linkcode SpeciesId} of the species to check
-   * @returns whether the species and form has any form specific level moves
+   * @returns Whether the species has any form specific level moves
    */
   public hasFormLevelMoves(speciesId: SpeciesId): boolean {
     const speciesData = this.getSpeciesData(speciesId);
@@ -122,8 +180,8 @@ export class SpeciesDataRegistry {
 
   /**
    * Get all starter species that belong to a given egg tier.
-   * @param tier - the {@linkcode EggTier} to get starter species for
-   * @returns an array of all starter species that belong to the given egg tier
+   * @param tier - The {@linkcode EggTier} to get starter species for
+   * @returns An array of all starter species that belong to the given egg tier
    */
   public getAllEggTierSpecies(tier: EggTier): PokemonSpecies[] {
     const species = Object.values(this._data)
@@ -150,9 +208,9 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Checks if a given species is a starter.
-   * @param speciesId - The {@linkcode SpeciesId} of the species to check
-   * @returns whether the species is a starter
+   * Check if a given species is a starter.
+   * @param speciesId - The {@linkcode SpeciesId} of the Species to check
+   * @returns Whether the species is a starter
    */
   public isStarter(speciesId: SpeciesId): boolean {
     const speciesData = this.getSpeciesData(speciesId);
@@ -160,13 +218,12 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get the starter of a given species.
-   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the starter for
-   * @param getSpecies - Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}. (default: `false`)
+   * Retrieve the corresponding starter for a given species.
+   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} to check
+   * @param getSpecies - (Default `false`) Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}.
    * @returns The starter {@linkcode SpeciesId} or {@linkcode PokemonSpecies}
    */
-  public getStarter(species: SpeciesId | PokemonSpecies): SpeciesId;
-  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies: false): SpeciesId;
+  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies?: false): SpeciesId;
   public getStarter(species: SpeciesId | PokemonSpecies, getSpecies: true): PokemonSpecies;
   public getStarter(species: SpeciesId | PokemonSpecies, getSpecies = false): SpeciesId | PokemonSpecies {
     const speciesId = typeof species === "number" ? species : species.speciesId;
@@ -194,8 +251,7 @@ export class SpeciesDataRegistry {
    * @param getSpecies - Whether to return {@linkcode PokemonSpecies} instead of {@linkcode SpeciesId}. (default: `false`)
    * @returns An array of all starter {@linkcode SpeciesId}s or {@linkcode PokemonSpecies}s
    */
-  public getAllStarters(): SpeciesId[];
-  public getAllStarters(getSpecies: false): SpeciesId[];
+  public getAllStarters(getSpecies?: false): SpeciesId[];
   public getAllStarters(getSpecies: true): PokemonSpecies[];
   public getAllStarters(getSpecies = false): SpeciesId[] | PokemonSpecies[] {
     const species = this.getAllSpecies().filter(s => this.isStarter(s.speciesId));
@@ -307,7 +363,7 @@ export class SpeciesDataRegistry {
    * @param speciesId - The {@linkcode SpeciesId} of the species to check
    * @returns Whether the species has a prevolution
    */
-  // TODO: once pikachu isn't a starter anymore, we can just check if it's a starter, although we might want to keep this method for consistency and readability
+  // TODO: once pikachu isn't a starter anymore, we can just check if it's not a starter
   public hasPrevolution(speciesId: SpeciesId): boolean {
     return this.getPrevolution(speciesId) !== null;
   }
@@ -332,7 +388,7 @@ export class SpeciesDataRegistry {
     return !!speciesData.formChanges && speciesData.formChanges.length > 0;
   }
 
-  //#region Helpers
+  // #region Helpers
 
   /**
    * Helper to get the form key for a given species and formIndex or formKey.
@@ -383,63 +439,7 @@ export class SpeciesDataRegistry {
     return 0;
   }
 
-  //#endregion Helpers
-  //#region Initializations
-
-  /**
-   * Set the `prevolution` field for all species.
-   */
-  private initPreEvolutions(): void {
-    const megaFormKeys = [SpeciesFormKey.MEGA, SpeciesFormKey.MEGA_X, SpeciesFormKey.MEGA_Y];
-
-    const setPrevo = (speciesId: SpeciesId): void => {
-      const evolutions = this.getEvolutions(speciesId);
-      for (const evolution of evolutions) {
-        if (evolution.evoFormKey && megaFormKeys.includes(evolution.evoFormKey as SpeciesFormKey)) {
-          continue;
-        }
-
-        this._data[evolution.speciesId].prevolution = speciesId;
-
-        if (this.hasEvolutions(evolution.speciesId)) {
-          setPrevo(evolution.speciesId);
-        }
-      }
-    };
-
-    for (const starterId of this.getAllStarters()) {
-      this._data[starterId].prevolution = null;
-      setPrevo(starterId);
-    }
-  }
-
-  /**
-   */
-  private initReverseFormChanges(): void {
-    const allFormChanges = Object.values(this._data)
-      .map(s => s.formChanges)
-      .filter(fc => fc !== undefined);
-    for (const speciesFormChanges of allFormChanges) {
-      for (const formChange of speciesFormChanges) {
-        const itemTrigger = formChange.findTrigger(SpeciesFormChangeItemTrigger) as SpeciesFormChangeItemTrigger;
-        if (
-          itemTrigger
-          && !speciesFormChanges.find(c => formChange.formKey === c.preFormKey && formChange.preFormKey === c.formKey)
-        ) {
-          this._data[formChange.speciesId].formChanges?.push(
-            new SpeciesFormChange({
-              speciesId: formChange.speciesId,
-              preFormKey: formChange.formKey,
-              evoFormKey: formChange.preFormKey,
-              trigger: new SpeciesFormChangeItemTrigger(itemTrigger.item, false),
-            }),
-          );
-        }
-      }
-    }
-  }
-
-  //#endregion Initializations
+  // #endregion Helpers
 }
 
 export function initSpeciesDataRegistry(): void {
