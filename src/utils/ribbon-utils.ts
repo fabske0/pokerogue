@@ -73,7 +73,7 @@ export function getAvailableRibbons(species: PokemonSpecies): RibbonFlag[] {
       }
     }
 
-    if (checking && speciesDataRegistry.hasEvolutions(checking)) {
+    if (speciesDataRegistry.hasEvolutions(checking)) {
       speciesDataRegistry.getEvolutions(checking).forEach(e => {
         speciesToCheck.push(e.speciesId);
       });
