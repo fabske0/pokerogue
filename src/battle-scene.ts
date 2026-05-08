@@ -2281,7 +2281,7 @@ export class BattleScene extends SceneBase {
               }),
           ),
         ]
-      : // Why is `filterAllEvolutions` only checked if there is a speciesFilter?
+      : // TODO: Why is `filterAllEvolutions` only checked if there is a speciesFilter?
         speciesDataRegistry.getAllSpecies().filter(s => s.isCatchable());
     return randSeedItem(filteredSpecies);
   }
