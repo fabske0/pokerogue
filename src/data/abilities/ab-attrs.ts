@@ -3728,8 +3728,8 @@ export class ForewarnAbAttr extends PostSummonAbAttr {
       }),
     );
 
-    // TODO: Update callsite in #6143
-    globalScene.eventTarget.dispatchEvent(new MoveUsedEvent(opponent.id!, chosenMove.getMove(), chosenMove.ppUsed));
+    // TODO: Update callsite in https://github.com/pagefaultgames/pokerogue/pull/6143
+    globalScene.eventTarget.dispatchEvent(new MoveUsedEvent(opponent.id, chosenMove.getMove(), chosenMove.ppUsed));
   }
 }
 
@@ -3748,7 +3748,7 @@ function getForewarnPower(move: Move): number {
     return 150;
   }
 
-  // NB: Mainline doesn't count Comeuppance in its "counter move exceptions" list, which is dumb and inconsistent.
+  // NB: Mainline doesn't count Comeuppance in its "counter move exceptions" list, which is inconsistent.
   // We diverge from mainline here by giving it a simulated BP of 120 instead of 80.
   if (move.hasAttr("CounterDamageAttr")) {
     return 120;
@@ -3758,6 +3758,7 @@ function getForewarnPower(move: Move): number {
   if (move.power === -1) {
     return 80;
   }
+
   return move.power;
 }
 
