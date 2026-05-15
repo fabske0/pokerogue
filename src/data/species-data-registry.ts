@@ -80,9 +80,8 @@ export class SpeciesDataRegistry {
    * Initialize reverse form changes for all species.
    */
   private initReverseFormChanges(): void {
-    const allFormChanges = Object.values(this._data)
-      .map(s => s.formChanges)
-      .filter(fc => fc != null);
+    const allFormChanges = Object.values(this._data).flatMap(s => (s.formChanges ? [s.formChanges] : []));
+
     for (const speciesFormChanges of allFormChanges) {
       for (const formChange of speciesFormChanges) {
         const itemTrigger = formChange.findTrigger(SpeciesFormChangeItemTrigger) as SpeciesFormChangeItemTrigger;
@@ -184,10 +183,13 @@ export class SpeciesDataRegistry {
    * @returns An array of all starter species that belong to the given egg tier
    */
   public getAllEggTierSpecies(tier: EggTier): PokemonSpecies[] {
-    const species = Object.values(this._data)
-      .filter(s => s.eggTier === tier)
-      .map(s => s.species);
-    return species;
+    const ret: PokemonSpecies[] = [];
+    for (const speciesData of Object.values(this._data)) {
+      if (speciesData.eggTier === tier) {
+        ret.push(speciesData.species);
+      }
+    }
+    return ret;
   }
 
   /**
@@ -254,8 +256,13 @@ export class SpeciesDataRegistry {
   public getAllStarters(getSpecies?: false): SpeciesId[];
   public getAllStarters(getSpecies: true): PokemonSpecies[];
   public getAllStarters(getSpecies = false): SpeciesId[] | PokemonSpecies[] {
-    const species = this.getAllSpecies().filter(s => this.isStarter(s.speciesId));
-    return getSpecies ? species : species.map(s => s.speciesId);
+    const ret: (SpeciesId | PokemonSpecies)[] = [];
+    for (const speciesData of Object.values(this._data)) {
+      if (this.isStarter(speciesData.species.speciesId)) {
+        ret.push(getSpecies ? speciesData.species : speciesData.species.speciesId);
+      }
+    }
+    return ret as SpeciesId[] | PokemonSpecies[];
   }
 
   /**
@@ -264,10 +271,13 @@ export class SpeciesDataRegistry {
    * @returns An array of all starter species that have the given starter cost
    */
   public getAllStartersWithCost(starterCost: number): SpeciesId[] {
-    const species = Object.values(this._data)
-      .filter(s => s.starterCost === starterCost)
-      .map(s => s.species.speciesId);
-    return species;
+    const ret: SpeciesId[] = [];
+    for (const speciesData of Object.values(this._data)) {
+      if (speciesData.starterCost === starterCost) {
+        ret.push(speciesData.species.speciesId);
+      }
+    }
+    return ret;
   }
 
   /**
@@ -319,9 +329,13 @@ export class SpeciesDataRegistry {
    * @returns An array of all {@linkcode SpeciesId}s that have evolutions
    */
   public getSpeciesWithEvolutions(): SpeciesId[] {
-    return Object.values(this._data)
-      .filter(s => this.hasEvolutions(s.species.speciesId))
-      .map(s => s.species.speciesId);
+    const ret: SpeciesId[] = [];
+    for (const speciesData of Object.values(this._data)) {
+      if (this.hasEvolutions(speciesData.species.speciesId)) {
+        ret.push(speciesData.species.speciesId);
+      }
+    }
+    return ret;
   }
 
   /**
