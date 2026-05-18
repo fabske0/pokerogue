@@ -179,7 +179,8 @@ async function updateDescription(changelog: string): Promise<void> {
  */
 async function loadConfig(): Promise<boolean> {
   if (!process.env.GITHUB_ACTIONS) {
-    CONFIG.REPO_BRANCH = "beta";
+    const branch = process.argv[2] || "beta";
+    CONFIG.REPO_BRANCH = branch;
     return true;
   }
   if (!process.env.PR_BRANCH) {
