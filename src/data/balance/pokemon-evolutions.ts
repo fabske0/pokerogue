@@ -222,6 +222,7 @@ interface SpeciesFormEvolutionConstructor {
 
 export class SpeciesFormEvolution {
   public speciesId: SpeciesId;
+  // TODO: change all this `| null` insanity into `field?: type | undefined`
   public preFormKey: string | null;
   public evoFormKey: string | null;
   public level: number;
@@ -235,9 +236,7 @@ export class SpeciesFormEvolution {
   public evoLevelThreshold?: EvoLevelThreshold;
   public desc = "";
 
-  constructor(
-    data: SpeciesFormEvolutionConstructor
-  ) {
+  constructor(data: SpeciesFormEvolutionConstructor) {
     this.speciesId = data.speciesId;
     this.preFormKey = data.preFormKey;
     this.evoFormKey = data.evoFormKey;

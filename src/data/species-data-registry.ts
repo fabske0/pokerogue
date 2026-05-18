@@ -105,7 +105,7 @@ export class SpeciesDataRegistry {
   // #endregion Initializations
 
   /**
-   * Get the {@linkcode PokemonSpeciesData} for a given species.
+   * Get the species data for a given species.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get data for
    * @returns The {@linkcode PokemonSpeciesData}
    */
@@ -114,7 +114,7 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get the {@linkcode PokemonSpecies} for a given speciesId.
+   * Get the species data for a given species ID.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get data for
    * @returns The {@linkcode PokemonSpecies}
    */
@@ -123,7 +123,7 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get all {@linkcode PokemonSpecies} in the registry.
+   * Get all pokemon species in the registry.
    * @returns An array of all {@linkcode PokemonSpecies}
    */
   public getAllSpecies(): PokemonSpecies[] {
@@ -133,7 +133,8 @@ export class SpeciesDataRegistry {
   /**
    * Get all available TMs for a given species and form.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get TMs for
-   * @param form - the `formIndex` or `formKey` of the form to get TMs for. (default: base form)
+   * @param form - (Optional) The `formIndex` or `formKey` of the form to get TMs for.
+   * Uses the base form if not specified.
    * @return An array of all TMs available
    */
   public getTms(speciesId: SpeciesId, form?: string | number): MoveId[] {
@@ -146,7 +147,8 @@ export class SpeciesDataRegistry {
   /**
    * Get all available level moves for a given species and form.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get level moves for
-   * @param form - the `formIndex` or `formKey` of the form to get level moves for. (default: base form)
+   * @param form - (Optional) The `formIndex` or `formKey` of the form to get level moves for.
+   * Uses the base form if not specified.
    * @return An array of all level moves available
    */
   public getLevelMoves(speciesId: SpeciesId, form?: string | number): LevelMoves {
@@ -195,7 +197,7 @@ export class SpeciesDataRegistry {
   /**
    * Get the passive ability for a given species and form.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get the passive for
-   * @param form - the `formIndex` or `formKey` of the form to get the passive for. (default: base form)
+   * @param form - The `formIndex` or `formKey` of the form to get the passive for.
    * @returns the passive ability of the species and form
    */
   public getPassive(speciesId: SpeciesId, form: string | number): AbilityId {
@@ -250,7 +252,7 @@ export class SpeciesDataRegistry {
 
   /**
    * Get all starters.
-   * @param getSpecies - Whether to return {@linkcode PokemonSpecies} instead of {@linkcode SpeciesId}. (default: `false`)
+   * @param getSpecies - (Default `false`) Whether to return {@linkcode PokemonSpecies} instead of {@linkcode SpeciesId}.
    * @returns An array of all starter {@linkcode SpeciesId}s or {@linkcode PokemonSpecies}s
    */
   public getAllStarters(getSpecies?: false): SpeciesId[];
@@ -281,7 +283,7 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Get the default starters and their evolution lines
+   * Get the default starters and their evolution lines (e.g. the Bulbasaur line, etc)
    * @returns An array of {@linkcode SpeciesId}s
    */
   public getDefaultStartersAndEvolutions(): SpeciesId[] {
@@ -341,7 +343,7 @@ export class SpeciesDataRegistry {
   /**
    * Get the prevolution of a given species.
    * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the prevolution for
-   * @param getSpecies - Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}. (default: `false`)
+   * @param getSpecies - (Default `false`) Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}
    * @returns The prevolution {@linkcode SpeciesId} or {@linkcode PokemonSpecies}
    */
   public getPrevolution(species: SpeciesId | PokemonSpecies): SpeciesId | null;
@@ -408,7 +410,8 @@ export class SpeciesDataRegistry {
    * Helper to get the form key for a given species and formIndex or formKey.
    * Also validates that the form exists and falls back to the base form if it doesn't.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get the form key for
-   * @param form - the `formIndex` or `formKey` of the form to get the form key for. (default: base form)
+   * @param form - (Optional) The `formIndex` or `formKey` of the form to get the form key for.
+   * Uses the base form if not specified.
    * @returns The formKey
    */
   private getFormKey(speciesId: SpeciesId, form?: string | number): string {
@@ -433,7 +436,8 @@ export class SpeciesDataRegistry {
   /**
    * Helper to get the form index for a given species and formIndex or formKey.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get the form index for
-   * @param form - the `formIndex` or `formKey` of the form to get the form index for. (default: base form)
+   * @param form - (Optional) The `formIndex` or `formKey` of the form to get the form index for.
+   * Uses the base form if not specified.
    * @returns The form index
    */
   private getFormIndex(speciesId: SpeciesId, form?: string | number): number {
