@@ -1462,7 +1462,7 @@ export class PokedexUiHandler extends MessageUiHandler {
       const levelMoves = species.getLevelMoves().map(m => allMoves[m[1]].name);
       // This always gets egg moves from the starter
       const eggMoves = speciesEggMoves[starterId]?.map(m => allMoves[m].name) ?? [];
-      const tmMoves = species.getTms().map(m => allMoves[m].name) ?? [];
+      const tmMoves = species.getTms().map(m => allMoves[m].name);
       const selectedMove1 = this.filterText.getValue(FilterTextRow.MOVE_1);
       const selectedMove2 = this.filterText.getValue(FilterTextRow.MOVE_2);
 
@@ -2432,7 +2432,7 @@ export class PokedexUiHandler extends MessageUiHandler {
     const caughtAttr =
       this.gameData.dexData[speciesId].caughtAttr
       & this.gameData.dexData[this.getStarterSpeciesId(speciesId)].caughtAttr
-      & (species.getFullUnlocksData() ?? 0n);
+      & species.getFullUnlocksData();
 
     /*  this checks the gender of the pokemon; this works by checking a) that the starter preferences for the species exist, and if so, is it female. If so, it'll add DexAttr.FEMALE to our temp props
      *  It then checks b) if the caughtAttr for the pokemon is female and NOT male - this means that the ONLY gender we've gotten is female, and we need to add DexAttr.FEMALE to our temp props
