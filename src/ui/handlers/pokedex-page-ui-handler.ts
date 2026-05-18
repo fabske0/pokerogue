@@ -870,7 +870,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
       (_, em) => (globalScene.gameData.starterData[this.starterId].eggMoves & (1 << em)) !== 0,
     );
 
-    this.tmMoves = species.getTms(formKey).sort((a, b) => (allMoves[a].name > allMoves[b].name ? 1 : -1)) ?? [];
+    this.tmMoves = species.getTms(formKey).sort((a, b) => (allMoves[a].name > allMoves[b].name ? 1 : -1));
 
     this.passive = speciesDataRegistry.getPassive(species.speciesId, this.formIndex);
 
@@ -897,7 +897,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     }
     this.biomes = this.filterBiomeFormIndexes(speciesBiomes, species.speciesId);
 
-    const allFormChanges = speciesDataRegistry.getFormChanges(species.speciesId) || [];
+    const allFormChanges = speciesDataRegistry.getFormChanges(species.speciesId);
     this.battleForms = allFormChanges.filter(f => f.preFormKey === this.species.forms[this.formIndex].formKey);
 
     const preSpeciesId = speciesDataRegistry.getPrevolution(species.speciesId);
