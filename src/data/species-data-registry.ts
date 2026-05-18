@@ -171,7 +171,8 @@ export class SpeciesDataRegistry {
   /**
    * Get the egg tier for a given species.
    * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the egg tier for
-   * @returns The {@linkcode EggTier} of the species. (Defaults to `COMMON` if not set)
+   * @returns The {@linkcode EggTier} of the species.
+   * Uses the "common" tier if the species doesn't have a defined egg tier (aka it isn't a starter).
    */
   public getEggTier(species: PokemonSpecies | SpeciesId): EggTier {
     const speciesId = typeof species === "number" ? species : species.speciesId;
