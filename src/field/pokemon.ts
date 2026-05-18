@@ -5979,7 +5979,7 @@ export class PlayerPokemon extends Pokemon {
   getCompatibleTms(excludeKnown = false, excludeLevelUp = false): MoveId[] {
     const tms = new Set(this.species.getTms(this.getFormKey()));
     if (this.fusionSpecies) {
-      this.fusionSpecies.getTms(this?.getFusionFormKey() ?? undefined).forEach(tm => tms.add(tm));
+      this.fusionSpecies.getTms(this.getFusionFormKey() ?? undefined).forEach(tm => tms.add(tm));
     }
     if (excludeKnown) {
       this.moveset.forEach(move => tms.delete(move.moveId));
@@ -5993,8 +5993,8 @@ export class PlayerPokemon extends Pokemon {
 
   /**
    * Check if a TM is compatible with this Pokémon.
-   * @param tm - the {@linkcode MoveId} of the TM to check
-   * @param excludeKnown - Whether to exclude TMs or moves this Pokémon already knows (default: `false`)
+   * @param tm - The {@linkcode MoveId} of the TM to check
+   * @param excludeKnown - (Default `false`) Whether to exclude TMs or moves this Pokémon already knows
    * @returns Whether this TM is compatible with this Pokémon
    */
   isTmCompatible(tm: MoveId, excludeKnown = false): boolean {
