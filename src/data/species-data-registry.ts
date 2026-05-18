@@ -274,7 +274,7 @@ export class SpeciesDataRegistry {
    * @param starterCost - The starter cost
    * @returns An array of all starter species that have the given starter cost
    */
-  public getAllStartersWithCost(starterCost: number): SpeciesId[] {
+  public getStartersForCost(starterCost: number): SpeciesId[] {
     const ret: SpeciesId[] = [];
     for (const speciesData of Object.values(this._data)) {
       if (speciesData.starterCost === starterCost) {

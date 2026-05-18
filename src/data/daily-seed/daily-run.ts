@@ -49,7 +49,7 @@ export function getDailyRunStarters(): StarterTuple {
       starterCosts.push(10 - (starterCosts[0] + starterCosts[1]));
 
       for (const cost of starterCosts) {
-        const costSpecies = speciesDataRegistry.getAllStartersWithCost(cost).filter(
+        const costSpecies = speciesDataRegistry.getStartersForCost(cost).filter(
           s =>
             // make sure there are no duplicate starters from the same line
             !starters.some(st => s === st.speciesId || speciesDataRegistry.getStarter(s) === st.speciesId),
