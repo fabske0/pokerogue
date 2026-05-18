@@ -181,7 +181,7 @@ export class Egg {
 
       // Override egg tier and hatchwaves if species was given
       if (eggOptions?.species) {
-        this._tier = this.getEggTier();
+        this._tier = speciesDataRegistry.getEggTier(this.species);
         this._hatchWaves = eggOptions.hatchWaves ?? this.getEggTierDefaultHatchWaves();
       }
       // If species has no variant, set variantTier to common. This needs to
@@ -585,10 +585,6 @@ export class Egg {
         globalScene.gameData.gameStats.legendaryEggsPulled++;
         break;
     }
-  }
-
-  private getEggTier(): EggTier {
-    return speciesDataRegistry.getSpeciesData(this.species).eggTier ?? EggTier.COMMON;
   }
 
   // #endregion Private methods
