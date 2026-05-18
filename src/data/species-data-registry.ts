@@ -315,7 +315,7 @@ export class SpeciesDataRegistry {
       evoLine.push(evolution.speciesId);
       evoLine.push(...this.getEvolutionChain(evolution.speciesId));
     }
-    return evoLine;
+    return [...new Set(evoLine)];
   }
 
   /**
