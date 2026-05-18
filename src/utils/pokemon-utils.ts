@@ -14,7 +14,9 @@ import { randSeedItem } from "#utils/common";
  * If an array of `SpeciesId`s is passed (such as for named trainer spawn pools),
  * one will be selected at random.
  * @returns The associated {@linkcode PokemonSpecies} object
+ * @deprecated Use {@linkcode speciesDataRegistry.getSpecies}
  */
+// TODO: remove this function
 export function getPokemonSpecies(species: SpeciesId | SpeciesId[]): PokemonSpecies {
   if (Array.isArray(species)) {
     // TODO: this RNG roll should not be handled by this function
