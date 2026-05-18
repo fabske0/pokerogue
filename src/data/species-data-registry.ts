@@ -24,7 +24,7 @@ import type { LevelMoves, PokemonSpeciesData, SpeciesDataMap } from "#types/poke
 export class SpeciesDataRegistry {
   private readonly _data: SpeciesDataMap;
 
-  // should this (and the other methods) use `ReadonlyDeep` from type-fest?
+  // TODO: this (and the other methods) should use `ReadonlyDeep<...>` from type-fest
   get data(): SpeciesDataMap {
     return this._data;
   }
@@ -245,6 +245,7 @@ export class SpeciesDataRegistry {
    * @param speciesId - The {@linkcode SpeciesId} of the species to get the starter cost for
    * @returns The starter cost of the species
    */
+  // TODO: fix type safety issue (remove method?); this should probably only accept starters?
   public getStarterCost(speciesId: SpeciesId): StarterCost {
     const speciesData = this.getSpeciesData(speciesId);
     // We assume that the starter cost is set if it's a starter
