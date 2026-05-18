@@ -4846,7 +4846,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
     ],
     formTms: {
       "red-striped": [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
-      "bkue-striped": [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
+      "blue-striped": [MoveId.HYPER_BEAM, MoveId.REVERSAL, MoveId.GIGA_IMPACT],
     },
   };
   generationFiveSpeciesData[SpeciesId.SANDILE] = {
