@@ -205,7 +205,7 @@ export abstract class PokemonSpeciesForm {
 
   /**
    * Get a list of all level moves for this species, including form specific moves.
-   * @param form - the formIndex or formKey of the form to get level moves for. (default: base form)
+   * @param formKey - (Optional) The key for the form to be checked. Uses the base form if not specified.
    * @returns A list of all level moves that can be learned by this species
    */
   getLevelMoves(formKey?: string): LevelMoves {
@@ -225,7 +225,7 @@ export abstract class PokemonSpeciesForm {
   /**
    * Checks whether this species can learn a specific TM.
    * @param moveId - The TM to check for.
-   * @param formKey - The formkey to check for, if the form has specific TMs (defaults to the current form)
+   * @param formKey - (Optional) The key for the form to be checked. Uses the base form if not specified.
    * @returns whether this species can learn the TM
    */
   canLearnTm(moveId: MoveId, formKey?: string): boolean {
@@ -910,8 +910,8 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     });
   }
 
-  getFormKey(formIndex?: number): string {
-    return this.forms[formIndex ?? this.formIndex].formKey ?? "";
+  getFormKey(formIndex = this.formIndex): string {
+    return this.forms[formIndex].formKey ?? "";
   }
 
   /**
@@ -1027,7 +1027,7 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     const { speciesId } = this;
 
     if (speciesDataRegistry.hasEvolutions(speciesId)) {
-      for (const e of speciesDataRegistry.getEvolutions(speciesId)!) {
+      for (const e of speciesDataRegistry.getEvolutions(speciesId)) {
         const sId = e.speciesId;
         const level = e.level;
         evolutionLevels.push([sId, level]);
