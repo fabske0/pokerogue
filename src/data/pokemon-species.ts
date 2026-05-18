@@ -1096,55 +1096,51 @@ export class PokemonSpecies extends PokemonSpeciesForm implements Localizable {
     }
 
     const ret: EvolutionLevel[] = [];
-    if (speciesDataRegistry.hasPrevolution(this.speciesId)) {
-      const prevolutionLevels = this.getPrevolutionLevels().reverse();
-      const levelDiff = player ? 0 : forTrainer || isBoss ? (forTrainer && isBoss ? 2.5 : 5) : 10;
-      ret.push([prevolutionLevels[0][0], 1]);
-      for (let l = 1; l < prevolutionLevels.length; l++) {
-        const evolution = speciesDataRegistry
-          .getEvolutions(prevolutionLevels[l - 1][0])
-          .find(e => e.speciesId === prevolutionLevels[l][0]);
-        ret.push([
-          prevolutionLevels[l][0],
-          Math.min(
-            Math.max(
-              evolution?.level!
-                + Math.round(
-                  randSeedGauss(0.5, 1 + levelDiff * 0.2)
-                    * Math.max(evolution?.evoLevelThreshold?.[EvoLevelThresholdKind.WILD] ?? 0, 0.5)
-                    * 5,
-                )
-                - 1,
-              2,
-              evolution?.level!,
-            ),
-            currentLevel - 1,
-          ),
-        ]); // TODO: are those bangs correct?
-      }
-      const lastPrevolutionLevel = ret[prevolutionLevels.length - 1][1];
+    const prevolutionLevels = this.getPrevolutionLevels(false).reverse();
+    const levelDiff = player ? 0 : forTrainer || isBoss ? (forTrainer && isBoss ? 2.5 : 5) : 10;
+    ret.push([prevolutionLevels[0][0], 1]);
+    for (let l = 1; l < prevolutionLevels.length; l++) {
       const evolution = speciesDataRegistry
-        .getEvolutions(prevolutionLevels.at(-1)![0])
-        .find(e => e.speciesId === this.speciesId);
+        .getEvolutions(prevolutionLevels[l - 1][0])
+        .find(e => e.speciesId === prevolutionLevels[l][0]);
       ret.push([
-        this.speciesId,
+        prevolutionLevels[l][0],
         Math.min(
           Math.max(
-            lastPrevolutionLevel
+            evolution?.level!
               + Math.round(
                 randSeedGauss(0.5, 1 + levelDiff * 0.2)
                   * Math.max(evolution?.evoLevelThreshold?.[EvoLevelThresholdKind.WILD] ?? 0, 0.5)
                   * 5,
-              ),
-            lastPrevolutionLevel + 1,
+              )
+              - 1,
+            2,
             evolution?.level!,
           ),
-          currentLevel,
+          currentLevel - 1,
         ),
       ]); // TODO: are those bangs correct?
-    } else {
-      ret.push([this.speciesId, 1]);
     }
+    const lastPrevolutionLevel = ret[prevolutionLevels.length - 1][1];
+    const evolution = speciesDataRegistry
+      .getEvolutions(prevolutionLevels.at(-1)![0])
+      .find(e => e.speciesId === this.speciesId);
+    ret.push([
+      this.speciesId,
+      Math.min(
+        Math.max(
+          lastPrevolutionLevel
+            + Math.round(
+              randSeedGauss(0.5, 1 + levelDiff * 0.2)
+                * Math.max(evolution?.evoLevelThreshold?.[EvoLevelThresholdKind.WILD] ?? 0, 0.5)
+                * 5,
+            ),
+          lastPrevolutionLevel + 1,
+          evolution?.level!,
+        ),
+        currentLevel,
+      ),
+    ]); // TODO: are those bangs correct?
 
     return ret;
   }
