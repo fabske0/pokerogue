@@ -434,26 +434,25 @@ export class SpeciesDataRegistry {
   }
 
   /**
-   * Helper to get the form index for a given species and formIndex or formKey.
+   * Helper to validate a form index or retrieve the form index associated with a form key.
    * @param speciesId - The {@linkcode SpeciesId} of the species to get the form index for
-   * @param form - (Optional) The `formIndex` or `formKey` of the form to get the form index for.
-   * Uses the base form if not specified.
+   * @param form - The `formIndex` or `formKey` of the form to get the form index for.
    * @returns The form index
    */
-  private getFormIndex(speciesId: SpeciesId, form?: string | number): number {
+  private getFormIndex(speciesId: SpeciesId, form: string | number): number {
     const speciesData = this.getSpeciesData(speciesId);
-    if (typeof form === "number") {
-      if (form >= 0 && form < speciesData.species.forms.length) {
-        return form;
-      }
-      form = undefined;
+
+    if (typeof form === "number" && form >= 0 && form < speciesData.species.forms.length) {
+      return form;
     }
+
     if (typeof form === "string") {
       const formIndex = speciesData.species.forms.findIndex(f => f.formKey === form);
       if (formIndex !== -1) {
         return formIndex;
       }
     }
+
     return 0;
   }
 
