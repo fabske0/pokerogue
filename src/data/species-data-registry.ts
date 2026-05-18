@@ -170,12 +170,11 @@ export class SpeciesDataRegistry {
 
   /**
    * Get the egg tier for a given species.
-   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the egg tier for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the egg tier for
    * @returns The {@linkcode EggTier} of the species.
    * Uses the "common" tier if the species doesn't have a defined egg tier (aka it isn't a starter).
    */
-  public getEggTier(species: PokemonSpecies | SpeciesId): EggTier {
-    const speciesId = typeof species === "number" ? species : species.speciesId;
+  public getEggTier(speciesId: SpeciesId): EggTier {
     const speciesData = this.getSpeciesData(speciesId);
     return speciesData.eggTier ?? EggTier.COMMON;
   }
@@ -224,14 +223,13 @@ export class SpeciesDataRegistry {
 
   /**
    * Retrieve the corresponding starter for a given species.
-   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} to check
+   * @param speciesId - The {@linkcode SpeciesId} to get the starter for
    * @param getSpecies - (Default `false`) Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}.
    * @returns The starter {@linkcode SpeciesId} or {@linkcode PokemonSpecies}
    */
-  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies?: false): SpeciesId;
-  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies: true): PokemonSpecies;
-  public getStarter(species: SpeciesId | PokemonSpecies, getSpecies = false): SpeciesId | PokemonSpecies {
-    const speciesId = typeof species === "number" ? species : species.speciesId;
+  public getStarter(speciesId: SpeciesId, getSpecies?: false): SpeciesId;
+  public getStarter(speciesId: SpeciesId, getSpecies: true): PokemonSpecies;
+  public getStarter(speciesId: SpeciesId, getSpecies = false): SpeciesId | PokemonSpecies {
     const speciesData = this.getSpeciesData(speciesId);
     // only need to check if the species is a starter because of pikachu :/
     if (getSpecies) {
@@ -344,15 +342,14 @@ export class SpeciesDataRegistry {
 
   /**
    * Get the prevolution of a given species.
-   * @param species - The {@linkcode SpeciesId} or {@linkcode PokemonSpecies} of the species to get the prevolution for
+   * @param speciesId - The {@linkcode SpeciesId} of the species to get the prevolution for
    * @param getSpecies - (Default `false`) Whether to return the {@linkcode PokemonSpecies} instead of a {@linkcode SpeciesId}
    * @returns The prevolution {@linkcode SpeciesId} or {@linkcode PokemonSpecies}
    */
-  public getPrevolution(species: SpeciesId | PokemonSpecies): SpeciesId | null;
-  public getPrevolution(species: SpeciesId | PokemonSpecies, getSpecies: false): SpeciesId | null;
-  public getPrevolution(species: SpeciesId | PokemonSpecies, getSpecies: true): PokemonSpecies | null;
-  public getPrevolution(species: SpeciesId | PokemonSpecies, getSpecies = false): SpeciesId | PokemonSpecies | null {
-    const speciesId = typeof species === "number" ? species : species.speciesId;
+  public getPrevolution(speciesId: SpeciesId): SpeciesId | null;
+  public getPrevolution(speciesId: SpeciesId, getSpecies: false): SpeciesId | null;
+  public getPrevolution(speciesId: SpeciesId, getSpecies: true): PokemonSpecies | null;
+  public getPrevolution(speciesId: SpeciesId, getSpecies = false): SpeciesId | PokemonSpecies | null {
     const speciesData = this.getSpeciesData(speciesId);
     if (getSpecies) {
       return speciesData.prevolution === null ? null : this.getSpecies(speciesData.prevolution);

@@ -149,10 +149,10 @@ export class EggSummaryUiHandler extends MessageUiHandler {
       this.eggHatchData = args[0].sort(function sortHatchData(a: EggHatchData, b: EggHatchData) {
         const speciesA = a.pokemon.species;
         const speciesB = b.pokemon.species;
-        if (speciesDataRegistry.getEggTier(speciesA) < speciesDataRegistry.getEggTier(speciesB)) {
+        if (speciesDataRegistry.getEggTier(speciesA.speciesId) < speciesDataRegistry.getEggTier(speciesB.speciesId)) {
           return -1;
         }
-        if (speciesDataRegistry.getEggTier(speciesA) > speciesDataRegistry.getEggTier(speciesB)) {
+        if (speciesDataRegistry.getEggTier(speciesA.speciesId) > speciesDataRegistry.getEggTier(speciesB.speciesId)) {
           return 1;
         }
         if (speciesA.speciesId < speciesB.speciesId) {

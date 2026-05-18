@@ -793,7 +793,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
 
   private getMenuText(): string {
     const isSeen = this.isSeen();
-    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarter(this.species, true));
+    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarter(this.species.speciesId, true));
 
     return this.menuOptions
       .map(o => {
@@ -1027,7 +1027,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     if (this.speciesStarterDexEntry?.seenAttr) {
       return true;
     }
-    const starterCaughtAttr = this.isCaught(speciesDataRegistry.getStarter(this.species, true));
+    const starterCaughtAttr = this.isCaught(speciesDataRegistry.getStarter(this.species.speciesId, true));
     return !!starterCaughtAttr;
   }
 
@@ -1152,7 +1152,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
     const isCaught = this.isCaught();
     const isFormCaught = this.isFormCaught();
     const isSeen = this.isSeen();
-    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarter(this.species, true));
+    const isStarterCaught = !!this.isCaught(speciesDataRegistry.getStarter(this.species.speciesId, true));
 
     if (this.isRibbonTrayOpen) {
       if (button === Button.CANCEL) {
@@ -2659,7 +2659,7 @@ export class PokedexPageUiHandler extends MessageUiHandler {
         if (species.speciesId === SpeciesId.MANAPHY || species.speciesId === SpeciesId.PHIONE) {
           this.pokemonHatchedIcon.setFrame("manaphy");
         } else {
-          this.pokemonHatchedIcon.setFrame(speciesDataRegistry.getEggTier(species));
+          this.pokemonHatchedIcon.setFrame(speciesDataRegistry.getEggTier(species.speciesId));
         }
         this.pokemonHatchedCountText.setText(`${this.speciesStarterDexEntry?.hatchedCount}`);
 
