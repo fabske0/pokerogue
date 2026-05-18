@@ -73,7 +73,7 @@ async function getAndProcessChangelog(): Promise<void> {
   } else {
     //! Note: to run locally, a separate GitHub API token needs to be generated
 
-    // dynamically imported to not need `@inquirer/prompts` during the workflow
+    // dynamically imported to not need the checkout of the helper file during the workflow
     const { writeFileSafe } = await import("../../../scripts/utils/file.ts");
     writeFileSafe(CONFIG.OUTPUT_FILE, output, "utf8");
     console.log(`✔ Output written to ${CONFIG.OUTPUT_FILE} successfully!`);
