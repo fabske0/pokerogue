@@ -115,8 +115,8 @@ async function getPullRequests(commits: Set<string>): Promise<PullRequest[]> {
         repo: CONFIG.REPO_NAME,
         commit_sha: sha,
       });
-      const pr = prs.data[0];
-      if (!pr) {
+      const pr = prs.data.at(-1);
+      if (!pr || !pr.merged_at) {
         continue;
       }
       const section = getChangelogSection(pr.body || "");
