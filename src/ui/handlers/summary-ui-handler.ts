@@ -1,8 +1,8 @@
 import type { Ability } from "#abilities/ability";
 import { loggedInUser } from "#app/account";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { starterColors } from "#app/global-vars/starter-colors";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { getStarterValueFriendshipCap } from "#balance/starters";
 import { getLevelRelExp, getLevelTotalExp } from "#data/exp";
 import { getGenderColor, getGenderSymbol } from "#data/gender";

@@ -3,11 +3,11 @@ import { clientSessionId, getSessionDataLocalStorageKey, loggedInUser, updateUse
 import { defaultStarterSpecies, saveKey } from "#app/constants";
 import { getGameMode } from "#app/game-mode";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { activeOverrides } from "#app/overrides";
 import { isIos } from "#app/touch-controls";
 import { Tutorial } from "#app/tutorial";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { bypassLogin, isBeta, isDev } from "#constants/app-constants";
 import { MAX_STARTER_CANDY_COUNT } from "#constants/game-constants";
 import { EntryHazardTag } from "#data/arena-tag";

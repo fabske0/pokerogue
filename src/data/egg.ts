@@ -1,5 +1,6 @@
 import type { BattleScene } from "#app/battle-scene";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { activeOverrides } from "#app/overrides";
 import {
   BOOSTED_RARE_EGGMOVE_RATES,
@@ -25,7 +26,6 @@ import {
   SHINY_EPIC_CHANCE,
   SHINY_VARIANT_CHANCE,
 } from "#balance/rates";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { EggSourceType } from "#enums/egg-source-types";
 import { EggTier } from "#enums/egg-type";
 import { SpeciesId } from "#enums/species-id";

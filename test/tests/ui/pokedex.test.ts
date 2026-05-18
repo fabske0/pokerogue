@@ -1,4 +1,4 @@
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { allAbilities } from "#data/data-lists";
 import type { PokemonForm, PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";

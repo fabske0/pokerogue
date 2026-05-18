@@ -1,9 +1,9 @@
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { activeOverrides } from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,

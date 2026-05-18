@@ -1,5 +1,5 @@
 import type { BattleScene } from "#app/battle-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { StatusEffect } from "#enums/status-effect";

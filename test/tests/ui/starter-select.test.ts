@@ -1,4 +1,4 @@
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { Gender } from "#data/gender";
 import { AbilityId } from "#enums/ability-id";
 import { Button } from "#enums/buttons";

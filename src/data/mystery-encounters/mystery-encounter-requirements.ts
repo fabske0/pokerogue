@@ -1,5 +1,5 @@
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { allAbilities } from "#data/data-lists";
 import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
 import type { AbilityId } from "#enums/ability-id";

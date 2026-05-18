@@ -1,6 +1,6 @@
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { EvoLevelThresholdKind } from "#enums/evo-level-threshold-kind";
 import { PartyMemberStrength } from "#enums/party-member-strength";

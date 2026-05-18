@@ -1,10 +1,10 @@
 import { TYPE_BOOST_ITEM_BOOST_PERCENT } from "#app/constants";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getPokemonNameWithAffix } from "#app/messages";
 import { activeOverrides } from "#app/overrides";
 import { EvolutionItem } from "#balance/pokemon-evolutions";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { tmPoolTiers } from "#balance/tm-pool-tiers";
 import { getBerryEffectDescription, getBerryName } from "#data/berry";
 import { getDailyEventSeedLuck } from "#data/daily-seed/daily-run";

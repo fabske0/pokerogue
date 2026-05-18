@@ -1,7 +1,7 @@
 import type { BattleScene } from "#app/battle-scene";
 import { RARE_CANDY_FRIENDSHIP_CAP } from "#app/constants";
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getStarterValueFriendshipCap } from "#balance/starters";
 import { CustomPokemonData } from "#data/pokemon-data";
 import { AbilityId } from "#enums/ability-id";

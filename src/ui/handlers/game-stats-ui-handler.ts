@@ -1,6 +1,6 @@
 import { loggedInUser } from "#app/account";
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { Button } from "#enums/buttons";
 import { DexAttr } from "#enums/dex-attr";
 import { PlayerGender } from "#enums/player-gender";

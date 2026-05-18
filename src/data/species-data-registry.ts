@@ -1,4 +1,5 @@
 import { defaultStarterSpecies } from "#app/constants";
+import { setSpeciesDataRegistry } from "#app/global-species-data-registry";
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { initGenerationOne } from "#balance/species/generation-01";
 import { initGenerationTwo } from "#balance/species/generation-02";
@@ -9,7 +10,6 @@ import { initGenerationSix } from "#balance/species/generation-06";
 import { initGenerationSeven } from "#balance/species/generation-07";
 import { initGenerationEight } from "#balance/species/generation-08";
 import { initGenerationNine } from "#balance/species/generation-09";
-import { setSpeciesDataRegistry } from "#balance/species/species-data-registry";
 import type { StarterCost } from "#balance/starters";
 import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
 import type { AbilityId } from "#enums/ability-id";

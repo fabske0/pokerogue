@@ -1,7 +1,7 @@
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allMoves } from "#data/data-lists";
 import type { EggHatchData } from "#data/egg-hatch-data";
 import { Gender } from "#data/gender";

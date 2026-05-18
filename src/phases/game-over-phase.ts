@@ -1,7 +1,7 @@
 import { pokerogueApi } from "#api/api";
 import { clientSessionId } from "#app/account";
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { bypassLogin } from "#constants/app-constants";
 import { modifierTypes } from "#data/data-lists";
 import { getCharVariantFromDialogue } from "#data/dialogue";

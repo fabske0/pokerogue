@@ -1,11 +1,11 @@
 import type { Ability } from "#abilities/ability";
 import { PLAYER_PARTY_MAX_SIZE } from "#app/constants";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { starterColors } from "#app/global-vars/starter-colors";
 import { activeOverrides } from "#app/overrides";
 import { handleTutorial, Tutorial } from "#app/tutorial";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import {
   getPassiveCandyCount,
   getSameSpeciesEggCandyCounts,

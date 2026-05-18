@@ -1,6 +1,6 @@
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { dailyBiomeWeights } from "#balance/daily-biome-weights";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allChallenges } from "#data/challenge";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { BiomeId } from "#enums/biome-id";

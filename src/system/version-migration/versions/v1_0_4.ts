@@ -1,5 +1,5 @@
 import { defaultStarterSpecies } from "#app/constants";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { CustomPokemonData } from "#data/pokemon-data";
 import { AbilityAttr } from "#enums/ability-attr";
 import { DexAttr } from "#enums/dex-attr";

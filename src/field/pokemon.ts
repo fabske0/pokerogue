@@ -7,6 +7,7 @@ import type { AnySound, BattleScene } from "#app/battle-scene";
 import { EVOLVE_MOVE, PLAYER_PARTY_MAX_SIZE, RARE_CANDY_FRIENDSHIP_CAP, RELEARN_MOVE } from "#app/constants";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getPokemonNameWithAffix } from "#app/messages";
 import { activeOverrides } from "#app/overrides";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
@@ -14,7 +15,6 @@ import type { FORCED_RIVAL_SIGNATURE_MOVES } from "#balance/moves/signature-move
 import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { FusionSpeciesFormEvolution, validateShedinjaEvo } from "#balance/pokemon-evolutions";
 import { BASE_HIDDEN_ABILITY_RATE, BASE_SHINY_CHANCE, SHINY_EPIC_CHANCE, SHINY_VARIANT_CHANCE } from "#balance/rates";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { getStarterValueFriendshipCap, TRAINER_MAX_FRIENDSHIP_WAVE, TRAINER_MIN_FRIENDSHIP } from "#balance/starters";
 import type { SuppressAbilitiesTag } from "#data/arena-tag";
 import { NoCritTag, WeakenMoveScreenTag } from "#data/arena-tag";

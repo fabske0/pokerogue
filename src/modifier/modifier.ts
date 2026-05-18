@@ -1,9 +1,9 @@
 import { applyAbAttrs } from "#abilities/apply-ab-attrs";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getPokemonNameWithAffix } from "#app/messages";
 import { activeOverrides } from "#app/overrides";
 import { FusionSpeciesFormEvolution } from "#balance/pokemon-evolutions";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { FRIENDSHIP_GAIN_FROM_RARE_CANDY } from "#balance/starters";
 import { getBerryEffectFunc, getBerryPredicate } from "#data/berry";
 import { allMoves, modifierTypes } from "#data/data-lists";

@@ -1,6 +1,6 @@
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { signatureSpecies } from "#balance/signature-species";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { EntryHazardTag } from "#data/arena-tag";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { ArenaTagSide } from "#enums/arena-tag-side";

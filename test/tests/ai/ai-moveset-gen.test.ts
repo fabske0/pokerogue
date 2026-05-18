@@ -1,10 +1,10 @@
 import { __INTERNAL_TEST_EXPORTS, generateMoveset } from "#app/ai/ai-moveset-gen";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import {
   COMMON_TIER_TM_LEVEL_REQUIREMENT,
   GREAT_TIER_TM_LEVEL_REQUIREMENT,
   ULTRA_TIER_TM_LEVEL_REQUIREMENT,
 } from "#balance/moves/moveset-generation";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allMoves } from "#data/data-lists";
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";

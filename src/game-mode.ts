@@ -1,8 +1,8 @@
 import { FixedBattleConfig } from "#app/battle";
 import { CHALLENGE_MODE_MYSTERY_ENCOUNTER_WAVES, CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { activeOverrides } from "#app/overrides";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { allChallenges, type Challenge, copyChallenge } from "#data/challenge";
 import {
   getDailyEventSeedBoss,

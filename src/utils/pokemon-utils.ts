@@ -1,6 +1,6 @@
 import { MAX_TERAS_PER_ARENA } from "#app/constants";
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { POKERUS_STARTER_COUNT } from "#balance/starters";
 import type { PokemonSpecies, PokemonSpeciesForm } from "#data/pokemon-species";
 import { BattlerIndex } from "#enums/battler-index";

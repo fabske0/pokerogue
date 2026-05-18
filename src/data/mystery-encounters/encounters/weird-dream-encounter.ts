@@ -1,5 +1,5 @@
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { modifierTypes } from "#data/data-lists";
 import { getLevelTotalExp } from "#data/exp";
 import type { PokemonSpecies } from "#data/pokemon-species";

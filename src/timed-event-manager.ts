@@ -1,5 +1,5 @@
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { SHINY_CATCH_RATE_MULTIPLIER } from "#balance/rates";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { CLASSIC_CANDY_FRIENDSHIP_MULTIPLIER } from "#balance/starters";
 import type { PokemonSpeciesFilter } from "#data/pokemon-species";
 import type { MysteryEncounterTier } from "#enums/mystery-encounter-tier";

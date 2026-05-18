@@ -1,7 +1,7 @@
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getPokemonNameWithAffix } from "#app/messages";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { modifierTypes } from "#data/data-lists";
 import { Gender } from "#data/gender";
 import {

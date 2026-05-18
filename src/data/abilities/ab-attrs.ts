@@ -1,7 +1,7 @@
 import { applyAbAttrs } from "#abilities/apply-ab-attrs";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getPokemonNameWithAffix } from "#app/messages";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { EntryHazardTag, SuppressAbilitiesTag } from "#data/arena-tag";
 import { type BattlerTag, CritBoostTag } from "#data/battler-tags";
 import { getBerryEffectFunc } from "#data/berry";

@@ -1,8 +1,8 @@
 import { CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { NON_LEGEND_PARADOX_POKEMON, NON_LEGEND_ULTRA_BEASTS } from "#balance/special-species-groups";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { AbilityId } from "#enums/ability-id";
 import { MysteryEncounterOptionMode } from "#enums/mystery-encounter-option-mode";

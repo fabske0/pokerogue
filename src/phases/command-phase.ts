@@ -1,7 +1,7 @@
 import type { TurnCommand } from "#app/battle";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { getPokemonNameWithAffix } from "#app/messages";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
 import { TrappedTag } from "#data/battler-tags";
 import { getDailyEventSeedBoss } from "#data/daily-seed/daily-run";
 import { isDailyFinalBoss } from "#data/daily-seed/daily-seed-utils";

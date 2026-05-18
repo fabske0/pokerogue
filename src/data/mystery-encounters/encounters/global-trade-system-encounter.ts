@@ -1,6 +1,6 @@
 import { CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { Gender, getGenderSymbol } from "#data/gender";
 import { getNatureName } from "#data/nature";
 import { getPokeballAtlasKey, getPokeballTintColor } from "#data/pokeball";

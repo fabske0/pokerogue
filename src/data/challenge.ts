@@ -2,7 +2,7 @@ import type { FixedBattleConfig } from "#app/battle";
 import { getRandomTrainerFunc } from "#app/battle";
 import type { GameMode } from "#app/game-mode";
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import type { PokemonSpecies } from "#data/pokemon-species";
 import { AbilityAttr } from "#enums/ability-attr";
 import { BattleType } from "#enums/battle-type";

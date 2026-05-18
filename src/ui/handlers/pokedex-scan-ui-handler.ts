@@ -1,4 +1,4 @@
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { allAbilities, allMoves } from "#data/data-lists";
 import { UiMode } from "#enums/ui-mode";
 import type { PlayerPokemon } from "#field/pokemon";

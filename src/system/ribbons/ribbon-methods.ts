@@ -1,5 +1,5 @@
 import { globalScene } from "#app/global-scene";
-import { speciesDataRegistry } from "#balance/species/species-data-registry";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import type { SpeciesId } from "#enums/species-id";
 import { RibbonData, type RibbonFlag } from "#system/ribbons/ribbon-data";
 
