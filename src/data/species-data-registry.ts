@@ -185,7 +185,7 @@ export class SpeciesDataRegistry {
    * @param tier - The {@linkcode EggTier} to get starter species for
    * @returns An array of all starter species that belong to the given egg tier
    */
-  public getAllEggTierSpecies(tier: EggTier): PokemonSpecies[] {
+  public getSpeciesForEggTier(tier: EggTier): PokemonSpecies[] {
     const ret: PokemonSpecies[] = [];
     for (const speciesData of Object.values(this._data)) {
       if (speciesData.eggTier === tier) {

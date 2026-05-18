@@ -438,7 +438,7 @@ export class Egg {
     const ignoredSpecies = [SpeciesId.PHIONE, SpeciesId.MANAPHY, SpeciesId.ETERNATUS];
 
     let speciesPool = speciesDataRegistry
-      .getAllEggTierSpecies(this.tier)
+      .getSpeciesForEggTier(this.tier)
       .filter(s => ignoredSpecies.indexOf(s.speciesId) === -1);
 
     // If this is the 10th egg without unlocking something new, attempt to force it.
@@ -592,7 +592,7 @@ export class Egg {
 
 export function getValidLegendaryGachaSpecies(): SpeciesId[] {
   return speciesDataRegistry
-    .getAllEggTierSpecies(EggTier.LEGENDARY)
+    .getSpeciesForEggTier(EggTier.LEGENDARY)
     .filter(s => s.speciesId !== SpeciesId.ETERNATUS)
     .map(s => s.speciesId);
 }
