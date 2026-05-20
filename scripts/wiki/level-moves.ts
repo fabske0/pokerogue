@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Pagefault Games
+ * SPDX-FileContributor: Fabske0
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
 import { wikiSpeciesDataRegistry } from "./constants";

@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Pagefault Games
+ * SPDX-FileContributor: Fabske0
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { GrowthRate } from "#data/exp";
 import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";

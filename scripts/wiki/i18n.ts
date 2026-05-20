@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Pagefault Games
+ * SPDX-FileContributor: Fabske0
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import i18next from "i18next";
 import biome from "../../locales/en/biomes.json";
 import pokemon from "../../locales/en/pokemon.json";

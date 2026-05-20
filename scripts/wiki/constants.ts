@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Pagefault Games
+ * SPDX-FileContributor: Fabske0
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { SpeciesDataRegistry } from "#data/species-data-registry";
 import { defaultCommanderHelpArgs } from "#script-utils/arguments";
 import { join } from "path";
