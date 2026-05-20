@@ -1,18 +1,14 @@
 import { EvoCondKey, EvolutionItem } from "#balance/pokemon-evolutions";
 import { Gender } from "#data/gender";
-import { BiomeId } from "#enums/biome-id";
 import { MoveId } from "#enums/move-id";
 import { Nature } from "#enums/nature";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
+import { getBiomeName } from "#utils/common";
 import { wikiSpeciesDataRegistry } from "./constants";
 import { writeWikiData } from "./helpers";
-
-function getBiomeName(biome: BiomeId): string {
-  return Object.entries(BiomeId).find(([, id]) => id === biome)?.[0] ?? String(biome);
-}
 
 interface EvolutionEntry {
   dexNum: number;
