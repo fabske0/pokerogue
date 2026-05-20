@@ -7,11 +7,8 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
-import { writeFileSafe } from "#script-utils/file";
-import { join } from "node:path";
-import { OUTPUT_DIR, wikiSpeciesDataRegistry } from "./constants";
-
-const OUTPUT_FILE = join(OUTPUT_DIR, "evolutions.csv");
+import { wikiSpeciesDataRegistry } from "./constants";
+import { writeWikiData } from "./helpers";
 
 function getBiomeName(biome: BiomeId): string {
   return Object.entries(BiomeId).find(([, id]) => id === biome)?.[0] ?? String(biome);
@@ -46,8 +43,7 @@ interface EvolutionEntry {
 }
 
 export function generateEvolutionsCsv(): void {
-  const csvLines: string[] = [];
-  let isFirstLine = true;
+  const entries: EvolutionEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     const evolutions = speciesData.evolutions;
@@ -137,20 +133,10 @@ export function generateEvolutionsCsv(): void {
           evoEntry.rockruffAbility = "OWN_TEMPO";
         }
 
-        if (isFirstLine) {
-          // add header line
-          csvLines.push(Object.keys(evoEntry).join(","));
-          isFirstLine = false;
-        }
-
-        csvLines.push(
-          Object.values(evoEntry)
-            .map(value => (value === null ? "" : String(value)))
-            .join(","),
-        );
+        entries.push(evoEntry);
       }
     }
   }
 
-  writeFileSafe(OUTPUT_FILE, csvLines.join("\n"));
+  writeWikiData("evolutions", entries);
 }

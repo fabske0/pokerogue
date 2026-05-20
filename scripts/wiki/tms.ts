@@ -1,30 +1,44 @@
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
-import { writeFileSafe } from "#script-utils/file";
-import { join } from "node:path";
-import { OUTPUT_DIR, wikiSpeciesDataRegistry } from "./constants";
+import { wikiSpeciesDataRegistry } from "./constants";
+import { writeWikiData } from "./helpers";
 
-const OUTPUT_FILE = join(OUTPUT_DIR, "tms.csv");
+interface TmWikiData {
+  dexNum: number;
+  id: string;
+  form: string | null;
+  move: string;
+}
 
 export function generateTmsCsv(): void {
-  const csvLines: string[] = ["dex num,id,form,move"];
+  const entries: TmWikiData[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     for (const move of speciesData.tms) {
-      csvLines.push(`${speciesData.species.speciesId},${SpeciesId[speciesData.species.speciesId]},,${MoveId[move]}`);
+      const data: TmWikiData = {
+        dexNum: speciesData.species.speciesId,
+        id: SpeciesId[speciesData.species.speciesId],
+        form: null,
+        move: MoveId[move],
+      };
+      entries.push(data);
     }
 
     for (const formKey in speciesData.formTms) {
       if (speciesData.formTms) {
         const formTms = speciesData.formTms[formKey];
         for (const move of formTms) {
-          csvLines.push(
-            `${speciesData.species.speciesId},${SpeciesId[speciesData.species.speciesId]},${formKey},${MoveId[move]}`,
-          );
+          const data: TmWikiData = {
+            dexNum: speciesData.species.speciesId,
+            id: SpeciesId[speciesData.species.speciesId],
+            form: formKey,
+            move: MoveId[move],
+          };
+          entries.push(data);
         }
       }
     }
   }
 
-  writeFileSafe(OUTPUT_FILE, csvLines.join("\n"));
+  writeWikiData("tms", entries);
 }
