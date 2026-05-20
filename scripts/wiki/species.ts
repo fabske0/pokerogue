@@ -3,15 +3,11 @@ import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
-import { writeFileSafe } from "#script-utils/file";
-import { join } from "node:path";
 import variantMasterlist from "../../assets/images/pokemon/variant/_masterlist.json";
-import { OUTPUT_DIR, wikiSpeciesDataRegistry } from "./constants";
-import { normalizeSpriteKey } from "./helpers";
+import { wikiSpeciesDataRegistry } from "./constants";
+import { normalizeSpriteKey, writeWikiData } from "./helpers";
 
-const OUTPUT_FILE = join(OUTPUT_DIR, "species.csv");
-
-interface SpeciesCsvData {
+interface SpeciesWikiData {
   dexNum: number;
   id: string;
   form: string | null;
@@ -55,15 +51,14 @@ interface SpeciesCsvData {
 }
 
 export function generateSpeciesCsv(): void {
-  const csvLines: string[] = [];
-  let isFirstLine = true;
+  const entries: SpeciesWikiData[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     const species = speciesData.species;
     const passives = speciesData.passives;
     const normalizedSpriteKey = normalizeSpriteKey(species.getSpriteKey(false));
 
-    const data: SpeciesCsvData = {
+    const data: SpeciesWikiData = {
       dexNum: species.speciesId,
       id: SpeciesId[species.speciesId],
       form: null,
@@ -106,17 +101,7 @@ export function generateSpeciesCsv(): void {
       canChangeForm: species.canChangeForm,
     };
 
-    if (isFirstLine) {
-      // add header line
-      csvLines.push(Object.keys(data).join(","));
-      isFirstLine = false;
-    }
-
-    csvLines.push(
-      Object.values(data)
-        .map(value => (value === null ? "" : value))
-        .join(","),
-    );
+    entries.push(data);
 
     for (const [index, form] of Object.entries(species.forms)) {
       // TODO: should this check if index is `0` instead for species that have male and female and no "default" form?
@@ -125,7 +110,7 @@ export function generateSpeciesCsv(): void {
       }
       const normalizedFormSpriteKey = normalizeSpriteKey(species.getSpriteKey(false, Number(index)));
 
-      const formData: SpeciesCsvData = {
+      const formData: SpeciesWikiData = {
         ...data,
         // these fields don't exist for forms
         eggTier: null,
@@ -154,13 +139,9 @@ export function generateSpeciesCsv(): void {
         isUnobtainable: form.isUnobtainable,
       };
 
-      csvLines.push(
-        Object.values(formData)
-          .map(value => (value === null ? "" : value))
-          .join(","),
-      );
+      entries.push(formData);
     }
   }
 
-  writeFileSafe(OUTPUT_FILE, csvLines.join("\n"));
+  writeWikiData("species", entries);
 }

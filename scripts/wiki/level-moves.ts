@@ -1,20 +1,31 @@
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
-import { writeFileSafe } from "#script-utils/file";
-import { join } from "node:path";
-import { OUTPUT_DIR, wikiSpeciesDataRegistry } from "./constants";
+import { wikiSpeciesDataRegistry } from "./constants";
+import { writeWikiData } from "./helpers";
 
-const OUTPUT_FILE = join(OUTPUT_DIR, "level-moves.csv");
+interface LevelMoveWikiData {
+  dexNum: number;
+  id: string;
+  form: string | null;
+  level: number | "EVOLVE_MOVE" | "RELEARN_MOVE";
+  move: string;
+}
 
 export function generateLevelMovesCsv(): void {
-  const csvLines: string[] = ["dex num,id,form,level,move"];
+  const entries: LevelMoveWikiData[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     for (const [level, move] of speciesData.levelMoves) {
       const levelString = level === 0 ? "EVOLVE_MOVE" : level === -1 ? "RELEARN_MOVE" : level;
-      csvLines.push(
-        `${speciesData.species.speciesId},${SpeciesId[speciesData.species.speciesId]},,${levelString},${MoveId[move]}`,
-      );
+      const data: LevelMoveWikiData = {
+        dexNum: speciesData.species.speciesId,
+        id: SpeciesId[speciesData.species.speciesId],
+        form: null,
+        level: levelString,
+        move: MoveId[move],
+      };
+
+      entries.push(data);
     }
 
     for (const formKey in speciesData.formLevelMoves) {
@@ -22,13 +33,18 @@ export function generateLevelMovesCsv(): void {
         const formLevelMoves = speciesData.formLevelMoves[formKey];
         for (const [level, move] of formLevelMoves) {
           const levelString = level === 0 ? "EVOLVE_MOVE" : level === -1 ? "RELEARN_MOVE" : level;
-          csvLines.push(
-            `${speciesData.species.speciesId},${SpeciesId[speciesData.species.speciesId]},${formKey},${levelString},${MoveId[move]}`,
-          );
+          const data: LevelMoveWikiData = {
+            dexNum: speciesData.species.speciesId,
+            id: SpeciesId[speciesData.species.speciesId],
+            form: formKey,
+            level: levelString,
+            move: MoveId[move],
+          };
+          entries.push(data);
         }
       }
     }
   }
 
-  writeFileSafe(OUTPUT_FILE, csvLines.join("\n"));
+  writeWikiData("level-moves", entries);
 }

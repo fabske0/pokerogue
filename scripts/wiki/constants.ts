@@ -10,6 +10,7 @@ const programm = new Command("pnpm wiki:scrape")
   .helpOption("-h, --help", "Show this help message.")
   .version(SCRIPT_VERSION, "-v, --version", "Show the version number.")
   .option("-c, --clean", "Whether to clean the output directory before generating the files", true)
+  .option("-j, --json", "Whether to output the data as JSON instead of CSV", false)
   .configureHelp(defaultCommanderHelpArgs)
   .showHelpAfterError(true)
   .parse();
