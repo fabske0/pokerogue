@@ -16,43 +16,16 @@ import { WeatherType } from "#enums/weather-type";
 import { getBiomeName } from "#utils/common";
 import { wikiSpeciesDataRegistry } from "./constants";
 import { writeWikiData } from "./helpers";
-
-interface EvolutionEntry {
-  dexNum: number;
-  id: string;
-  evoDexNum: number | null;
-  evoId: string | null;
-  prevoKey: string | null;
-  evoKey: string | null;
-  levelNeeded: number;
-  evoItems: string | null;
-  evoDelay: string | null;
-  timeOfDayCond: string | null;
-  biomeCond: string | null;
-  genderEvo: string | null;
-  moveTypeCond: string | null;
-  knowsMove: string | null;
-  friendship: number | null;
-  haveCaught: string | null;
-  tyrogueStats: string | null;
-  rockruffAbility: string | null;
-  shedinjaBs: string | null;
-  weatherCond: string | null;
-  dunsparceSeed: number | null;
-  nature: string | null;
-  partyTypeCond: string | null;
-  heldItemCond: string | null;
-  evoTreasureTracker: number | null;
-}
+import type { EvolutionWikiEntry } from "./types";
 
 export function generateEvolutionsCsv(): void {
-  const entries: EvolutionEntry[] = [];
+  const entries: EvolutionWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     const evolutions = speciesData.evolutions;
     if (evolutions) {
       for (const evo of evolutions) {
-        const evoEntry: EvolutionEntry = {
+        const evoEntry: EvolutionWikiEntry = {
           dexNum: speciesData.species.speciesId,
           id: SpeciesId[speciesData.species.speciesId],
           evoDexNum: evo.speciesId,
