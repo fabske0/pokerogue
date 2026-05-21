@@ -95,3 +95,8 @@ export interface LevelMoveWikiEntry {
   level: number | "EVOLVE_MOVE" | "RELEARN_MOVE";
   move: string;
 }
+
+export interface TmTierWikiEntry {
+  move: string;
+  tier: string;
+}

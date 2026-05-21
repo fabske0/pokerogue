@@ -13,6 +13,7 @@ import { cliArgs, OUTPUT_DIR, SCRIPT_VERSION } from "./constants";
 import { generateEvolutionsData } from "./data-generators/evolutions";
 import { generateLevelMovesData } from "./data-generators/level-moves";
 import { generateSpeciesData } from "./data-generators/species";
+import { generateTmTiersData } from "./data-generators/tm-tiers";
 import { generateTmsData } from "./data-generators/tms";
 
 function main(): void {
@@ -22,6 +23,7 @@ function main(): void {
     console.log(chalk.yellow("🧹 Cleaning output directory...\n"));
     rmSync(OUTPUT_DIR, { recursive: true });
   }
+  generateTmTiersData();
   generateSpeciesData();
   generateEvolutionsData();
   generateLevelMovesData();
