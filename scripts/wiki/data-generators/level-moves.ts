@@ -7,11 +7,11 @@
 
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
-import { wikiSpeciesDataRegistry } from "./constants";
-import { writeWikiData } from "./helpers";
-import type { LevelMoveWikiEntry } from "./types";
+import { wikiSpeciesDataRegistry } from "../constants";
+import { writeWikiData } from "../helpers";
+import type { LevelMoveWikiEntry } from "../types";
 
-export function generateLevelMovesCsv(): void {
+export function generateLevelMovesData(): void {
   const entries: LevelMoveWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {

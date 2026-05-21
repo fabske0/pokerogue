@@ -7,11 +7,11 @@
 
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
-import { wikiSpeciesDataRegistry } from "./constants";
-import { writeWikiData } from "./helpers";
-import type { TmWikiEntry } from "./types";
+import { wikiSpeciesDataRegistry } from "../constants";
+import { writeWikiData } from "../helpers";
+import type { TmWikiEntry } from "../types";
 
-export function generateTmsCsv(): void {
+export function generateTmsData(): void {
   const entries: TmWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
