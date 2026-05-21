@@ -5,6 +5,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import type { supportedLngs } from "#app/i18n-supported-lngs";
+
 //!  Can't make properties optional, because they are needed to generate the header line
 
 export interface SpeciesWikiEntry {
@@ -79,6 +81,15 @@ export interface EvolutionWikiEntry {
   partyTypeCond: string | null;
   heldItemCond: string | null;
   evoTreasureTracker: number | null;
+}
+
+type SupportedWikiLanguage = (typeof supportedLngs)[number];
+type EvolutionTextLocalization = Record<SupportedWikiLanguage, string | null>;
+export interface EvolutionTextWikiEntry extends EvolutionTextLocalization {
+  preDexNum: number;
+  preId: string;
+  evoDexNum: number | null;
+  evoId: string | null;
 }
 
 export interface TmWikiEntry {
