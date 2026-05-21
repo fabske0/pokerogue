@@ -10,10 +10,10 @@ import "./i18n"; // needs to be imported first
 import { existsSync, rmSync } from "node:fs";
 import chalk from "chalk";
 import { cliArgs, OUTPUT_DIR, SCRIPT_VERSION } from "./constants";
-import { generateEvolutionsCsv } from "./evolutions";
-import { generateLevelMovesCsv } from "./level-moves";
-import { generateSpeciesCsv } from "./species";
-import { generateTmsCsv } from "./tms";
+import { generateEvolutionsData } from "./data-generators/evolutions";
+import { generateLevelMovesData } from "./data-generators/level-moves";
+import { generateSpeciesData } from "./data-generators/species";
+import { generateTmsData } from "./data-generators/tms";
 
 function main(): void {
   const { clean } = cliArgs;
@@ -22,10 +22,10 @@ function main(): void {
     console.log(chalk.yellow("🧹 Cleaning output directory...\n"));
     rmSync(OUTPUT_DIR, { recursive: true });
   }
-  generateSpeciesCsv();
-  generateEvolutionsCsv();
-  generateLevelMovesCsv();
-  generateTmsCsv();
+  generateSpeciesData();
+  generateEvolutionsData();
+  generateLevelMovesData();
+  generateTmsData();
   console.log(chalk.green("✅ Done!"));
 }
 

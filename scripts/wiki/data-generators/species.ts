@@ -10,12 +10,12 @@ import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
-import variantMasterlist from "../../assets/images/pokemon/variant/_masterlist.json";
-import { wikiSpeciesDataRegistry } from "./constants";
-import { normalizeSpriteKey, writeWikiData } from "./helpers";
-import type { SpeciesWikiEntry } from "./types";
+import variantMasterlist from "../../../assets/images/pokemon/variant/_masterlist.json";
+import { wikiSpeciesDataRegistry } from "../constants";
+import { normalizeSpriteKey, writeWikiData } from "../helpers";
+import type { SpeciesWikiEntry } from "../types";
 
-export function generateSpeciesCsv(): void {
+export function generateSpeciesData(): void {
   const entries: SpeciesWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
