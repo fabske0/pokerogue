@@ -10,6 +10,7 @@ import "./i18n"; // needs to be imported first
 import { existsSync, rmSync } from "node:fs";
 import chalk from "chalk";
 import { cliArgs, OUTPUT_DIR, SCRIPT_VERSION } from "./constants";
+import { generateEvolutionTextsData } from "./data-generators/evolution-texts";
 import { generateEvolutionsData } from "./data-generators/evolutions";
 import { generateLevelMovesData } from "./data-generators/level-moves";
 import { generateSpeciesData } from "./data-generators/species";
@@ -26,6 +27,7 @@ function main(): void {
   generateTmTiersData();
   generateSpeciesData();
   generateEvolutionsData();
+  generateEvolutionTextsData();
   generateLevelMovesData();
   generateTmsData();
   console.log(chalk.green("✅ Done!"));
