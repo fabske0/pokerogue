@@ -13,59 +13,17 @@ import { SpeciesId } from "#enums/species-id";
 import variantMasterlist from "../../assets/images/pokemon/variant/_masterlist.json";
 import { wikiSpeciesDataRegistry } from "./constants";
 import { normalizeSpriteKey, writeWikiData } from "./helpers";
-
-interface SpeciesWikiData {
-  dexNum: number;
-  id: string;
-  form: string | null;
-  name: string;
-  starter: string;
-  startercost: number | null;
-  eggTier: string | null;
-  prevolution: string | null;
-  generation: number;
-  spriteKey: string;
-  formKey: string | null;
-  hasVariants: boolean;
-  category: string;
-  type1: string;
-  type2: string | null;
-  ability1: string;
-  ability2: string;
-  hiddenAbility: string;
-  passive: string;
-  bst: number;
-  hp: number;
-  atk: number;
-  def: number;
-  spatk: number;
-  spdef: number;
-  spd: number;
-  sublegend: boolean;
-  legendary: boolean;
-  mythical: boolean;
-  weight: number;
-  height: number;
-  catchRate: number;
-  friendship: number;
-  baseExp: number;
-  growthRate: string;
-  maleRatio: number | null; // null for genderless
-  genderDiffs: boolean;
-  isStartSelectable: boolean;
-  isUnobtainable: boolean | null; // form only. Can't make it optional, because it's needed to generate the header line
-  canChangeForm: boolean | null;
-}
+import type { SpeciesWikiEntry } from "./types";
 
 export function generateSpeciesCsv(): void {
-  const entries: SpeciesWikiData[] = [];
+  const entries: SpeciesWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     const species = speciesData.species;
     const passives = speciesData.passives;
     const normalizedSpriteKey = normalizeSpriteKey(species.getSpriteKey(false));
 
-    const data: SpeciesWikiData = {
+    const data: SpeciesWikiEntry = {
       dexNum: species.speciesId,
       id: SpeciesId[species.speciesId],
       form: null,
@@ -117,7 +75,7 @@ export function generateSpeciesCsv(): void {
       }
       const normalizedFormSpriteKey = normalizeSpriteKey(species.getSpriteKey(false, Number(index)));
 
-      const formData: SpeciesWikiData = {
+      const formData: SpeciesWikiEntry = {
         ...data,
         // these fields don't exist for forms
         eggTier: null,

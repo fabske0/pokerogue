@@ -9,22 +9,15 @@ import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
 import { wikiSpeciesDataRegistry } from "./constants";
 import { writeWikiData } from "./helpers";
-
-interface LevelMoveWikiData {
-  dexNum: number;
-  id: string;
-  form: string | null;
-  level: number | "EVOLVE_MOVE" | "RELEARN_MOVE";
-  move: string;
-}
+import type { LevelMoveWikiEntry } from "./types";
 
 export function generateLevelMovesCsv(): void {
-  const entries: LevelMoveWikiData[] = [];
+  const entries: LevelMoveWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     for (const [level, move] of speciesData.levelMoves) {
       const levelString = level === 0 ? "EVOLVE_MOVE" : level === -1 ? "RELEARN_MOVE" : level;
-      const data: LevelMoveWikiData = {
+      const data: LevelMoveWikiEntry = {
         dexNum: speciesData.species.speciesId,
         id: SpeciesId[speciesData.species.speciesId],
         form: null,
@@ -40,7 +33,7 @@ export function generateLevelMovesCsv(): void {
         const formLevelMoves = speciesData.formLevelMoves[formKey];
         for (const [level, move] of formLevelMoves) {
           const levelString = level === 0 ? "EVOLVE_MOVE" : level === -1 ? "RELEARN_MOVE" : level;
-          const data: LevelMoveWikiData = {
+          const data: LevelMoveWikiEntry = {
             dexNum: speciesData.species.speciesId,
             id: SpeciesId[speciesData.species.speciesId],
             form: formKey,

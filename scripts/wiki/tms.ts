@@ -9,20 +9,14 @@ import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
 import { wikiSpeciesDataRegistry } from "./constants";
 import { writeWikiData } from "./helpers";
-
-interface TmWikiData {
-  dexNum: number;
-  id: string;
-  form: string | null;
-  move: string;
-}
+import type { TmWikiEntry } from "./types";
 
 export function generateTmsCsv(): void {
-  const entries: TmWikiData[] = [];
+  const entries: TmWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     for (const move of speciesData.tms) {
-      const data: TmWikiData = {
+      const data: TmWikiEntry = {
         dexNum: speciesData.species.speciesId,
         id: SpeciesId[speciesData.species.speciesId],
         form: null,
@@ -35,7 +29,7 @@ export function generateTmsCsv(): void {
       if (speciesData.formTms) {
         const formTms = speciesData.formTms[formKey];
         for (const move of formTms) {
-          const data: TmWikiData = {
+          const data: TmWikiEntry = {
             dexNum: speciesData.species.speciesId,
             id: SpeciesId[speciesData.species.speciesId],
             form: formKey,
