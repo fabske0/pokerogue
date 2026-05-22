@@ -66,13 +66,11 @@ export async function generateSpeciesData(): Promise<void> {
       canChangeForm: species.canChangeForm,
     };
 
-    entries.push(data);
+    if (species.forms.length === 0) {
+      entries.push(data);
+    }
 
     for (const [index, form] of Object.entries(species.forms)) {
-      // TODO: should this check if index is `0` instead for species that have male and female and no "default" form?
-      if (form.formKey === "") {
-        continue;
-      }
       const normalizedFormSpriteKey = normalizeSpriteKey(species.getSpriteKey(false, Number(index)));
 
       const formData: SpeciesWikiEntry = {
