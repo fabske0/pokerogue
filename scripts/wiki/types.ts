@@ -86,11 +86,12 @@ export interface EvolutionWikiEntry {
 type SupportedWikiLanguage = (typeof supportedLngs)[number];
 type EvolutionTextLocalization = Record<SupportedWikiLanguage, string | null>;
 export interface EvolutionTextWikiEntry extends EvolutionTextLocalization {
-  // todo: add forms???????
   preDexNum: number;
   preId: string;
-  evoDexNum: number | null;
-  evoId: string | null;
+  preFormKey: string;
+  evoDexNum: number;
+  evoId: string;
+  evoFormKey: string;
 }
 
 export interface TmWikiEntry {

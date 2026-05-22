@@ -45,10 +45,9 @@ async function main(): Promise<void> {
   ]);
   const totalElapsed = performance.now() - startTime;
   if (debug) {
-    console.log(chalk.gray(`\nTotal execution time: ${totalElapsed.toFixed(2)}ms`));
-  } else {
-    console.log(chalk.green("✅ Done!"));
+    console.log(chalk.gray(`⏱️  Total execution time: ${totalElapsed.toFixed(2)}ms\n`));
   }
+  console.log(chalk.green("✅ Done!"));
 }
 
 await main();
