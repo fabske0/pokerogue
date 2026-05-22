@@ -21,8 +21,10 @@ export async function generateEvolutionTextsData() {
         entries.push({
           preDexNum: speciesData.species.speciesId,
           preId: SpeciesId[speciesData.species.speciesId],
+          preFormKey: evo.preFormKey,
           evoDexNum: evo.speciesId,
           evoId: SpeciesId[evo.speciesId],
+          evoFormKey: evo.evoFormKey,
         } as EvolutionTextWikiEntry);
         entryEvolutions.push(evo);
       }
