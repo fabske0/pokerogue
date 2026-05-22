@@ -8,6 +8,7 @@
 import "./i18n"; // needs to be imported first
 
 import { existsSync, rmSync } from "node:fs";
+import { performance } from "node:perf_hooks";
 import chalk from "chalk";
 import { cliArgs, OUTPUT_DIR, SCRIPT_VERSION } from "./constants";
 import { generateEvolutionTextsData } from "./data-generators/evolution-texts";
@@ -17,20 +18,37 @@ import { generateSpeciesData } from "./data-generators/species";
 import { generateTmTiersData } from "./data-generators/tm-tiers";
 import { generateTmsData } from "./data-generators/tms";
 
-function main(): void {
-  const { clean } = cliArgs;
+async function main(): Promise<void> {
+  const startTime = performance.now();
+  const { clean, debug } = cliArgs;
   console.log(chalk.grey(`📚 Wiki scraper - v${SCRIPT_VERSION}\n`));
   if (existsSync(OUTPUT_DIR) && clean) {
     console.log(chalk.yellow("🧹 Cleaning output directory...\n"));
     rmSync(OUTPUT_DIR, { recursive: true });
   }
-  generateTmTiersData();
-  generateSpeciesData();
-  generateEvolutionsData();
-  generateEvolutionTextsData();
-  generateLevelMovesData();
-  generateTmsData();
-  console.log(chalk.green("✅ Done!"));
+  const runStep = async (label: string, action: () => Promise<void>): Promise<void> => {
+    const startedAt = performance.now();
+    await action();
+    if (debug) {
+      const elapsed = performance.now() - startedAt;
+      console.log(chalk.gray(`⏱️  ${label}: ${elapsed.toFixed(2)}ms`));
+    }
+  };
+
+  await Promise.all([
+    runStep("tm tiers", generateTmTiersData),
+    runStep("species", generateSpeciesData),
+    runStep("evolutions", generateEvolutionsData),
+    runStep("evolution texts", generateEvolutionTextsData),
+    runStep("level moves", generateLevelMovesData),
+    runStep("tms", generateTmsData),
+  ]);
+  const totalElapsed = performance.now() - startTime;
+  if (debug) {
+    console.log(chalk.gray(`\nTotal execution time: ${totalElapsed.toFixed(2)}ms`));
+  } else {
+    console.log(chalk.green("✅ Done!"));
+  }
 }
 
-main();
+await main();

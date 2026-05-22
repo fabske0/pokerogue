@@ -15,7 +15,7 @@ import { wikiSpeciesDataRegistry } from "../constants";
 import { normalizeSpriteKey, writeWikiData } from "../helpers";
 import type { SpeciesWikiEntry } from "../types";
 
-export function generateSpeciesData(): void {
+export async function generateSpeciesData(): Promise<void> {
   const entries: SpeciesWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {

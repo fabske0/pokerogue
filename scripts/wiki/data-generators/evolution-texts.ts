@@ -11,26 +11,29 @@ import { wikiSpeciesDataRegistry } from "../constants";
 import { writeWikiData } from "../helpers";
 import type { EvolutionTextWikiEntry } from "../types";
 
-export function generateEvolutionTextsData() {
+export async function generateEvolutionTextsData() {
   const entries: EvolutionTextWikiEntry[] = [];
-
+  const entryEvolutions: SpeciesFormEvolution[] = [];
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
     const evolutions = speciesData.evolutions;
     if (evolutions) {
       for (const evo of evolutions) {
-        const evoEntry: EvolutionTextWikiEntry = {
+        entries.push({
           preDexNum: speciesData.species.speciesId,
           preId: SpeciesId[speciesData.species.speciesId],
           evoDexNum: evo.speciesId,
           evoId: SpeciesId[evo.speciesId],
-        } as EvolutionTextWikiEntry;
-
-        for (const lng of supportedLngs) {
-          // TODO: actually support all langs
-          evoEntry[lng] = getEvoConditionDescription(evo).join("|");
-        }
-        entries.push(evoEntry);
+        } as EvolutionTextWikiEntry);
+        entryEvolutions.push(evo);
       }
+    }
+  }
+
+  for (const lng of supportedLngs) {
+    await i18next.changeLanguage(lng);
+    for (const [index, evo] of entryEvolutions.entries()) {
+      const conditions = getEvoConditionDescription(evo);
+      entries[index][lng] = conditions.length > 0 ? conditions.join("|") : null;
     }
   }
 

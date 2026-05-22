@@ -11,7 +11,7 @@ import { wikiSpeciesDataRegistry } from "../constants";
 import { writeWikiData } from "../helpers";
 import type { TmWikiEntry } from "../types";
 
-export function generateTmsData(): void {
+export async function generateTmsData(): Promise<void> {
   const entries: TmWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {

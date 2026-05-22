@@ -18,7 +18,7 @@ import { wikiSpeciesDataRegistry } from "../constants";
 import { writeWikiData } from "../helpers";
 import type { EvolutionWikiEntry } from "../types";
 
-export function generateEvolutionsData(): void {
+export async function generateEvolutionsData(): Promise<void> {
   const entries: EvolutionWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {

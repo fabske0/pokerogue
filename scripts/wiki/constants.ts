@@ -18,6 +18,7 @@ const programm = new Command("pnpm wiki:scrape")
   .version(SCRIPT_VERSION, "-v, --version", "Show the version number.")
   .option("--no-clean", "Disable cleaning the output directory before writing new data")
   .option("--json", "Whether to output the data as JSON instead of CSV", false)
+  .option("--debug", "Whether to log additional debug information during scraping", false)
   .configureHelp(defaultCommanderHelpArgs)
   .showHelpAfterError(true)
   .parse();
