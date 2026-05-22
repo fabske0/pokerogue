@@ -11,7 +11,7 @@ import { wikiSpeciesDataRegistry } from "../constants";
 import { writeWikiData } from "../helpers";
 import type { LevelMoveWikiEntry } from "../types";
 
-export function generateLevelMovesData(): void {
+export async function generateLevelMovesData(): Promise<void> {
   const entries: LevelMoveWikiEntry[] = [];
 
   for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {

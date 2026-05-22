@@ -11,7 +11,7 @@ import { MoveId } from "#enums/move-id";
 import { writeWikiData } from "../helpers";
 import type { TmTierWikiEntry } from "../types";
 
-export function generateTmTiersData(): void {
+export async function generateTmTiersData(): Promise<void> {
   const entries: TmTierWikiEntry[] = [];
 
   for (const [move, tier] of Object.entries(tmPoolTiers)) {
