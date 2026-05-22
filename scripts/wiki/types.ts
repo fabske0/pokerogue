@@ -84,13 +84,21 @@ export interface EvolutionWikiEntry {
 }
 
 type SupportedWikiLanguage = (typeof supportedLngs)[number];
-type EvolutionTextLocalization = Record<SupportedWikiLanguage, string | null>;
-export interface EvolutionTextWikiEntry extends EvolutionTextLocalization {
+/** A record of localized text for each supported wiki language */
+type WikiTextLocalization = Record<SupportedWikiLanguage, string | null>;
+export interface EvolutionTextWikiEntry extends WikiTextLocalization {
   preDexNum: number;
   preId: string;
   preFormKey: string;
   evoDexNum: number;
   evoId: string;
+  evoFormKey: string;
+}
+
+export interface FormChangeTextWikiEntry extends WikiTextLocalization {
+  dexNum: number;
+  speciesId: string;
+  preFormKey: string;
   evoFormKey: string;
 }
 

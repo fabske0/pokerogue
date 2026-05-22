@@ -13,6 +13,7 @@ import chalk from "chalk";
 import { cliArgs, OUTPUT_DIR, SCRIPT_VERSION } from "./constants";
 import { generateEvolutionTextsData } from "./data-generators/evolution-texts";
 import { generateEvolutionsData } from "./data-generators/evolutions";
+import { generateFormChangeTextsData } from "./data-generators/form-change-texts";
 import { generateLevelMovesData } from "./data-generators/level-moves";
 import { generateSpeciesData } from "./data-generators/species";
 import { generateTmTiersData } from "./data-generators/tm-tiers";
@@ -40,6 +41,7 @@ async function main(): Promise<void> {
     runStep("species", generateSpeciesData),
     runStep("evolutions", generateEvolutionsData),
     runStep("evolution texts", generateEvolutionTextsData),
+    runStep("form change texts", generateFormChangeTextsData),
     runStep("level moves", generateLevelMovesData),
     runStep("tms", generateTmsData),
   ]);
