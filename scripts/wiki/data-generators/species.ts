@@ -76,9 +76,9 @@ export async function generateSpeciesData(): Promise<void> {
       const formData: SpeciesWikiEntry = {
         ...data,
         // these fields don't exist for forms
-        eggTier: null,
-        startercost: null,
-        canChangeForm: null,
+        eggTier: Number(index) === 0 ? data.eggTier : null,
+        startercost: Number(index) === 0 ? data.startercost : null,
+        canChangeForm: Number(index) === 0 ? data.canChangeForm : null,
 
         form: form.formName,
         name: species.getName(Number(index)),
