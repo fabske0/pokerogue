@@ -6,7 +6,7 @@ import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { toCamelCase } from "#utils/strings";
-import i18next from "i18next";
+import i18next, { type TFunction } from "i18next";
 import { wikiSpeciesDataRegistry } from "../constants";
 import { writeWikiData } from "../helpers";
 import type { EvolutionTextWikiEntry } from "../types";
@@ -30,9 +30,9 @@ export async function generateEvolutionTextsData() {
   }
 
   for (const lng of supportedLngs) {
-    await i18next.changeLanguage(lng);
+    const translate = i18next.getFixedT(lng);
     for (const [index, evo] of entryEvolutions.entries()) {
-      const conditions = getEvoConditionDescription(evo);
+      const conditions = getEvoConditionDescription(evo, translate);
       entries[index][lng] = conditions.length > 0 ? conditions.join("|") : null;
     }
   }
@@ -40,47 +40,47 @@ export async function generateEvolutionTextsData() {
   writeWikiData("evolution-texts", entries);
 }
 
-export function getEvoConditionDescription(evo: SpeciesFormEvolution): string[] {
+export function getEvoConditionDescription(evo: SpeciesFormEvolution, t: TFunction): string[] {
   const ret: string[] = [];
 
   const descriptions = evo.condition?.data
     .map(cond => {
       switch (cond.key) {
         case EvoCondKey.FRIENDSHIP:
-          return i18next.t("pokemonEvolutions:friendship");
+          return t("pokemonEvolutions:friendship");
         case EvoCondKey.TIME:
-          return i18next.t(`pokemonEvolutions:timeOfDay.${toCamelCase(TimeOfDay[cond.time.at(-1)!])}`); // For Day and Night evos, the key we want goes last
+          return t(`pokemonEvolutions:timeOfDay.${toCamelCase(TimeOfDay[cond.time.at(-1)!])}`); // For Day and Night evos, the key we want goes last
         case EvoCondKey.MOVE_TYPE:
-          return i18next.t("pokemonEvolutions:moveType", {
-            type: i18next.t(`pokemonInfo:type.${toCamelCase(PokemonType[cond.pkmnType])}`),
+          return t("pokemonEvolutions:moveType", {
+            type: t(`pokemonInfo:type.${toCamelCase(PokemonType[cond.pkmnType])}`),
           });
         case EvoCondKey.PARTY_TYPE:
-          return i18next.t("pokemonEvolutions:partyType", {
-            type: i18next.t(`pokemonInfo:type.${toCamelCase(PokemonType[cond.pkmnType])}`),
+          return t("pokemonEvolutions:partyType", {
+            type: t(`pokemonInfo:type.${toCamelCase(PokemonType[cond.pkmnType])}`),
           });
         case EvoCondKey.GENDER:
-          return i18next.t("pokemonEvolutions:gender", { gender: getGenderSymbol(cond.gender) });
+          return t("pokemonEvolutions:gender", { gender: getGenderSymbol(cond.gender) });
         case EvoCondKey.MOVE:
         case EvoCondKey.TYROGUE:
-          return i18next.t("pokemonEvolutions:move", {
-            move: i18next.t(`move:${toCamelCase(MoveId[cond.move])}.name`),
+          return t("pokemonEvolutions:move", {
+            move: t(`move:${toCamelCase(MoveId[cond.move])}.name`),
           });
         case EvoCondKey.BIOME:
-          return i18next.t("pokemonEvolutions:biome");
+          return t("pokemonEvolutions:biome");
         case EvoCondKey.NATURE:
-          return i18next.t("pokemonEvolutions:nature");
+          return t("pokemonEvolutions:nature");
         case EvoCondKey.WEATHER:
-          return i18next.t("pokemonEvolutions:weather");
+          return t("pokemonEvolutions:weather");
         case EvoCondKey.SHEDINJA:
-          return i18next.t("pokemonEvolutions:shedinja");
+          return t("pokemonEvolutions:shedinja");
         case EvoCondKey.EVO_TREASURE_TRACKER:
-          return i18next.t("pokemonEvolutions:treasure");
+          return t("pokemonEvolutions:treasure");
         case EvoCondKey.SPECIES_CAUGHT:
-          return i18next.t("pokemonEvolutions:caught", {
+          return t("pokemonEvolutions:caught", {
             species: wikiSpeciesDataRegistry.getSpecies(cond.speciesCaught)?.name,
           });
         case EvoCondKey.HELD_ITEM:
-          return i18next.t(`pokemonEvolutions:heldItem.${toCamelCase(cond.itemKey)}`);
+          return t(`pokemonEvolutions:heldItem.${toCamelCase(cond.itemKey)}`);
         case EvoCondKey.RANDOM_FORM:
           return null;
         default:
@@ -93,15 +93,15 @@ export function getEvoConditionDescription(evo: SpeciesFormEvolution): string[] 
   ret.push(...(descriptions ?? []));
 
   if (evo.level > 1) {
-    ret.push(i18next.t("pokemonEvolutions:atLevel", { lv: evo.level }));
+    ret.push(t("pokemonEvolutions:atLevel", { lv: evo.level }));
   }
   if (evo.item) {
-    const itemDescription = i18next.t(`modifierType:EvolutionItem.${EvolutionItem[evo.item].toUpperCase()}`);
-    const rarity = evo.item > 50 ? i18next.t("pokemonEvolutions:ultra") : i18next.t("pokemonEvolutions:great");
-    ret.push(i18next.t("pokemonEvolutions:using", { item: itemDescription, tier: rarity }));
+    const itemDescription = t(`modifierType:EvolutionItem.${EvolutionItem[evo.item].toUpperCase()}`);
+    const rarity = evo.item > 50 ? t("pokemonEvolutions:ultra") : t("pokemonEvolutions:great");
+    ret.push(t("pokemonEvolutions:using", { item: itemDescription, tier: rarity }));
   }
   if (evo.condition && ret.length === 0) {
-    ret.push(i18next.t("pokemonEvolutions:levelUp"));
+    ret.push(t("pokemonEvolutions:levelUp"));
   }
 
   return ret;
