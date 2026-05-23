@@ -21,7 +21,7 @@ e.g.
 
 # Script Changelog
 
-## 17-06-2026 (#7302)
+## 2026-06-17 (#7302)
 
 ### Affected scripts
 
