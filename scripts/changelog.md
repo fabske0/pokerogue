@@ -7,7 +7,7 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 <!-- 
 Template
 
-## [Date] (#PR_Number)
+## [ISO 8601 Date] (#PR_Number)
 
 ### Affected scripts
 
