@@ -73,7 +73,11 @@ async function startGame(): Promise<void> {
 }
 
 try {
-  await Promise.all([document.fonts.load("16px emerald"), document.fonts.load("10px pkmnems")]);
+  await Promise.all([
+    document.fonts.load("16px emerald"),
+
+    document.fonts.load("10px pkmnems"),
+  ]);
 } catch (err) {
   console.error("Error loading fonts:", err);
 } finally {
