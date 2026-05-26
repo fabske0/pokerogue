@@ -66,7 +66,7 @@ export class VictoryPhase extends PokemonPhase {
               for (const fixedReward of fixedRewards) {
                 let reward = fixedReward;
                 const existingItem = globalScene.modifiers.find(m => m.type.id === reward);
-                if (existingItem && existingItem.getStackCount() + 1 >= existingItem.getMaxStackCount()) {
+                if (existingItem && existingItem.getStackCount() + 1 > existingItem.getMaxStackCount()) {
                   const tier = existingItem.type.getOrInferTier();
                   if (!tier) {
                     console.warn(`Modifier ${reward} is at max stacks but has no tier.`);
