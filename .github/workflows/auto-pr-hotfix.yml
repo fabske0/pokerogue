@@ -14,33 +14,36 @@ jobs:
     create-hotfix-pr:
         if: (github.event.ref_type == 'branch' && startsWith(github.event.ref, 'hotfix-'))
         runs-on: ubuntu-latest
+        env:
+            GH_TOKEN: ${{ github.token }}
         steps:
+            - name: Check if PR already exists
+              id: check_pr
+              run: |
+                  BRANCH="${{ github.event.ref }}"
+                  EXISTING_COUNT=$(gh pr list \
+                    --repo "${GITHUB_REPOSITORY}" \
+                    --state open \
+                    --head "${BRANCH}" \
+                    --base "main" \
+                    --json number \
+                    --jq 'length')
 
-        - name: Check if PR already exists
-          id: check_pr
-          uses: actions/github-script@v8
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            script: |
-              const { data: pullRequests } = await github.rest.pulls.list({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: 'open',
-              });
-              const prExists = pullRequests.some(pr => pr.head.ref === context.event.ref);
-              return prExists;
+                  if [ "${EXISTING_COUNT}" -gt 0 ]; then
+                    echo "exists=true" >> "${GITHUB_OUTPUT}"
+                  else
+                    echo "exists=false" >> "${GITHUB_OUTPUT}"
+                  fi
 
-        - name: Create Pull Request
-          if: steps.check_pr.outputs.result == 'false'
-          uses: actions/github-script@v8
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            script: |
-              const { data: pullRequest } = await github.rest.pulls.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: `chore!: Hotfix ${context.event.ref.replace('hotfix-', '')} to main`,
-                head: context.event.ref,
-                base: 'main',
-              });
-              return pullRequest;
+            - name: Create Pull Request
+              if: steps.check_pr.outputs.exists == 'false'
+              run: |
+                  BRANCH="${{ github.event.ref }}"
+                  HOTFIX_NAME="${BRANCH#hotfix-}"
+
+                  gh pr create \
+                    --repo "${GITHUB_REPOSITORY}" \
+                    --head "${BRANCH}" \
+                    --base "main" \
+                    --title "chore!: Hotfix ${HOTFIX_NAME} to main" \
+                    --fill
