@@ -1,0 +1,46 @@
+name: Auto Create Hotfix PR
+
+on:
+    create:
+    push:
+        branches:
+            - hotfix-*
+
+permissions:
+    contents: read
+    pull-requests: write
+
+jobs:
+    create-hotfix-pr:
+        if: (github.event.ref_type == 'branch' && startsWith(github.event.ref, 'hotfix-'))
+        runs-on: ubuntu-latest
+        steps:
+
+        - name: Check if PR already exists
+          id: check_pr
+          uses: actions/github-script@v8
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              const { data: pullRequests } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+              });
+              const prExists = pullRequests.some(pr => pr.head.ref === context.event.ref);
+              return prExists;
+
+        - name: Create Pull Request
+          if: steps.check_pr.outputs.result == 'false'
+          uses: actions/github-script@v8
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              const { data: pullRequest } = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `chore!: Hotfix ${context.event.ref.replace('hotfix-', '')} to main`,
+                head: context.event.ref,
+                base: 'main',
+              });
+              return pullRequest;
