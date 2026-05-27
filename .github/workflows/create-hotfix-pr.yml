@@ -49,4 +49,5 @@ jobs:
             --head "${BRANCH}" \
             --base "main" \
             --title "chore!: Hotfix ${HOTFIX_NAME} to main" \
-            --body ""
+            --body "" \
+            --draft
