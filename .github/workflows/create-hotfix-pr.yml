@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          submodules: false
+          sparse-checkout: .nvmrc
+          sparse-checkout-cone-mode: false
 
       - name: Check if PR already exists
         id: check_pr
