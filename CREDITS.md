@@ -38,6 +38,7 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 ### Composers
 - Andr06
 - “Big” bird_obsession
+- Cello
 - Leavannite
 - Lmz
 - unveiler
