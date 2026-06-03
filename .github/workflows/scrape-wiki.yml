@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - beta
-      - wiki-scraper-test # for testing purposes. remove later
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
