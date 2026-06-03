@@ -2,6 +2,7 @@ import { pokerogueApi } from "#api/api";
 import { clientSessionId, getSessionDataLocalStorageKey, loggedInUser, updateUserInfo } from "#app/account";
 import { defaultStarterSpecies, saveKey } from "#app/constants";
 import { getGameMode } from "#app/game-mode";
+import { audioManager } from "#app/global-audio-manager";
 import { globalScene } from "#app/global-scene";
 import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { activeOverrides } from "#app/overrides";
@@ -908,7 +909,7 @@ export class GameData {
     if (!sessionData) {
       return false;
     }
-    this.initSessionFromData(sessionData);
+    await this.initSessionFromData(sessionData);
     return true;
   }
 
@@ -969,7 +970,7 @@ export class GameData {
     globalScene.updateScoreText();
 
     globalScene.mysteryEncounterSaveData = new MysteryEncounterSaveData(fromSession.mysteryEncounterSaveData);
-
+    await globalScene.loadBiomeAssets(fromSession.arena.biome);
     globalScene.newArena(fromSession.arena.biome, fromSession.playerFaints);
 
     const battle = globalScene.newBattle(fromSession);
@@ -1791,7 +1792,7 @@ export class GameData {
     if (!showMessage) {
       return true;
     }
-    globalScene.playSound("se/level_up_fanfare");
+    audioManager.playSound("se/level_up_fanfare");
 
     // TODO: Remove and replace with a simpler check if the return value is found to be unnecessary
     return new Promise(resolve =>
@@ -1893,7 +1894,7 @@ export class GameData {
     if (!showMessage) {
       return true;
     }
-    globalScene.playSound("se/level_up_fanfare");
+    audioManager.playSound("se/level_up_fanfare");
     const moveName = allMoves[speciesEggMoves[speciesId][eggMoveIndex]].name;
     let message = prependSpeciesToMessage ? species.getName() + " " : "";
     message +=
