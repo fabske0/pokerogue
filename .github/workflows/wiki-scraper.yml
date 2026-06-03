@@ -23,6 +23,8 @@ jobs:
   wiki-scraper:
     name: Wiki Scraper
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -48,7 +50,7 @@ jobs:
             git checkout --orphan "$BRANCH_NAME"
             git rm -rf .
           fi
-          
+
           git add ./wiki-output
           if git diff --cached --quiet; then
             echo "No changes to commit."
