@@ -1,0 +1,63 @@
+name: Wiki Scraper
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+      - wiki-scraper-test # for testing purposes. remove later
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  wiki-scraper:
+    name: Wiki Scraper
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BRANCH: ${{ github.ref_name}}
+      OUTPUT_BRANCH: wiki-data
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - uses: ./.github/actions/setup-deps
+
+      - name: Run wiki scraper (CSV)
+        run: pnpm wiki-scrape
+
+      - name: Run wiki scraper (JSON)
+        run: pnpm wiki-scrape --json --no-clean
+
+      - name: Checkout or create output branch
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git show-ref --verify --quiet "refs/heads/$OUTPUT_BRANCH"; then
+            git checkout "$OUTPUT_BRANCH"
+          else
+            git checkout --orphan "$OUTPUT_BRANCH"
+          fi
+
+      - name: Copy output files
+        run: |
+          mkdir -p ${OUTPUT_BRANCH}/csv
+          mkdir -p ${OUTPUT_BRANCH}/json
+          cp -r wiki-output/*.csv ${OUTPUT_BRANCH}/csv/
+          cp -r wiki-output/*.json ${OUTPUT_BRANCH}/json/
+
+      - name: Commit and push changes
+        run: |
+          git add ${OUTPUT_BRANCH}/csv/*.csv
+          git add ${OUTPUT_BRANCH}/json/*.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update wiki data for ${BRANCH}"
+            git push origin "$OUTPUT_BRANCH"
+          fi
