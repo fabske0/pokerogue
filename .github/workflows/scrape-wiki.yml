@@ -46,15 +46,15 @@ jobs:
 
       - name: Copy output files
         run: |
-          mkdir -p ${OUTPUT_BRANCH}/csv
-          mkdir -p ${OUTPUT_BRANCH}/json
-          cp -r wiki-output/*.csv ${OUTPUT_BRANCH}/csv/
-          cp -r wiki-output/*.json ${OUTPUT_BRANCH}/json/
+          mkdir -p ${BRANCH}/csv
+          mkdir -p ${BRANCH}/json
+          cp -r wiki-output/*.csv ${BRANCH}/csv/
+          cp -r wiki-output/*.json ${BRANCH}/json/
 
       - name: Commit and push changes
         run: |
-          git add ${OUTPUT_BRANCH}/csv/*.csv
-          git add ${OUTPUT_BRANCH}/json/*.json
+          git add ${BRANCH}/csv/*.csv
+          git add ${BRANCH}/json/*.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
