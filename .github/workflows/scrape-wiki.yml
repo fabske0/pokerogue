@@ -43,6 +43,7 @@ jobs:
           else
             git checkout --orphan "$OUTPUT_BRANCH"
           fi
+          git rm --cached -r .
 
       - name: Copy output files
         run: |
