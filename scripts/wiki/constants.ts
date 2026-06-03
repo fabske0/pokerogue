@@ -25,7 +25,7 @@ const programm = new Command("pnpm wiki:scrape")
 
 export const cliArgs = programm.opts();
 
-export const OUTPUT_DIR = join(__dirname, "output");
 export const PROJECT_ROOT = join(import.meta.dirname, "..", "..");
+export const OUTPUT_DIR = join(PROJECT_ROOT, "wiki-output");
 
 export const wikiSpeciesDataRegistry = new SpeciesDataRegistry();

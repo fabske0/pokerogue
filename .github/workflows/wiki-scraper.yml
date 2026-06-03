@@ -1,0 +1,58 @@
+name: Wiki Scraper
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to run the scraper on"
+        type: choice
+        required: true
+        options:
+          - main
+          - beta
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  wiki-scraper:
+    name: Wiki Scraper
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - uses: ./.github/actions/setup-dep
+
+      - name: Run wiki scraper (CSV)
+        run: pnpm wiki-scrape
+
+      - name: Run wiki scraper (JSON)
+        run: pnpm wiki-scrape --json --no-clean
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH_NAME="wiki-data"
+          if git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
+            git checkout "$BRANCH_NAME"
+          else
+            git checkout --orphan "$BRANCH_NAME"
+            git rm -rf .
+          fi
+          
+          git add ./wiki-output
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update wiki data"
+            git push origin "$BRANCH_NAME"
+          fi
