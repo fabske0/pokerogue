@@ -91,7 +91,7 @@ export async function generateSpeciesData(): Promise<void> {
         ability2: AbilityId[form.ability2],
         hiddenAbility: AbilityId[form.abilityHidden],
         passive: typeof passives === "number" ? AbilityId[passives] : AbilityId[passives[Number(index)]],
-        bst: form.baseTotal || data.bst,
+        bst: form.baseTotal,
         hp: form.baseStats[0],
         atk: form.baseStats[1],
         def: form.baseStats[2],
