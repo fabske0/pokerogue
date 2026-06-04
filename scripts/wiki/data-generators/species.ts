@@ -86,7 +86,7 @@ export async function generateSpeciesData(): Promise<void> {
         formKey: form.formKey,
         hasVariants: variantMasterlist[normalizedFormSpriteKey] != null,
         type1: PokemonType[form.type1],
-        type2: form.type2 == null ? data.type2 : PokemonType[form.type2],
+        type2: form.type2 == null ? null : PokemonType[form.type2],
         ability1: AbilityId[form.ability1],
         ability2: AbilityId[form.ability2],
         hiddenAbility: AbilityId[form.abilityHidden],
