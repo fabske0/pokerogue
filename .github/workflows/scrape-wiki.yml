@@ -28,10 +28,10 @@ jobs:
       - uses: ./.github/actions/setup-deps
 
       - name: Run wiki scraper (CSV)
-        run: pnpm wiki-scrape
+        run: pnpm wiki-scrape ${{ runner.debug == '1' && '--debug' || '' }}
 
       - name: Run wiki scraper (JSON)
-        run: pnpm wiki-scrape --json --no-clean
+        run: pnpm wiki-scrape --json --no-clean ${{ runner.debug == '1' && '--debug' || '' }}
 
       - name: Checkout or create output branch
         run: |
