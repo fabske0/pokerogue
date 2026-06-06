@@ -7,6 +7,7 @@
 
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
+import chalk from "chalk";
 import { wikiSpeciesDataRegistry } from "../constants";
 import { writeWikiData } from "../helpers";
 import type { TmWikiEntry } from "../types";
@@ -25,7 +26,15 @@ export async function generateTmsData(): Promise<void> {
       entries.push(data);
     }
 
+    const allFormKeys = speciesData.species.forms.map(f => f.formKey);
     for (const formKey in speciesData.formTms) {
+      if (!allFormKeys.includes(formKey)) {
+        console.log(
+          chalk.yellow(
+            `⚠️  Warning(tms): FormKey "${formKey}" does not exist for species ${speciesData.species.speciesId} (${speciesData.species.name})`,
+          ),
+        );
+      }
       if (speciesData.formTms) {
         const formTms = speciesData.formTms[formKey];
         for (const move of formTms) {
