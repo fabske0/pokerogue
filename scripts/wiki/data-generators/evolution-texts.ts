@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Pagefault Games
+ * SPDX-FileContributor: Fabske0
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { supportedLngs } from "#app/i18n-supported-lngs";
 import { EvoCondKey, EvolutionItem, type SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { getGenderSymbol } from "#data/gender";
