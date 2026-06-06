@@ -19,6 +19,8 @@ import { generateSpeciesData } from "./data-generators/species";
 import { generateTmTiersData } from "./data-generators/tm-tiers";
 import { generateTmsData } from "./data-generators/tms";
 
+chalk.level = 2;
+
 async function main(): Promise<void> {
   const startTime = performance.now();
   const { clean, debug } = cliArgs;
