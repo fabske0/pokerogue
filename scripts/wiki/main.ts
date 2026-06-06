@@ -9,7 +9,7 @@ import "./i18n"; // needs to be imported first
 
 import { existsSync, rmSync } from "node:fs";
 import { performance } from "node:perf_hooks";
-import chalk from "chalk";
+import chalk, { type ChalkInstance } from "chalk";
 import { cliArgs, OUTPUT_DIR, SCRIPT_VERSION } from "./constants";
 import { generateEvolutionTextsData } from "./data-generators/evolution-texts";
 import { generateEvolutionsData } from "./data-generators/evolutions";
@@ -22,6 +22,8 @@ import { generateTmsData } from "./data-generators/tms";
 async function main(): Promise<void> {
   const startTime = performance.now();
   const { clean, debug } = cliArgs;
+  let hasPrintedTimer = false;
+
   console.log(chalk.grey(`📚 Wiki scraper - v${SCRIPT_VERSION}\n`));
   if (existsSync(OUTPUT_DIR) && clean) {
     console.log(chalk.yellow("🧹 Cleaning output directory...\n"));
@@ -32,7 +34,12 @@ async function main(): Promise<void> {
     await action();
     if (debug) {
       const elapsed = performance.now() - startedAt;
-      console.log(chalk.gray(`⏱️  ${label}: ${elapsed.toFixed(2)}ms`));
+      if (!hasPrintedTimer) {
+        console.log("");
+        hasPrintedTimer = true;
+      }
+      const color = getColorByTime(elapsed);
+      console.log(color(`⏱️  ${label}: ${elapsed.toFixed(2)}ms`));
     }
   };
 
@@ -45,11 +52,29 @@ async function main(): Promise<void> {
     runStep("level moves", generateLevelMovesData),
     runStep("tms", generateTmsData),
   ]);
+
   const totalElapsed = performance.now() - startTime;
   if (debug) {
-    console.log(chalk.gray(`⏱️  Total execution time: ${totalElapsed.toFixed(2)}ms\n`));
+    const color = getColorByTime(totalElapsed);
+    console.log(color(`⏱️  Total execution time: ${totalElapsed.toFixed(2)}ms\n`));
   }
   console.log(chalk.green("✅ Done!"));
 }
 
 await main();
+
+/**
+ * Get a chalk color function based on the elapsed time.
+ * @param elapsed - The elapsed time in milliseconds.
+ * @returns A chalk color function.
+ */
+function getColorByTime(elapsed: number): ChalkInstance {
+  switch (true) {
+    case elapsed < 500:
+      return chalk.green;
+    case elapsed < 2500:
+      return chalk.yellow;
+    default:
+      return chalk.red;
+  }
+}
