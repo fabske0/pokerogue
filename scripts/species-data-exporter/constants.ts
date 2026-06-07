@@ -5,7 +5,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { SpeciesDataRegistry } from "#data/species-data-registry";
 import { defaultCommanderHelpArgs } from "#script-utils/arguments";
 import { join } from "path";
 import { Command } from "@commander-js/extra-typings";
@@ -27,5 +26,3 @@ export const cliArgs = programm.opts();
 
 export const PROJECT_ROOT = join(import.meta.dirname, "..", "..");
 export const OUTPUT_DIR = join(PROJECT_ROOT, "species-output");
-
-export const wikiSpeciesDataRegistry = new SpeciesDataRegistry();

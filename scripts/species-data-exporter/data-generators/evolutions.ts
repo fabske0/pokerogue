@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { EvoCondKey, EvolutionItem } from "#balance/pokemon-evolutions";
 import { Gender } from "#data/gender";
 import { MoveId } from "#enums/move-id";
@@ -14,18 +15,17 @@ import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { WeatherType } from "#enums/weather-type";
 import { getBiomeName } from "#utils/common";
-import { wikiSpeciesDataRegistry } from "../constants";
-import { writeWikiData } from "../helpers";
-import type { EvolutionWikiEntry } from "../types";
+import { writeData } from "../helpers";
+import type { EvolutionEntry } from "../types";
 
 export async function generateEvolutionsData(): Promise<void> {
-  const entries: EvolutionWikiEntry[] = [];
+  const entries: EvolutionEntry[] = [];
 
-  for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
+  for (const speciesData of Object.values(speciesDataRegistry.data)) {
     const evolutions = speciesData.evolutions;
     if (evolutions) {
       for (const evo of evolutions) {
-        const evoEntry: EvolutionWikiEntry = {
+        const evoEntry: EvolutionEntry = {
           dexNum: speciesData.species.speciesId,
           id: SpeciesId[speciesData.species.speciesId],
           evoDexNum: evo.speciesId,
@@ -114,5 +114,5 @@ export async function generateEvolutionsData(): Promise<void> {
     }
   }
 
-  writeWikiData("evolutions", entries);
+  writeData("evolutions", entries);
 }

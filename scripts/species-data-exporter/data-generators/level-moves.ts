@@ -5,20 +5,20 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
 import chalk from "chalk";
-import { wikiSpeciesDataRegistry } from "../constants";
-import { writeWikiData } from "../helpers";
-import type { LevelMoveWikiEntry } from "../types";
+import { writeData } from "../helpers";
+import type { LevelMoveEntry } from "../types";
 
 export async function generateLevelMovesData(): Promise<void> {
-  const entries: LevelMoveWikiEntry[] = [];
+  const entries: LevelMoveEntry[] = [];
 
-  for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
+  for (const speciesData of Object.values(speciesDataRegistry.data)) {
     for (const [level, move] of speciesData.levelMoves) {
       const levelString = level === 0 ? "EVOLVE_MOVE" : level === -1 ? "RELEARN_MOVE" : level;
-      const data: LevelMoveWikiEntry = {
+      const data: LevelMoveEntry = {
         dexNum: speciesData.species.speciesId,
         id: SpeciesId[speciesData.species.speciesId],
         form: null,
@@ -42,7 +42,7 @@ export async function generateLevelMovesData(): Promise<void> {
         const formLevelMoves = speciesData.formLevelMoves[formKey];
         for (const [level, move] of formLevelMoves) {
           const levelString = level === 0 ? "EVOLVE_MOVE" : level === -1 ? "RELEARN_MOVE" : level;
-          const data: LevelMoveWikiEntry = {
+          const data: LevelMoveEntry = {
             dexNum: speciesData.species.speciesId,
             id: SpeciesId[speciesData.species.speciesId],
             form: formKey,
@@ -55,5 +55,5 @@ export async function generateLevelMovesData(): Promise<void> {
     }
   }
 
-  writeWikiData("level-moves", entries);
+  writeData("level-moves", entries);
 }

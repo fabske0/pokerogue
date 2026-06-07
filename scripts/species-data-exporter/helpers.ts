@@ -13,7 +13,7 @@ export function normalizeSpriteKey(spriteKey: string): string {
   return spriteKey.replace(/^pkmn__/, "");
 }
 
-export function writeWikiData<T extends object>(fileName: string, data: T[]): void {
+export function writeData<T extends object>(fileName: string, data: T[]): void {
   const fileExtension = cliArgs.json ? "json" : "csv";
   const path = join(OUTPUT_DIR, `${fileName}.${fileExtension}`);
 

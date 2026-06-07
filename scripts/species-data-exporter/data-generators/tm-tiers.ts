@@ -8,19 +8,19 @@
 import { tmPoolTiers } from "#balance/tm-pool-tiers";
 import { ModifierTier } from "#enums/modifier-tier";
 import { MoveId } from "#enums/move-id";
-import { writeWikiData } from "../helpers";
-import type { TmTierWikiEntry } from "../types";
+import { writeData } from "../helpers";
+import type { TmTierEntry } from "../types";
 
 export async function generateTmTiersData(): Promise<void> {
-  const entries: TmTierWikiEntry[] = [];
+  const entries: TmTierEntry[] = [];
 
   for (const [move, tier] of Object.entries(tmPoolTiers)) {
-    const data: TmTierWikiEntry = {
+    const data: TmTierEntry = {
       move: MoveId[move],
       tier: ModifierTier[tier],
     };
     entries.push(data);
   }
 
-  writeWikiData("tm-tiers", entries);
+  writeData("tm-tiers", entries);
 }

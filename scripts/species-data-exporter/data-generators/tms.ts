@@ -5,19 +5,19 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
 import chalk from "chalk";
-import { wikiSpeciesDataRegistry } from "../constants";
-import { writeWikiData } from "../helpers";
-import type { TmWikiEntry } from "../types";
+import { writeData } from "../helpers";
+import type { TmEntry } from "../types";
 
 export async function generateTmsData(): Promise<void> {
-  const entries: TmWikiEntry[] = [];
+  const entries: TmEntry[] = [];
 
-  for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
+  for (const speciesData of Object.values(speciesDataRegistry.data)) {
     for (const move of speciesData.tms) {
-      const data: TmWikiEntry = {
+      const data: TmEntry = {
         dexNum: speciesData.species.speciesId,
         id: SpeciesId[speciesData.species.speciesId],
         form: null,
@@ -38,7 +38,7 @@ export async function generateTmsData(): Promise<void> {
       if (speciesData.formTms) {
         const formTms = speciesData.formTms[formKey];
         for (const move of formTms) {
-          const data: TmWikiEntry = {
+          const data: TmEntry = {
             dexNum: speciesData.species.speciesId,
             id: SpeciesId[speciesData.species.speciesId],
             form: formKey,
@@ -50,5 +50,5 @@ export async function generateTmsData(): Promise<void> {
     }
   }
 
-  writeWikiData("tms", entries);
+  writeData("tms", entries);
 }

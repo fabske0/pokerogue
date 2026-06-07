@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { supportedLngs } from "#app/i18n-supported-lngs";
 import {
   SpeciesFormChangeAbilityTrigger,
@@ -29,14 +30,13 @@ import { MoveId } from "#enums/move-id";
 import { SpeciesId } from "#enums/species-id";
 import { toCamelCase } from "#utils/strings";
 import i18next, { type TFunction } from "i18next";
-import { wikiSpeciesDataRegistry } from "../constants";
-import { writeWikiData } from "../helpers";
-import type { FormChangeTextWikiEntry } from "../types";
+import { writeData } from "../helpers";
+import type { FormChangeTextEntry } from "../types";
 
 export async function generateFormChangeTextsData() {
-  const entries: FormChangeTextWikiEntry[] = [];
+  const entries: FormChangeTextEntry[] = [];
   const entryFormChanges: SpeciesFormChange[] = [];
-  for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
+  for (const speciesData of Object.values(speciesDataRegistry.data)) {
     const formChanges = speciesData.formChanges;
     if (formChanges) {
       for (const fc of formChanges) {
@@ -45,7 +45,7 @@ export async function generateFormChangeTextsData() {
           speciesId: SpeciesId[fc.speciesId],
           preFormKey: fc.preFormKey,
           evoFormKey: fc.formKey,
-        } as FormChangeTextWikiEntry);
+        } as FormChangeTextEntry);
         entryFormChanges.push(fc);
       }
     }
@@ -59,7 +59,7 @@ export async function generateFormChangeTextsData() {
     }
   }
 
-  writeWikiData("form-change-texts", entries);
+  writeData("form-change-texts", entries);
 }
 
 function getTriggerText(trigger: SpeciesFormChangeTrigger, t: TFunction): string[] {

@@ -9,7 +9,7 @@ import type { supportedLngs } from "#app/i18n-supported-lngs";
 
 //!  Can't make properties optional, because they are needed to generate the header line
 
-export interface SpeciesWikiEntry {
+export interface SpeciesEntry {
   dexNum: number;
   id: string;
   form: string | null;
@@ -55,7 +55,7 @@ export interface SpeciesWikiEntry {
   canChangeForm: boolean | null;
 }
 
-export interface EvolutionWikiEntry {
+export interface EvolutionEntry {
   dexNum: number;
   id: string;
   evoDexNum: number | null;
@@ -83,10 +83,10 @@ export interface EvolutionWikiEntry {
   evoTreasureTracker: number | null;
 }
 
-type SupportedWikiLanguage = (typeof supportedLngs)[number];
-/** A record of localized text for each supported wiki language */
-type WikiTextLocalization = Record<SupportedWikiLanguage, string | null>;
-export interface EvolutionTextWikiEntry extends WikiTextLocalization {
+type SupportedLanguage = (typeof supportedLngs)[number];
+/** A record of localized text for each supported language */
+type TextLocalization = Record<SupportedLanguage, string | null>;
+export interface EvolutionTextEntry extends TextLocalization {
   preDexNum: number;
   preId: string;
   preFormKey: string;
@@ -95,21 +95,21 @@ export interface EvolutionTextWikiEntry extends WikiTextLocalization {
   evoFormKey: string;
 }
 
-export interface FormChangeTextWikiEntry extends WikiTextLocalization {
+export interface FormChangeTextEntry extends TextLocalization {
   dexNum: number;
   speciesId: string;
   preFormKey: string;
   evoFormKey: string;
 }
 
-export interface TmWikiEntry {
+export interface TmEntry {
   dexNum: number;
   id: string;
   form: string | null;
   move: string;
 }
 
-export interface LevelMoveWikiEntry {
+export interface LevelMoveEntry {
   dexNum: number;
   id: string;
   form: string | null;
@@ -117,7 +117,7 @@ export interface LevelMoveWikiEntry {
   move: string;
 }
 
-export interface TmTierWikiEntry {
+export interface TmTierEntry {
   move: string;
   tier: string;
 }

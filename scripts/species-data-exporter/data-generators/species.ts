@@ -5,25 +5,25 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { GrowthRate } from "#data/exp";
 import { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
 import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import variantMasterlist from "../../../assets/images/pokemon/variant/_masterlist.json";
-import { wikiSpeciesDataRegistry } from "../constants";
-import { normalizeSpriteKey, writeWikiData } from "../helpers";
-import type { SpeciesWikiEntry } from "../types";
+import { normalizeSpriteKey, writeData } from "../helpers";
+import type { SpeciesEntry } from "../types";
 
 export async function generateSpeciesData(): Promise<void> {
-  const entries: SpeciesWikiEntry[] = [];
+  const entries: SpeciesEntry[] = [];
 
-  for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
+  for (const speciesData of Object.values(speciesDataRegistry.data)) {
     const species = speciesData.species;
     const passives = speciesData.passives;
     const normalizedSpriteKey = normalizeSpriteKey(species.getSpriteKey(false));
 
-    const data: SpeciesWikiEntry = {
+    const data: SpeciesEntry = {
       dexNum: species.speciesId,
       id: SpeciesId[species.speciesId],
       form: null,
@@ -73,7 +73,7 @@ export async function generateSpeciesData(): Promise<void> {
     for (const [index, form] of Object.entries(species.forms)) {
       const normalizedFormSpriteKey = normalizeSpriteKey(species.getSpriteKey(false, Number(index)));
 
-      const formData: SpeciesWikiEntry = {
+      const formData: SpeciesEntry = {
         ...data,
         // these fields don't exist for forms
         eggTier: Number(index) === 0 ? data.eggTier : null,
@@ -106,5 +106,5 @@ export async function generateSpeciesData(): Promise<void> {
     }
   }
 
-  writeWikiData("species", entries);
+  writeData("species", entries);
 }

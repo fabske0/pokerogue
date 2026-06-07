@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { supportedLngs } from "#app/i18n-supported-lngs";
 import { EvoCondKey, EvolutionItem, type SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import { getGenderSymbol } from "#data/gender";
@@ -14,14 +15,13 @@ import { SpeciesId } from "#enums/species-id";
 import { TimeOfDay } from "#enums/time-of-day";
 import { toCamelCase } from "#utils/strings";
 import i18next, { type TFunction } from "i18next";
-import { wikiSpeciesDataRegistry } from "../constants";
-import { writeWikiData } from "../helpers";
-import type { EvolutionTextWikiEntry } from "../types";
+import { writeData } from "../helpers";
+import type { EvolutionTextEntry } from "../types";
 
 export async function generateEvolutionTextsData() {
-  const entries: EvolutionTextWikiEntry[] = [];
+  const entries: EvolutionTextEntry[] = [];
   const entryEvolutions: SpeciesFormEvolution[] = [];
-  for (const speciesData of Object.values(wikiSpeciesDataRegistry.data)) {
+  for (const speciesData of Object.values(speciesDataRegistry.data)) {
     const evolutions = speciesData.evolutions;
     if (evolutions) {
       for (const evo of evolutions) {
@@ -32,7 +32,7 @@ export async function generateEvolutionTextsData() {
           evoDexNum: evo.speciesId,
           evoId: SpeciesId[evo.speciesId],
           evoFormKey: evo.evoFormKey,
-        } as EvolutionTextWikiEntry);
+        } as EvolutionTextEntry);
         entryEvolutions.push(evo);
       }
     }
@@ -46,7 +46,7 @@ export async function generateEvolutionTextsData() {
     }
   }
 
-  writeWikiData("evolution-texts", entries);
+  writeData("evolution-texts", entries);
 }
 
 export function getEvoConditionDescription(evo: SpeciesFormEvolution, t: TFunction): string[] {
@@ -86,7 +86,7 @@ export function getEvoConditionDescription(evo: SpeciesFormEvolution, t: TFuncti
           return t("pokemonEvolutions:treasure");
         case EvoCondKey.SPECIES_CAUGHT:
           return t("pokemonEvolutions:caught", {
-            species: wikiSpeciesDataRegistry.getSpecies(cond.speciesCaught)?.name,
+            species: speciesDataRegistry.getSpecies(cond.speciesCaught)?.name,
           });
         case EvoCondKey.HELD_ITEM:
           return t(`pokemonEvolutions:heldItem.${toCamelCase(cond.itemKey)}`);
