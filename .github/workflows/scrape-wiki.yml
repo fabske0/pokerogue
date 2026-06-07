@@ -1,4 +1,4 @@
-name: Wiki Scraper
+name: Species Data Exporter
 
 on:
   push:
@@ -11,13 +11,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  wiki-scraper:
-    name: Wiki Scraper
+  export-species-data:
+    name: Species Data Exporter
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
       BRANCH: ${{ github.ref_name}}
-      OUTPUT_BRANCH: wiki-data
+      OUTPUT_BRANCH: species-data
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -27,11 +27,11 @@ jobs:
 
       - uses: ./.github/actions/setup-deps
 
-      - name: Run wiki scraper (CSV)
-        run: pnpm wiki-scrape ${{ runner.debug == '1' && '--debug' || '' }}
+      - name: Run species data exporter (CSV)
+        run: pnpm species-data:export ${{ runner.debug == '1' && '--debug' || '' }}
 
-      - name: Run wiki scraper (JSON)
-        run: pnpm wiki-scrape --json --no-clean ${{ runner.debug == '1' && '--debug' || '' }}
+      - name: Run species data exporter (JSON)
+        run: pnpm species-data:export --json --no-clean ${{ runner.debug == '1' && '--debug' || '' }}
 
       - name: Checkout or create output branch
         run: |
@@ -50,8 +50,8 @@ jobs:
           rm -rf ${BRANCH}/csv ${BRANCH}/json
           mkdir -p ${BRANCH}/csv
           mkdir -p ${BRANCH}/json
-          cp -r wiki-output/*.csv ${BRANCH}/csv/
-          cp -r wiki-output/*.json ${BRANCH}/json/
+          cp -r species-output/*.csv ${BRANCH}/csv/
+          cp -r species-output/*.json ${BRANCH}/json/
 
       - name: Commit and push changes
         run: |
@@ -60,7 +60,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update wiki data for ${BRANCH}"
+            git commit -m "Update species data for ${BRANCH}"
             git push origin "$OUTPUT_BRANCH"
           fi
 

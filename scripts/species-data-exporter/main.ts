@@ -26,7 +26,7 @@ async function main(): Promise<void> {
   const { clean, debug } = cliArgs;
   let hasPrintedTimer = false;
 
-  console.log(chalk.grey(`📚 Wiki scraper - v${SCRIPT_VERSION}\n`));
+  console.log(chalk.grey(`📚 Species Data Exporter - v${SCRIPT_VERSION}\n`));
   if (existsSync(OUTPUT_DIR) && clean) {
     console.log(chalk.yellow("🧹 Cleaning output directory...\n"));
     rmSync(OUTPUT_DIR, { recursive: true });
