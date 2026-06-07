@@ -17,10 +17,10 @@ import { initAchievements } from "#system/achv";
 import { initVouchers } from "#system/voucher";
 import { initStatsKeys } from "#ui/game-stats-ui-handler";
 
-export function initializeGame() {
+export async function initializeGame(): Promise<void> {
   initBiomeBgmLoopPoints();
   initSpeciesDataRegistry();
-  initGlobalAudioManager();
+  await initGlobalAudioManager();
   initModifierTypes();
   initModifierPools();
   initAchievements();
