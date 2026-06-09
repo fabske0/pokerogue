@@ -113,6 +113,9 @@ export const RARE_CANDY_FRIENDSHIP_CAP = 200;
  */
 export const MAX_TERAS_PER_ARENA = 1;
 
+// TODO
+export const PREVO_MOVE = -2;
+
 /** Moves that can only be learned with a memory-mushroom */
 export const RELEARN_MOVE = -1;
 
