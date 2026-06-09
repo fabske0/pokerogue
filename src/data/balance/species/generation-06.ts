@@ -4749,7 +4749,7 @@ export function initGenerationSix(): SpeciesDataMapConfig {
       [48, MoveId.SUCKER_PUNCH],
     ],
     formLevelMoves: {
-      "": [
+      male: [
         [EVOLVE_MOVE, MoveId.HELPING_HAND],
         [1, MoveId.MEAN_LOOK],
         [1, MoveId.HEAL_BLOCK],

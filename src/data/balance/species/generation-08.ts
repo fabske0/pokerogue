@@ -6996,7 +6996,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
       [55, MoveId.HEALING_WISH],
     ],
     formLevelMoves: {
-      "": [
+      male: [
         [5, MoveId.ENCORE],
         [25, MoveId.AFTER_YOU],
         [45, MoveId.POWER_SPLIT],
