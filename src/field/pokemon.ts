@@ -1915,17 +1915,22 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
    *
    * Available egg moves are only included if the {@linkcode Pokemon} was
    * in the starting party of the run and if Fresh Start is not active.
-   * @returns An array of {@linkcode MoveId}s, as described above.
+   * @returns A tuple of {@linkcode MoveId}s and their corresponding {@linkcode LearnableMoveSource}, as described above.
    */
-  public getLearnableLevelMoves(): MoveId[] {
-    let levelMoves = this.getLevelMoves(1, true, false, true).map(lm => lm[1]);
+  public getLearnableLevelMoves(): [MoveId, LearnableMoveSource][] {
+    let levelMoves: [MoveId, LearnableMoveSource][] = this.getLevelMoves(1, true, true, true).map(lm => [lm[1], lm[2]]);
     if (this.metBiome === -1 && !globalScene.gameMode.isFreshStartChallenge() && !globalScene.gameMode.isDaily) {
-      levelMoves = this.getUnlockedEggMoves().concat(levelMoves);
+      const eggMoves: [MoveId, LearnableMoveSource][] = this.getUnlockedEggMoves().map(em => [
+        em,
+        LearnableMoveSource.EGG,
+      ]);
+      levelMoves = eggMoves.concat(levelMoves);
     }
     if (Array.isArray(this.usedTMs) && this.usedTMs.length > 0) {
-      levelMoves = this.usedTMs.filter(m => !levelMoves.includes(m)).concat(levelMoves);
+      const tmMoves: [MoveId, LearnableMoveSource][] = this.usedTMs.map(tm => [tm, LearnableMoveSource.TM]);
+      levelMoves = tmMoves.filter(tm => !levelMoves.some(lm => lm[0] === tm[0])).concat(levelMoves);
     }
-    levelMoves = levelMoves.filter(lm => !this.moveset.some(m => m.moveId === lm));
+    levelMoves = levelMoves.filter(lm => !this.moveset.some(m => m.moveId === lm[0]));
     return levelMoves;
   }
 
@@ -2822,7 +2827,18 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         // TODO: Might need to pass specific form index in simulated evolution chain
         const speciesLevelMoves = getPokemonSpeciesForm(evolutionChain[e][0], this.formIndex).getLevelMoves();
         if (includeRelearnerMoves) {
-          const moves: LevelMovesWithSource = speciesLevelMoves.map(lm => [lm[0], lm[1], LearnableMoveSource.RELEARN]);
+          const moves: LevelMovesWithSource = [];
+          for (const lm of speciesLevelMoves) {
+            const moveSource =
+              lm[0] === RELEARN_MOVE
+                ? LearnableMoveSource.RELEARN
+                : lm[0] === EVOLVE_MOVE
+                  ? LearnableMoveSource.EVOLUTION
+                  : e === evolutionChain.length - 1
+                    ? LearnableMoveSource.LEVEL
+                    : LearnableMoveSource.PREVO;
+            moves.push([lm[0], lm[1], moveSource]);
+          }
           levelMoves.push(...moves);
         } else {
           for (const lm of speciesLevelMoves) {
@@ -2908,8 +2924,22 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         }
       }
     }
-    levelMoves.sort((lma: [number, MoveId, LearnableMoveSource], lmb: [number, MoveId, LearnableMoveSource]) =>
-      lma[0] > lmb[0] ? 1 : lma[0] < lmb[0] ? -1 : 0,
+    levelMoves.sort((lma: [number, MoveId, LearnableMoveSource], lmb: [number, MoveId, LearnableMoveSource]) => {
+      if (lma[0] !== lmb[0]) {
+        return lma[0] > lmb[0] ? 1 : -1;
+      }
+
+      return lma[2] - lmb[2];
+    });
+
+    // A set of moves the species gets by level, but are above the current level
+    const prevoLockedMoves = new Set(
+      levelMoves
+        .filter(
+          lm =>
+            (lm[2] === LearnableMoveSource.LEVEL || lm[2] === LearnableMoveSource.FUSION_LEVEL) && lm[0] > this.level,
+        )
+        .map(lm => lm[1]),
     );
 
     /**
@@ -2921,8 +2951,13 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
       const level = lm[0];
       const isRelearner = level < startingLevel;
       const allowedEvolutionMove = level === 0 && includeEvolutionMoves;
+      const isLockedPrevoMove =
+        prevoLockedMoves.has(lm[1])
+        && (lm[2] === LearnableMoveSource.PREVO || lm[2] === LearnableMoveSource.FUSION_PREVO);
 
-      return !(level > this.level) && (includeRelearnerMoves || !isRelearner || allowedEvolutionMove);
+      return (
+        !(level > this.level) && !isLockedPrevoMove && (includeRelearnerMoves || !isRelearner || allowedEvolutionMove)
+      );
     });
 
     /**
