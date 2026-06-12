@@ -54,6 +54,7 @@ import { targetSleptOrComatoseCondition, userSleptOrComatoseCondition } from "#m
 import { isWeatherInstantCharge } from "#moves/move-utils";
 import { PokemonMove } from "#moves/pokemon-move";
 import type { Move, StatStageChangeAttr } from "#types/move-types";
+import type { LevelMoves } from "#types/pokemon-species";
 import { NumberHolder, randSeedInt, randSeedItem } from "#utils/common";
 import { getPokemonSpecies, willTerastallize } from "#utils/pokemon-utils";
 import { ValueHolder } from "#utils/value-holder";
@@ -75,10 +76,12 @@ import { ValueHolder } from "#utils/value-holder";
  */
 function getAndWeightLevelMoves(pokemon: Pokemon): Map<MoveId, number> {
   const movePool = new Map<MoveId, number>();
-  let allLevelMoves: [number, MoveId][];
+  let allLevelMoves: LevelMoves;
   // TODO: Investigate why there needs to be error handling here
   try {
-    allLevelMoves = pokemon.getLevelMoves(1, true, true, pokemon.hasTrainer());
+    allLevelMoves = pokemon
+      .getLevelMoves(1, true, true, pokemon.hasTrainer())
+      .map(([lvl, move, _source]) => [lvl, move] as const);
   } catch (e) {
     console.warn("Error encountered trying to generate moveset for %s: %s", pokemon.species.name, e);
     return movePool;
