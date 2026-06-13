@@ -31,7 +31,6 @@ import { addBBCodeTextObject, addTextObject, getTextColor } from "#ui/text";
 import { addWindow } from "#ui/ui-theme";
 import { applyChallenges } from "#utils/challenge-utils";
 import { BooleanHolder, getLocalizedSpriteKey, randInt } from "#utils/common";
-import { getPartyOptionColors } from "#utils/pokemon-utils";
 import { toCamelCase, toTitleCase } from "#utils/strings";
 import i18next from "i18next";
 import type BBCodeText from "phaser3-rex-plugins/plugins/bbcodetext";
@@ -1632,48 +1631,36 @@ export class PartyUiHandler extends MessageUiHandler {
       const optionText = addBBCodeTextObject(0, yCoord - 16, optionName, TextStyle.WINDOW, { maxLines: 1 });
       let optionPrefix: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text | null = null;
 
-      if (learningSource > 0) {
-        const color = getPartyOptionColors(this.partyUiMode, learningSource);
-        optionText.setColor(color[0]);
-        optionText.setShadowColor(color[1]);
-      }
-
       if (learningSource > -1) {
         // Memory mushroom prefixes
         if (learningSource === LearnableMoveSource.LEVEL || learningSource === LearnableMoveSource.FUSION_LEVEL) {
-          if (memoryMushroomExtraInfo === 39) {
-            memoryMushroomExtraInfo = 100;
-          }
           optionPrefix = addTextObject(0, yCoord - 8, `${memoryMushroomExtraInfo}`, TextStyle.WINDOW).setOrigin(1, 0.5);
           this.optionsContainer.add(optionPrefix);
-        } else if (learningSource === LearnableMoveSource.EGG || learningSource === LearnableMoveSource.FUSION_EGG) {
-          optionPrefix = globalScene.add
-            .sprite(0, yCoord - 8, "items", "common_egg")
-            .setOrigin(0, 0.5)
-            .setScale(0.5);
-          this.optionsContainer.add(optionPrefix);
-        } else if (
-          learningSource === LearnableMoveSource.PREVO
-          || learningSource === LearnableMoveSource.FUSION_PREVO
-          || learningSource === LearnableMoveSource.RELEARN
-          || learningSource === LearnableMoveSource.FUSION_RELEARN
-          || learningSource === LearnableMoveSource.EVOLUTION
-          || learningSource === LearnableMoveSource.FUSION_EVOLUTION
-        ) {
-          optionPrefix = globalScene.add
-            .sprite(0, yCoord - 8, "items", "big_mushroom")
-            .setOrigin(0, 0.5)
-            .setScale(0.5);
-          this.optionsContainer.add(optionPrefix);
-        } else if (learningSource === LearnableMoveSource.TM || learningSource === LearnableMoveSource.FUSION_TM) {
-          optionPrefix = globalScene.add
-            .sprite(0, yCoord - 8, "items", `tm_${memoryMushroomExtraInfo}`)
-            .setOrigin(0, 0.5)
-            .setScale(0.5);
-          this.optionsContainer.add(optionPrefix);
         } else {
+          let frameKey: string;
+          switch (learningSource) {
+            case LearnableMoveSource.EGG:
+            case LearnableMoveSource.FUSION_EGG:
+              frameKey = "common_egg";
+              break;
+            case LearnableMoveSource.PREVO:
+            case LearnableMoveSource.FUSION_PREVO:
+            case LearnableMoveSource.RELEARN:
+            case LearnableMoveSource.FUSION_RELEARN:
+            case LearnableMoveSource.EVOLUTION:
+            case LearnableMoveSource.FUSION_EVOLUTION:
+              frameKey = "big_mushroom";
+              break;
+            case LearnableMoveSource.TM:
+            case LearnableMoveSource.FUSION_TM:
+              frameKey = `tm_${memoryMushroomExtraInfo}`;
+              break;
+            default:
+              frameKey = "unknown";
+              break;
+          }
           optionPrefix = globalScene.add
-            .sprite(0, yCoord - 8, "items", "unknown")
+            .sprite(0, yCoord - 8, "items", frameKey)
             .setOrigin(0, 0.5)
             .setScale(0.5);
           this.optionsContainer.add(optionPrefix);
