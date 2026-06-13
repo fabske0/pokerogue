@@ -1915,22 +1915,37 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
    *
    * Available egg moves are only included if the {@linkcode Pokemon} was
    * in the starting party of the run and if Fresh Start is not active.
-   * @returns A tuple of {@linkcode MoveId}s and their corresponding {@linkcode LearnableMoveSource}, as described above.
+   * @returns A tuple of the Level (or `null` for non level moves), {@linkcode MoveId} and their corresponding {@linkcode LearnableMoveSource}, as described above.
    */
-  public getLearnableLevelMoves(): [MoveId, LearnableMoveSource][] {
-    let levelMoves: [MoveId, LearnableMoveSource][] = this.getLevelMoves(1, true, true, true).map(lm => [lm[1], lm[2]]);
+  public getLearnableLevelMoves(): [number | null, MoveId, LearnableMoveSource][] {
+    let levelMoves: [number | null, MoveId, LearnableMoveSource][] = this.getLevelMoves(1, true, true, true).map(lm => [
+      lm[0],
+      lm[1],
+      lm[2],
+    ]);
     if (this.metBiome === -1 && !globalScene.gameMode.isFreshStartChallenge() && !globalScene.gameMode.isDaily) {
-      const eggMoves: [MoveId, LearnableMoveSource][] = this.getUnlockedEggMoves().map(em => [
+      const eggMoves: [number | null, MoveId, LearnableMoveSource][] = this.getUnlockedEggMoves().map(em => [
+        null,
         em,
         LearnableMoveSource.EGG,
       ]);
       levelMoves = eggMoves.concat(levelMoves);
     }
     if (Array.isArray(this.usedTMs) && this.usedTMs.length > 0) {
-      const tmMoves: [MoveId, LearnableMoveSource][] = this.usedTMs.map(tm => [tm, LearnableMoveSource.TM]);
-      levelMoves = tmMoves.filter(tm => !levelMoves.some(lm => lm[0] === tm[0])).concat(levelMoves);
+      const tmMoves: [number | null, MoveId, LearnableMoveSource][] = this.usedTMs.map(tm => [
+        null,
+        tm,
+        LearnableMoveSource.TM,
+      ]);
+      levelMoves = tmMoves.filter(tm => !levelMoves.some(lm => lm[1] === tm[1])).concat(levelMoves);
     }
-    levelMoves = levelMoves.filter(lm => !this.moveset.some(m => m.moveId === lm[0]));
+    levelMoves = levelMoves.filter(lm => !this.moveset.some(m => m.moveId === lm[1]));
+
+    // Sort by source, so the moves with a species prefix will be at the top
+    levelMoves.sort((a, b) => {
+      return b[2] - a[2];
+    });
+
     return levelMoves;
   }
 

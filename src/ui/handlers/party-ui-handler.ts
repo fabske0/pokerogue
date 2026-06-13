@@ -9,10 +9,11 @@ import { ChallengeType } from "#enums/challenge-type";
 import { Challenges } from "#enums/challenges";
 import { Command } from "#enums/command";
 import { FormChangeItem } from "#enums/form-change-item";
-import type { LearnableMoveSource } from "#enums/learnable-move-source";
+import { LearnableMoveSource } from "#enums/learnable-move-source";
 import { MoveId } from "#enums/move-id";
 import { MoveResult } from "#enums/move-result";
 import { PartyUiMode } from "#enums/party-ui-mode";
+import { PokemonType } from "#enums/pokemon-type";
 import { SpeciesId } from "#enums/species-id";
 import { StatusEffect } from "#enums/status-effect";
 import { TextStyle } from "#enums/text-style";
@@ -704,7 +705,7 @@ export class PartyUiHandler extends MessageUiHandler {
     const option = this.options[this.optionsCursor];
     const pokemon = globalScene.getPlayerParty()[this.cursor];
     const learnableMoves = pokemon.getLearnableLevelMoves();
-    const moveId = learnableMoves[option]?.[0];
+    const moveId: MoveId = learnableMoves[option]?.[1];
     const move = moveId === undefined ? undefined : allMoves[moveId];
     if (move) {
       this.moveInfoOverlay.show(move);
@@ -1265,13 +1266,6 @@ export class PartyUiHandler extends MessageUiHandler {
 
     this.updateOptions();
 
-    /** When an item is being selected for transfer or discard, the message box is taller as the message occupies two lines */
-    if (this.isItemManageMode()) {
-      this.partyMessageBox.setSize(262 - Math.max(this.optionsBg.displayWidth - 56, 0), 42);
-    } else {
-      this.partyMessageBox.setSize(262 - Math.max(this.optionsBg.displayWidth - 56, 0), 30);
-    }
-
     this.setCursor(0);
   }
 
@@ -1324,7 +1318,7 @@ export class PartyUiHandler extends MessageUiHandler {
     }
     if (learnableMoves?.length > 0) {
       // show the move overlay with info for the first move
-      this.moveInfoOverlay.show(allMoves[learnableMoves[0][0]]);
+      this.moveInfoOverlay.show(allMoves[learnableMoves[0][1]]);
     }
   }
 
@@ -1498,6 +1492,20 @@ export class PartyUiHandler extends MessageUiHandler {
     this.addCancelAndScrollOptions();
 
     this.updateOptionsWindow();
+    this.updatePartyMessageBox();
+  }
+
+  private updatePartyMessageBox(): void {
+    if (!this.optionsMode || !this.optionsBg) {
+      return;
+    }
+
+    /** Item management mode uses a taller message box due to two-line messages. */
+    if (this.isItemManageMode()) {
+      this.partyMessageBox.setSize(262 - Math.max(this.optionsBg.displayWidth - 56, 0), 42);
+    } else {
+      this.partyMessageBox.setSize(262 - Math.max(this.optionsBg.displayWidth - 56, 0), 30);
+    }
   }
 
   updateOptionsHardcore(): void {
@@ -1541,13 +1549,20 @@ export class PartyUiHandler extends MessageUiHandler {
     this.optionsContainer.add(this.optionsBg);
 
     let widestOptionWidth = 0;
+    let widestPrefixWidth = 0;
     const optionTexts: BBCodeText[] = [];
+    const optionPrefixes: (Phaser.GameObjects.Sprite | Phaser.GameObjects.Text | null)[] = [];
 
     // TODO: Refactor this iteration to not be fucking bizarre
     for (let o = 0; o < this.options.length; o++) {
       const option = this.options.at(-(o + 1))!;
-      let altText: LearnableMoveSource = 0;
+      let learningSource: LearnableMoveSource = -1 as LearnableMoveSource;
       let optionName: string;
+      /**
+       * Extra info used for displaying the prefix when using a memory mushroom
+       * This can be the level for level moves or the movetype for tm moves
+       */
+      let memoryMushroomExtraInfo: number | string | null = null;
       if (option === PartyOption.SCROLL_UP) {
         optionName = "↑";
       } else if (option === PartyOption.SCROLL_DOWN) {
@@ -1590,9 +1605,19 @@ export class PartyUiHandler extends MessageUiHandler {
         }
       } else if (this.partyUiMode === PartyUiMode.REMEMBER_MOVE_MODIFIER) {
         const learnableLevelMoves = pokemon.getLearnableLevelMoves();
-        const move = learnableLevelMoves[option][0];
+        const move: MoveId = learnableLevelMoves[option][1];
+        learningSource = learnableLevelMoves[option][2];
+        switch (learningSource) {
+          case LearnableMoveSource.LEVEL:
+          case LearnableMoveSource.FUSION_LEVEL:
+            memoryMushroomExtraInfo = learnableLevelMoves[option][0];
+            break;
+          case LearnableMoveSource.TM:
+          case LearnableMoveSource.FUSION_TM:
+            memoryMushroomExtraInfo = PokemonType[allMoves[move].type].toLowerCase();
+            break;
+        }
         optionName = allMoves[move].name;
-        altText = learnableLevelMoves[option][1];
       } else if (option === PartyOption.ALL) {
         optionName = i18next.t("partyUiHandler:all");
         // add the number of items to the `all` option
@@ -1605,10 +1630,57 @@ export class PartyUiHandler extends MessageUiHandler {
 
       const yCoord = -6 - 16 * o;
       const optionText = addBBCodeTextObject(0, yCoord - 16, optionName, TextStyle.WINDOW, { maxLines: 1 });
-      if (altText > 0) {
-        const color = getPartyOptionColors(this.partyUiMode, altText);
+      let optionPrefix: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text | null = null;
+
+      if (learningSource > 0) {
+        const color = getPartyOptionColors(this.partyUiMode, learningSource);
         optionText.setColor(color[0]);
         optionText.setShadowColor(color[1]);
+      }
+
+      if (learningSource > -1) {
+        // Memory mushroom prefixes
+        if (learningSource === LearnableMoveSource.LEVEL || learningSource === LearnableMoveSource.FUSION_LEVEL) {
+          if (memoryMushroomExtraInfo === 39) {
+            memoryMushroomExtraInfo = 100;
+          }
+          optionPrefix = addTextObject(0, yCoord - 8, `${memoryMushroomExtraInfo}`, TextStyle.WINDOW).setOrigin(1, 0.5);
+          this.optionsContainer.add(optionPrefix);
+        } else if (learningSource === LearnableMoveSource.EGG || learningSource === LearnableMoveSource.FUSION_EGG) {
+          optionPrefix = globalScene.add
+            .sprite(0, yCoord - 8, "items", "common_egg")
+            .setOrigin(0, 0.5)
+            .setScale(0.5);
+          this.optionsContainer.add(optionPrefix);
+        } else if (
+          learningSource === LearnableMoveSource.PREVO
+          || learningSource === LearnableMoveSource.FUSION_PREVO
+          || learningSource === LearnableMoveSource.RELEARN
+          || learningSource === LearnableMoveSource.FUSION_RELEARN
+          || learningSource === LearnableMoveSource.EVOLUTION
+          || learningSource === LearnableMoveSource.FUSION_EVOLUTION
+        ) {
+          optionPrefix = globalScene.add
+            .sprite(0, yCoord - 8, "items", "big_mushroom")
+            .setOrigin(0, 0.5)
+            .setScale(0.5);
+          this.optionsContainer.add(optionPrefix);
+        } else if (learningSource === LearnableMoveSource.TM || learningSource === LearnableMoveSource.FUSION_TM) {
+          optionPrefix = globalScene.add
+            .sprite(0, yCoord - 8, "items", `tm_${memoryMushroomExtraInfo}`)
+            .setOrigin(0, 0.5)
+            .setScale(0.5);
+          this.optionsContainer.add(optionPrefix);
+        } else {
+          optionPrefix = globalScene.add
+            .sprite(0, yCoord - 8, "items", "unknown")
+            .setOrigin(0, 0.5)
+            .setScale(0.5);
+          this.optionsContainer.add(optionPrefix);
+        }
+        optionPrefixes.push(optionPrefix);
+      } else {
+        optionPrefixes.push(null);
       }
       optionText.setOrigin(0);
 
@@ -1635,15 +1707,30 @@ export class PartyUiHandler extends MessageUiHandler {
       optionText.setText(`[shadow]${optionText.text}[/shadow]`);
 
       optionTexts.push(optionText);
-
-      widestOptionWidth = Math.max(optionText.displayWidth, widestOptionWidth);
-
+      const prefixWidth = optionPrefix ? optionPrefix.displayWidth + 1 : 0;
+      widestPrefixWidth = Math.max(prefixWidth, widestPrefixWidth);
+      widestOptionWidth = Math.max(optionText.displayWidth + prefixWidth, widestOptionWidth);
       this.optionsContainer.add(optionText);
     }
 
+    widestOptionWidth = Math.max(
+      widestOptionWidth,
+      optionTexts.reduce((max, t) => Math.max(max, t.displayWidth), 0) + widestPrefixWidth,
+    );
+
     this.optionsBg.width = Math.max(widestOptionWidth + 24, 94);
-    for (const optionText of optionTexts) {
-      optionText.x = 15 - this.optionsBg.width;
+    const prefixBaseX = 14;
+    const optionTextBaseX = 19;
+    for (let i = 0; i < optionTexts.length; i++) {
+      const optionText = optionTexts[i];
+      const prefix = optionPrefixes[i];
+      optionText.x = optionTextBaseX - this.optionsBg.width + widestPrefixWidth;
+      if (prefix) {
+        prefix.x =
+          prefix.originX === 1
+            ? prefixBaseX - this.optionsBg.width + widestPrefixWidth - 1
+            : prefixBaseX - this.optionsBg.width;
+      }
     }
   }
   startTransfer(): void {
