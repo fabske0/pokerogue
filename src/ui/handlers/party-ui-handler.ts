@@ -107,6 +107,8 @@ export class PartyUiHandler extends MessageUiHandler {
   private optionsBg: Phaser.GameObjects.NineSlice;
   private optionsCursorObj: Phaser.GameObjects.Image | null;
   private options: number[];
+  /** Prefix for memory mushroom options */
+  private optionPrefixes: (Phaser.GameObjects.Sprite | Phaser.GameObjects.Text | null)[] = [];
 
   private transferMode: boolean;
   private transferOptionCursor: number;
@@ -1550,7 +1552,7 @@ export class PartyUiHandler extends MessageUiHandler {
     let widestOptionWidth = 0;
     let widestPrefixWidth = 0;
     const optionTexts: BBCodeText[] = [];
-    const optionPrefixes: (Phaser.GameObjects.Sprite | Phaser.GameObjects.Text | null)[] = [];
+    this.optionPrefixes = [];
 
     // TODO: Refactor this iteration to not be fucking bizarre
     for (let o = 0; o < this.options.length; o++) {
@@ -1665,9 +1667,9 @@ export class PartyUiHandler extends MessageUiHandler {
             .setScale(0.5);
           this.optionsContainer.add(optionPrefix);
         }
-        optionPrefixes.push(optionPrefix);
+        this.optionPrefixes.push(optionPrefix);
       } else {
-        optionPrefixes.push(null);
+        this.optionPrefixes.push(null);
       }
       optionText.setOrigin(0);
 
@@ -1710,7 +1712,7 @@ export class PartyUiHandler extends MessageUiHandler {
     const optionTextBaseX = 19;
     for (let i = 0; i < optionTexts.length; i++) {
       const optionText = optionTexts[i];
-      const prefix = optionPrefixes[i];
+      const prefix = this.optionPrefixes[i];
       optionText.x = optionTextBaseX - this.optionsBg.width + widestPrefixWidth;
       if (prefix) {
         prefix.x =
@@ -1852,6 +1854,11 @@ export class PartyUiHandler extends MessageUiHandler {
     this.options.splice(0, this.options.length);
     this.optionsContainer.removeAll(true);
     this.eraseOptionsCursor();
+
+    for (const optionPrefix of this.optionPrefixes) {
+      optionPrefix?.destroy();
+    }
+    this.optionPrefixes = [];
 
     this.partyMessageBox.setSize(262, 30);
     this.showPartyText();
