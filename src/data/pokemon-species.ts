@@ -1313,7 +1313,6 @@ export class PokemonForm extends PokemonSpeciesForm {
    * @returns A list of all level moves that can be learned by this species
    */
   public override getLevelMoves(formKey?: string): LevelMoves {
-    formKey = formKey ?? this.getFormKey();
-    return super.getLevelMoves(formKey);
+    return super.getLevelMoves(formKey ?? this.getFormKey());
   }
 }
