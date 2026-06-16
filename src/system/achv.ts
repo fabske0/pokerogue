@@ -5,6 +5,7 @@ import {
   FlipStatChallenge,
   FreshStartChallenge,
   InverseBattleChallenge,
+  PartySizeLimitChallenge,
   PassivesChallenge,
   SingleGenerationChallenge,
   SingleTypeChallenge,
@@ -32,6 +33,7 @@ export class Achv {
   public localizationKey: string;
   public id: string;
   public name: string;
+  // TODO: get rid of description property or change it to use i18next. No need to have both this and `getAchievementDescription()`
   public description: string;
   public iconImage: string;
   public score: number;
@@ -449,6 +451,8 @@ export function getAchievementDescription(localizationKey: string): string {
       return i18next.t("achv:dailyVictory.description", { context: genderStr });
     case "passives":
       return i18next.t("achv:passives.description", { context: genderStr });
+    case "partySizeLimit":
+      return i18next.t("achv:partySizeLimit.description", { context: genderStr });
     default:
       return "";
   }
@@ -859,6 +863,13 @@ export const achvs = {
     "ability_capsule",
     100,
     c => c instanceof PassivesChallenge && c.value > 0 && !inverseAndFlipStatAchievementsBlock(),
+  ),
+  PARTY_SIZE_LIMIT: new ChallengeAchv(
+    "partySizeLimit",
+    "partySizeLimit.description",
+    "unknown",
+    100,
+    c => c instanceof PartySizeLimitChallenge && c.shouldAwardRibbon() && !inverseAndFlipStatAchievementsBlock(),
   ),
   UNEVOLVED_CLASSIC_VICTORY: new Achv(
     "unevolvedClassicVictory",

@@ -1266,7 +1266,8 @@ export class PartySizeLimitChallenge extends Challenge {
    * @param overrideValue - (Default `this.value`) The value to check against
    * @returns Whether to award the ribbon for this challenge
    */
-  private shouldAwardRibbon(overrideValue: number = this.value): boolean {
+  // TODO: Add this to the base class and use for achievements/maybe split?
+  public shouldAwardRibbon(overrideValue: number = this.value): boolean {
     // Award ribbon for party sizes of 3 or lower
     return overrideValue >= 3;
   }

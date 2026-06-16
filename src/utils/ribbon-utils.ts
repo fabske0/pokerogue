@@ -48,6 +48,7 @@ export function getAvailableRibbons(species: PokemonSpecies): RibbonFlag[] {
     RibbonData.NO_SHOP,
     RibbonData.NO_SUPPORT,
     RibbonData.PASSIVE_CHALLENGE,
+    RibbonData.PARTY_SIZE_LIMIT,
   ];
 
   let data = 0n;
@@ -151,6 +152,8 @@ export function getRibbonKey(flag: RibbonFlag): string {
       return "monoFairy";
     case RibbonData.PASSIVE_CHALLENGE:
       return "activePassives";
+    case RibbonData.PARTY_SIZE_LIMIT:
+      return "partySizeLimit";
     case RibbonData.MONO_GEN_1:
       return "monoGen1";
     case RibbonData.MONO_GEN_2:
@@ -216,6 +219,7 @@ export const orderedRibbons: RibbonFlag[] = [
   RibbonData.MONO_DARK,
   RibbonData.MONO_FAIRY,
   RibbonData.PASSIVE_CHALLENGE,
+  RibbonData.PARTY_SIZE_LIMIT,
   RibbonData.INVERSE,
   RibbonData.FLIP_STATS,
 ];
