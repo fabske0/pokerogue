@@ -1243,6 +1243,9 @@ export class PassivesChallenge extends Challenge {
 
 export class PartySizeLimitChallenge extends Challenge {
   public override get ribbonAwarded(): RibbonFlag {
+    if (!this.shouldAwardRibbon()) {
+      return 0n;
+    }
     return this.value ? RibbonData.PARTY_SIZE_LIMIT : 0n;
   }
 
@@ -1258,6 +1261,16 @@ export class PartySizeLimitChallenge extends Challenge {
     return false;
   }
 
+  /**
+   * Get whether to award the ribbon for this challenge.
+   * @param overrideValue - (Default `this.value`) The value to check against
+   * @returns Whether to award the ribbon for this challenge
+   */
+  private shouldAwardRibbon(overrideValue: number = this.value): boolean {
+    // Award ribbon for party sizes of 3 or lower
+    return overrideValue >= 3;
+  }
+
   getValue(overrideValue: number = this.value): string {
     if (overrideValue === 0) {
       return i18next.t("settings:off");
@@ -1271,7 +1284,7 @@ export class PartySizeLimitChallenge extends Challenge {
     }
     return i18next.t("challenges:partySizeLimit.desc", {
       size: i18next.t(`challenges:partySizeLimit.value.${overrideValue}`),
-      noRibbon: overrideValue < 3 ? i18next.t("challenges:partySizeLimit.noRibbonDesc") : "",
+      noRibbon: this.shouldAwardRibbon(overrideValue) ? "" : i18next.t("challenges:partySizeLimit.noRibbonDesc"),
     });
   }
 
