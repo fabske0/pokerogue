@@ -1250,6 +1250,14 @@ export class PartySizeLimitChallenge extends Challenge {
     super(Challenges.PARTY_SIZE_LIMIT, 5);
   }
 
+  override applyPartySizeLimit(size: number, isValid: BooleanHolder): boolean {
+    if (size >= 6 - this.value) {
+      isValid.value = false;
+      return true;
+    }
+    return false;
+  }
+
   getValue(overrideValue: number = this.value): string {
     if (overrideValue === 0) {
       return i18next.t("settings:off");
@@ -1257,12 +1265,14 @@ export class PartySizeLimitChallenge extends Challenge {
     return (6 - overrideValue).toString();
   }
 
-  override applyPartySizeLimit(size: number, isValid: BooleanHolder): boolean {
-    if (size >= 6 - this.value) {
-      isValid.value = false;
-      return true;
+  getDescription(overrideValue: number = this.value): string {
+    if (overrideValue === 0) {
+      return i18next.t("challenges:partySizeLimit.descDefault");
     }
-    return false;
+    return i18next.t("challenges:partySizeLimit.desc", {
+      size: i18next.t(`challenges:partySizeLimit.value.${overrideValue}`),
+      noRibbon: overrideValue < 3 ? i18next.t("challenges:partySizeLimit.noRibbonDesc") : "",
+    });
   }
 
   static override loadChallenge(source: PartySizeLimitChallenge | any): PartySizeLimitChallenge {
