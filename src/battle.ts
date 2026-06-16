@@ -1,3 +1,4 @@
+import { DAILY_BOSS_LEVEL } from "#app/constants";
 import type { GameMode } from "#app/game-mode";
 import { globalScene } from "#app/global-scene";
 import { isDailyFinalBoss } from "#data/daily-seed/daily-seed-utils";
@@ -36,7 +37,6 @@ import {
 import { getEnumValues } from "#utils/enums";
 import { randSeedUniqueItem } from "#utils/random";
 import i18next from "i18next";
-import { DAILY_BOSS_LEVEL } from "./constants";
 
 export interface TurnCommand {
   command: Command;
