@@ -1918,18 +1918,15 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
    * @returns A tuple of the Level (or `null` for non level moves), {@linkcode MoveId} and their corresponding {@linkcode LearnableMoveSource}, as described above.
    */
   public getLearnableLevelMoves(): [number | null, MoveId, LearnableMoveSource][] {
-    let levelMoves: [number | null, MoveId, LearnableMoveSource][] = this.getLevelMoves(1, true, true, true).map(lm => [
-      lm[0],
-      lm[1],
-      lm[2],
-    ]);
+    let learnableMoves: [number | null, MoveId, LearnableMoveSource][] = [];
+    learnableMoves = this.getLevelMoves(1, true, true, true);
     if (this.metBiome === -1 && !globalScene.gameMode.isFreshStartChallenge() && !globalScene.gameMode.isDaily) {
       const eggMoves: [number | null, MoveId, LearnableMoveSource][] = this.getUnlockedEggMoves().map(em => [
         null,
         em,
         LearnableMoveSource.EGG,
       ]);
-      levelMoves = eggMoves.concat(levelMoves);
+      learnableMoves = eggMoves.concat(learnableMoves);
     }
     if (Array.isArray(this.usedTMs) && this.usedTMs.length > 0) {
       const tmMoves: [number | null, MoveId, LearnableMoveSource][] = this.usedTMs.map(tm => [
@@ -1937,16 +1934,16 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         tm,
         LearnableMoveSource.TM,
       ]);
-      levelMoves = tmMoves.filter(tm => !levelMoves.some(lm => lm[1] === tm[1])).concat(levelMoves);
+      learnableMoves = tmMoves.filter(tm => !learnableMoves.some(lm => lm[1] === tm[1])).concat(learnableMoves);
     }
-    levelMoves = levelMoves.filter(lm => !this.moveset.some(m => m.moveId === lm[1]));
+    learnableMoves = learnableMoves.filter(lm => !this.moveset.some(m => m.moveId === lm[1]));
 
     // Sort by source, so the moves with a species prefix will be at the top
-    levelMoves.sort((a, b) => {
+    learnableMoves.sort((a, b) => {
       return b[2] - a[2];
     });
 
-    return levelMoves;
+    return learnableMoves;
   }
 
   /**
@@ -2816,19 +2813,24 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
     if (learnSituation === LearnMoveSituation.EVOLUTION_FUSED && this.isFusion()) {
       // For fusion evolutions, get ONLY the moves of the component mon that evolved
       const fusionLevelMoves = this.getFusionSpeciesForm(true).getLevelMoves();
-      for (const lm of fusionLevelMoves) {
+      for (const [level, move] of fusionLevelMoves) {
         if (
-          (includeEvolutionMoves && lm[0] === EVOLVE_MOVE)
-          || (includeRelearnerMoves && lm[0] === RELEARN_MOVE)
-          || lm[0] > 0
+          (includeEvolutionMoves && level === EVOLVE_MOVE)
+          || (includeRelearnerMoves && level === RELEARN_MOVE)
+          || level > 0
         ) {
-          const moveSource =
-            lm[0] === RELEARN_MOVE
-              ? LearnableMoveSource.FUSION_RELEARN
-              : lm[0] === EVOLVE_MOVE
-                ? LearnableMoveSource.FUSION_EVOLUTION
-                : LearnableMoveSource.FUSION_LEVEL;
-          levelMoves.push([lm[0], lm[1], moveSource]);
+          let moveSource: LearnableMoveSource;
+          switch (level) {
+            case RELEARN_MOVE:
+              moveSource = LearnableMoveSource.FUSION_RELEARN;
+              break;
+            case EVOLVE_MOVE:
+              moveSource = LearnableMoveSource.FUSION_EVOLUTION;
+              break;
+            default:
+              moveSource = LearnableMoveSource.FUSION_LEVEL;
+          }
+          levelMoves.push([level, move, moveSource]);
         }
       }
     } else if (includePrevolutionMoves) {
@@ -2844,14 +2846,17 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         if (includeRelearnerMoves) {
           const moves: LevelMovesWithSource = [];
           for (const lm of speciesLevelMoves) {
-            const moveSource =
-              lm[0] === RELEARN_MOVE
-                ? LearnableMoveSource.RELEARN
-                : lm[0] === EVOLVE_MOVE
-                  ? LearnableMoveSource.EVOLUTION
-                  : e === evolutionChain.length - 1
-                    ? LearnableMoveSource.LEVEL
-                    : LearnableMoveSource.PREVO;
+            let moveSource: LearnableMoveSource;
+            switch (lm[0]) {
+              case RELEARN_MOVE:
+                moveSource = LearnableMoveSource.RELEARN;
+                break;
+              case EVOLVE_MOVE:
+                moveSource = LearnableMoveSource.EVOLUTION;
+                break;
+              default:
+                moveSource = e === evolutionChain.length - 1 ? LearnableMoveSource.LEVEL : LearnableMoveSource.PREVO;
+            }
             moves.push([lm[0], lm[1], moveSource]);
           }
           levelMoves.push(...moves);
@@ -2873,12 +2878,17 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
           || (includeRelearnerMoves && lm[0] === RELEARN_MOVE)
           || lm[0] > 0
         ) {
-          const moveSource =
-            lm[0] === RELEARN_MOVE
-              ? LearnableMoveSource.RELEARN
-              : lm[0] === EVOLVE_MOVE
-                ? LearnableMoveSource.EVOLUTION
-                : LearnableMoveSource.LEVEL;
+          let moveSource: LearnableMoveSource;
+          switch (lm[0]) {
+            case RELEARN_MOVE:
+              moveSource = LearnableMoveSource.RELEARN;
+              break;
+            case EVOLVE_MOVE:
+              moveSource = LearnableMoveSource.EVOLUTION;
+              break;
+            default:
+              moveSource = LearnableMoveSource.LEVEL;
+          }
           levelMoves.push([lm[0], lm[1], moveSource]);
         }
       }
@@ -2928,12 +2938,17 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
             || (includeRelearnerMoves && lm[0] === RELEARN_MOVE)
             || lm[0] > 0
           ) {
-            const moveSource =
-              lm[0] === RELEARN_MOVE
-                ? LearnableMoveSource.FUSION_RELEARN
-                : lm[0] === EVOLVE_MOVE
-                  ? LearnableMoveSource.FUSION_EVOLUTION
-                  : LearnableMoveSource.FUSION_LEVEL;
+            let moveSource: LearnableMoveSource;
+            switch (lm[0]) {
+              case RELEARN_MOVE:
+                moveSource = LearnableMoveSource.FUSION_RELEARN;
+                break;
+              case EVOLVE_MOVE:
+                moveSource = LearnableMoveSource.FUSION_EVOLUTION;
+                break;
+              default:
+                moveSource = LearnableMoveSource.FUSION_LEVEL;
+            }
             levelMoves.push([lm[0], lm[1], moveSource]);
           }
         }
@@ -2957,6 +2972,14 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         .map(lm => lm[1]),
     );
 
+    // A set of moves the species learns by level.
+    // Used to prefer showing a move as level rather than showing as a prevo/evo move
+    const ownMoves = new Set(
+      levelMoves
+        .filter(lm => lm[2] === LearnableMoveSource.LEVEL || lm[2] === LearnableMoveSource.FUSION_LEVEL)
+        .map(lm => lm[1]),
+    );
+
     /**
      * Filter out moves not within the correct level range(s)
      * Includes moves below startingLevel, or of specifically level 0 if
@@ -2966,12 +2989,17 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
       const level = lm[0];
       const isRelearner = level < startingLevel;
       const allowedEvolutionMove = level === 0 && includeEvolutionMoves;
+      const isLevelMoveSource = lm[2] === LearnableMoveSource.LEVEL || lm[2] === LearnableMoveSource.FUSION_LEVEL;
+      const isOwnMoveFromNonLevelSource = ownMoves.has(lm[1]) && !isLevelMoveSource;
       const isLockedPrevoMove =
         prevoLockedMoves.has(lm[1])
         && (lm[2] === LearnableMoveSource.PREVO || lm[2] === LearnableMoveSource.FUSION_PREVO);
 
       return (
-        !(level > this.level) && !isLockedPrevoMove && (includeRelearnerMoves || !isRelearner || allowedEvolutionMove)
+        !(level > this.level)
+        && !isOwnMoveFromNonLevelSource
+        && !isLockedPrevoMove
+        && (includeRelearnerMoves || !isRelearner || allowedEvolutionMove)
       );
     });
 

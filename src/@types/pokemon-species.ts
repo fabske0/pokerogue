@@ -14,8 +14,8 @@ interface PokemonSpeciesPassives {
   [key: number]: AbilityId;
 }
 
-export type LevelMoves = [number, MoveId][];
-export type LevelMovesWithSource = [number, MoveId, LearnableMoveSource][];
+export type LevelMoves = [level: number, move: MoveId][];
+export type LevelMovesWithSource = [level: number, move: MoveId, source: LearnableMoveSource][];
 
 export interface SpeciesFormLevelMoves {
   [key: string]: LevelMoves;
