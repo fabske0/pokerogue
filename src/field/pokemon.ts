@@ -4,7 +4,7 @@ import { applyAbAttrs, applyOnGainAbAttrs, applyOnLoseAbAttrs } from "#abilities
 import { generateMoveset } from "#app/ai/ai-moveset-gen";
 import type { Battle } from "#app/battle";
 import type { BattleScene } from "#app/battle-scene";
-import { EVOLVE_MOVE, PLAYER_PARTY_MAX_SIZE, RARE_CANDY_FRIENDSHIP_CAP, RELEARN_MOVE } from "#app/constants";
+import { PLAYER_PARTY_MAX_SIZE, RARE_CANDY_FRIENDSHIP_CAP } from "#app/constants";
 import { audioManager } from "#app/global-audio-manager";
 import { timedEventManager } from "#app/global-event-manager";
 import { globalScene } from "#app/global-scene";
@@ -176,7 +176,7 @@ import {
 import { calculateBossSegmentDamage } from "#utils/damage";
 import { getEnumValues } from "#utils/enums";
 import { cachedFetch } from "#utils/fetch-utils";
-import { decodeNickname, getFusedSpeciesName, getPokemonSpecies, getPokemonSpeciesForm } from "#utils/pokemon-utils";
+import { decodeNickname, getFusedSpeciesName, getPokemonSpecies } from "#utils/pokemon-utils";
 import { inSpeedOrder } from "#utils/speed-order-generator";
 import { ValueHolder } from "#utils/value-holder";
 import { QuantizerCelebi } from "@material/material-color-utilities";
@@ -184,6 +184,7 @@ import i18next from "i18next";
 import Phaser from "phaser";
 import SoundFade from "phaser3-rex-plugins/plugins/soundfade";
 import type { NonEmptyTuple } from "type-fest";
+import { getLevelMoves } from "./learnsets";
 
 export abstract class Pokemon extends Phaser.GameObjects.Container {
   /**
@@ -2800,320 +2801,24 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
    * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
    * @returns A list of moves and the levels they can be learned at, along with the source of the move
    */
-  getLevelMoves(
+  public getLevelMoves(
     startingLevel?: number,
     includeEvolutionMoves = false,
     includePrevolutionMoves = false,
     includeRelearnerMoves = false,
     learnSituation: LearnMoveSituation = LearnMoveSituation.MISC,
   ): LevelMovesWithSource {
-    const levelMoves: LevelMovesWithSource = [];
     if (!startingLevel) {
       startingLevel = this.level;
     }
-    if (learnSituation === LearnMoveSituation.EVOLUTION_FUSED && this.isFusion()) {
-      // For fusion evolutions, get ONLY the moves of the component mon that evolved
-      levelMoves.push(...this.getFusionEvolutionMoves(includeEvolutionMoves, includeRelearnerMoves));
-    } else if (includePrevolutionMoves) {
-      levelMoves.push(...this.getPrevolutionMoves(includeEvolutionMoves, includeRelearnerMoves));
-    } else {
-      levelMoves.push(...this.getRegularLevelMoves(includeEvolutionMoves, includeRelearnerMoves));
-    }
-    if (this.isFusion() && learnSituation !== LearnMoveSituation.EVOLUTION_FUSED_BASE) {
-      // For fusion evolutions, get ONLY the moves of the component mon that evolved
-      if (includePrevolutionMoves) {
-        levelMoves.push(...this.getFusionPrevolutionMoves(includeEvolutionMoves, includeRelearnerMoves));
-      } else {
-        levelMoves.push(...this.getFusionRegularLevelMoves(includeEvolutionMoves, includeRelearnerMoves));
-      }
-    }
-
-    const ret = this.filterAndSortLevelMoves(levelMoves, startingLevel, includeEvolutionMoves, includeRelearnerMoves);
-    return ret;
-  }
-
-  /**
-   * Helper method for `getLevelMoves()`
-   *
-   * Get all level moves the species form can learn on its own.
-   * @param includeEvolutionMoves - Whether to include evolution moves
-   * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
-   * @returns A list of moves and the levels they can be learned at, along with the source of the moveexcludes moves from prevolutions, but includes evolution moves and relearner moves
-   */
-  private getRegularLevelMoves(includeEvolutionMoves: boolean, includeRelearnerMoves: boolean): LevelMovesWithSource {
-    const ret: LevelMovesWithSource = [];
-    const moves = this.getSpeciesForm(true).getLevelMoves();
-    for (const lm of moves) {
-      if (
-        (includeEvolutionMoves && lm[0] === EVOLVE_MOVE)
-        || (includeRelearnerMoves && lm[0] === RELEARN_MOVE)
-        || lm[0] > 0
-      ) {
-        let moveSource: LearnableMoveSource;
-        switch (lm[0]) {
-          case RELEARN_MOVE:
-            moveSource = LearnableMoveSource.RELEARN;
-            break;
-          case EVOLVE_MOVE:
-            moveSource = LearnableMoveSource.EVOLUTION;
-            break;
-          default:
-            moveSource = LearnableMoveSource.LEVEL;
-        }
-        ret.push([lm[0], lm[1], moveSource]);
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * Helper method for `getLevelMoves()`
-   *
-   * Get all level moves the species form can learn via its prevolutions.
-   * @param includeEvolutionMoves - Whether to include evolution moves
-   * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
-   * @returns A list of moves and the levels they can be learned at, along with the source of the move
-   */
-  private getPrevolutionMoves(includeEvolutionMoves: boolean, includeRelearnerMoves: boolean): LevelMovesWithSource {
-    const ret: LevelMovesWithSource = [];
-    const evolutionChain = this.species.getSimulatedEvolutionChain(
-      this.level,
-      this.hasTrainer(),
-      this.isBoss(),
-      this.isPlayer(),
+    return getLevelMoves(
+      this,
+      startingLevel,
+      includeEvolutionMoves,
+      includePrevolutionMoves,
+      includeRelearnerMoves,
+      learnSituation,
     );
-    for (let e = 0; e < evolutionChain.length; e++) {
-      // TODO: Might need to pass specific form index in simulated evolution chain
-      const speciesLevelMoves = getPokemonSpeciesForm(evolutionChain[e][0], this.formIndex).getLevelMoves();
-      if (includeRelearnerMoves) {
-        const moves: LevelMovesWithSource = [];
-        for (const lm of speciesLevelMoves) {
-          let moveSource: LearnableMoveSource;
-          switch (lm[0]) {
-            case RELEARN_MOVE:
-              moveSource = LearnableMoveSource.RELEARN;
-              break;
-            case EVOLVE_MOVE:
-              moveSource = LearnableMoveSource.EVOLUTION;
-              break;
-            default:
-              moveSource = e === evolutionChain.length - 1 ? LearnableMoveSource.LEVEL : LearnableMoveSource.PREVO;
-          }
-          moves.push([lm[0], lm[1], moveSource]);
-        }
-        ret.push(...moves);
-      } else {
-        for (const lm of speciesLevelMoves) {
-          if (includeEvolutionMoves && lm[0] === EVOLVE_MOVE) {
-            ret.push([lm[0], lm[1], LearnableMoveSource.EVOLUTION]);
-          } else if ((!e || lm[0] > 1) && (e === evolutionChain.length - 1 || lm[0] <= evolutionChain[e + 1][1])) {
-            ret.push([lm[0], lm[1], LearnableMoveSource.PREVO]);
-          }
-        }
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * Helper method for `getLevelMoves()`
-   *
-   * Get all level moves the fusion species form can learn on its own.
-   * @param includeEvolutionMoves - Whether to include evolution moves
-   * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
-   * @returns A list of moves and the levels they can be learned at, along with the source of the move
-   */
-  private getFusionRegularLevelMoves(
-    includeEvolutionMoves: boolean,
-    includeRelearnerMoves: boolean,
-  ): LevelMovesWithSource {
-    const ret: LevelMovesWithSource = [];
-
-    const speciesLevelMoves = this.getFusionSpeciesForm(true).getLevelMoves();
-    for (const lm of speciesLevelMoves) {
-      if (
-        (includeEvolutionMoves && lm[0] === EVOLVE_MOVE)
-        || (includeRelearnerMoves && lm[0] === RELEARN_MOVE)
-        || lm[0] > 0
-      ) {
-        let moveSource: LearnableMoveSource;
-        switch (lm[0]) {
-          case RELEARN_MOVE:
-            moveSource = LearnableMoveSource.FUSION_RELEARN;
-            break;
-          case EVOLVE_MOVE:
-            moveSource = LearnableMoveSource.FUSION_EVOLUTION;
-            break;
-          default:
-            moveSource = LearnableMoveSource.FUSION_LEVEL;
-        }
-        ret.push([lm[0], lm[1], moveSource]);
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * Helper method for `getLevelMoves()`
-   *
-   * Get all level moves the fusion species form can learn, excluding any moves from the base species' evolution chain. \
-   * @param includeEvolutionMoves - Whether to include evolution moves
-   * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
-   * @returns A list of moves and the levels they can be learned at, along with the source of the move
-   */
-  private getFusionEvolutionMoves(
-    includeEvolutionMoves: boolean,
-    includeRelearnerMoves: boolean,
-  ): LevelMovesWithSource {
-    const ret: LevelMovesWithSource = [];
-    const fusionLevelMoves = this.getFusionSpeciesForm(true).getLevelMoves();
-    for (const [level, move] of fusionLevelMoves) {
-      if (
-        (includeEvolutionMoves && level === EVOLVE_MOVE)
-        || (includeRelearnerMoves && level === RELEARN_MOVE)
-        || level > 0
-      ) {
-        let moveSource: LearnableMoveSource;
-        switch (level) {
-          case RELEARN_MOVE:
-            moveSource = LearnableMoveSource.FUSION_RELEARN;
-            break;
-          case EVOLVE_MOVE:
-            moveSource = LearnableMoveSource.FUSION_EVOLUTION;
-            break;
-          default:
-            moveSource = LearnableMoveSource.FUSION_LEVEL;
-        }
-        ret.push([level, move, moveSource]);
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * Helper method for `getLevelMoves()`
-   *
-   * Get all level moves the fusion species form can learn via its prevolutions. \
-   * @param includeEvolutionMoves - Whether to include evolution moves
-   * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
-   * @returns A list of moves and the levels they can be learned at, along with the source of the move
-   */
-  private getFusionPrevolutionMoves(
-    includeEvolutionMoves: boolean,
-    includeRelearnerMoves: boolean,
-  ): LevelMovesWithSource {
-    const ret: LevelMovesWithSource = [];
-    const fusionEvolutionChain = this.fusionSpecies!.getSimulatedEvolutionChain(
-      this.level,
-      this.hasTrainer(),
-      this.isBoss(),
-      this.isPlayer(),
-    );
-    for (let e = 0; e < fusionEvolutionChain.length; e++) {
-      // TODO: Might need to pass specific form index in simulated evolution chain
-      const speciesLevelMoves = getPokemonSpeciesForm(fusionEvolutionChain[e][0], this.fusionFormIndex).getLevelMoves();
-      if (includeRelearnerMoves) {
-        const moves: LevelMovesWithSource = [];
-        for (const lm of speciesLevelMoves) {
-          if ((includeEvolutionMoves && lm[0] === EVOLVE_MOVE) || lm[0] !== EVOLVE_MOVE) {
-            const moveSource =
-              lm[0] === EVOLVE_MOVE ? LearnableMoveSource.FUSION_EVOLUTION : LearnableMoveSource.FUSION_LEVEL;
-            moves.push([lm[0], lm[1], moveSource]);
-          }
-        }
-      } else {
-        for (const lm of speciesLevelMoves) {
-          if (includeEvolutionMoves && lm[0] === EVOLVE_MOVE) {
-            ret.push([lm[0], lm[1], LearnableMoveSource.FUSION_EVOLUTION]);
-          } else if (
-            (!e || lm[0] > 1)
-            && (e === fusionEvolutionChain.length - 1 || lm[0] <= fusionEvolutionChain[e + 1][1])
-          ) {
-            ret.push([lm[0], lm[1], LearnableMoveSource.FUSION_PREVO]);
-          }
-        }
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * Helper method for `getLevelMoves()`
-   *
-   * Filters out moves not within the correct level range(s) and duplicates. \
-   * Sorts the moves first by level, then by source.
-   * @param levelMoves - The list of level moves to filter and sort
-   * @param startingLevel - Don't include moves below this level
-   * @param includeEvolutionMoves - Whether to include evolution moves
-   * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
-   * @returns A filtered and sorted list of level moves
-   */
-  private filterAndSortLevelMoves(
-    levelMoves: LevelMovesWithSource,
-    startingLevel: number,
-    includeEvolutionMoves = false,
-    includeRelearnerMoves = false,
-  ): LevelMovesWithSource {
-    const ret: LevelMovesWithSource = [];
-    levelMoves.sort((lma: [number, MoveId, LearnableMoveSource], lmb: [number, MoveId, LearnableMoveSource]) => {
-      if (lma[0] !== lmb[0]) {
-        return lma[0] > lmb[0] ? 1 : -1;
-      }
-
-      return lma[2] - lmb[2];
-    });
-
-    // A set of moves the species gets by level, but are above the current level
-    const prevoLockedMoves = new Set(
-      levelMoves
-        .filter(
-          lm =>
-            (lm[2] === LearnableMoveSource.LEVEL || lm[2] === LearnableMoveSource.FUSION_LEVEL) && lm[0] > this.level,
-        )
-        .map(lm => lm[1]),
-    );
-
-    // A set of moves the species learns by level.
-    // Used to prefer showing a move as level rather than showing as a prevo/evo move
-    const ownMoves = new Set(
-      levelMoves
-        .filter(lm => lm[2] === LearnableMoveSource.LEVEL || lm[2] === LearnableMoveSource.FUSION_LEVEL)
-        .map(lm => lm[1]),
-    );
-
-    /**
-     * Filter out moves not within the correct level range(s)
-     * Includes moves below startingLevel, or of specifically level 0 if
-     * includeRelearnerMoves or includeEvolutionMoves are true respectively
-     */
-    levelMoves = levelMoves.filter(lm => {
-      const level = lm[0];
-      const isRelearner = level < startingLevel;
-      const allowedEvolutionMove = level === 0 && includeEvolutionMoves;
-      const isLevelMoveSource = lm[2] === LearnableMoveSource.LEVEL || lm[2] === LearnableMoveSource.FUSION_LEVEL;
-      const isOwnMoveFromNonLevelSource = ownMoves.has(lm[1]) && !isLevelMoveSource;
-      const isLockedPrevoMove =
-        prevoLockedMoves.has(lm[1])
-        && (lm[2] === LearnableMoveSource.PREVO || lm[2] === LearnableMoveSource.FUSION_PREVO);
-
-      return (
-        !(level > this.level)
-        && !isOwnMoveFromNonLevelSource
-        && !isLockedPrevoMove
-        && (includeRelearnerMoves || !isRelearner || allowedEvolutionMove)
-      );
-    });
-
-    /**
-     * This must be done AFTER filtering by level, else if the same move shows up
-     * in levelMoves multiple times all but the lowest level one will be skipped.
-     * This causes problems when there are intentional duplicates (i.e. Smeargle with Sketch)
-     */
-    if (levelMoves) {
-      Pokemon.getUniqueMoves(levelMoves, ret);
-    }
-
-    return ret;
   }
 
   /**
