@@ -7,24 +7,6 @@ import type { LevelMovesWithSource } from "#types/pokemon-species";
 import { getPokemonSpeciesForm } from "#utils/pokemon-utils";
 
 /**
- * Get the {@linkcode LearnableMoveSource | source} of a move.
- * @param level - The level at which the move is learned
- * @param fromPrevo - Whether the move is from a prevolution
- * @returns The source of the move
- */
-function computeLearnableMoveSource(level: number, fromPrevo: boolean): LearnableMoveSource {
-  // Enum arranged such that the fusion source is 1 greater than its normal counterpart
-  switch (level) {
-    case RELEARN_MOVE:
-      return LearnableMoveSource.RELEARN;
-    case EVOLVE_MOVE:
-      return LearnableMoveSource.EVOLUTION;
-    default:
-      return fromPrevo ? LearnableMoveSource.PREVO : LearnableMoveSource.LEVEL;
-  }
-}
-
-/**
  * Helper method for {@linkcode getLevelMoves}
  *
  * Get all level moves the species form can learn on its own.
@@ -50,8 +32,19 @@ function getRegularLevelMoves(
       || (includeRelearnerMoves && level === RELEARN_MOVE)
       || level > 0
     ) {
-      const moveSource = (computeLearnableMoveSource(level, false) + +fromFusion) as LearnableMoveSource;
-      ret.push([level, move, moveSource]);
+      let moveSource: LearnableMoveSource;
+      switch (level) {
+        case RELEARN_MOVE:
+          moveSource = LearnableMoveSource.RELEARN;
+          break;
+        case EVOLVE_MOVE:
+          moveSource = LearnableMoveSource.EVOLUTION;
+          break;
+        default:
+          moveSource = LearnableMoveSource.LEVEL;
+          break;
+      }
+      ret.push([level, move, (moveSource + +fromFusion) as LearnableMoveSource]);
     }
   }
   return ret;
@@ -96,9 +89,11 @@ function getPrevolutionMoves(
     for (const [level, move] of speciesLevelMoves) {
       const includeLevelOne = !e || level > 1 || includeRelearnerMoves;
       if (includeRelearnerMoves && level === RELEARN_MOVE) {
-        ret.push([level, move, (LearnableMoveSource.RELEARN + +fromFusion) as LearnableMoveSource]);
+        const source = isPrevo ? LearnableMoveSource.PREVO : LearnableMoveSource.RELEARN;
+        ret.push([level, move, (source + +fromFusion) as LearnableMoveSource]);
       } else if (includeEvolutionMoves && level === EVOLVE_MOVE) {
-        ret.push([level, move, (LearnableMoveSource.EVOLUTION + +fromFusion) as LearnableMoveSource]);
+        const source = isPrevo ? LearnableMoveSource.PREVO : LearnableMoveSource.EVOLUTION;
+        ret.push([level, move, (source + +fromFusion) as LearnableMoveSource]);
       } else if (includeLevelOne && (!isPrevo || level <= evolutionChain[e + 1][1])) {
         const source = isPrevo ? LearnableMoveSource.PREVO : LearnableMoveSource.LEVEL;
         ret.push([level, move, (source + +fromFusion) as LearnableMoveSource]);
