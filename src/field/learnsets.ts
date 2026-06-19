@@ -111,7 +111,7 @@ function getPrevolutionMoves(
 /**
  * Helper method for {@linkcode getLevelMoves}
  *
- * Get all level moves the fusion species form can learn, excluding any moves from the base species' evolution chain.
+ * Get all level moves the fusion species form can learn.
  * @param includeEvolutionMoves - Whether to include evolution moves
  * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
  * @returns A list of moves and the levels they can be learned at, along with the source of the move
@@ -211,7 +211,7 @@ function filterAndSortLevelMoves(
       .map(lm => lm[1]),
   );
 
-  /**
+  /*
    * Filter out moves not within the correct level range(s)
    * Includes moves below startingLevel, or of specifically level 0 if
    * includeRelearnerMoves or includeEvolutionMoves are true respectively
@@ -234,7 +234,7 @@ function filterAndSortLevelMoves(
     );
   });
 
-  /**
+  /*
    * This must be done AFTER filtering by level, else if the same move shows up
    * in levelMoves multiple times all but the lowest level one will be skipped.
    * This causes problems when there are intentional duplicates (i.e. Smeargle with Sketch)
