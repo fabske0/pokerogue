@@ -162,6 +162,16 @@ function getUniqueMoves(levelMoves: LevelMovesWithSource, ret: LevelMovesWithSou
 }
 
 /**
+ * Returns the non-fusion counterpart for a learnable move source.
+ * Fusion sources are odd and directly follow their base counterpart.
+ * @param source - The learnable move source to get the base source of
+ * @returns The base learnable move source
+ */
+export function getBaseLearnableMoveSource(source: LearnableMoveSource): LearnableMoveSource {
+  return (source - (source % 2)) as LearnableMoveSource;
+}
+
+/**
  * Helper method for {@linkcode getLevelMoves}
  *
  * Filters out moves not within the correct level range(s) and duplicates.
@@ -185,7 +195,7 @@ function filterAndSortLevelMoves(
       return lvlA > lvlB ? 1 : -1;
     }
 
-    return sourceA - sourceB;
+    return getBaseLearnableMoveSource(sourceA) - getBaseLearnableMoveSource(sourceB);
   });
 
   // A set of moves the species gets by level, but are above the current level

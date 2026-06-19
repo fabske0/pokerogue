@@ -186,7 +186,7 @@ import i18next from "i18next";
 import Phaser from "phaser";
 import SoundFade from "phaser3-rex-plugins/plugins/soundfade";
 import type { NonEmptyTuple } from "type-fest";
-import { getLevelMoves } from "./learnsets";
+import { getBaseLearnableMoveSource, getLevelMoves } from "./learnsets";
 
 export abstract class Pokemon extends Phaser.GameObjects.Container {
   /**
@@ -1946,7 +1946,9 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
 
     // Sort by source, so the moves with a species prefix will be at the top
     learnableMoves.sort((a, b) => {
-      return b[2] - a[2];
+      const sourceA = getBaseLearnableMoveSource(a[2]);
+      const sourceB = getBaseLearnableMoveSource(b[2]);
+      return sourceB - sourceA;
     });
 
     return learnableMoves;
