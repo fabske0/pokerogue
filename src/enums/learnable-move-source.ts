@@ -1,7 +1,8 @@
 import type { ObjectValues } from "#types/type-helpers";
 
 /**
- * Shows the source a move can be learned from. Used to contextualize/color relearn moves.
+ * Shows the source a move can be learned from. Used to contextualize/color relearn moves. \
+ * Fusion sources are offset by +1 from their base counterpart.
  */
 export const LearnableMoveSource = {
   LEVEL: 0,

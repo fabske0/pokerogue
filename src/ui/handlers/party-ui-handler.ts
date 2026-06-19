@@ -1671,6 +1671,12 @@ export class PartyUiHandler extends MessageUiHandler {
       } else {
         this.optionPrefixes.push(null);
       }
+      if (learningSource % 2 === 1) {
+        // Color moves coming from a fusion source
+        // They are odd while their non-fusion counterparts are even
+        optionText.setColor("#40c8f8");
+        optionText.setShadowColor("#006090");
+      }
       optionText.setOrigin(0);
 
       /** For every item that has stack bigger than 1, display the current quantity selection */
