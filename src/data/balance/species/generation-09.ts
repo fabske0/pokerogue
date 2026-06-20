@@ -157,14 +157,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [42, MoveId.PLAY_ROUGH],
       [46, MoveId.LEAF_STORM],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.SPRIGATITO].tms,
-      MoveId.THUNDER_PUNCH,
-      MoveId.LOW_KICK,
-      MoveId.AERIAL_ACE,
-      MoveId.FLING,
-      MoveId.LOW_SWEEP,
-    ],
+    tms: [MoveId.THUNDER_PUNCH, MoveId.LOW_KICK, MoveId.AERIAL_ACE, MoveId.FLING, MoveId.LOW_SWEEP],
   };
   generationNineSpeciesData[SpeciesId.MEOWSCARADA] = {
     species: new PokemonSpecies({
@@ -218,7 +211,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [64, MoveId.LEAF_STORM],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.FLORAGATO].tms,
       MoveId.HYPER_BEAM,
       MoveId.THIEF,
       MoveId.SPIKES,
@@ -433,7 +425,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [64, MoveId.OVERHEAT],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.CROCALOR].tms,
       MoveId.HYPER_BEAM,
       MoveId.SOLAR_BEAM,
       MoveId.EARTHQUAKE,
@@ -581,14 +572,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [43, MoveId.LIQUIDATION],
       [48, MoveId.FEATHER_DANCE],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.QUAXLY].tms,
-      MoveId.FEATHER_DANCE,
-      MoveId.WATER_PULSE,
-      MoveId.LOW_SWEEP,
-      MoveId.FLIP_TURN,
-      MoveId.TRIPLE_AXEL,
-    ],
+    tms: [MoveId.FEATHER_DANCE, MoveId.WATER_PULSE, MoveId.LOW_SWEEP, MoveId.FLIP_TURN, MoveId.TRIPLE_AXEL],
   };
   generationNineSpeciesData[SpeciesId.QUAQUAVAL] = {
     species: new PokemonSpecies({
@@ -642,7 +626,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [64, MoveId.WAVE_CRASH],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.QUAXWELL].tms,
       MoveId.SWORDS_DANCE,
       MoveId.MEGA_KICK,
       MoveId.HYPER_BEAM,
@@ -906,7 +889,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       ],
     },
     tms: [
-      ...generationNineSpeciesData[SpeciesId.LECHONK].tms,
       MoveId.HYPER_BEAM,
       MoveId.ENERGY_BALL,
       MoveId.EARTH_POWER,
@@ -1053,7 +1035,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [49, MoveId.SKITTER_SMACK],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.TAROUNTULA].tms,
       MoveId.LOW_KICK,
       MoveId.REVERSAL,
       MoveId.SCARY_FACE,
@@ -1198,7 +1179,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [53, MoveId.AXE_KICK],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.NYMBLE].tms,
       MoveId.SWORDS_DANCE,
       MoveId.DOUBLE_EDGE,
       MoveId.LOW_KICK,
@@ -1358,7 +1338,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [52, MoveId.WILD_CHARGE],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.PAWMI].tms,
       MoveId.THUNDER_PUNCH,
       MoveId.LOW_KICK,
       MoveId.FOCUS_PUNCH,
@@ -1419,7 +1398,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [60, MoveId.DOUBLE_SHOCK],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.PAWMO].tms,
       MoveId.FIRE_PUNCH,
       MoveId.ICE_PUNCH,
       MoveId.DOUBLE_EDGE,
@@ -1640,13 +1618,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [46, MoveId.COPYCAT],
       [53, MoveId.POPULATION_BOMB],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.TANDEMAUS].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.GIGA_IMPACT,
-      MoveId.TRAILBLAZE,
-      MoveId.CHILLING_WATER,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.TRAILBLAZE, MoveId.CHILLING_WATER],
   };
   generationNineSpeciesData[SpeciesId.FIDOUGH] = {
     species: new PokemonSpecies({
@@ -1788,14 +1760,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [47, MoveId.CRUNCH],
       [53, MoveId.LAST_RESORT],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.FIDOUGH].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.SCARY_FACE,
-      MoveId.GIGA_IMPACT,
-      MoveId.DRAINING_KISS,
-      MoveId.BODY_PRESS,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.SCARY_FACE, MoveId.GIGA_IMPACT, MoveId.DRAINING_KISS, MoveId.BODY_PRESS],
   };
   generationNineSpeciesData[SpeciesId.SMOLIV] = {
     species: new PokemonSpecies({
@@ -1972,7 +1937,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [58, MoveId.PETAL_DANCE],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.DOLLIV].tms,
       MoveId.HYPER_BEAM,
       MoveId.LIGHT_SCREEN,
       MoveId.REFLECT,
@@ -2323,13 +2287,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [45, MoveId.EARTHQUAKE],
       [51, MoveId.STONE_EDGE],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.NACLI].tms,
-      MoveId.DOUBLE_EDGE,
-      MoveId.HYPER_BEAM,
-      MoveId.GIGA_IMPACT,
-      MoveId.BODY_PRESS,
-    ],
+    tms: [MoveId.DOUBLE_EDGE, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.BODY_PRESS],
   };
   generationNineSpeciesData[SpeciesId.GARGANACL] = {
     species: new PokemonSpecies({
@@ -2382,7 +2340,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [60, MoveId.EXPLOSION],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.NACLSTACK].tms,
       MoveId.FIRE_PUNCH,
       MoveId.ICE_PUNCH,
       MoveId.THUNDER_PUNCH,
@@ -2536,7 +2493,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [62, MoveId.ARMOR_CANNON],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.CHARCADET].tms,
       MoveId.PSYBEAM,
       MoveId.HYPER_BEAM,
       MoveId.SOLAR_BEAM,
@@ -2624,7 +2580,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [62, MoveId.FLARE_BLITZ],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.CHARCADET].tms,
       MoveId.SWORDS_DANCE,
       MoveId.LIGHT_SCREEN,
       MoveId.REFLECT,
@@ -2793,13 +2748,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [45, MoveId.SUCKER_PUNCH],
       [50, MoveId.ZAP_CANNON],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.TADBULB].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.TOXIC,
-      MoveId.GIGA_IMPACT,
-      MoveId.SUPERCELL_SLAM,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.TOXIC, MoveId.GIGA_IMPACT, MoveId.SUPERCELL_SLAM],
   };
   generationNineSpeciesData[SpeciesId.WATTREL] = {
     species: new PokemonSpecies({
@@ -2936,13 +2885,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [48, MoveId.DISCHARGE],
       [55, MoveId.HURRICANE],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.WATTREL].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.SCARY_FACE,
-      MoveId.GIGA_IMPACT,
-      MoveId.SUPERCELL_SLAM,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.SCARY_FACE, MoveId.GIGA_IMPACT, MoveId.SUPERCELL_SLAM],
   };
   generationNineSpeciesData[SpeciesId.MASCHIFF] = {
     species: new PokemonSpecies({
@@ -3089,7 +3032,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [60, MoveId.OUTRAGE],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.MASCHIFF].tms,
       MoveId.HYPER_BEAM,
       MoveId.CURSE,
       MoveId.SPITE,
@@ -3246,7 +3188,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [51, MoveId.GUNK_SHOT],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.SHROODLE].tms,
       MoveId.LOW_KICK,
       MoveId.SCARY_FACE,
       MoveId.PSYCH_UP,
@@ -3393,12 +3334,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [50, MoveId.PAIN_SPLIT],
       [55, MoveId.POWER_WHIP],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.BRAMBLIN].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.GIGA_IMPACT,
-      MoveId.SKITTER_SMACK,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.SKITTER_SMACK],
   };
   generationNineSpeciesData[SpeciesId.TOEDSCOOL] = {
     species: new PokemonSpecies({
@@ -3551,7 +3487,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [54, MoveId.EARTH_POWER],
       [58, MoveId.POWER_WHIP],
     ],
-    tms: [...generationNineSpeciesData[SpeciesId.TOEDSCOOL].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationNineSpeciesData[SpeciesId.KLAWF] = {
     species: new PokemonSpecies({
@@ -3798,7 +3734,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [48, MoveId.OVERHEAT],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.CAPSAKID].tms,
       MoveId.FLAMETHROWER,
       MoveId.HYPER_BEAM,
       MoveId.FIRE_SPIN,
@@ -3945,7 +3880,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [50, MoveId.PSYCHIC],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.RELLOR].tms,
       MoveId.PSYBEAM,
       MoveId.HYPER_BEAM,
       MoveId.PSYCHIC,
@@ -4121,7 +4055,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [54, MoveId.LAST_RESORT],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.FLITTLE].tms,
       MoveId.BODY_SLAM,
       MoveId.DOUBLE_EDGE,
       MoveId.HYPER_BEAM,
@@ -4284,7 +4217,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [47, MoveId.SKITTER_SMACK],
       [52, MoveId.KNOCK_OFF],
     ],
-    tms: [...generationNineSpeciesData[SpeciesId.TINKATINK].tms, MoveId.BRICK_BREAK],
+    tms: [MoveId.BRICK_BREAK],
   };
   generationNineSpeciesData[SpeciesId.TINKATON] = {
     species: new PokemonSpecies({
@@ -4336,13 +4269,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [47, MoveId.SKITTER_SMACK],
       [52, MoveId.KNOCK_OFF],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.TINKATUFF].tms,
-      MoveId.SMACK_DOWN,
-      MoveId.HEAVY_SLAM,
-      MoveId.BULLDOZE,
-      MoveId.HARD_PRESS,
-    ],
+    tms: [MoveId.SMACK_DOWN, MoveId.HEAVY_SLAM, MoveId.BULLDOZE, MoveId.HARD_PRESS],
   };
   generationNineSpeciesData[SpeciesId.WIGLETT] = {
     species: new PokemonSpecies({
@@ -4471,12 +4398,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [48, MoveId.THROAT_CHOP],
       [54, MoveId.LIQUIDATION],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.WIGLETT].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.PAIN_SPLIT,
-      MoveId.GIGA_IMPACT,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.PAIN_SPLIT, MoveId.GIGA_IMPACT],
   };
   generationNineSpeciesData[SpeciesId.BOMBIRDIER] = {
     species: new PokemonSpecies({
@@ -4791,7 +4713,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [61, MoveId.WAVE_CRASH],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.FINIZEN].tms,
       MoveId.ICE_PUNCH,
       MoveId.HYPER_BEAM,
       MoveId.REVERSAL,
@@ -5124,7 +5045,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       "caph-starmobile": [[EVOLVE_MOVE, MoveId.COMBAT_TORQUE]],
     },
     tms: [
-      ...generationNineSpeciesData[SpeciesId.VAROOM].tms,
       MoveId.HYPER_BEAM,
       MoveId.REST,
       MoveId.ENDEAVOR,
@@ -5474,7 +5394,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [50, MoveId.SLUDGE_WAVE],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.GLIMMET].tms,
       MoveId.HYPER_BEAM,
       MoveId.SOLAR_BEAM,
       MoveId.ENERGY_BALL,
@@ -5638,13 +5557,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [51, MoveId.CHARM],
       [58, MoveId.DOUBLE_EDGE],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.GREAVARD].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.WILL_O_WISP,
-      MoveId.GIGA_IMPACT,
-      MoveId.BODY_PRESS,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.WILL_O_WISP, MoveId.GIGA_IMPACT, MoveId.BODY_PRESS],
   };
   generationNineSpeciesData[SpeciesId.FLAMIGO] = {
     species: new PokemonSpecies({
@@ -5898,12 +5811,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [49, MoveId.DOUBLE_EDGE],
       [53, MoveId.BLIZZARD],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.CETODDLE].tms,
-      MoveId.ICE_PUNCH,
-      MoveId.GIGA_IMPACT,
-      MoveId.HARD_PRESS,
-    ],
+    tms: [MoveId.ICE_PUNCH, MoveId.GIGA_IMPACT, MoveId.HARD_PRESS],
   };
   generationNineSpeciesData[SpeciesId.VELUZA] = {
     species: new PokemonSpecies({
@@ -8383,13 +8291,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [50, MoveId.CRUNCH],
       [55, MoveId.ICICLE_CRASH],
     ],
-    tms: [
-      ...generationNineSpeciesData[SpeciesId.FRIGIBAX].tms,
-      MoveId.SCARY_FACE,
-      MoveId.BRICK_BREAK,
-      MoveId.AERIAL_ACE,
-      MoveId.IRON_HEAD,
-    ],
+    tms: [MoveId.SCARY_FACE, MoveId.BRICK_BREAK, MoveId.AERIAL_ACE, MoveId.IRON_HEAD],
   };
   generationNineSpeciesData[SpeciesId.BAXCALIBUR] = {
     species: new PokemonSpecies({
@@ -8441,7 +8343,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [70, MoveId.ICE_HAMMER],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.ARCTIBAX].tms,
       MoveId.DOUBLE_EDGE,
       MoveId.HYPER_BEAM,
       MoveId.EARTHQUAKE,
@@ -8635,7 +8536,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [70, MoveId.MEMENTO],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.GIMMIGHOUL].tms,
       MoveId.THUNDER_PUNCH,
       MoveId.SURF,
       MoveId.HYPER_BEAM,
@@ -10157,7 +10057,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [54, MoveId.MEMENTO],
       [60, MoveId.LEAF_STORM],
     ],
-    tms: [...generationNineSpeciesData[SpeciesId.POLTCHAGEIST].tms, MoveId.HYPER_BEAM],
+    tms: [MoveId.HYPER_BEAM],
   };
   generationNineSpeciesData[SpeciesId.OKIDOGI] = {
     species: new PokemonSpecies({
@@ -11036,7 +10936,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [54, MoveId.POWER_WHIP],
     ],
     tms: [
-      ...generationNineSpeciesData[SpeciesId.DIPPLIN].tms,
       MoveId.DOUBLE_EDGE,
       MoveId.HYDRO_PUMP,
       MoveId.EARTHQUAKE,

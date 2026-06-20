@@ -176,7 +176,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [50, MoveId.SLUDGE_WAVE],
       [54, MoveId.SOLAR_BEAM],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.BULBASAUR].tms, MoveId.ROAR],
+    tms: [MoveId.ROAR],
   };
   generationOneSpeciesData[SpeciesId.VENUSAUR] = {
     species: new PokemonSpecies({
@@ -320,7 +320,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.SOLAR_BEAM],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.IVYSAUR].tms,
       MoveId.HYPER_BEAM,
       MoveId.EARTHQUAKE,
       MoveId.SCARY_FACE,
@@ -686,7 +685,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.FLARE_BLITZ],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.CHARMELEON].tms,
       MoveId.FLY,
       MoveId.HYPER_BEAM,
       MoveId.SOLAR_BEAM,
@@ -1029,7 +1027,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.SKULL_BASH],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.WARTORTLE].tms,
       MoveId.ROAR,
       MoveId.HYPER_BEAM,
       MoveId.EARTHQUAKE,
@@ -1122,7 +1119,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [EVOLVE_MOVE, MoveId.HARDEN],
       [1, MoveId.HARDEN],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.CATERPIE].tms, MoveId.IRON_DEFENSE],
+    tms: [MoveId.IRON_DEFENSE],
   };
   generationOneSpeciesData[SpeciesId.BUTTERFREE] = {
     species: new PokemonSpecies({
@@ -1234,7 +1231,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [43, MoveId.QUIVER_DANCE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.METAPOD].tms,
       MoveId.TAKE_DOWN,
       MoveId.DOUBLE_EDGE,
       MoveId.PSYBEAM,
@@ -1802,7 +1798,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.HURRICANE],
       [62, MoveId.SKY_ATTACK],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.PIDGEOTTO].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.RATTATA] = {
     species: new PokemonSpecies({
@@ -1962,7 +1958,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [44, MoveId.ENDEAVOR],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.RATTATA].tms,
       MoveId.SWORDS_DANCE,
       MoveId.ROAR,
       MoveId.HYPER_BEAM,
@@ -2115,12 +2110,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [41, MoveId.DRILL_PECK],
       [45, MoveId.DRILL_RUN],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.SPEAROW].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.GIGA_IMPACT,
-      MoveId.THROAT_CHOP,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.THROAT_CHOP],
   };
   generationOneSpeciesData[SpeciesId.EKANS] = {
     species: new PokemonSpecies({
@@ -2302,7 +2292,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [62, MoveId.TOXIC],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.EKANS].tms,
       MoveId.HYPER_BEAM,
       MoveId.PAIN_SPLIT,
       MoveId.GIGA_IMPACT,
@@ -2824,7 +2813,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [99, MoveId.VOLT_TACKLE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.PIKACHU].tms,
       MoveId.HYPER_BEAM,
       MoveId.SAFEGUARD,
       MoveId.DRAIN_PUNCH,
@@ -3013,7 +3001,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [53, MoveId.EARTHQUAKE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.SANDSHREW].tms,
       MoveId.PIN_MISSILE,
       MoveId.HYPER_BEAM,
       MoveId.FOCUS_BLAST,
@@ -3182,7 +3169,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [58, MoveId.SUPER_FANG],
       [65, MoveId.EARTH_POWER],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.NIDORAN_F].tms, MoveId.STOMPING_TANTRUM],
+    tms: [MoveId.STOMPING_TANTRUM],
   };
   generationOneSpeciesData[SpeciesId.NIDOQUEEN] = {
     species: new PokemonSpecies({
@@ -3236,7 +3223,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.EARTH_POWER],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.NIDORINA].tms,
       MoveId.MEGA_PUNCH,
       MoveId.PAY_DAY,
       MoveId.FIRE_PUNCH,
@@ -3449,7 +3435,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [58, MoveId.SUPER_FANG],
       [65, MoveId.EARTH_POWER],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.NIDORAN_M].tms, MoveId.STOMPING_TANTRUM],
+    tms: [MoveId.STOMPING_TANTRUM],
   };
   generationOneSpeciesData[SpeciesId.NIDOKING] = {
     species: new PokemonSpecies({
@@ -3503,7 +3489,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.EARTH_POWER],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.NIDORINO].tms,
       MoveId.MEGA_PUNCH,
       MoveId.PAY_DAY,
       MoveId.FIRE_PUNCH,
@@ -3791,13 +3776,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.HEALING_WISH],
       [58, MoveId.AFTER_YOU],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.CLEFAIRY].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.FUTURE_SIGHT,
-      MoveId.FOCUS_BLAST,
-      MoveId.GIGA_IMPACT,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.FUTURE_SIGHT, MoveId.FOCUS_BLAST, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.VULPIX] = {
     species: new PokemonSpecies({
@@ -3983,7 +3962,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [52, MoveId.FIRE_BLAST],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.VULPIX].tms,
       MoveId.HYPER_BEAM,
       MoveId.SOLAR_BEAM,
       MoveId.NIGHT_SHADE,
@@ -4233,14 +4211,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [47, MoveId.DOUBLE_EDGE],
       [51, MoveId.MOONBLAST],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.JIGGLYPUFF].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.FOCUS_BLAST,
-      MoveId.GIGA_IMPACT,
-      MoveId.MAGIC_ROOM,
-      MoveId.EXPANDING_FORCE,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.FOCUS_BLAST, MoveId.GIGA_IMPACT, MoveId.MAGIC_ROOM, MoveId.EXPANDING_FORCE],
   };
   generationOneSpeciesData[SpeciesId.ZUBAT] = {
     species: new PokemonSpecies({
@@ -4409,7 +4380,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [51, MoveId.QUICK_GUARD],
       [56, MoveId.TOXIC],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.ZUBAT].tms, MoveId.HYPER_BEAM, MoveId.SCREECH, MoveId.GIGA_IMPACT],
+    tms: [MoveId.HYPER_BEAM, MoveId.SCREECH, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.ODDISH] = {
     species: new PokemonSpecies({
@@ -4570,13 +4541,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [51, MoveId.GRASSY_TERRAIN],
       [56, MoveId.PETAL_DANCE],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.ODDISH].tms,
-      MoveId.FLING,
-      MoveId.DRAIN_PUNCH,
-      MoveId.PETAL_BLIZZARD,
-      MoveId.POLLEN_PUFF,
-    ],
+    tms: [MoveId.FLING, MoveId.DRAIN_PUNCH, MoveId.PETAL_BLIZZARD, MoveId.POLLEN_PUFF],
   };
   generationOneSpeciesData[SpeciesId.VILEPLUME] = {
     species: new PokemonSpecies({
@@ -4629,7 +4594,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.SOLAR_BEAM],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.GLOOM].tms,
       MoveId.BODY_SLAM,
       MoveId.HYPER_BEAM,
       MoveId.SAFEGUARD,
@@ -4794,7 +4758,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [51, MoveId.RAGE_POWDER],
       [59, MoveId.LEECH_LIFE],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.PARAS].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.THROAT_CHOP],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.THROAT_CHOP],
   };
   generationOneSpeciesData[SpeciesId.VENONAT] = {
     species: new PokemonSpecies({
@@ -4956,7 +4920,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [59, MoveId.QUIVER_DANCE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.VENONAT].tms,
       MoveId.HYPER_BEAM,
       MoveId.DREAM_EATER,
       MoveId.AIR_CUTTER,
@@ -5137,14 +5100,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [47, MoveId.EARTHQUAKE],
       [53, MoveId.FISSURE],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.DIGLETT].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.TRI_ATTACK,
-      MoveId.GIGA_IMPACT,
-      MoveId.SLUDGE_WAVE,
-      MoveId.HIGH_HORSEPOWER,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.TRI_ATTACK, MoveId.GIGA_IMPACT, MoveId.SLUDGE_WAVE, MoveId.HIGH_HORSEPOWER],
   };
   generationOneSpeciesData[SpeciesId.MEOWTH] = {
     species: new PokemonSpecies({
@@ -5396,14 +5352,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.PLAY_ROUGH],
       [61, MoveId.NIGHT_SLASH],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.MEOWTH].tms,
-      MoveId.ROAR,
-      MoveId.HYPER_BEAM,
-      MoveId.EMBARGO,
-      MoveId.GIGA_IMPACT,
-      MoveId.SKITTER_SMACK,
-    ],
+    tms: [MoveId.ROAR, MoveId.HYPER_BEAM, MoveId.EMBARGO, MoveId.GIGA_IMPACT, MoveId.SKITTER_SMACK],
   };
   generationOneSpeciesData[SpeciesId.PSYDUCK] = {
     species: new PokemonSpecies({
@@ -5597,7 +5546,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [51, MoveId.HYDRO_PUMP],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.PSYDUCK].tms,
       MoveId.HYPER_BEAM,
       MoveId.POWER_GEM,
       MoveId.FOCUS_BLAST,
@@ -5819,12 +5767,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [53, MoveId.OUTRAGE],
       [57, MoveId.FINAL_GAMBIT],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.MANKEY].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.GIGA_IMPACT,
-      MoveId.STEALTH_ROCK,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT, MoveId.STEALTH_ROCK],
   };
   generationOneSpeciesData[SpeciesId.GROWLITHE] = {
     species: new PokemonSpecies({
@@ -6003,7 +5946,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [64, MoveId.OUTRAGE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.GROWLITHE].tms,
       MoveId.HYPER_BEAM,
       MoveId.SOLAR_BEAM,
       MoveId.SUPERPOWER,
@@ -6184,7 +6126,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [66, MoveId.DOUBLE_EDGE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.POLIWAG].tms,
       MoveId.MEGA_PUNCH,
       MoveId.ICE_PUNCH,
       MoveId.MEGA_KICK,
@@ -6254,7 +6195,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [76, MoveId.SUPERPOWER],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.POLIWHIRL].tms,
       MoveId.HYPER_BEAM,
       MoveId.ROCK_SLIDE,
       MoveId.REVERSAL,
@@ -6453,7 +6393,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [48, MoveId.CALM_MIND],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.ABRA].tms,
       MoveId.PSYBEAM,
       MoveId.DIG,
       MoveId.NIGHT_SHADE,
@@ -6576,7 +6515,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [48, MoveId.CALM_MIND],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.KADABRA].tms,
       MoveId.HYPER_BEAM,
       MoveId.IMPRISON,
       MoveId.FOCUS_BLAST,
@@ -6771,7 +6709,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [57, MoveId.DYNAMIC_PUNCH],
       [63, MoveId.DOUBLE_EDGE],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.MACHOP].tms, MoveId.STOMPING_TANTRUM],
+    tms: [MoveId.STOMPING_TANTRUM],
   };
   generationOneSpeciesData[SpeciesId.MACHAMP] = {
     species: new PokemonSpecies({
@@ -6887,7 +6825,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [63, MoveId.DOUBLE_EDGE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.MACHOKE].tms,
       MoveId.HYPER_BEAM,
       MoveId.ROCK_BLAST,
       MoveId.ASSURANCE,
@@ -7058,7 +6995,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [58, MoveId.SLUDGE_WAVE],
       [64, MoveId.POWER_WHIP],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.BELLSPROUT].tms, MoveId.BODY_SLAM, MoveId.SWIFT, MoveId.BUG_BITE],
+    tms: [MoveId.BODY_SLAM, MoveId.SWIFT, MoveId.BUG_BITE],
   };
   generationOneSpeciesData[SpeciesId.VICTREEBEL] = {
     species: new PokemonSpecies({
@@ -7115,13 +7052,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [58, MoveId.SLUDGE_WAVE],
       [64, MoveId.POWER_WHIP],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.WEEPINBELL].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.SCARY_FACE,
-      MoveId.LEAF_BLADE,
-      MoveId.GIGA_IMPACT,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.SCARY_FACE, MoveId.LEAF_BLADE, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.TENTACOOL] = {
     species: new PokemonSpecies({
@@ -7295,7 +7226,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [60, MoveId.HYDRO_PUMP],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.TENTACOOL].tms,
       MoveId.HYPER_BEAM,
       MoveId.SCARY_FACE,
       MoveId.WEATHER_BALL,
@@ -7480,14 +7410,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [50, MoveId.DOUBLE_EDGE],
       [54, MoveId.STONE_EDGE],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.GEODUDE].tms,
-      MoveId.FOCUS_BLAST,
-      MoveId.IRON_HEAD,
-      MoveId.HEAVY_SLAM,
-      MoveId.BODY_PRESS,
-      MoveId.HARD_PRESS,
-    ],
+    tms: [MoveId.FOCUS_BLAST, MoveId.IRON_HEAD, MoveId.HEAVY_SLAM, MoveId.BODY_PRESS, MoveId.HARD_PRESS],
   };
   generationOneSpeciesData[SpeciesId.GOLEM] = {
     species: new PokemonSpecies({
@@ -7542,13 +7465,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [54, MoveId.STONE_EDGE],
       [60, MoveId.HEAVY_SLAM],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.GRAVELER].tms,
-      MoveId.MEGA_KICK,
-      MoveId.ROAR,
-      MoveId.HYPER_BEAM,
-      MoveId.GIGA_IMPACT,
-    ],
+    tms: [MoveId.MEGA_KICK, MoveId.ROAR, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.PONYTA] = {
     species: new PokemonSpecies({
@@ -7702,7 +7619,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.MEGAHORN],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.PONYTA].tms,
       MoveId.PAY_DAY,
       MoveId.SWORDS_DANCE,
       MoveId.HYPER_BEAM,
@@ -7975,7 +7891,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [48, MoveId.REST],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.SLOWPOKE].tms,
       MoveId.MEGA_PUNCH,
       MoveId.ICE_PUNCH,
       MoveId.MEGA_KICK,
@@ -8171,12 +8086,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [63, MoveId.ZAP_CANNON],
       [66, MoveId.THUNDER],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.MAGNEMITE].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.TRI_ATTACK,
-      MoveId.GIGA_IMPACT,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.TRI_ATTACK, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.FARFETCHD] = {
     species: new PokemonSpecies({
@@ -8457,7 +8367,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.THRASH],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.DODUO].tms,
       MoveId.HYPER_BEAM,
       MoveId.SCARY_FACE,
       MoveId.TORMENT,
@@ -8639,7 +8548,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [65, MoveId.SNOWSCAPE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.SEEL].tms,
       MoveId.HYPER_BEAM,
       MoveId.KNOCK_OFF,
       MoveId.ENDEAVOR,
@@ -8826,7 +8734,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [57, MoveId.MEMENTO],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.GRIMER].tms,
       MoveId.HYPER_BEAM,
       MoveId.SWIFT,
       MoveId.SPITE,
@@ -9007,7 +8914,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.HYDRO_PUMP],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.SHELLDER].tms,
       MoveId.BODY_SLAM,
       MoveId.PIN_MISSILE,
       MoveId.HYPER_BEAM,
@@ -9206,7 +9112,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [60, MoveId.NIGHTMARE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.GASTLY].tms,
       MoveId.METRONOME,
       MoveId.ENCORE,
       MoveId.FLING,
@@ -9358,7 +9263,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [60, MoveId.NIGHTMARE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.HAUNTER].tms,
       MoveId.MEGA_PUNCH,
       MoveId.MEGA_KICK,
       MoveId.BODY_SLAM,
@@ -9702,7 +9606,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [57, MoveId.FUTURE_SIGHT],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.DROWZEE].tms,
       MoveId.HYPER_BEAM,
       MoveId.CONFUSE_RAY,
       MoveId.SCARY_FACE,
@@ -9933,7 +9836,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [60, MoveId.GUILLOTINE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.KRABBY].tms,
       MoveId.HYDRO_PUMP,
       MoveId.HYPER_BEAM,
       MoveId.GIGA_IMPACT,
@@ -10099,13 +10001,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [54, MoveId.GYRO_BALL],
       [58, MoveId.MIRROR_COAT],
     ],
-    tms: [
-      ...generationOneSpeciesData[SpeciesId.VOLTORB].tms,
-      MoveId.HYPER_BEAM,
-      MoveId.SCARY_FACE,
-      MoveId.GIGA_IMPACT,
-      MoveId.SUPERCELL_SLAM,
-    ],
+    tms: [MoveId.HYPER_BEAM, MoveId.SCARY_FACE, MoveId.GIGA_IMPACT, MoveId.SUPERCELL_SLAM],
   };
   generationOneSpeciesData[SpeciesId.EXEGGCUTE] = {
     species: new PokemonSpecies({
@@ -10298,7 +10194,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [57, MoveId.POWER_WHIP],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.EXEGGCUTE].tms,
       MoveId.BODY_SLAM,
       MoveId.HYPER_BEAM,
       MoveId.LOW_KICK,
@@ -10506,7 +10401,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [59, MoveId.DOUBLE_EDGE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.CUBONE].tms,
       MoveId.HYPER_BEAM,
       MoveId.THUNDER,
       MoveId.DREAM_EATER,
@@ -11109,7 +11003,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [56, MoveId.MEMENTO],
       [62, MoveId.DESTINY_BOND],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.KOFFING].tms, MoveId.HYPER_BEAM, MoveId.HEAT_WAVE, MoveId.GIGA_IMPACT],
+    tms: [MoveId.HYPER_BEAM, MoveId.HEAT_WAVE, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.RHYHORN] = {
     species: new PokemonSpecies({
@@ -11300,7 +11194,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [69, MoveId.HORN_DRILL],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.RHYHORN].tms,
       MoveId.MEGA_PUNCH,
       MoveId.PAY_DAY,
       MoveId.FIRE_PUNCH,
@@ -11968,7 +11861,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [58, MoveId.DRAGON_DANCE],
       [65, MoveId.RAIN_DANCE],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.HORSEA].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.GOLDEEN] = {
     species: new PokemonSpecies({
@@ -12120,7 +12013,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [46, MoveId.SOAK],
       [54, MoveId.MEGAHORN],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.GOLDEEN].tms, MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
+    tms: [MoveId.HYPER_BEAM, MoveId.GIGA_IMPACT],
   };
   generationOneSpeciesData[SpeciesId.STARYU] = {
     species: new PokemonSpecies({
@@ -12353,7 +12246,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [53, MoveId.HYDRO_PUMP],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.STARYU].tms,
       MoveId.HYPER_BEAM,
       MoveId.AGILITY,
       MoveId.DREAM_EATER,
@@ -14281,7 +14173,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [55, MoveId.LAST_RESORT],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.EEVEE].tms,
       MoveId.HYDRO_PUMP,
       MoveId.SURF,
       MoveId.ICE_BEAM,
@@ -14357,7 +14248,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [55, MoveId.LAST_RESORT],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.EEVEE].tms,
       MoveId.PIN_MISSILE,
       MoveId.HYPER_BEAM,
       MoveId.STRENGTH,
@@ -14438,7 +14328,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [55, MoveId.LAST_RESORT],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.EEVEE].tms,
       MoveId.FLAMETHROWER,
       MoveId.HYPER_BEAM,
       MoveId.STRENGTH,
@@ -14751,7 +14640,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [75, MoveId.HYDRO_PUMP],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.OMANYTE].tms,
       MoveId.PIN_MISSILE,
       MoveId.HYPER_BEAM,
       MoveId.CRUNCH,
@@ -14932,7 +14820,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [75, MoveId.STONE_EDGE],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.KABUTO].tms,
       MoveId.SWORDS_DANCE,
       MoveId.MEGA_KICK,
       MoveId.HYPER_BEAM,
@@ -15901,7 +15788,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [67, MoveId.OUTRAGE],
       [74, MoveId.HYPER_BEAM],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.DRATINI].tms, MoveId.WEATHER_BALL],
+    tms: [MoveId.WEATHER_BALL],
   };
   generationOneSpeciesData[SpeciesId.DRAGONITE] = {
     species: new PokemonSpecies({
@@ -15959,7 +15846,6 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [75, MoveId.HYPER_BEAM],
     ],
     tms: [
-      ...generationOneSpeciesData[SpeciesId.DRAGONAIR].tms,
       MoveId.MEGA_PUNCH,
       MoveId.FIRE_PUNCH,
       MoveId.ICE_PUNCH,
