@@ -32,7 +32,6 @@ describe("SpeciesDataRegistry", () => {
         }
       }
     });
-
     it("should have valid starter costs for all starters", () => {
       for (const speciesData of Object.values(speciesDataRegistry.data)) {
         if (speciesData.species.speciesId === speciesData.starter) {
