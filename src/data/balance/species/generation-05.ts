@@ -318,7 +318,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [48, MoveId.GASTRO_ACID],
       [52, MoveId.LEAF_STORM],
     ],
-    tms: [...generationFiveSpeciesData[SpeciesId.SNIVY].tms],
+    tms: [],
   };
   generationFiveSpeciesData[SpeciesId.SERPERIOR] = {
     species: new PokemonSpecies({
@@ -2307,7 +2307,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [50, MoveId.TAILWIND],
       [54, MoveId.SKY_ATTACK],
     ],
-    tms: [...generationFiveSpeciesData[SpeciesId.PIDOVE].tms],
+    tms: [],
   };
   generationFiveSpeciesData[SpeciesId.UNFEZANT] = {
     species: new PokemonSpecies({
@@ -4096,7 +4096,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [36, MoveId.BUG_BUZZ],
       [43, MoveId.FLAIL],
     ],
-    tms: [...generationFiveSpeciesData[SpeciesId.SEWADDLE].tms],
+    tms: [],
   };
   generationFiveSpeciesData[SpeciesId.LEAVANNY] = {
     species: new PokemonSpecies({
@@ -4314,7 +4314,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [50, MoveId.ROCK_CLIMB],
       [55, MoveId.DOUBLE_EDGE],
     ],
-    tms: [...generationFiveSpeciesData[SpeciesId.VENIPEDE].tms],
+    tms: [],
   };
   generationFiveSpeciesData[SpeciesId.SCOLIPEDE] = {
     species: new PokemonSpecies({
@@ -6164,7 +6164,6 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       MoveId.ZEN_HEADBUTT,
       MoveId.TRICK_ROOM,
       MoveId.OMINOUS_WIND,
-      MoveId.OMINOUS_WIND,
       MoveId.WONDER_ROOM,
       MoveId.ROUND,
       MoveId.ALLY_SWITCH,
@@ -7607,7 +7606,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [50, MoveId.HEAL_BLOCK],
       [53, MoveId.WONDER_ROOM],
     ],
-    tms: [...generationFiveSpeciesData[SpeciesId.SOLOSIS].tms],
+    tms: [],
   };
   generationFiveSpeciesData[SpeciesId.REUNICLUS] = {
     species: new PokemonSpecies({
@@ -7976,7 +7975,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [50, MoveId.BLIZZARD],
       [56, MoveId.SHEER_COLD],
     ],
-    tms: [...generationFiveSpeciesData[SpeciesId.VANILLITE].tms],
+    tms: [],
   };
   generationFiveSpeciesData[SpeciesId.VANILLUXE] = {
     species: new PokemonSpecies({
@@ -11442,7 +11441,6 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       MoveId.THUNDER_PUNCH,
       MoveId.MEGA_KICK,
       MoveId.BODY_SLAM,
-      MoveId.DOUBLE_EDGE,
       MoveId.DOUBLE_EDGE,
       MoveId.ICE_BEAM,
       MoveId.LOW_KICK,

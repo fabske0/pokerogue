@@ -179,7 +179,7 @@ export function initGenerationFour(): SpeciesDataMapConfig {
       [47, MoveId.GIGA_DRAIN],
       [52, MoveId.LEAF_STORM],
     ],
-    tms: [...generationFourSpeciesData[SpeciesId.TURTWIG].tms],
+    tms: [],
   };
   generationFourSpeciesData[SpeciesId.TORTERRA] = {
     species: new PokemonSpecies({
@@ -1419,7 +1419,7 @@ export function initGenerationFour(): SpeciesDataMapConfig {
       [48, MoveId.DISCHARGE],
       [53, MoveId.WILD_CHARGE],
     ],
-    tms: [...generationFourSpeciesData[SpeciesId.SHINX].tms],
+    tms: [],
   };
   generationFourSpeciesData[SpeciesId.LUXRAY] = {
     species: new PokemonSpecies({

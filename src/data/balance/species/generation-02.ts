@@ -5928,7 +5928,6 @@ export function initGenerationTwo(): SpeciesDataMapConfig {
       MoveId.PSYCHIC_FANGS,
       MoveId.BREAKING_SWIPE,
       MoveId.SCALE_SHOT,
-      MoveId.SCALE_SHOT,
       MoveId.SKITTER_SMACK,
       MoveId.DUAL_WINGBEAT,
       MoveId.TERA_BLAST,

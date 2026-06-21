@@ -4996,7 +4996,7 @@ export function initGenerationSix(): SpeciesDataMapConfig {
       [50, MoveId.SWORDS_DANCE],
       [56, MoveId.SACRED_SWORD],
     ],
-    tms: [...generationSixSpeciesData[SpeciesId.HONEDGE].tms],
+    tms: [],
   };
   generationSixSpeciesData[SpeciesId.AEGISLASH] = {
     species: new PokemonSpecies({

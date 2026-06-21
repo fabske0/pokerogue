@@ -431,7 +431,7 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
       [46, MoveId.FLARE_BLITZ],
       [51, MoveId.OUTRAGE],
     ],
-    tms: [...generationSevenSpeciesData[SpeciesId.LITTEN].tms],
+    tms: [],
   };
   generationSevenSpeciesData[SpeciesId.INCINEROAR] = {
     species: new PokemonSpecies({
@@ -2262,11 +2262,9 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
       ],
     },
     tms: [
-      ...generationSevenSpeciesData[SpeciesId.ROCKRUFF].tms.filter(tm => ![MoveId.MUD_SLAP].includes(tm)),
       MoveId.COUNTER,
       MoveId.AGILITY,
       MoveId.SWIFT,
-      MoveId.MUD_SLAP,
       MoveId.MUD_SLAP,
       MoveId.BRICK_BREAK,
       MoveId.BULK_UP,
@@ -2276,14 +2274,13 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
       MoveId.GIGA_IMPACT,
     ],
     formTms: {
-      midday: [MoveId.MUD_SLAP, MoveId.SUNNY_DAY, MoveId.DRILL_RUN, MoveId.TAIL_SLAP],
+      midday: [MoveId.SUNNY_DAY, MoveId.DRILL_RUN, MoveId.TAIL_SLAP],
       midnight: [
         MoveId.MEGA_PUNCH,
         MoveId.FIRE_PUNCH,
         MoveId.THUNDER_PUNCH,
         MoveId.MEGA_KICK,
         MoveId.REVERSAL,
-        MoveId.MUD_SLAP,
         MoveId.OUTRAGE,
         MoveId.SUNNY_DAY,
         MoveId.UPROAR,

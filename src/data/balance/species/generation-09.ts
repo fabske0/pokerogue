@@ -371,7 +371,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [42, MoveId.WILL_O_WISP],
       [47, MoveId.FIRE_BLAST],
     ],
-    tms: [...generationNineSpeciesData[SpeciesId.FUECOCO].tms],
+    tms: [],
   };
   generationNineSpeciesData[SpeciesId.SKELEDIRGE] = {
     species: new PokemonSpecies({
@@ -1886,7 +1886,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [37, MoveId.LEECH_SEED],
       [42, MoveId.TERRAIN_PULSE],
     ],
-    tms: [...generationNineSpeciesData[SpeciesId.SMOLIV].tms],
+    tms: [],
   };
   generationNineSpeciesData[SpeciesId.ARBOLIVA] = {
     species: new PokemonSpecies({

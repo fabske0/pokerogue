@@ -511,7 +511,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [50, MoveId.INFERNO],
       [54, MoveId.FLARE_BLITZ],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.CHARMANDER].tms],
+    tms: [],
   };
   generationOneSpeciesData[SpeciesId.CHARIZARD] = {
     species: new PokemonSpecies({
@@ -885,7 +885,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [49, MoveId.WAVE_CRASH],
       [54, MoveId.SKULL_BASH],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.SQUIRTLE].tms],
+    tms: [],
   };
   generationOneSpeciesData[SpeciesId.BLASTOISE] = {
     species: new PokemonSpecies({
@@ -1685,7 +1685,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
       [48, MoveId.TAILWIND],
       [52, MoveId.HURRICANE],
     ],
-    tms: [...generationOneSpeciesData[SpeciesId.PIDGEY].tms],
+    tms: [],
   };
   generationOneSpeciesData[SpeciesId.PIDGEOT] = {
     species: new PokemonSpecies({
