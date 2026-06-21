@@ -3713,7 +3713,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
       [48, MoveId.BOOMBURST],
     ],
     formLevelMoves: {
-      "": [
+      amped: [
         [20, MoveId.VENOSHOCK],
         [52, MoveId.SHIFT_GEAR],
         [60, MoveId.ZAP_CANNON],

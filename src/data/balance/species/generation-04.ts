@@ -10532,7 +10532,7 @@ export function initGenerationFour(): SpeciesDataMapConfig {
       [64, MoveId.SEED_FLARE],
     ],
     formLevelMoves: {
-      "": [
+      land: [
         [50, MoveId.AROMATHERAPY],
         [59, MoveId.GRASSY_TERRAIN],
         [73, MoveId.HEALING_WISH],

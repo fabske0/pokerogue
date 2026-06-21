@@ -4887,7 +4887,7 @@ export function initGenerationFive(): SpeciesDataMapConfig {
       [56, MoveId.HEAD_SMASH],
     ],
     formLevelMoves: {
-      "": [
+      "red-striped": [
         [RELEARN_MOVE, MoveId.UPROAR],
         [40, MoveId.FINAL_GAMBIT],
       ],

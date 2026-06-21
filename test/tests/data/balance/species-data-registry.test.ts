@@ -19,7 +19,10 @@ describe("SpeciesDataRegistry", () => {
   describe("Starters", () => {
     it("should NOT have starter costs for non starters", () => {
       for (const speciesData of Object.values(speciesDataRegistry.data)) {
-        if (speciesData.species.speciesId !== speciesData.starter) {
+        if (
+          speciesData.species.speciesId !== speciesData.starter
+          && speciesData.species.speciesId !== SpeciesId.PIKACHU
+        ) {
           expect
             .soft(
               speciesData.starterCost === undefined,

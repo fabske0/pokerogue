@@ -2234,7 +2234,7 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
       [57, MoveId.STONE_EDGE],
     ],
     formLevelMoves: {
-      "": [
+      midday: [
         [RELEARN_MOVE, MoveId.ACCELEROCK],
         [EVOLVE_MOVE, MoveId.SUCKER_PUNCH],
         [1, MoveId.QUICK_ATTACK],
