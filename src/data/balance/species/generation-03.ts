@@ -5900,9 +5900,9 @@ export function initGenerationThree(): SpeciesDataMapConfig {
       [52, MoveId.LAST_RESORT],
     ],
     tms: [
-      ...generationThreeSpeciesData[SpeciesId.PLUSLE].tms.filter(tm => tm !== MoveId.SKILL_SWAP),
-      MoveId.SKILL_SWAP,
-      MoveId.SKILL_SWAP,
+      ...generationThreeSpeciesData[SpeciesId.PLUSLE].tms.filter(
+        tm => tm !== MoveId.SKILL_SWAP && tm !== MoveId.EERIE_IMPULSE,
+      ),
     ],
   };
   generationThreeSpeciesData[SpeciesId.VOLBEAT] = {
