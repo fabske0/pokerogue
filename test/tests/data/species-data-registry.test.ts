@@ -10,7 +10,7 @@ describe("SpeciesDataRegistry", () => {
       const dataSpeciesIds = Object.keys(speciesDataRegistry.data).map(id => Number.parseInt(id));
       for (const speciesId of getEnumValues(SpeciesId)) {
         expect
-          .soft(dataSpeciesIds.includes(speciesId), `Missing species data for ${SpeciesId[speciesId]}(${speciesId})`)
+          .soft(dataSpeciesIds.includes(speciesId), `Missing species data for ${SpeciesId[speciesId]} (${speciesId})`)
           .toBe(true);
       }
     });
@@ -26,7 +26,7 @@ describe("SpeciesDataRegistry", () => {
           expect
             .soft(
               speciesData.starterCost === undefined,
-              `Non starter ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId}) has a starter cost of ${speciesData.starterCost}`,
+              `Non starter ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId}) has a starter cost of ${speciesData.starterCost}`,
             )
             .toBe(true);
         }
@@ -40,7 +40,7 @@ describe("SpeciesDataRegistry", () => {
           expect
             .soft(
               cond,
-              `Starter ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId}) has invalid starter cost of ${speciesData.starterCost}`,
+              `Starter ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId}) has invalid starter cost of ${speciesData.starterCost}`,
             )
             .toBe(true);
         }
@@ -53,7 +53,7 @@ describe("SpeciesDataRegistry", () => {
           expect
             .soft(
               speciesData.eggTier === undefined,
-              `Non starter ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId}) has eggTier: ${speciesData.eggTier}`,
+              `Non starter ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId}) has eggTier: ${speciesData.eggTier}`,
             )
             .toBe(true);
         }
@@ -67,7 +67,7 @@ describe("SpeciesDataRegistry", () => {
           expect
             .soft(
               cond,
-              `Starter ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId}) has invalid eggTier of ${speciesData.eggTier}`,
+              `Starter ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId}) has invalid eggTier of ${speciesData.eggTier}`,
             )
             .toBe(true);
         }
@@ -84,7 +84,7 @@ describe("SpeciesDataRegistry", () => {
         expect
           .soft(
             duplicates,
-            `Duplicate TMs for species ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId}): ${duplicates.map(tm => MoveId[tm]).join(", ")}`,
+            `Duplicate TMs for species ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId}): ${duplicates.map(tm => MoveId[tm]).join(", ")}`,
           )
           .toHaveLength(0);
       }
@@ -98,7 +98,7 @@ describe("SpeciesDataRegistry", () => {
             expect
               .soft(
                 validFormKeys.includes(formKey),
-                `Invalid formKey "${formKey}" in formTms for species ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId})`,
+                `Invalid formKey "${formKey}" in formTms for species ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId})`,
               )
               .toBe(true);
           }
@@ -116,7 +116,7 @@ describe("SpeciesDataRegistry", () => {
         expect
           .soft(
             duplicates,
-            `Duplicate level moves for species ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId}): ${duplicates.map(lm => lm[0]).join(", ")}`,
+            `Duplicate level moves for species ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId}): ${duplicates.map(lm => lm[0]).join(", ")}`,
           )
           .toHaveLength(0);
       }
@@ -130,7 +130,7 @@ describe("SpeciesDataRegistry", () => {
             expect
               .soft(
                 validFormKeys.includes(formKey),
-                `Invalid formKey "${formKey}" in formLevelMoves for species ${SpeciesId[speciesData.species.speciesId]}(${speciesData.species.speciesId})`,
+                `Invalid formKey "${formKey}" in formLevelMoves for species ${SpeciesId[speciesData.species.speciesId]} (${speciesData.species.speciesId})`,
               )
               .toBe(true);
           }

@@ -39,9 +39,9 @@ export interface PokemonSpeciesData {
   levelMoves: LevelMoves;
   /** Form specific level moves. Record of formKey to an array of level moves */
   formLevelMoves?: SpeciesFormLevelMoves;
-  /** An array of TM moves shared across **all**forms */
+  /** An array of TM moves shared across **all** forms */
   tms: MoveId[];
-  /** Form specific TM moves. Record of formKey to an array of TM moves */
+  /** Form specific TM moves. Record of `formKey` to an array of TM moves */
   formTms?: SpeciesFormTmMoves;
 }
 
