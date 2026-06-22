@@ -94,7 +94,7 @@ function getPrevolutionMoves(
       } else if (includeEvolutionMoves && level === EVOLVE_MOVE) {
         const source = isPrevo ? LearnableMoveSource.PREVO : LearnableMoveSource.EVOLUTION;
         ret.push([level, move, (source + +fromFusion) as LearnableMoveSource]);
-      } else if (includeLevelOne && (!isPrevo || level <= evolutionChain[e + 1][1])) {
+      } else if (includeLevelOne && (!isPrevo || level <= pokemon.level)) {
         const source = isPrevo ? LearnableMoveSource.PREVO : LearnableMoveSource.LEVEL;
         ret.push([level, move, (source + +fromFusion) as LearnableMoveSource]);
       }
