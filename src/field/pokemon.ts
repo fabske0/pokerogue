@@ -1926,6 +1926,7 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
    * in the starting party of the run and if Fresh Start is not active.
    * @returns A tuple of the Level (or `null` for non level moves), {@linkcode MoveId} and their corresponding {@linkcode LearnableMoveSource}, as described above.
    */
+  // TODO: move into `#region LevelMoves`
   public getLearnableLevelMoves(): [number | null, MoveId, LearnableMoveSource][] {
     let learnableMoves: [number | null, MoveId, LearnableMoveSource][] = [];
     learnableMoves = this.getLevelMoves(1, true, true, true);
@@ -1935,7 +1936,7 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         em,
         LearnableMoveSource.EGG,
       ]);
-      learnableMoves = eggMoves.concat(learnableMoves);
+      learnableMoves.push(...eggMoves);
     }
     if (Array.isArray(this.usedTMs) && this.usedTMs.length > 0) {
       const tmMoves: [number | null, MoveId, LearnableMoveSource][] = this.usedTMs.map(tm => [
@@ -1943,11 +1944,11 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
         tm,
         LearnableMoveSource.TM,
       ]);
-      learnableMoves = tmMoves.filter(tm => !learnableMoves.some(lm => lm[1] === tm[1])).concat(learnableMoves);
+      learnableMoves.push(...tmMoves.filter(tm => !learnableMoves.some(lm => lm[1] === tm[1])));
     }
     learnableMoves = learnableMoves.filter(lm => !this.moveset.some(m => m.moveId === lm[1]));
 
-    // Sort by source, so the moves with a species prefix will be at the top
+    // Sort by source in descending order, so the moves with a species prefix will be at the top
     learnableMoves.sort((a, b) => {
       const sourceA = getBaseLearnableMoveSource(a[2]);
       const sourceB = getBaseLearnableMoveSource(b[2]);
@@ -2809,6 +2810,7 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
    * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
    * @returns A list of moves and the levels they can be learned at, along with the source of the move
    */
+  // TODO: convert to use object param
   public getLevelMoves(
     startingLevel?: number,
     includeEvolutionMoves = false,
@@ -2827,26 +2829,6 @@ export abstract class Pokemon extends Phaser.GameObjects.Container {
       includeRelearnerMoves,
       learnSituation,
     );
-  }
-
-  /**
-   * Helper function for `filterAndSortLevelMoves()`
-   *
-   * @remarks
-   * Finds all non-duplicate items from the input, and pushes them into the output.
-   * Two items count as duplicate if they have the same Move, regardless of level.
-   *
-   * @param levelMoves - The input array to search for non-duplicates from
-   * @param ret - The output array to be pushed into.
-   */
-  private static getUniqueMoves(levelMoves: LevelMovesWithSource, ret: LevelMovesWithSource): void {
-    const uniqueMoves: MoveId[] = [];
-    for (const lm of levelMoves) {
-      if (!uniqueMoves.find(m => m === lm[1])) {
-        uniqueMoves.push(lm[1]);
-        ret.push(lm);
-      }
-    }
   }
 
   //#endregion LevelMoves

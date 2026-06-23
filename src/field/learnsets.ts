@@ -13,10 +13,11 @@ import { getPokemonSpeciesForm } from "#utils/pokemon-utils";
  * @param pokemon - The Pokemon to get the moves for
  * @param includeEvolutionMoves - Whether to include evolution moves
  * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
- * @param fromFusion - Whether to get the moves from the fusion species \
+ * @param fromFusion - (Default `false`) Whether to get the moves from the fusion species
  * @remarks
  * `fromFusion` should only be used if the pokemon is a fusion
- * @returns A list of moves and the levels they can be learned at, along with the source of the moveexcludes moves from prevolutions, but includes evolution moves and relearner moves
+ * @returns A list of moves and the levels they can be learned at, along with the source of the move.
+ * Excludes moves from prevolutions, but includes evolution moves and relearner moves.
  */
 function getRegularLevelMoves(
   pokemon: Pokemon,
@@ -57,7 +58,7 @@ function getRegularLevelMoves(
  * @param pokemon - The Pokemon to get the prevolution moves for
  * @param includeEvolutionMoves - Whether to include evolution moves
  * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
- * @param fromFusion - Whether to get the prevolution moves from the fusion species \
+ * @param fromFusion - (Default `false`) Whether to get the prevolution moves from the fusion species
  * @remarks
  * `fromFusion` should only be used if the pokemon is a fusion
  * @returns A list of moves and the levels they can be learned at, along with the source of the move
@@ -69,7 +70,6 @@ function getPrevolutionMoves(
   fromFusion = false,
 ): LevelMovesWithSource {
   const ret: LevelMovesWithSource = [];
-  // Convey that this method cannot use `fromFusion` if the pokemon is not a fusion and the bang is then safe
   const speciesBase = fromFusion ? pokemon.fusionSpecies! : pokemon.species;
   if (!speciesBase && fromFusion) {
     // TODO: Find a better way to handle fromFusion=true without being a fusion
@@ -104,44 +104,6 @@ function getPrevolutionMoves(
 }
 
 /**
- * Helper method for {@linkcode getLevelMoves}
- *
- * Get all level moves the fusion species form can learn.
- * @param includeEvolutionMoves - Whether to include evolution moves
- * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
- * @returns A list of moves and the levels they can be learned at, along with the source of the move
- */
-function getFusionEvolutionMoves(
-  pokemon: Pokemon,
-  includeEvolutionMoves: boolean,
-  includeRelearnerMoves: boolean,
-): LevelMovesWithSource {
-  const ret: LevelMovesWithSource = [];
-  const fusionLevelMoves = pokemon.getFusionSpeciesForm(true).getLevelMoves();
-  for (const [level, move] of fusionLevelMoves) {
-    if (
-      (includeEvolutionMoves && level === EVOLVE_MOVE)
-      || (includeRelearnerMoves && level === RELEARN_MOVE)
-      || level > 0
-    ) {
-      let moveSource: LearnableMoveSource;
-      switch (level) {
-        case RELEARN_MOVE:
-          moveSource = LearnableMoveSource.FUSION_RELEARN;
-          break;
-        case EVOLVE_MOVE:
-          moveSource = LearnableMoveSource.FUSION_EVOLUTION;
-          break;
-        default:
-          moveSource = LearnableMoveSource.FUSION_LEVEL;
-      }
-      ret.push([level, move, moveSource]);
-    }
-  }
-  return ret;
-}
-
-/**
  * Helper function for {@linkcode filterAndSortLevelMoves}
  *
  * @remarks
@@ -154,7 +116,7 @@ function getFusionEvolutionMoves(
 function getUniqueMoves(levelMoves: LevelMovesWithSource, ret: LevelMovesWithSource): void {
   const uniqueMoves: MoveId[] = [];
   for (const lm of levelMoves) {
-    if (!uniqueMoves.find(m => m === lm[1])) {
+    if (!uniqueMoves.some(m => m === lm[1])) {
       uniqueMoves.push(lm[1]);
       ret.push(lm);
     }
@@ -178,8 +140,8 @@ export function getBaseLearnableMoveSource(source: LearnableMoveSource): Learnab
  * Sorts the moves first by level, then by source.
  * @param levelMoves - The list of level moves to filter and sort
  * @param startingLevel - Don't include moves below this level
- * @param includeEvolutionMoves - Whether to include evolution moves
- * @param includeRelearnerMoves - Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
+ * @param includeEvolutionMoves - (Default `false`) Whether to include evolution moves
+ * @param includeRelearnerMoves - (Default `false`) Whether to include moves that would require a relearner. Note the move relearner inherently allows evolution moves
  * @returns A filtered and sorted list of level moves
  */
 function filterAndSortLevelMoves(
@@ -199,7 +161,7 @@ function filterAndSortLevelMoves(
   });
 
   // A set of moves the species gets by level, but are above the current level
-  const prevoLockedMoves = new Set(
+  const levelMovesAboveCurrentLevel = new Set(
     levelMoves
       .filter(
         lm =>
@@ -228,7 +190,7 @@ function filterAndSortLevelMoves(
     const isLevelMoveSource = source === LearnableMoveSource.LEVEL || source === LearnableMoveSource.FUSION_LEVEL;
     const isOwnMoveFromNonLevelSource = ownMoves.has(move) && !isLevelMoveSource;
     const isLockedPrevoMove =
-      prevoLockedMoves.has(move)
+      levelMovesAboveCurrentLevel.has(move)
       && (source === LearnableMoveSource.PREVO || source === LearnableMoveSource.FUSION_PREVO);
 
     return (
@@ -262,7 +224,7 @@ export function getLevelMoves(
   const levelMoves: LevelMovesWithSource = [];
   if (learnSituation === LearnMoveSituation.EVOLUTION_FUSED && pokemon.isFusion()) {
     // For fusion evolutions, get ONLY the moves of the component mon that evolved
-    levelMoves.push(...getFusionEvolutionMoves(pokemon, includeEvolutionMoves, includeRelearnerMoves));
+    levelMoves.push(...getRegularLevelMoves(pokemon, includeEvolutionMoves, includeRelearnerMoves, true));
   } else if (includePrevolutionMoves) {
     levelMoves.push(...getPrevolutionMoves(pokemon, includeEvolutionMoves, includeRelearnerMoves));
   } else {
@@ -274,6 +236,5 @@ export function getLevelMoves(
     levelMoves.push(...methodFunc(pokemon, includeEvolutionMoves, includeRelearnerMoves, true));
   }
 
-  const ret = filterAndSortLevelMoves(pokemon, levelMoves, startingLevel, includeEvolutionMoves, includeRelearnerMoves);
-  return ret;
+  return filterAndSortLevelMoves(pokemon, levelMoves, startingLevel, includeEvolutionMoves, includeRelearnerMoves);
 }

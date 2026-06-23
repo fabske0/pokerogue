@@ -706,7 +706,7 @@ export class PartyUiHandler extends MessageUiHandler {
     const option = this.options[this.optionsCursor];
     const pokemon = globalScene.getPlayerParty()[this.cursor];
     const learnableMoves = pokemon.getLearnableLevelMoves();
-    const moveId: MoveId = learnableMoves[option]?.[1];
+    const moveId: MoveId | undefined = learnableMoves[option]?.[1];
     const move = moveId === undefined ? undefined : allMoves[moveId];
     if (move) {
       this.moveInfoOverlay.show(move);
@@ -1501,7 +1501,7 @@ export class PartyUiHandler extends MessageUiHandler {
       return;
     }
 
-    /** Item management mode uses a taller message box due to two-line messages. */
+    // Item management mode uses a taller message box due to two-line messages.
     if (this.isItemManageMode()) {
       this.partyMessageBox.setSize(262 - Math.max(this.optionsBg.displayWidth - 56, 0), 42);
     } else {
