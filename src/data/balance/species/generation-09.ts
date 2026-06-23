@@ -266,7 +266,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     starterCost: 4,
     evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.CROCALOR, level: 16 })],
     eggTier: EggTier.COMMON,
-    passives: AbilityId.GLUTTONY,
+    passives: AbilityId.FLAME_BODY,
     levelMoves: [
       [1, MoveId.TACKLE],
       [1, MoveId.LEER],
@@ -3630,7 +3630,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       }),
     ],
     eggTier: EggTier.COMMON,
-    passives: AbilityId.FLOWER_GIFT,
+    passives: AbilityId.FLASH_FIRE,
     levelMoves: [
       [1, MoveId.LEER],
       [1, MoveId.LEAFAGE],
@@ -3768,7 +3768,10 @@ export function initGenerationNine(): SpeciesDataMapConfig {
         trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.SCOVILLAINITE),
       }),
     ],
-    passives: AbilityId.PARENTAL_BOND,
+    passives: {
+      0: AbilityId.PARENTAL_BOND,
+      1: AbilityId.PARENTAL_BOND,
+    },
     levelMoves: [
       [EVOLVE_MOVE, MoveId.FLAMETHROWER],
       [EVOLVE_MOVE, MoveId.SPICY_EXTRACT],
@@ -5488,7 +5491,10 @@ export function initGenerationNine(): SpeciesDataMapConfig {
         trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.GLIMMORANITE),
       }),
     ],
-    passives: AbilityId.TERA_SHELL,
+    passives: {
+      0: AbilityId.TERA_SHELL,
+      1: AbilityId.TERA_SHELL,
+    },
     levelMoves: [
       [EVOLVE_MOVE, MoveId.MORTAL_SPIN],
       [1, MoveId.ROCK_THROW],
@@ -6304,9 +6310,12 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     ],
     eggTier: EggTier.RARE,
     passives: {
-      0: AbilityId.FLUFFY,
-      1: AbilityId.FLUFFY,
-      2: AbilityId.FLUFFY,
+      0: AbilityId.FRIEND_GUARD,
+      1: AbilityId.FRIEND_GUARD,
+      2: AbilityId.FRIEND_GUARD,
+      3: AbilityId.PARENTAL_BOND,
+      4: AbilityId.PARENTAL_BOND,
+      5: AbilityId.PARENTAL_BOND,
     },
     levelMoves: [
       [1, MoveId.WATER_GUN],
@@ -8082,7 +8091,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     starterCost: 4,
     evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.ARCTIBAX, level: 35 })],
     eggTier: EggTier.RARE,
-    passives: AbilityId.INTIMIDATE,
+    passives: AbilityId.HEATPROOF,
     levelMoves: [
       [1, MoveId.TACKLE],
       [1, MoveId.LEER],
@@ -8163,7 +8172,7 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.FRIGIBAX,
     evolutions: [new SpeciesEvolution({ speciesId: SpeciesId.BAXCALIBUR, level: 54 })],
-    passives: AbilityId.INTIMIDATE,
+    passives: AbilityId.HEATPROOF,
     levelMoves: [
       [1, MoveId.TACKLE],
       [1, MoveId.LEER],
@@ -8265,7 +8274,10 @@ export function initGenerationNine(): SpeciesDataMapConfig {
         trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.BAXCALIBRITE),
       }),
     ],
-    passives: AbilityId.INTIMIDATE,
+    passives: {
+      0: AbilityId.HEATPROOF,
+      1: AbilityId.HEATPROOF,
+    },
     levelMoves: [
       [EVOLVE_MOVE, MoveId.GLAIVE_RUSH],
       [1, MoveId.TACKLE],

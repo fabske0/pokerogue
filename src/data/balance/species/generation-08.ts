@@ -3690,17 +3690,17 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     },
     levelMoves: [
       [EVOLVE_MOVE, MoveId.SPARK],
-      [1, MoveId.LEER],
       [1, MoveId.GROWL],
       [1, MoveId.ACID],
-      [1, MoveId.THUNDER_SHOCK],
       [1, MoveId.FLAIL],
-      [1, MoveId.ACID_SPRAY],
       [1, MoveId.BELCH],
-      [1, MoveId.NOBLE_ROAR],
-      [1, MoveId.EERIE_IMPULSE],
       [1, MoveId.NUZZLE],
       [1, MoveId.TEARFUL_LOOK],
+      [1, MoveId.EERIE_IMPULSE],
+      [1, MoveId.THUNDER_SHOCK],
+      [1, MoveId.LEER],
+      [1, MoveId.NOBLE_ROAR],
+      [1, MoveId.ACID_SPRAY],
       [4, MoveId.CHARGE],
       [8, MoveId.SHOCK_WAVE],
       [12, MoveId.SCARY_FACE],
@@ -3719,16 +3719,17 @@ export function initGenerationEight(): SpeciesDataMapConfig {
         [52, MoveId.SHIFT_GEAR],
         [60, MoveId.ZAP_CANNON],
       ],
+      lowkey: [
+        [20, MoveId.VENOM_DRENCH],
+        [52, MoveId.MAGNETIC_FLUX],
+        [60, MoveId.PARABOLIC_CHARGE],
+      ],
       [SpeciesFormKey.GIGANTAMAX]: [
+        [20, MoveId.VENOSHOCK],
         [20, MoveId.VENOM_DRENCH],
         [52, MoveId.SHIFT_GEAR],
         [52, MoveId.MAGNETIC_FLUX],
         [60, MoveId.ZAP_CANNON],
-        [60, MoveId.PARABOLIC_CHARGE],
-      ],
-      lowkey: [
-        [20, MoveId.VENOM_DRENCH],
-        [52, MoveId.MAGNETIC_FLUX],
         [60, MoveId.PARABOLIC_CHARGE],
       ],
     },
@@ -4247,8 +4248,8 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     ],
     eggTier: EggTier.COMMON,
     passives: {
-      0: AbilityId.SHADOW_SHIELD,
-      1: AbilityId.SHADOW_SHIELD,
+      0: AbilityId.WATER_ABSORB,
+      1: AbilityId.STURDY,
     },
     levelMoves: [
       [1, MoveId.ABSORB],
@@ -4390,8 +4391,8 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     starter: SpeciesId.SINISTEA,
     evolutions: [],
     passives: {
-      0: AbilityId.SHADOW_SHIELD,
-      1: AbilityId.SHADOW_SHIELD,
+      0: AbilityId.WATER_ABSORB,
+      1: AbilityId.STURDY,
     },
     levelMoves: [
       [EVOLVE_MOVE, MoveId.TEATIME],
@@ -6364,7 +6365,10 @@ export function initGenerationEight(): SpeciesDataMapConfig {
       }),
     ],
     eggTier: EggTier.RARE,
-    passives: AbilityId.DAUNTLESS_SHIELD,
+    passives: {
+      0: AbilityId.DAUNTLESS_SHIELD,
+      1: AbilityId.DAUNTLESS_SHIELD,
+    },
     levelMoves: [
       [1, MoveId.TACKLE],
       [1, MoveId.PROTECT],
@@ -8591,7 +8595,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
       ],
     }),
     starter: SpeciesId.ZAMAZENTA,
-    starterCost: 8,
+    starterCost: 9,
     evolutions: [],
     formChanges: [
       new SpeciesFormChange({
@@ -9132,7 +9136,6 @@ export function initGenerationEight(): SpeciesDataMapConfig {
       3: AbilityId.IRON_FIST,
     },
     levelMoves: [
-      [EVOLVE_MOVE, MoveId.WICKED_BLOW],
       [1, MoveId.LEER],
       [1, MoveId.FOCUS_ENERGY],
       [1, MoveId.ENDURE],
@@ -9290,7 +9293,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
       ],
     }),
     starter: SpeciesId.ZARUDE,
-    starterCost: 5,
+    starterCost: 6,
     evolutions: [],
     eggTier: EggTier.EPIC,
     passives: {
@@ -11837,7 +11840,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     starterCost: 6,
     evolutions: [],
     eggTier: EggTier.EPIC,
-    passives: AbilityId.DARK_AURA,
+    passives: AbilityId.SHADOW_SHIELD,
     levelMoves: [
       [1, MoveId.GUST],
       [1, MoveId.PAYBACK],
@@ -13615,7 +13618,8 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.HISUI_BASCULIN,
     starterCost: 4,
-    passives: AbilityId.SUPREME_OVERLORD,
+    eggTier: EggTier.RARE,
+    passives: AbilityId.RECKLESS,
     evolutions: [
       // TODO: Uncomment evo delay when different evo condition is implemented
       new SpeciesFormEvolution({
@@ -13624,7 +13628,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
         evoFormKey: "female",
         level: 40,
         condition: [{ key: EvoCondKey.GENDER, gender: Gender.FEMALE }],
-        /* evoDelay: [45, 65, 85] */
+        evoDelay: [45, 65, 85],
       }),
       new SpeciesFormEvolution({
         speciesId: SpeciesId.BASCULEGION,
@@ -13632,10 +13636,9 @@ export function initGenerationEight(): SpeciesDataMapConfig {
         evoFormKey: "male",
         level: 40,
         condition: [{ key: EvoCondKey.GENDER, gender: Gender.MALE }],
-        /* evoDelay: [45, 65, 85] */
+        evoDelay: [45, 65, 85],
       }),
     ],
-    eggTier: EggTier.RARE,
     levelMoves: [
       [1, MoveId.TAIL_WHIP],
       [1, MoveId.WATER_GUN],
@@ -14222,7 +14225,7 @@ export function initGenerationEight(): SpeciesDataMapConfig {
     }),
     starter: SpeciesId.ROWLET,
     evolutions: [],
-    passives: AbilityId.SNIPER,
+    passives: AbilityId.SUPER_LUCK,
     levelMoves: [
       [RELEARN_MOVE, MoveId.U_TURN],
       [RELEARN_MOVE, MoveId.LEAF_STORM],

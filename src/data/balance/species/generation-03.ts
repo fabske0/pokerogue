@@ -1400,7 +1400,7 @@ export function initGenerationThree(): SpeciesDataMapConfig {
       }),
     ],
     eggTier: EggTier.COMMON,
-    passives: AbilityId.GLUTTONY,
+    passives: AbilityId.POISON_POINT,
     levelMoves: [
       [1, MoveId.TACKLE],
       [1, MoveId.STRING_SHOT],
@@ -10889,7 +10889,10 @@ export function initGenerationThree(): SpeciesDataMapConfig {
         trigger: new SpeciesFormChangeItemTrigger(FormChangeItem.CHIMECHITE),
       }),
     ],
-    passives: AbilityId.PUNK_ROCK,
+    passives: {
+      0: AbilityId.PUNK_ROCK,
+      1: AbilityId.PUNK_ROCK,
+    },
     levelMoves: [
       [RELEARN_MOVE, MoveId.HEALING_WISH],
       [RELEARN_MOVE, MoveId.SYNCHRONOISE],
@@ -11046,8 +11049,9 @@ export function initGenerationThree(): SpeciesDataMapConfig {
     ],
     eggTier: EggTier.RARE,
     passives: {
-      0: AbilityId.SHARPNESS,
-      1: AbilityId.SHARPNESS,
+      0: AbilityId.TOUGH_CLAWS,
+      1: AbilityId.SHADOW_SHIELD,
+      2: AbilityId.SHARPNESS,
     },
     levelMoves: [
       [RELEARN_MOVE, MoveId.CONFUSE_RAY],
@@ -11246,7 +11250,7 @@ export function initGenerationThree(): SpeciesDataMapConfig {
       }),
     ],
     eggTier: EggTier.COMMON,
-    passives: AbilityId.SNOW_WARNING,
+    passives: AbilityId.OVERCOAT,
     levelMoves: [
       [1, MoveId.LEER],
       [1, MoveId.POWDER_SNOW],
@@ -11399,8 +11403,8 @@ export function initGenerationThree(): SpeciesDataMapConfig {
       }),
     ],
     passives: {
-      0: AbilityId.SNOW_WARNING,
-      1: AbilityId.SNOW_WARNING,
+      0: AbilityId.INTIMIDATE,
+      1: AbilityId.MOODY,
     },
     levelMoves: [
       [RELEARN_MOVE, MoveId.ICE_BEAM],
@@ -12335,7 +12339,7 @@ export function initGenerationThree(): SpeciesDataMapConfig {
       }),
     ],
     passives: {
-      0: AbilityId.GALE_WINGS,
+      0: AbilityId.OWN_TEMPO,
       1: AbilityId.ROCK_HEAD,
     },
     levelMoves: [
