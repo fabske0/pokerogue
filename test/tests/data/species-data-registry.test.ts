@@ -138,4 +138,18 @@ describe("SpeciesDataRegistry", () => {
       }
     });
   });
+
+  describe("Stats", () => {
+    it("should have matching BST to the sum of base stats", () => {
+      for (const species of speciesDataRegistry.getAllSpecies()) {
+        const calculatedBST = species.baseStats.reduce((sum, stat) => sum + stat, 0);
+        expect
+          .soft(
+            species.baseTotal,
+            `Species ${SpeciesId[species.speciesId]} (${species.speciesId}) has baseTotal ${species.baseTotal} but sum of baseStats is ${calculatedBST}`,
+          )
+          .toBe(calculatedBST);
+      }
+    });
+  });
 });
