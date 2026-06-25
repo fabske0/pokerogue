@@ -12047,7 +12047,7 @@ export function initGenerationOne(): SpeciesDataMapConfig {
           ability1: AbilityId.HUGE_POWER,
           ability2: AbilityId.HUGE_POWER,
           abilityHidden: AbilityId.HUGE_POWER,
-          baseTotal: 660,
+          baseTotal: 620,
           baseHp: 60,
           baseAtk: 100,
           baseDef: 105,
