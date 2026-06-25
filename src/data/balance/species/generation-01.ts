@@ -10628,11 +10628,11 @@ export function initGenerationOne(): SpeciesDataMapConfig {
     eggTier: EggTier.RARE,
     passives: AbilityId.POISON_HEAL,
     levelMoves: [
+      [1, MoveId.TACKLE],
       [1, MoveId.ACID],
       [1, MoveId.LICK],
-      [5, MoveId.SUPERSONIC],
       [7, MoveId.DEFENSE_CURL],
-      [9, MoveId.BIND],
+      [9, MoveId.SUPERSONIC],
       [13, MoveId.KNOCK_OFF],
       [17, MoveId.WRAP],
       [21, MoveId.STOMP],

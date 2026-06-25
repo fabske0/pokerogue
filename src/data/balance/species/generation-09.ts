@@ -11673,7 +11673,6 @@ export function initGenerationNine(): SpeciesDataMapConfig {
       [7, MoveId.RAGE],
       [10, MoveId.DOUBLE_KICK],
       [13, MoveId.PURSUIT],
-      [16, MoveId.ASSURANCE],
       [19, MoveId.HEADBUTT],
       [22, MoveId.SCARY_FACE],
       [26, MoveId.REVENGE],
@@ -11688,15 +11687,15 @@ export function initGenerationNine(): SpeciesDataMapConfig {
     ],
     formLevelMoves: {
       combat: [
-        [15, MoveId.ASSURANCE],
+        [16, MoveId.ASSURANCE],
         [55, MoveId.DOUBLE_EDGE],
       ],
       blaze: [
-        [15, MoveId.FLAME_CHARGE],
+        [16, MoveId.FLAME_CHARGE],
         [55, MoveId.FLARE_BLITZ],
       ],
       aqua: [
-        [15, MoveId.AQUA_JET],
+        [16, MoveId.AQUA_JET],
         [55, MoveId.WAVE_CRASH],
       ],
     },
