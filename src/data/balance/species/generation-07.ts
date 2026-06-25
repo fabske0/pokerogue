@@ -4469,6 +4469,7 @@ export function initGenerationSeven(): SpeciesDataMapConfig {
       MoveId.IRON_DEFENSE,
       MoveId.BULK_UP,
       MoveId.WATER_PULSE,
+      MoveId.U_TURN,
       MoveId.CLOSE_COMBAT,
       MoveId.PAYBACK,
       MoveId.FLING,
