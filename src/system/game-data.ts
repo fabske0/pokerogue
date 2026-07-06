@@ -75,11 +75,13 @@ import { RUN_HISTORY_LIMIT } from "#ui/run-history-ui-handler";
 import { applyChallenges } from "#utils/challenge-utils";
 import { fixedInt, NumberHolder, randInt, randSeedItem } from "#utils/common";
 import { decrypt, encrypt } from "#utils/data";
-import { getEnumKeys } from "#utils/enums";
+import { getEnumKeys, getEnumValues } from "#utils/enums";
 import { getPokemonSpecies } from "#utils/pokemon-utils";
+import { createProxy, type ProxyObject } from "#utils/proxy";
 import { toCamelCase } from "#utils/strings";
 import { AES, enc } from "crypto-js";
 import i18next from "i18next";
+import { checkCheatedVouchers } from "./anti-cheat";
 
 function getDataTypeKey(dataType: GameDataType, slotId = 0): string {
   switch (dataType) {
@@ -148,7 +150,8 @@ export class GameData {
   public achvUnlocks: AchvUnlocks;
 
   public voucherUnlocks: VoucherUnlocks;
-  public voucherCounts: VoucherCounts;
+  public voucherCounts: ProxyObject<VoucherCounts>;
+  public cheated: boolean;
   public eggs: Egg[];
   public eggPity: number[];
   public unlockPity: number[];
@@ -180,12 +183,31 @@ export class GameData {
     };
     this.achvUnlocks = {};
     this.voucherUnlocks = {};
-    this.voucherCounts = {
-      [VoucherType.REGULAR]: 0,
-      [VoucherType.PLUS]: 0,
-      [VoucherType.PREMIUM]: 0,
-      [VoucherType.GOLDEN]: 0,
-    };
+    this.voucherCounts = createProxy(
+      {
+        [VoucherType.REGULAR]: 0,
+        [VoucherType.PLUS]: 0,
+        [VoucherType.PREMIUM]: 0,
+        [VoucherType.GOLDEN]: 0,
+      } as VoucherCounts,
+      {
+        set(target, p, newValue, _receiver) {
+          const voucherType = p as unknown as VoucherType;
+          const oldValue = target[voucherType];
+          const diff = newValue - oldValue;
+          const resetValue = checkCheatedVouchers(voucherType, newValue, diff);
+          console.warn(
+            `Voucher cheat result: ${resetValue === null ? "ok" : `reset to ${resetValue}`}, type: ${VoucherType[voucherType]}, oldValue: ${oldValue}, newValue: ${newValue}, diff: ${diff}`,
+          );
+          if (resetValue !== null) {
+            globalScene.gameData.cheated = true;
+          }
+          target[voucherType] = resetValue ?? newValue;
+          return true;
+        },
+      },
+    );
+    this.cheated = false;
     this.eggs = [];
     this.eggPity = [0, 0, 0, 0];
     this.unlockPity = [0, 0, 0, 0];
@@ -205,6 +227,7 @@ export class GameData {
       achvUnlocks: this.achvUnlocks,
       voucherUnlocks: this.voucherUnlocks,
       voucherCounts: this.voucherCounts,
+      cheated: this.cheated,
       eggs: this.eggs.map(e => new EggData(e)),
       gameVersion: globalScene.game.config.gameVersion,
       timestamp: Date.now(),
@@ -309,6 +332,18 @@ export class GameData {
     if (!this.validateSystemData(data)) {
       return this.reinitializeSaveData({ message: ErrorMessages.FAILED_VALIDATION });
     }
+
+    // check for cheated vouchers
+    for (const voucherType of getEnumValues(VoucherType)) {
+      /*
+        biome-ignore lint/correctness/noSelfAssign: This triggers the Proxy to check the vouchers
+        This is used over directly calling checkCheatedVouchers() since that would trigger the reset twice.
+      */
+      data.voucherCounts[voucherType] = data.voucherCounts[voucherType];
+    }
+    // todo find a better solution
+    data.cheated = this.cheated;
+
     globalScene.ui.savingIcon.show();
 
     const maxIntAttrValue = 0x80000000;
@@ -460,6 +495,7 @@ export class GameData {
         this.voucherCounts[index] = systemData.voucherCounts[index] || 0;
       });
     }
+    this.cheated = systemData.cheated ?? false;
 
     this.eggs = systemData.eggs ? systemData.eggs.map(e => e.toEgg()) : [];
 
@@ -1356,6 +1392,16 @@ export class GameData {
     if (!this.validateSystemData(systemData)) {
       return this.reinitializeSaveData({ message: ErrorMessages.FAILED_VALIDATION });
     }
+
+    for (const voucherType of getEnumValues(VoucherType)) {
+      /*
+        biome-ignore lint/correctness/noSelfAssign: This triggers the Proxy to check the vouchers
+        This is used over directly calling checkCheatedVouchers() since that would trigger the reset twice.
+      */
+      systemData.voucherCounts[voucherType] = systemData.voucherCounts[voucherType];
+    }
+    // todo find a better solution
+    systemData.cheated = this.cheated;
 
     // Saving icon should go after validation to avoid confusing users.
     if (sync) {

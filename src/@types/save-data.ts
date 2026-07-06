@@ -33,6 +33,7 @@ export interface SystemSaveData {
   achvUnlocks: AchvUnlocks;
   voucherUnlocks: VoucherUnlocks;
   voucherCounts: VoucherCounts;
+  cheated: boolean;
   eggs: EggData[];
   gameVersion: string;
   timestamp: number;
