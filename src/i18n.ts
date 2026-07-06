@@ -1,6 +1,7 @@
 import { timedEventManager } from "#app/global-event-manager";
 import { namespaceMap } from "#app/i18n-namespace-map";
 import { getCachedUrl } from "#utils/fetch-utils";
+import { createProxy } from "#utils/proxy";
 import { toKebabCase } from "#utils/strings";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
@@ -214,7 +215,7 @@ await i18next
 
 if (timedEventManager.hasEventTextReplacement()) {
   console.warn("Event text replacements are active.");
-  i18next.t = new Proxy(i18next.t.bind(i18next), {
+  i18next.t = createProxy(i18next.t.bind(i18next), {
     apply(target, _, args: [key: string, options?: any]) {
       const key = timedEventManager.getEventTextReplacement(args[0]);
       if (args[0] !== key) {

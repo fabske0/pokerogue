@@ -1,4 +1,5 @@
 import { SpeciesId } from "#enums/species-id";
+import { createProxy } from "#utils/proxy";
 
 export type SignatureSpecies = {
   [key in string]: (SpeciesId | SpeciesId[])[];
@@ -16,7 +17,7 @@ export type SignatureSpecies = {
  * This means that accessing `signatureSpecies` will not throw an error if the property does not exist,
  * but instead default to an empty array.
  */
-export const signatureSpecies: SignatureSpecies = new Proxy({
+export const signatureSpecies: SignatureSpecies = createProxy<SignatureSpecies>({
   // Gym Leaders- Kanto
   BROCK: [SpeciesId.ONIX, SpeciesId.GEODUDE, [SpeciesId.OMANYTE, SpeciesId.KABUTO], SpeciesId.AERODACTYL],
   MISTY: [SpeciesId.STARYU, SpeciesId.PSYDUCK, SpeciesId.WOOPER, SpeciesId.LAPRAS],
