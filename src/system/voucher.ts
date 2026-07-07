@@ -1,6 +1,6 @@
 import type { PlayerGender } from "#enums/player-gender";
 import { TrainerType } from "#enums/trainer-type";
-import { AchvTier, achvs, getAchievementDescription } from "#system/achv";
+import { AchvTier, achvs } from "#system/achv";
 import { trainerConfigs } from "#trainers/trainer-config";
 import type { ConditionFn } from "#types/common";
 import i18next from "i18next";
@@ -98,7 +98,7 @@ export function initVouchers() {
           : achv.score >= 75
             ? VoucherType.PLUS
             : VoucherType.REGULAR;
-    vouchers[achv.id] = new Voucher(voucherType, getAchievementDescription(achv.localizationKey));
+    vouchers[achv.id] = new Voucher(voucherType, achv.description);
   }
 
   const bossTrainerTypes = Object.keys(trainerConfigs).filter(

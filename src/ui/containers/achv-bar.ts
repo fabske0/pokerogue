@@ -2,7 +2,7 @@ import { audioManager } from "#app/global-audio-manager";
 import { globalScene } from "#app/global-scene";
 import type { PlayerGender } from "#enums/player-gender";
 import { TextStyle } from "#enums/text-style";
-import { Achv, getAchievementDescription } from "#system/achv";
+import { Achv } from "#system/achv";
 import { Voucher } from "#system/voucher";
 import { addTextObject } from "#ui/text";
 
@@ -71,7 +71,7 @@ export class AchvBar extends Phaser.GameObjects.Container {
     this.titleText.setText(achv.getName(this.playerGender));
     this.scoreText.setVisible(achv instanceof Achv);
     if (achv instanceof Achv) {
-      this.descriptionText.setText(getAchievementDescription((achv as Achv).localizationKey));
+      this.descriptionText.setText((achv as Achv).description);
     } else if (achv instanceof Voucher) {
       this.descriptionText.setText((achv as Voucher).description);
     }

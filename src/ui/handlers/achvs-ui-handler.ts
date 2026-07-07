@@ -4,7 +4,7 @@ import { PlayerGender } from "#enums/player-gender";
 import { TextStyle } from "#enums/text-style";
 import type { UiMode } from "#enums/ui-mode";
 import type { Achv } from "#system/achv";
-import { achvs, getAchievementDescription } from "#system/achv";
+import { achvs } from "#system/achv";
 import type { Voucher } from "#system/voucher";
 import { getVoucherTypeIcon, getVoucherTypeName, vouchers } from "#system/voucher";
 import type { AchvUnlocks, VoucherUnlocks } from "#types/save-data";
@@ -203,10 +203,10 @@ export class AchvsUiHandler extends MessageUiHandler {
     const genderIndex = globalScene.gameData.gender ?? PlayerGender.MALE;
     const genderStr = PlayerGender[genderIndex].toLowerCase();
 
+    // todo why do we set the name here again=
     achv.name = i18next.t(`achv:${achv.localizationKey}.name`, {
       context: genderStr,
     });
-    achv.description = getAchievementDescription(achv.localizationKey);
     const achvUnlocks = globalScene.gameData.achvUnlocks;
     const unlocked = Object.hasOwn(achvUnlocks, achv.id);
     const hidden = !unlocked && achv.secret && (!achv.parentId || !Object.hasOwn(achvUnlocks, achv.parentId));
