@@ -55,13 +55,13 @@ export class Achv {
     this.localizationKey = localizationKey;
   }
 
-  public get description(): string {
-    return i18next.t(`achv:${this.localizationKey}.description`, { context: getGenderStr() });
-  }
-
   public get name(): string {
     // Localization key is used to get the name of the achievement
     return i18next.t(`achv:${this.localizationKey}.name`, { context: getGenderStr() });
+  }
+
+  public get description(): string {
+    return i18next.t(`achv:${this.localizationKey}.description`, { context: getGenderStr() });
   }
 
   getIconImage(): string {
