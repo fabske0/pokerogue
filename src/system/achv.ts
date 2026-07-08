@@ -28,6 +28,12 @@ export enum AchvTier {
   MASTER,
 }
 
+function getGenderStr(): string {
+  const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
+  const genderStr = PlayerGender[genderIndex].toLowerCase();
+  return genderStr;
+}
+
 export class Achv {
   public localizationKey: string;
   public id: string;
@@ -51,11 +57,7 @@ export class Achv {
   }
 
   public get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
-    return i18next.t(`achv:${this.localizationKey}.description`, {
-      context: genderStr,
-    });
+    return i18next.t(`achv:${this.localizationKey}.description`, { context: getGenderStr() });
   }
 
   /**
@@ -111,10 +113,8 @@ export class MoneyAchv extends Achv {
   }
 
   public override get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
     return i18next.t("achv:moneyAchv.description", {
-      context: genderStr,
+      context: getGenderStr(),
       moneyAmount: this.moneyAmount.toLocaleString("en-US"),
     });
   }
@@ -129,10 +129,8 @@ export class RibbonAchv extends Achv {
   }
 
   public override get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
     return i18next.t("achv:ribbonAchv.description", {
-      context: genderStr,
+      context: getGenderStr(),
       ribbonAmount: this.ribbonAmount.toLocaleString("en-US"),
     });
   }
@@ -151,10 +149,8 @@ export class DamageAchv extends Achv {
   }
 
   public override get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
     return i18next.t("achv:damageAchv.description", {
-      context: genderStr,
+      context: getGenderStr(),
       damageAmount: this.damageAmount.toLocaleString("en-US"),
     });
   }
@@ -172,10 +168,8 @@ export class HealAchv extends Achv {
   }
 
   public override get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
     return i18next.t("achv:healAchv.description", {
-      context: genderStr,
+      context: getGenderStr(),
       healAmount: this.healAmount.toLocaleString("en-US"),
       HP: i18next.t(getShortenedStatKey(Stat.HP)),
     });
@@ -196,10 +190,8 @@ export class LevelAchv extends Achv {
   }
 
   public get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
     return i18next.t("achv:levelAchv.description", {
-      context: genderStr,
+      context: getGenderStr(),
       level: this.level,
     });
   }
@@ -242,11 +234,9 @@ export class MonoTypeChallengeAchv extends ChallengeAchv {
   }
 
   public get description(): string {
-    const genderIndex = globalScene?.gameData?.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
     const typeKey = PokemonType[this.type].toLowerCase();
     return i18next.t("achv:monoType.description", {
-      context: genderStr,
+      context: getGenderStr(),
       type: i18next.t(`pokemonInfo:type.${typeKey}`),
     });
   }
@@ -639,9 +629,9 @@ export const achvs = {
     "flipInverse",
     "cracked_pot",
     50,
-    c =>
-      c instanceof FlipStatChallenge
-      && c.value > 0
+    ch =>
+      ch instanceof FlipStatChallenge
+      && ch.value > 0
       && globalScene.gameMode.challenges.some(c => c.id === Challenges.INVERSE_BATTLE && c.value > 0),
   ).setSecret(),
   BREEDERS_IN_SPACE: new Achv("breedersInSpace", "moon_stone", 50).setSecret(),
