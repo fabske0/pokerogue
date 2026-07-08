@@ -50,9 +50,9 @@ export class AchvsUiHandler extends MessageUiHandler {
   private unlockText: Phaser.GameObjects.Text;
 
   private achvsName: string;
-  private achvsTotal: number;
+  private readonly achvsTotal: number;
   private vouchersName: string;
-  private vouchersTotal: number;
+  private readonly vouchersTotal: number;
   private currentTotal: number;
 
   private scrollBar: ScrollBar;
@@ -199,12 +199,6 @@ export class AchvsUiHandler extends MessageUiHandler {
   }
 
   protected showAchv(achv: Achv) {
-    // We need to get the player gender from the game data to add the correct prefix to the achievement name
-    const genderIndex = globalScene.gameData.gender ?? PlayerGender.MALE;
-    const genderStr = PlayerGender[genderIndex].toLowerCase();
-
-    // TODO: why do we set the name here again?
-    achv.name = i18next.t(`achv:${achv.localizationKey}.name`, { context: genderStr });
     const achvUnlocks = globalScene.gameData.achvUnlocks;
     const unlocked = Object.hasOwn(achvUnlocks, achv.id);
     const hidden = !unlocked && achv.secret && (!achv.parentId || !Object.hasOwn(achvUnlocks, achv.parentId));

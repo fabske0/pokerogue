@@ -1,4 +1,3 @@
-import type { PlayerGender } from "#enums/player-gender";
 import { TrainerType } from "#enums/trainer-type";
 import { AchvTier, achvs } from "#system/achv";
 import { trainerConfigs } from "#trainers/trainer-config";
@@ -17,7 +16,7 @@ export class Voucher {
   public voucherType: VoucherType;
   public description: string;
 
-  private conditionFunc: ConditionFn | undefined;
+  private readonly conditionFunc: ConditionFn | undefined;
 
   constructor(voucherType: VoucherType, description: string, conditionFunc?: ConditionFn) {
     this.description = description;
@@ -25,17 +24,12 @@ export class Voucher {
     this.conditionFunc = conditionFunc;
   }
 
-  validate(args?: any[]): boolean {
-    return !this.conditionFunc || this.conditionFunc(args);
+  public get name(): string {
+    return getVoucherTypeName(this.voucherType);
   }
 
-  /**
-   * Get the name of the voucher
-   * @param _playerGender - this is ignored here. It's only there to match the signature of the function in the Achv class
-   * @returns the name of the voucher
-   */
-  getName(_playerGender: PlayerGender): string {
-    return getVoucherTypeName(this.voucherType);
+  validate(args?: any[]): boolean {
+    return !this.conditionFunc || this.conditionFunc(args);
   }
 
   getIconImage(): string {

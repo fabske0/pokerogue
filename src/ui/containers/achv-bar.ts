@@ -68,7 +68,7 @@ export class AchvBar extends Phaser.GameObjects.Container {
 
     this.bg.setTexture(`achv_bar${tier ? `_${tier + 1}` : ""}`);
     this.icon.setFrame(achv.getIconImage());
-    this.titleText.setText(achv.getName(this.playerGender));
+    this.titleText.setText(achv.name);
     this.scoreText.setVisible(achv instanceof Achv);
     if (achv instanceof Achv) {
       this.descriptionText.setText((achv as Achv).description);
