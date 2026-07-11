@@ -30,6 +30,10 @@ export interface SpeciesEntry {
   ability2: string;
   hiddenAbility: string;
   passive: string;
+  eggMove1: string;
+  eggMove2: string;
+  eggMove3: string;
+  eggMove4: string;
   bst: number;
   hp: number;
   atk: number;
