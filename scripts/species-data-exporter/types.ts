@@ -13,6 +13,7 @@ export interface SpeciesEntry {
   dexNum: number;
   id: string;
   form: string | null;
+  formDisplayName: string;
   name: string;
   starter: string;
   startercost: number | null;

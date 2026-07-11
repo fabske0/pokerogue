@@ -27,6 +27,7 @@ export async function generateSpeciesData(): Promise<void> {
       dexNum: species.speciesId,
       id: SpeciesId[species.speciesId],
       form: null,
+      formDisplayName: species.getFormNameToDisplay(),
       name: species.getName(),
       starter: SpeciesId[speciesData.starter],
       startercost: speciesData.starterCost ?? null,
@@ -81,6 +82,7 @@ export async function generateSpeciesData(): Promise<void> {
         canChangeForm: Number(index) === 0 ? data.canChangeForm : null,
 
         form: form.formName,
+        formDisplayName: species.getFormNameToDisplay(Number(index)),
         name: species.getName(Number(index)),
         spriteKey: normalizedFormSpriteKey,
         formKey: form.formKey,
