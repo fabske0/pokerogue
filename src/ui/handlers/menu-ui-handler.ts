@@ -313,40 +313,42 @@ export class MenuUiHandler extends MessageUiHandler {
       },
       keepOpen: true,
     });
-    manageDataOptions.push({
-      label: i18next.t("menuUiHandler:clearLocalData"),
-      handler() {
-        ui.revertMode();
-        ui.showText(i18next.t("menuUiHandler:clearLocalDataWarning"), null, () => {
-          ui.setOverlayMode(
-            UiMode.CONFIRM,
-            () => {
-              globalScene.gameData.clearLocalData();
-              window.location.reload();
-            },
-            () => {
-              globalScene.ui.revertMode();
-              globalScene.ui.showText("", 0);
-            },
-            false,
-            -98,
-          );
-        });
-        return true;
-      },
-      keepOpen: true,
-    });
-    manageDataOptions.push({
-      // Note: i18n key is under `menu`, not `menuUiHandler` to avoid duplication
-      label: i18next.t("menu:changePassword"),
-      handler: () => {
-        ui.setOverlayMode(UiMode.CHANGE_PASSWORD_FORM, {
-          buttonActions: [() => ui.revertMode(), () => ui.revertMode()],
-        });
-        return true;
-      },
-      keepOpen: true,
-    });
+    if (!bypassLogin) {
+      manageDataOptions.push({
+        label: i18next.t("menuUiHandler:clearLocalData"),
+        handler() {
+          ui.revertMode();
+          ui.showText(i18next.t("menuUiHandler:clearLocalDataWarning"), null, () => {
+            ui.setOverlayMode(
+              UiMode.CONFIRM,
+              () => {
+                globalScene.gameData.clearLocalData();
+                window.location.reload();
+              },
+              () => {
+                globalScene.ui.revertMode();
+                globalScene.ui.showText("", 0);
+              },
+              false,
+              -98,
+            );
+          });
+          return true;
+        },
+        keepOpen: true,
+      });
+      manageDataOptions.push({
+        // Note: i18n key is under `menu`, not `menuUiHandler` to avoid duplication
+        label: i18next.t("menu:changePassword"),
+        handler: () => {
+          ui.setOverlayMode(UiMode.CHANGE_PASSWORD_FORM, {
+            buttonActions: [() => ui.revertMode(), () => ui.revertMode()],
+          });
+          return true;
+        },
+        keepOpen: true,
+      });
+    }
     if (isBeta || isDev) {
       manageDataOptions.push({
         label: "Test Dialogue",
