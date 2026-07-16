@@ -1,5 +1,5 @@
 import { defaultStarterSpecies } from "#app/constants";
-import { setSpeciesDataRegistry } from "#app/global-species-data-registry";
+import { setSpeciesDataRegistry, speciesDataRegistry } from "#app/global-species-data-registry";
 import { initGenerationOne } from "#balance/generation-01";
 import { initGenerationTwo } from "#balance/generation-02";
 import { initGenerationThree } from "#balance/generation-03";
@@ -13,7 +13,7 @@ import type { SpeciesFormEvolution } from "#balance/pokemon-evolutions";
 import type { StarterCost } from "#balance/starters";
 import { SpeciesFormChangeItemTrigger } from "#data/form-change-triggers";
 import { SpeciesFormChange } from "#data/pokemon-forms";
-import type { PokemonSpecies } from "#data/pokemon-species";
+import type { PokemonSpecies, PokemonSpeciesForm } from "#data/pokemon-species";
 import type { AbilityId } from "#enums/ability-id";
 import { EggTier } from "#enums/egg-type";
 import type { MoveId } from "#enums/move-id";
@@ -140,6 +140,19 @@ export class SpeciesDataRegistry {
    */
   public getAllSpecies(): PokemonSpecies[] {
     return Object.values(this._data).map(s => s.species);
+  }
+
+  /**
+   * Get either a pokemon species or a specific form of that species.
+   * @param species - The {@linkcode SpeciesId} of the species
+   * @param form - The `formIndex` or `formKey` of the form to get.
+   * @returns The {@linkcode PokemonSpeciesForm} or {@linkcode PokemonSpecies} if the form doesn't exist
+   */
+  public getPokemonSpeciesForm(species: SpeciesId, form: string | number): PokemonSpeciesForm {
+    const retSpecies: PokemonSpecies = speciesDataRegistry.getSpecies(species);
+    const formIndex = this.getFormIndex(species, form);
+
+    return retSpecies.forms[formIndex] ?? retSpecies;
   }
 
   /**
