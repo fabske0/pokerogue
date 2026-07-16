@@ -791,10 +791,7 @@ export class SingleTypeChallenge extends Challenge {
   }
 
   override applyStarterChoice(species: PokemonSpecies, isValid: BooleanHolder, dexAttr: DexAttrProps): boolean {
-    const speciesForm = speciesDataRegistry.speciesDataRegistry.getPokemonSpeciesForm(
-      species.speciesId,
-      dexAttr.formIndex,
-    );
+    const speciesForm = speciesDataRegistry.getPokemonSpeciesForm(species.speciesId, dexAttr.formIndex);
     const types = [speciesForm.type1, speciesForm.type2];
     if (!types.includes(this.value - 1)) {
       isValid.value = false;
