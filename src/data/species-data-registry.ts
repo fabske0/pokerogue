@@ -144,15 +144,15 @@ export class SpeciesDataRegistry {
 
   /**
    * Get either a pokemon species or a specific form of that species.
-   * @param species - The {@linkcode SpeciesId} of the species
+   * @param speciesId - The {@linkcode SpeciesId} of the species
    * @param form - The `formIndex` or `formKey` of the form to get.
    * @returns The {@linkcode PokemonSpeciesForm} or {@linkcode PokemonSpecies} if the form doesn't exist
    */
-  public getPokemonSpeciesForm(species: SpeciesId, form: string | number): PokemonSpeciesForm {
-    const retSpecies: PokemonSpecies = speciesDataRegistry.getSpecies(species);
-    const formIndex = this.getFormIndex(species, form);
+  public getPokemonSpeciesForm(speciesId: SpeciesId, form: string | number): PokemonSpeciesForm {
+    const species: PokemonSpecies = speciesDataRegistry.getSpecies(speciesId);
+    const formIndex = this.getFormIndex(speciesId, form);
 
-    return retSpecies.forms[formIndex] ?? retSpecies;
+    return species.forms[formIndex] ?? species;
   }
 
   /**
