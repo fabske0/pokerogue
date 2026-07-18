@@ -1,5 +1,5 @@
 import { defaultStarterSpecies } from "#app/constants";
-import { setSpeciesDataRegistry, speciesDataRegistry } from "#app/global-species-data-registry";
+import { setSpeciesDataRegistry } from "#app/global-species-data-registry";
 import { initGenerationOne } from "#balance/generation-01";
 import { initGenerationTwo } from "#balance/generation-02";
 import { initGenerationThree } from "#balance/generation-03";
@@ -149,7 +149,7 @@ export class SpeciesDataRegistry {
    * @returns The {@linkcode PokemonSpeciesForm} or {@linkcode PokemonSpecies} if the form doesn't exist
    */
   public getPokemonSpeciesForm(speciesId: SpeciesId, form: string | number): PokemonSpeciesForm {
-    const species: PokemonSpecies = speciesDataRegistry.getSpecies(speciesId);
+    const species: PokemonSpecies = this.getSpecies(speciesId);
     const formIndex = this.getFormIndex(speciesId, form);
 
     return species.forms[formIndex] ?? species;
