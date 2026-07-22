@@ -1,5 +1,6 @@
 import { CLASSIC_MODE_MYSTERY_ENCOUNTER_WAVES } from "#app/constants";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { EncounterBattleAnim } from "#data/battle-anims";
 import { modifierTypes } from "#data/data-lists";
 import { BattlerIndex } from "#enums/battler-index";
@@ -37,20 +38,19 @@ import { MysteryEncounterOptionBuilder } from "#mystery-encounters/mystery-encou
 import { MoveRequirement } from "#mystery-encounters/mystery-encounter-requirements";
 import { DANCING_MOVES } from "#mystery-encounters/requirement-groups";
 import { PokemonData } from "#system/pokemon-data";
-import type { OptionSelectItem } from "#ui/base-option-select-ui-handler";
-import { getPokemonSpecies } from "#utils/pokemon-utils";
+import type { OptionSelectItem } from "#types/ui-types";
+import { randSeedInt } from "#utils/common";
 import { groupStatChange } from "#utils/stat-change";
 import i18next from "i18next";
 
 /** the i18n namespace for this encounter */
 const namespace = "mysteryEncounters/dancingLessons";
 
-// TODO: Put all in Meadow as their third biome, random between forms, currently just goes to Baile every time if done
 // Fire form
 const BAILE_STYLE_BIOMES: readonly BiomeId[] = [BiomeId.TEMPLE, BiomeId.TALL_GRASS];
 
 // Electric form
-const POM_POM_STYLE_BIOMES: readonly BiomeId[] = [BiomeId.BEACH, BiomeId.GRASS, BiomeId.MEADOW];
+const POM_POM_STYLE_BIOMES: readonly BiomeId[] = [BiomeId.BEACH, BiomeId.GRASS];
 
 // Psychic form
 const PAU_STYLE_BIOMES: readonly BiomeId[] = [BiomeId.ISLAND, BiomeId.RUINS];
@@ -96,7 +96,7 @@ export const DancingLessonsEncounter: MysteryEncounter = MysteryEncounterBuilder
   .withOnInit(() => {
     const encounter = globalScene.currentBattle.mysteryEncounter!;
 
-    const species = getPokemonSpecies(SpeciesId.ORICORIO);
+    const species = speciesDataRegistry.getSpecies(SpeciesId.ORICORIO);
     const level = getEncounterPokemonLevelForWave(STANDARD_ENCOUNTER_BOOSTED_LEVEL_MODIFIER);
     const enemyPokemon = new EnemyPokemon(species, level, TrainerSlot.NONE, false);
     if (!enemyPokemon.moveset.some(m => m && m.getMove().id === MoveId.REVELATION_DANCE)) {
@@ -108,7 +108,7 @@ export const DancingLessonsEncounter: MysteryEncounter = MysteryEncounterBuilder
     }
 
     // Set the form index based on the biome
-    // Defaults to Baile style if somehow nothing matches
+    // Picks a random form if none is specified for the current biome
     const currentBiome = globalScene.arena.biomeId;
     if (BAILE_STYLE_BIOMES.includes(currentBiome)) {
       enemyPokemon.formIndex = 0;
@@ -119,7 +119,7 @@ export const DancingLessonsEncounter: MysteryEncounter = MysteryEncounterBuilder
     } else if (SENSU_STYLE_BIOMES.includes(currentBiome)) {
       enemyPokemon.formIndex = 3;
     } else {
-      enemyPokemon.formIndex = 0;
+      enemyPokemon.formIndex = randSeedInt(4);
     }
 
     const oricorioData = new PokemonData(enemyPokemon);
@@ -159,7 +159,7 @@ export const DancingLessonsEncounter: MysteryEncounter = MysteryEncounterBuilder
       oricorioData,
     };
 
-    encounter.setDialogueToken("oricorioName", getPokemonSpecies(SpeciesId.ORICORIO).getName());
+    encounter.setDialogueToken("oricorioName", speciesDataRegistry.getSpecies(SpeciesId.ORICORIO).getName());
 
     return true;
   })

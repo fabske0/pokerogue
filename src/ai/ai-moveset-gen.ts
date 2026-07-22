@@ -8,6 +8,7 @@
 
 import { EVOLVE_MOVE, RELEARN_MOVE } from "#app/constants";
 import { globalScene } from "#app/global-scene";
+import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { speciesEggMoves } from "#balance/moves/egg-moves";
 import { FORBIDDEN_SINGLES_MOVES, FORBIDDEN_TM_MOVES, LEVEL_BASED_DENYLIST } from "#balance/moves/forbidden-moves";
 import {
@@ -61,7 +62,7 @@ import { PokemonMove } from "#moves/pokemon-move";
 import type { Move, StatStageChangeAttr } from "#types/move-types";
 import type { LevelMovesWithSource } from "#types/pokemon-species";
 import { NumberHolder, randSeedInt, randSeedItem } from "#utils/common";
-import { getPokemonSpecies, willTerastallize } from "#utils/pokemon-utils";
+import { willTerastallize } from "#utils/pokemon-utils";
 import { ValueHolder } from "#utils/value-holder";
 
 /**
@@ -84,7 +85,12 @@ function getAndWeightLevelMoves(pokemon: Pokemon): Map<MoveId, number> {
   let allLevelMoves: LevelMovesWithSource;
   // TODO: Investigate why there needs to be error handling here
   try {
-    allLevelMoves = pokemon.getLevelMoves(1, true, true, pokemon.hasTrainer());
+    allLevelMoves = pokemon.getLevelMoves({
+      startingLevel: 1,
+      includeEvolutionMoves: true,
+      includePrevolutionMoves: true,
+      includeRelearnerMoves: pokemon.hasTrainer(),
+    });
   } catch (e) {
     console.warn("Error encountered trying to generate moveset for %s: %s", pokemon.species.name, e);
     return movePool;
@@ -161,7 +167,7 @@ function getTmPoolForSpecies(
   allowedTiers = getAllowedTmTiers(level),
 ): void {
   const [allowCommon, allowGreat, allowUltra] = allowedTiers;
-  const tms = getPokemonSpecies(speciesId).getTms(formKey);
+  const tms = speciesDataRegistry.getSpecies(speciesId).getTms(formKey);
 
   for (const tm of tms) {
     if (FORBIDDEN_TM_MOVES.has(tm) || levelPool.has(tm) || eggPool.has(tm) || tmPool.has(tm)) {
