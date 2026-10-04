@@ -1508,6 +1508,7 @@ export class GameData {
         hatchedCount: 0,
         ivs: [0, 0, 0, 0, 0, 0],
         ribbons: new RibbonData(0),
+        lastShiny: 0,
       };
     }
 

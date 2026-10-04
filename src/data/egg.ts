@@ -3,6 +3,7 @@ import { globalScene } from "#app/global-scene";
 import { speciesDataRegistry } from "#app/global-species-data-registry";
 import { activeOverrides } from "#app/overrides";
 import {
+  BASE_SAME_SPECIES_SHINY_INCREASE_COUNT,
   BOOSTED_RARE_EGGMOVE_RATES,
   EGG_PITY_EPIC_THRESHOLD,
   EGG_PITY_LEGENDARY_THRESHOLD,
@@ -20,6 +21,7 @@ import {
   HATCH_WAVES_MANAPHY_EGG,
   HATCH_WAVES_RARE_EGG,
   MANAPHY_EGG_MANAPHY_RATE,
+  MAX_SAME_SPECIES_SHINY_INCREASE_COUNT,
   RARE_EGGMOVE_RATES,
   SAME_SPECIES_EGG_HA_RATE,
   SAME_SPECIES_EGG_SHINY_RATE,
@@ -172,7 +174,8 @@ export class Egg {
       this._timestamp = eggOptions?.timestamp ?? Date.now();
 
       // First roll shiny and variant so we can filter if species with an variant exist
-      this._isShiny = eggOptions?.isShiny ?? (activeOverrides.EGG_SHINY_OVERRIDE || this.rollShiny());
+      this._isShiny =
+        eggOptions?.isShiny ?? (activeOverrides.EGG_SHINY_OVERRIDE || this.rollShiny(eggOptions?.species));
       this._variantTier = eggOptions?.variantTier ?? activeOverrides.EGG_VARIANT_OVERRIDE ?? this.rollVariant();
       this._species = eggOptions?.species ?? this.rollSpecies()!; // TODO: Is this bang correct?
 
@@ -513,22 +516,64 @@ export class Egg {
 
   /**
    * Rolls whether the egg is shiny or not.
+   * @param species - The species of the egg being rolled for. Only used for same species eggs.
    * @returns `true` if the egg is shiny
    */
-  private rollShiny(): boolean {
+  private rollShiny(species?: SpeciesId): boolean {
     let shinyChance = GACHA_DEFAULT_SHINY_RATE;
     switch (this._sourceType) {
       case EggSourceType.GACHA_SHINY:
         shinyChance = GACHA_SHINY_UP_SHINY_RATE;
         break;
       case EggSourceType.SAME_SPECIES_EGG:
-        shinyChance = SAME_SPECIES_EGG_SHINY_RATE;
+        if (!species) {
+          shinyChance = SAME_SPECIES_EGG_SHINY_RATE;
+          break;
+        }
+        shinyChance = this.getSameSpeciesShinyOdds(species);
         break;
       default:
         break;
     }
 
-    return !randSeedInt(shinyChance);
+    const isShiny = !randSeedInt(shinyChance);
+    if (this._sourceType === EggSourceType.SAME_SPECIES_EGG && species) {
+      if (isShiny) {
+        globalScene.gameData.dexData[species].lastShiny = 0;
+      } else {
+        globalScene.gameData.dexData[species].lastShiny += 1;
+      }
+    }
+    return isShiny;
+  }
+
+  /**
+   * Get the odds of the next same-species egg being shiny.
+   * @param species - The species of the egg being rolled for.
+   * @returns The odds of the next same-species egg being shiny. Output as 1/x.
+   */
+  private getSameSpeciesShinyOdds(species: SpeciesId): number {
+    const baseRate = 1 / SAME_SPECIES_EGG_SHINY_RATE;
+    const targetRate = 1;
+    if (globalScene.gameData.dexData[species].lastShiny == null) {
+      // TODO: Maybe move to a migrator, but I don't know the version yet :)
+      globalScene.gameData.dexData[species].lastShiny = 0;
+    }
+    const count = globalScene.gameData.dexData[species].lastShiny;
+
+    if (count <= BASE_SAME_SPECIES_SHINY_INCREASE_COUNT) {
+      return 1 / baseRate;
+    }
+    if (count >= MAX_SAME_SPECIES_SHINY_INCREASE_COUNT) {
+      return 1 / targetRate;
+    }
+
+    const progress =
+      (count - BASE_SAME_SPECIES_SHINY_INCREASE_COUNT)
+      / (MAX_SAME_SPECIES_SHINY_INCREASE_COUNT - BASE_SAME_SPECIES_SHINY_INCREASE_COUNT);
+    const currentProbability = baseRate + progress * (targetRate - baseRate);
+
+    return 1 / currentProbability;
   }
 
   // Uses the same logic as pokemon.generateVariant(). I would like to only have this logic in one

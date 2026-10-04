@@ -13,4 +13,5 @@ export interface DexEntry {
   hatchedCount: number;
   ivs: number[];
   ribbons: RibbonData;
+  lastShiny: number;
 }
