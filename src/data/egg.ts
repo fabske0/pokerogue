@@ -538,6 +538,10 @@ export class Egg {
 
     const isShiny = !randSeedInt(shinyChance);
     if (this._sourceType === EggSourceType.SAME_SPECIES_EGG && species) {
+      console.debug(
+        `Same species shiny odds for species ${SpeciesId[species]} (lastShiny: ${globalScene.gameData.dexData[species].lastShiny}): ${((1 / shinyChance) * 100).toFixed(2)}%`,
+      );
+
       if (isShiny) {
         globalScene.gameData.dexData[species].lastShiny = 0;
       } else {
