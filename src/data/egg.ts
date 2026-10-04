@@ -544,8 +544,6 @@ export class Egg {
 
       if (isShiny) {
         globalScene.gameData.dexData[species].lastShiny = 0;
-      } else {
-        globalScene.gameData.dexData[species].lastShiny += 1;
       }
     }
     return isShiny;
@@ -563,7 +561,8 @@ export class Egg {
       // TODO: Maybe move to a migrator, but I don't know the version yet :)
       globalScene.gameData.dexData[species].lastShiny = 0;
     }
-    const count = globalScene.gameData.dexData[species].lastShiny;
+    globalScene.gameData.dexData[species].lastShiny += 1;
+    const count = globalScene.gameData.dexData[species].lastShiny; // Increment count since `lastShiny` starts at 0
 
     if (count <= BASE_SAME_SPECIES_SHINY_INCREASE_COUNT) {
       return 1 / baseRate;
