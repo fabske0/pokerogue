@@ -21,13 +21,17 @@ import {
   HATCH_WAVES_MANAPHY_EGG,
   HATCH_WAVES_RARE_EGG,
   MANAPHY_EGG_MANAPHY_RATE,
+  MAX_NEW_VARIANT_ODDS,
+  MAX_NEW_VARIANT_PITY,
   MAX_SAME_SPECIES_SHINY_INCREASE_COUNT,
+  MISSING_VARIANT_PITY_THRESHOLD,
   RARE_EGGMOVE_RATES,
   SAME_SPECIES_EGG_HA_RATE,
   SAME_SPECIES_EGG_SHINY_RATE,
   SHINY_EPIC_CHANCE,
   SHINY_VARIANT_CHANCE,
 } from "#balance/rates";
+import { DexAttr } from "#enums/dex-attr";
 import { EggSourceType } from "#enums/egg-source-types";
 import { EggTier } from "#enums/egg-type";
 import { SpeciesId } from "#enums/species-id";
@@ -176,7 +180,8 @@ export class Egg {
       // First roll shiny and variant so we can filter if species with an variant exist
       this._isShiny =
         eggOptions?.isShiny ?? (activeOverrides.EGG_SHINY_OVERRIDE || this.rollShiny(eggOptions?.species));
-      this._variantTier = eggOptions?.variantTier ?? activeOverrides.EGG_VARIANT_OVERRIDE ?? this.rollVariant();
+      this._variantTier =
+        eggOptions?.variantTier ?? activeOverrides.EGG_VARIANT_OVERRIDE ?? this.rollVariant(eggOptions?.species);
       this._species = eggOptions?.species ?? this.rollSpecies()!; // TODO: Is this bang correct?
 
       this._overrideHiddenAbility = eggOptions?.overrideHiddenAbility ?? false;
@@ -539,11 +544,11 @@ export class Egg {
     const isShiny = !randSeedInt(shinyChance);
     if (this._sourceType === EggSourceType.SAME_SPECIES_EGG && species) {
       console.debug(
-        `Same species shiny odds for species ${SpeciesId[species]} (lastShiny: ${globalScene.gameData.dexData[species].lastShiny}): ${((1 / shinyChance) * 100).toFixed(2)}%`,
+        `Same species shiny odds for species ${SpeciesId[species]} (lastShiny: ${globalScene.gameData.dexData[species].pity[0]}): ${((1 / shinyChance) * 100).toFixed(2)}%`,
       );
 
       if (isShiny) {
-        globalScene.gameData.dexData[species].lastShiny = 0;
+        globalScene.gameData.dexData[species].pity[0] = 0;
       }
     }
     return isShiny;
@@ -557,12 +562,12 @@ export class Egg {
   private getSameSpeciesShinyOdds(species: SpeciesId): number {
     const baseRate = 1 / SAME_SPECIES_EGG_SHINY_RATE;
     const targetRate = 1;
-    if (globalScene.gameData.dexData[species].lastShiny == null) {
+    if (globalScene.gameData.dexData[species].pity?.[0] == null) {
       // TODO: Maybe move to a migrator, but I don't know the version yet :)
-      globalScene.gameData.dexData[species].lastShiny = 0;
+      globalScene.gameData.dexData[species].pity = [0, globalScene.gameData.dexData[species].pity?.[1] ?? 0];
     }
-    globalScene.gameData.dexData[species].lastShiny += 1;
-    const count = globalScene.gameData.dexData[species].lastShiny; // Increment count since `lastShiny` starts at 0
+    globalScene.gameData.dexData[species].pity[0] += 1;
+    const count = globalScene.gameData.dexData[species].pity[0];
 
     if (count <= BASE_SAME_SPECIES_SHINY_INCREASE_COUNT) {
       return 1 / baseRate;
@@ -582,11 +587,18 @@ export class Egg {
   // Uses the same logic as pokemon.generateVariant(). I would like to only have this logic in one
   // place but I don't want to touch the pokemon class.
   // TODO: Remove this or replace the one in the Pokemon class.
-  private rollVariant(): VariantTier {
+  private rollVariant(species?: SpeciesId): VariantTier {
     if (!this.isShiny) {
       return VariantTier.STANDARD;
     }
 
+    let variant: VariantTier | null = null;
+    if (this._sourceType === EggSourceType.SAME_SPECIES_EGG && species) {
+      variant = this.getSameSpeciesVariant(species);
+    }
+    if (variant !== null) {
+      return variant;
+    }
     const rand = randSeedInt(10);
     if (rand >= SHINY_VARIANT_CHANCE) {
       return VariantTier.STANDARD; // 6/10
@@ -595,6 +607,56 @@ export class Egg {
       return VariantTier.RARE; // 3/10
     }
     return VariantTier.EPIC; // 1/10
+  }
+
+  // TODO: the pity triggers multiple times before the first new variant is actually hatched, it might award that one again from the pity and not a genuinely new variant
+  private getSameSpeciesVariant(species: SpeciesId): VariantTier | null {
+    const caughtAttr = globalScene.gameData.dexData[species]?.caughtAttr ?? 0n;
+    const missingVariants = [DexAttr.VARIANT_2, DexAttr.VARIANT_3].filter(v => !(caughtAttr & v));
+    if (missingVariants.length === 0) {
+      // No pity if all variants have been unlocked
+      return null;
+    }
+    if (globalScene.gameData.dexData[species].pity?.[1] == null) {
+      // TODO: Maybe move to a migrator, but I don't know the version yet :)
+      globalScene.gameData.dexData[species].pity = [globalScene.gameData.dexData[species].pity?.[0] ?? 0, 0];
+    }
+    globalScene.gameData.dexData[species].pity[1] += 1;
+    const count = globalScene.gameData.dexData[species].pity[1];
+    if (count <= MISSING_VARIANT_PITY_THRESHOLD) {
+      globalScene.gameData.dexData[species].pity[1] += 1;
+      // Roll normally
+      return null;
+    }
+    let baseRate = 0;
+    if (missingVariants.includes(DexAttr.VARIANT_2)) {
+      baseRate += 30;
+    }
+    if (missingVariants.includes(DexAttr.VARIANT_3)) {
+      baseRate += 10;
+    }
+    const pityProgress = Math.min(
+      (count - MISSING_VARIANT_PITY_THRESHOLD) / (MAX_NEW_VARIANT_PITY - MISSING_VARIANT_PITY_THRESHOLD),
+      1,
+    );
+    // TODO: MAX_NEW_VARIANT_ODDS should probably be split so the pity for only epic and only rare are not the same as that would make epics ramp up quicker due to having lower baseRate
+    const currentProbability = baseRate + pityProgress * (MAX_NEW_VARIANT_ODDS - baseRate);
+    console.debug(
+      `Current probability for new variant for ${SpeciesId[species]} (last new count: ${count}): ${currentProbability}%`,
+    );
+    if (randSeedInt(100) < currentProbability) {
+      globalScene.gameData.dexData[species].pity[1] = 0;
+      if (missingVariants.includes(DexAttr.VARIANT_2) && missingVariants.includes(DexAttr.VARIANT_3)) {
+        return randSeedInt(4) ? VariantTier.RARE : VariantTier.EPIC; // 1/4 chance for EPIC, 3/4 chance for RARE
+      }
+      if (missingVariants.includes(DexAttr.VARIANT_3)) {
+        return VariantTier.EPIC;
+      }
+      if (missingVariants.includes(DexAttr.VARIANT_2)) {
+        return VariantTier.RARE;
+      }
+    }
+    return null;
   }
 
   private checkForPityTierOverrides(): void {

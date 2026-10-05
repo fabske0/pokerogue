@@ -48,6 +48,12 @@ export const GACHA_EGG_HA_RATE = 192;
 export const BASE_SAME_SPECIES_SHINY_INCREASE_COUNT = 5;
 /** The amount of same-species eggs that need to be hatched for it to become a guaranteed shiny */
 export const MAX_SAME_SPECIES_SHINY_INCREASE_COUNT = 20;
+/** The number of same-species eggs that need to be hatched before the missing variant pity starts increasing the odds */
+export const MISSING_VARIANT_PITY_THRESHOLD = 5;
+/** The maximum odds for a new variant to appear */
+export const MAX_NEW_VARIANT_ODDS = 70;
+/** The amount of same-species eggs that need to be hatched to reach {@linkcode MAX_NEW_VARIANT_ODDS | maximum new variant odds} */
+export const MAX_NEW_VARIANT_PITY = 10;
 
 // Odds are 1/x
 // [COMMON, RARE, EPIC/MANAPHY, LEGEND]
