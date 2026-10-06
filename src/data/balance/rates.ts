@@ -52,8 +52,8 @@ export const MAX_SAME_SPECIES_SHINY_INCREASE_COUNT = 20;
 export const MISSING_VARIANT_PITY_THRESHOLD = 5;
 /** The maximum odds for a new variant to appear */
 export const MAX_NEW_VARIANT_ODDS = 70;
-/** The amount of same-species eggs that need to be hatched to reach {@linkcode MAX_NEW_VARIANT_ODDS | maximum new variant odds} */
-export const MAX_NEW_VARIANT_PITY = 10;
+/** The percentage increase for each same-species shiny after the missing variant pity threshold */
+export const VARIANT_PITY_PERCENTAGE_INCREASE = 5;
 
 // Odds are 1/x
 // [COMMON, RARE, EPIC/MANAPHY, LEGEND]

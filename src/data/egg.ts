@@ -22,7 +22,6 @@ import {
   HATCH_WAVES_RARE_EGG,
   MANAPHY_EGG_MANAPHY_RATE,
   MAX_NEW_VARIANT_ODDS,
-  MAX_NEW_VARIANT_PITY,
   MAX_SAME_SPECIES_SHINY_INCREASE_COUNT,
   MISSING_VARIANT_PITY_THRESHOLD,
   RARE_EGGMOVE_RATES,
@@ -30,6 +29,7 @@ import {
   SAME_SPECIES_EGG_SHINY_RATE,
   SHINY_EPIC_CHANCE,
   SHINY_VARIANT_CHANCE,
+  VARIANT_PITY_PERCENTAGE_INCREASE,
 } from "#balance/rates";
 import { DexAttr } from "#enums/dex-attr";
 import { EggSourceType } from "#enums/egg-source-types";
@@ -635,12 +635,11 @@ export class Egg {
     if (missingVariants.includes(DexAttr.VARIANT_3)) {
       baseRate += 10;
     }
-    const pityProgress = Math.min(
-      (count - MISSING_VARIANT_PITY_THRESHOLD) / (MAX_NEW_VARIANT_PITY - MISSING_VARIANT_PITY_THRESHOLD),
-      1,
+    const pityProgress = count - MISSING_VARIANT_PITY_THRESHOLD;
+    const currentProbability = Math.min(
+      baseRate + pityProgress * VARIANT_PITY_PERCENTAGE_INCREASE,
+      MAX_NEW_VARIANT_ODDS,
     );
-    // TODO: MAX_NEW_VARIANT_ODDS should probably be split so the pity for only epic and only rare are not the same as that would make epics ramp up quicker due to having lower baseRate
-    const currentProbability = baseRate + pityProgress * (MAX_NEW_VARIANT_ODDS - baseRate);
     console.debug(
       `Current probability for new variant for ${SpeciesId[species]} (last new count: ${count}): ${currentProbability}%`,
     );
