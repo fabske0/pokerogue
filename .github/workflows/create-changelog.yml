@@ -3,7 +3,14 @@ on:
   pull_request:
     branches:
       - main
+      - hotfix-*
+      - release
 
+    types:
+      - opened
+      - reopened
+      - closed
+      - edited
 jobs:
   Create-changelog:
     # if: github.repository == 'pagefaultgames/pokerogue'
@@ -38,4 +45,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.number }}
-          PR_BRANCH: ${{ github.event.pull_request.head.label }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}

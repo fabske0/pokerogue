@@ -156,7 +156,8 @@ async function getOpenPrs(): Promise<PullRequest[]> {
  * @returns A Promise that resolves when the description has been updated.
  */
 async function updateDescription(changelog: string): Promise<void> {
-  if (!process.env.PR_NUMBER) {
+  const prNumber = await getPullRequestNumber();
+  if (!prNumber) {
     console.error(chalk.red("PR_NUMBER not set. Could not update PR description."));
     process.exitCode = 1;
     return;
@@ -168,7 +169,7 @@ async function updateDescription(changelog: string): Promise<void> {
     .update({
       owner: CONFIG.REPO_OWNER,
       repo: CONFIG.REPO_NAME,
-      pull_number: Number(process.env.PR_NUMBER),
+      pull_number: prNumber,
       body: description,
     })
     .catch(err => {
@@ -193,8 +194,7 @@ async function loadConfig(): Promise<boolean> {
     return false;
   }
 
-  // Extract the "branch" part of "remote:branch"
-  const branch = process.env.PR_BRANCH.split(":")[1];
+  const branch = process.env.PR_BRANCH;
   if (!branch) {
     console.error("Failed to parse PR branch.");
     process.exitCode = 1;
@@ -215,6 +215,28 @@ async function loadConfig(): Promise<boolean> {
 
   CONFIG.REPO_BRANCH = branch;
   return true;
+}
+
+/**
+ * Get the pull request number of the update PR
+ * @returns The pull request number if found, otherwise undefined.
+ */
+async function getPullRequestNumber(): Promise<number | undefined> {
+  if (process.env.BASE_BRANCH === "main") {
+    return Number(process.env.PR_NUMBER);
+  }
+  const prs = await octokit.rest.pulls.list({
+    owner: CONFIG.REPO_OWNER,
+    repo: CONFIG.REPO_NAME,
+    base: process.env.BASE_BRANCH,
+    head: process.env.PR_BRANCH,
+    per_page: 1,
+    state: "open",
+  });
+  if (prs.data.length > 0) {
+    return prs.data[0].number;
+  }
+  return undefined;
 }
 
 await main();
