@@ -164,10 +164,19 @@ export async function getFinalChangelog(changelogText: string) {
 }
 
 async function getVersions(): Promise<{ changed: boolean; currentVersion: string; newVersion: string }> {
-  const baseUrl = "https://raw.githubusercontent.com/pagefaultgames/pokerogue/{BRANCH_NAME}/package.json";
+  const baseUrl = `https://raw.githubusercontent.com/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/{BRANCH_NAME}/package.json`;
 
-  const curentPackage = await (await fetch(baseUrl.replace("{BRANCH_NAME}", CONFIG.CUTOFF_BRANCH))).json();
-  const prPackage = await (await fetch(baseUrl.replace("{BRANCH_NAME}", CONFIG.REPO_BRANCH))).json();
+  const fetchPackage = async (branch: string) => {
+    const url = baseUrl.replace("{BRANCH_NAME}", branch);
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+    }
+    return await res.json();
+  };
+
+  const curentPackage = await fetchPackage(CONFIG.CUTOFF_BRANCH);
+  const prPackage = await fetchPackage(CONFIG.REPO_BRANCH);
 
   const currentVersion = curentPackage.version;
   const newVersion = prPackage.version;
