@@ -155,8 +155,9 @@ function getChangelogSection(description: string): string | undefined {
  * @returns A Promise that resolves when the description has been updated.
  */
 async function updateDescription(changelog: string): Promise<void> {
-  if (!process.env.PR_NUMBER) {
-    console.error(chalk.red("PR_NUMBER not set. Could not update PR description."));
+  const prNumber = await getPullRequestNumber();
+  if (!prNumber) {
+    console.error(chalk.red("PR NUMBER not set or could not be determined. Could not update PR description."));
     process.exitCode = 1;
     return;
   }
@@ -170,13 +171,27 @@ async function updateDescription(changelog: string): Promise<void> {
     .update({
       owner: CONFIG.REPO_OWNER,
       repo: CONFIG.REPO_NAME,
-      pull_number: Number(process.env.PR_NUMBER),
+      pull_number: prNumber,
       body: description,
     })
     .catch(err => {
       process.exitCode = 1;
       console.error(chalk.red(`Failed to update PR description: ${err}`));
     });
+}
+
+async function getPullRequestNumber() {
+  if (process.env.PR_BASE === CONFIG.CUTOFF_BRANCH) {
+    return Number(process.env.PR_NUMBER);
+  }
+
+  const prs = await octokit.rest.pulls.list({
+    owner: CONFIG.REPO_OWNER,
+    repo: CONFIG.REPO_NAME,
+    head: CONFIG.REPO_BRANCH,
+    base: CONFIG.CUTOFF_BRANCH,
+  });
+  return prs.data[0]?.number;
 }
 
 /**
@@ -189,33 +204,38 @@ async function loadConfig(): Promise<boolean> {
     CONFIG.REPO_BRANCH = branch;
     return true;
   }
-  if (!process.env.PR_BRANCH) {
+
+  const baseBranch = process.env.PR_BASE;
+  if (!baseBranch) {
+    console.error("PR base branch env is undefined");
+    process.exitCode = 1;
+    return false;
+  }
+  if (baseBranch !== CONFIG.CUTOFF_BRANCH) {
+    CONFIG.REPO_BRANCH = baseBranch;
+    return true;
+  }
+
+  const headBranch = process.env.PR_HEAD;
+  if (!headBranch) {
     console.error("PR branch env is undefined");
     process.exitCode = 1;
     return false;
   }
 
-  // Extract the "branch" part of "remote:branch"
-  const branch = process.env.PR_BRANCH.split(":")[1];
-  if (!branch) {
-    console.error("Failed to parse PR branch.");
-    process.exitCode = 1;
-    return false;
-  }
-
-  if (branch === CONFIG.CUTOFF_BRANCH) {
+  if (headBranch === CONFIG.CUTOFF_BRANCH) {
     console.error("PR branch is the same as the cutoff branch.");
     process.exitCode = 1;
     return false;
   }
 
-  if (branch !== "beta" && branch !== "release" && !branch.startsWith("hotfix-")) {
+  if (headBranch !== "beta" && headBranch !== "release" && !headBranch.startsWith("hotfix-")) {
     console.error("PR branch must be 'beta', 'release', or start with 'hotfix-'.");
     process.exitCode = 1;
     return false;
   }
 
-  CONFIG.REPO_BRANCH = branch;
+  CONFIG.REPO_BRANCH = headBranch;
   return true;
 }
 
