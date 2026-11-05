@@ -8,7 +8,7 @@
 import chalk from "chalk";
 import { Octokit } from "octokit";
 import { CONFIG, type Label, SCRIPT_VERSION } from "./config.mts";
-import { formatChangelog, getFinalChangelog, type PullRequest } from "./format.mts";
+import { formatChangelog, getFinalChangelog, type OpenPullRequest, type PullRequest } from "./format.mts";
 
 chalk.level = 2;
 
@@ -132,9 +132,9 @@ function getChangelogSection(description: string): string | undefined {
 
 /**
  * Get all open PRs targeting the base branch
- * @returns A Promise resolving to an Array of {@linkcode PullRequest}s
+ * @returns A Promise resolving to an Array of {@linkcode OpenPullRequest}s
  */
-async function getOpenPrs(): Promise<PullRequest[]> {
+async function getOpenPrs(): Promise<OpenPullRequest[]> {
   const openPrs = await octokit.rest.pulls.list({
     owner: CONFIG.REPO_OWNER,
     repo: CONFIG.REPO_NAME,
@@ -142,12 +142,14 @@ async function getOpenPrs(): Promise<PullRequest[]> {
     per_page: 100,
     state: "open",
   });
-  return openPrs.data.map(pr => ({
+  const result: OpenPullRequest[] = openPrs.data.map(pr => ({
     number: pr.number,
     title: pr.title,
     body: pr.body ?? undefined,
-    labels: [],
+    labels: pr.labels.map(l => l.name as Label),
+    draft: pr.draft ?? false,
   }));
+  return result;
 }
 
 /**
@@ -164,6 +166,8 @@ async function updateDescription(changelog: string): Promise<void> {
   }
 
   const description = await getFinalChangelog(changelog);
+
+  console.log(chalk.green(`Updating PR description with the generated changelog for PR #${prNumber}...`));
 
   await octokit.rest.pulls
     .update({

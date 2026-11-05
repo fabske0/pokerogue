@@ -6,12 +6,16 @@
  */
 
 import { type CategoryName, CONFIG, type Label, SCRIPT_VERSION } from "./config.mts";
-export type PullRequest = {
+export interface PullRequest {
   number: number;
   title: string;
   body?: string | undefined;
   labels: Label[];
-};
+}
+
+export interface OpenPullRequest extends PullRequest {
+  draft: boolean;
+}
 
 /**
  * @example
@@ -32,7 +36,7 @@ export const dateFormatter = new Intl.DateTimeFormat("en", {
  * @param changelog - The changelog to format
  * @returns The formatted changelog.
  */
-export function formatChangelog(changelog: PullRequest[], openPrs: PullRequest[]): string {
+export function formatChangelog(changelog: PullRequest[], openPrs: OpenPullRequest[]): string {
   let output = "";
   const categories = new Map<CategoryName, string[]>();
   for (const category of CONFIG.CATEGORIES) {
@@ -61,7 +65,7 @@ export function formatChangelog(changelog: PullRequest[], openPrs: PullRequest[]
     const info = openPrs.length === 1 ? "is 1 open PR" : `are ${openPrs.length} open PRs`;
     output += `> [!NOTE]\n> There ${info} targeting ${CONFIG.REPO_BRANCH}:\n`;
     for (const openPr of openPrs) {
-      output += `> - #${openPr.number}\n`;
+      output += `> - #${openPr.number}${openPr.draft ? " (Draft)" : ""}\n`;
     }
     output += "\n";
   }
@@ -164,10 +168,19 @@ export async function getFinalChangelog(changelogText: string) {
 }
 
 async function getVersions(): Promise<{ changed: boolean; currentVersion: string; newVersion: string }> {
-  const baseUrl = "https://raw.githubusercontent.com/pagefaultgames/pokerogue/{BRANCH_NAME}/package.json";
+  const baseUrl = `https://raw.githubusercontent.com/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/{BRANCH_NAME}/package.json`;
 
-  const curentPackage = await (await fetch(baseUrl.replace("{BRANCH_NAME}", CONFIG.CUTOFF_BRANCH))).json();
-  const prPackage = await (await fetch(baseUrl.replace("{BRANCH_NAME}", CONFIG.REPO_BRANCH))).json();
+  const fetchPackage = async (branch: string) => {
+    const url = baseUrl.replace("{BRANCH_NAME}", branch);
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+    }
+    return await res.json();
+  };
+
+  const curentPackage = await fetchPackage(CONFIG.CUTOFF_BRANCH);
+  const prPackage = await fetchPackage(CONFIG.REPO_BRANCH);
 
   const currentVersion = curentPackage.version;
   const newVersion = prPackage.version;
