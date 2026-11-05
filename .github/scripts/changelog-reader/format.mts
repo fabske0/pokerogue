@@ -6,12 +6,16 @@
  */
 
 import { type CategoryName, CONFIG, type Label, SCRIPT_VERSION } from "./config.mts";
-export type PullRequest = {
+export interface PullRequest {
   number: number;
   title: string;
   body?: string | undefined;
   labels: Label[];
-};
+}
+
+export interface OpenPullRequest extends PullRequest {
+  draft: boolean;
+}
 
 /**
  * @example
@@ -32,7 +36,7 @@ export const dateFormatter = new Intl.DateTimeFormat("en", {
  * @param changelog - The changelog to format
  * @returns The formatted changelog.
  */
-export function formatChangelog(changelog: PullRequest[], openPrs: PullRequest[]): string {
+export function formatChangelog(changelog: PullRequest[], openPrs: OpenPullRequest[]): string {
   let output = "";
   const categories = new Map<CategoryName, string[]>();
   for (const category of CONFIG.CATEGORIES) {
@@ -61,7 +65,7 @@ export function formatChangelog(changelog: PullRequest[], openPrs: PullRequest[]
     const info = openPrs.length === 1 ? "is 1 open PR" : `are ${openPrs.length} open PRs`;
     output += `> [!NOTE]\n> There ${info} targeting ${CONFIG.REPO_BRANCH}:\n`;
     for (const openPr of openPrs) {
-      output += `> - #${openPr.number}\n`;
+      output += `> - #${openPr.number}${openPr.draft ? " (Draft)" : ""}\n`;
     }
     output += "\n";
   }
