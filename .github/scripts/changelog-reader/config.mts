@@ -36,8 +36,11 @@ export type Category = {
   labels: Label[];
 };
 
+/** The version of this script */
+export const SCRIPT_VERSION: string = "1.1.0";
+
 export const CONFIG = {
-  REPO_OWNER: "pagefaultgames",
+  REPO_OWNER: "fabske0",
   REPO_NAME: "pokerogue",
   REPO_BRANCH: "",
   CUTOFF_BRANCH: "main",

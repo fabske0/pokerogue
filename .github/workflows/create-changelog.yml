@@ -3,10 +3,17 @@ on:
   pull_request:
     branches:
       - main
-
+      - hotfix-*
+      - release
+    
+    types:
+      - opened
+      - reopened
+      - edited
+      - closed
 jobs:
   Create-changelog:
-    if: github.repository == 'pagefaultgames/pokerogue'
+    # if: github.repository == 'pagefaultgames/pokerogue'
     name: Generate Changelog
     runs-on: ubuntu-latest
     steps:
@@ -38,4 +45,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.number }}
-          PR_BRANCH: ${{ github.event.pull_request.head.label }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
