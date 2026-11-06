@@ -1,0 +1,112 @@
+name: Biome
+
+on:
+  workflow_run:
+    workflows: ["Detect Labels"]
+    types: [completed]
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  read-label-data:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download artifact"
+        uses: actions/github-script@v8
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "pr-data"
+            })[0];
+            let download = await github.rest.actions.downloadArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: matchArtifact.id,
+              archive_format: 'zip',
+            });
+            const fs = require('fs');
+            const path = require('path');
+            const temp = '${{ runner.temp }}/artifacts';
+            if (!fs.existsSync(temp)){
+              fs.mkdirSync(temp);
+            }
+            fs.writeFileSync(path.join(temp, 'pr-data.zip'), Buffer.from(download.data));
+
+      - name: "Unzip artifact"
+        run: unzip "${{ runner.temp }}/artifacts/pr-data.zip" -d "${{ runner.temp }}/artifacts"
+
+      - name: "Read label data"
+        id: read-label-data
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const temp = '${{ runner.temp }}/artifacts';
+            const prNumber = Number(fs.readFileSync(path.join(temp, 'NR')));
+            const label = fs.readFileSync(path.join(temp, 'LABEL')).toString().trim();
+            const ref = fs.readFileSync(path.join(temp, 'REF')).toString().trim();
+            const repo = fs.readFileSync(path.join(temp, 'REPO')).toString().trim();
+            core.setOutput('label', label);
+            core.setOutput('prNumber', prNumber);
+            core.setOutput('ref', ref);
+            core.setOutput('repo', repo);
+
+    outputs:
+      label: ${{ steps.read-label-data.outputs.label }}
+      prNumber: ${{ steps.read-label-data.outputs.prNumber }}
+      ref: ${{ steps.read-label-data.outputs.ref }}
+      repo: ${{ steps.read-label-data.outputs.repo }}
+
+  biome:
+    needs: read-label-data
+    if: needs.read-label-data.outputs.label == 'Run Biome'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.PAGEFAULT_APP_ID }}
+          private-key: ${{ secrets.PAGEFAULT_APP_PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ needs.read-label-data.outputs.repo }}
+          ref: ${{ needs.read-label-data.outputs.ref }}
+          token: ${{ steps.app-token.outputs.token }}
+
+      - uses: ./.github/actions/setup-deps
+
+      - name: Run Biome
+        run: pnpm biome:all
+
+      - name: Setup git config
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          if ! git commit -m "Run Biome"; then
+              echo "No changes to commit"
+          else
+              git push
+          fi
+
+      - name: Remove label
+        run: |
+          gh pr edit ${{ needs.read-label-data.outputs.prNumber }} -R ${{ github.repository }} --remove-label "Run Biome"
